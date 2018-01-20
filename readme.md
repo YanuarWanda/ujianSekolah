@@ -8,8 +8,8 @@ Aplikasi untuk melakukan ujian secara online
 
 ## Contributing
 
-Yanuar Wanda Putra
-Fahri Muhamad Zulkarnaen Iskandar
+* [Yanuar Wanda Putar](https://github.com/YanuarWanda)
+* [Fahri Muhamad Zulkarnaen](https://github.com/FahriMZ)
 
 ## License
 
