@@ -2,16 +2,14 @@
 
 Aplikasi untuk melakukan ujian secara online
 
-
 ## Changelog and New Features
 
-20 - Januari - 2018 : 1st Upload.
-
-## 
+20 - January - 2018 : 1st Upload.
 
 ## Contributing
 
 Yanuar Wanda Putra
+Fahri Muhamad Zulkarnaen Iskandar
 
 ## License
 
