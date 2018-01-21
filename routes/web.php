@@ -12,29 +12,6 @@
 */
 
 Route::get('/', function () {
-    // $user = new User;
-    // $user->username = 'a';
-    // $user->password = '123';
-    // $user->remember_token = 'kipffpipo';
-    // $user->hak_akses = 'siswa';
-    
-    // $siswa = new Siswa;
-    // $siswa->nis = '98789797';
-    
-    // $siswa->id_kelas = 1;
-    // $siswa->nama = 'fkldajkljasdlkfj';
-    // $siswa->alamat = 'kal;sdfk;ldskf';
-    // $siswa->jenis_kelamin = 'f';
-    // $siswa->email = 'dfalsfm';
-    // $siswa->jurusan = 'rpl';
-    // $siswa->foto = 'nope.png';
-
-
-    // if($user->save()) {
-    //     $siswa->id_user = $user->id;
-    //     $siswa->save();
-    // }
-
     return redirect('/home');
 });
 
@@ -49,3 +26,12 @@ Route::post('daftar-siswa', 'CustomAuthController@registerStudent');
 // Custom - Login
 Route::get('login', 'CustomAuthController@loginForm')->name('login');
 Route::post('login', 'CustomAuthController@login');
+
+Route::get('kelola-guru', 'GuruController@index');
+Route::get('daftar-guru', 'GuruController@create')->name('daftar-guru');
+Route::post('daftar-guru', 'GuruController@store');
+
+Route::get('/kelola-guru/show/{id}', 'GuruController@show');
+Route::get('/kelola-guru/edit/{id}', 'GuruController@edit');
+Route::post('/kelola-guru/update/{id}', 'GuruController@update');
+Route::get('/kelola-guru/delete/{id}', 'GuruController@destroy');
