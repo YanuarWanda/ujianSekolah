@@ -10,10 +10,14 @@ class Siswa extends Model
     protected $primaryKey = 'nis';
     public $incrementing = false;
 
+    protected $fillable = [
+        'nis', 'id', 'id_kelas', 'nama', 'alamat', 'jenis_kelamin', 'jurusan', 'foto',
+    ];
+
     public $timestamps = false;
 
     public function user() {
-        return $this->belongsTo('App\User', 'id_user');
+        return $this->belongsTo('App\User', 'id');
     }
 
     public function kelas() {

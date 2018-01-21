@@ -22,7 +22,7 @@ DROP TABLE IF EXISTS `guru`;
 
 CREATE TABLE `guru` (
   `nip` varchar(50) NOT NULL,
-  `id_user` int(11) NOT NULL,
+  `id` int(10) unsigned NOT NULL,
   `bidang_keahlian` text,
   `nama` varchar(150) NOT NULL,
   `alamat` text,
@@ -30,13 +30,11 @@ CREATE TABLE `guru` (
   `email` varchar(50) NOT NULL,
   `foto` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`nip`),
-  KEY `id_user` (`id_user`),
-  CONSTRAINT `guru_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`)
+  KEY `id_user` (`id`),
+  CONSTRAINT `guru_ibfk_1` FOREIGN KEY (`id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 /*Data for the table `guru` */
-
-insert  into `guru`(`nip`,`id_user`,`bidang_keahlian`,`nama`,`alamat`,`jenis_kelamin`,`email`,`foto`) values ('1502011309',1,'Apa aja','tester','Jalan','L','test@test.com','nope.jpg');
 
 /*Table structure for table `kelas` */
 
@@ -46,11 +44,11 @@ CREATE TABLE `kelas` (
   `id_kelas` int(11) NOT NULL AUTO_INCREMENT,
   `nama_kelas` varchar(20) NOT NULL,
   PRIMARY KEY (`id_kelas`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
 /*Data for the table `kelas` */
 
-insert  into `kelas`(`id_kelas`,`nama_kelas`) values (1,'XII RPL 2');
+insert  into `kelas`(`id_kelas`,`nama_kelas`) values (1,'XII RPL 1'),(2,'XII RPL 2'),(3,'XII RPL 3'),(4,'XII MM 1'),(5,'XII MM 2'),(6,'XII TKJ');
 
 /*Table structure for table `mapel` */
 
@@ -60,11 +58,22 @@ CREATE TABLE `mapel` (
   `id_mapel` int(11) NOT NULL AUTO_INCREMENT,
   `nama_mapel` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id_mapel`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 /*Data for the table `mapel` */
 
-insert  into `mapel`(`id_mapel`,`nama_mapel`) values (1,'webdin');
+/*Table structure for table `migrations` */
+
+DROP TABLE IF EXISTS `migrations`;
+
+CREATE TABLE `migrations` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `migration` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `batch` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+/*Data for the table `migrations` */
 
 /*Table structure for table `nilai` */
 
@@ -82,11 +91,22 @@ CREATE TABLE `nilai` (
   KEY `nis` (`nis`),
   CONSTRAINT `nilai_ibfk_1` FOREIGN KEY (`id_ujian`) REFERENCES `ujian` (`id_ujian`),
   CONSTRAINT `nilai_ibfk_2` FOREIGN KEY (`nis`) REFERENCES `siswa` (`nis`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 /*Data for the table `nilai` */
 
-insert  into `nilai`(`id_nilai`,`id_ujian`,`nis`,`jawaban_benar`,`jawaban_salah`,`nilai`) values (1,1,'1502011309',1,1,50);
+/*Table structure for table `password_resets` */
+
+DROP TABLE IF EXISTS `password_resets`;
+
+CREATE TABLE `password_resets` (
+  `email` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  KEY `password_resets_email_index` (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+/*Data for the table `password_resets` */
 
 /*Table structure for table `siswa` */
 
@@ -94,24 +114,23 @@ DROP TABLE IF EXISTS `siswa`;
 
 CREATE TABLE `siswa` (
   `nis` varchar(10) NOT NULL,
-  `id_user` int(11) NOT NULL,
+  `id` int(10) unsigned NOT NULL,
   `id_kelas` int(11) NOT NULL,
   `nama` varchar(150) NOT NULL,
   `alamat` text,
   `jenis_kelamin` char(1) NOT NULL,
-  `email` varchar(50) NOT NULL,
   `jurusan` varchar(50) NOT NULL,
   `foto` varchar(50) NOT NULL,
   PRIMARY KEY (`nis`),
-  KEY `id_user` (`id_user`),
+  KEY `id_user` (`id`),
   KEY `id_kelas` (`id_kelas`),
-  CONSTRAINT `siswa_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`),
-  CONSTRAINT `siswa_ibfk_2` FOREIGN KEY (`id_kelas`) REFERENCES `kelas` (`id_kelas`)
+  CONSTRAINT `siswa_ibfk_1` FOREIGN KEY (`id_kelas`) REFERENCES `kelas` (`id_kelas`),
+  CONSTRAINT `siswa_ibfk_2` FOREIGN KEY (`id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 /*Data for the table `siswa` */
 
-insert  into `siswa`(`nis`,`id_user`,`id_kelas`,`nama`,`alamat`,`jenis_kelamin`,`email`,`jurusan`,`foto`) values ('1502011309',2,1,'Fahri','Cigondewah','L','mzfahri620@gmail.com','RPL','nopenope.png');
+insert  into `siswa`(`nis`,`id`,`id_kelas`,`nama`,`alamat`,`jenis_kelamin`,`jurusan`,`foto`) values ('1502011462',4,2,'Yanuar Wanda Putar','BumAs','L','RPL','nophoto.jpg');
 
 /*Table structure for table `soal` */
 
@@ -127,11 +146,9 @@ CREATE TABLE `soal` (
   PRIMARY KEY (`id_soal`),
   KEY `id_ujian` (`id_ujian`),
   CONSTRAINT `soal_ibfk_1` FOREIGN KEY (`id_ujian`) REFERENCES `ujian` (`id_ujian`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 /*Data for the table `soal` */
-
-insert  into `soal`(`id_soal`,`id_ujian`,`tipe`,`isi_soal`,`pilihan`,`jawaban`) values (1,1,'BS','Ini Benar.','Benar;Salah','Benar'),(2,1,'BS','Ini Salah.','Benar;Salah','Benar');
 
 /*Table structure for table `ujian` */
 
@@ -151,27 +168,29 @@ CREATE TABLE `ujian` (
   KEY `nip` (`nip`),
   CONSTRAINT `ujian_ibfk_1` FOREIGN KEY (`id_mapel`) REFERENCES `mapel` (`id_mapel`),
   CONSTRAINT `ujian_ibfk_2` FOREIGN KEY (`nip`) REFERENCES `guru` (`nip`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 /*Data for the table `ujian` */
 
-insert  into `ujian`(`id_ujian`,`id_mapel`,`nip`,`judul_ujian`,`waktu_pengerjaan`,`tanggal_post`,`tanggal_kadaluarsa`,`status`) values (1,1,'1502011309','Dasar dasar PHP','00:20:00','2018-01-20','2018-01-27','0');
+/*Table structure for table `users` */
 
-/*Table structure for table `user` */
+DROP TABLE IF EXISTS `users`;
 
-DROP TABLE IF EXISTS `user`;
+CREATE TABLE `users` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `username` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `password` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `hak_akses` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE `user` (
-  `id_user` int(11) NOT NULL AUTO_INCREMENT,
-  `username` varchar(25) NOT NULL,
-  `password` varchar(150) NOT NULL,
-  `hak_akses` varchar(15) NOT NULL,
-  PRIMARY KEY (`id_user`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+/*Data for the table `users` */
 
-/*Data for the table `user` */
-
-insert  into `user`(`id_user`,`username`,`password`,`hak_akses`) values (1,'Tester','123','admin'),(2,'Siswa_tester','123456','siswa');
+insert  into `users`(`id`,`username`,`email`,`password`,`remember_token`,`hak_akses`,`created_at`,`updated_at`) values (1,'laracry','test@example.com','$2y$10$tDcmXuHyf0qm.vlCHGhf/ufbcrC01o99T0Edz4zbPHI4sdVkUc9ja','NZi63CNAc3wrVKlVfVlLj6M1UlRYEVZhQTpTjh9O9hUTZjwgeCM8YugFgUF7','admin','2018-01-21 12:51:29','2018-01-21 12:51:33'),(4,'kuyaBaleum','yanuar.wanda2@gmail.com','$2y$10$z7yhy587bO4HJtlix7.jveH3lbCnW1QTp.TT6XjYdhHKTjmAtb1EC','hgmpkARFsPFJ663nLJXA7lOHMnRMIvcW1Qx1dIoI2tkTyQsgFNW5pev2xZut','siswa','2018-01-21 06:13:50','2018-01-21 06:13:50');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
