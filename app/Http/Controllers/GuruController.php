@@ -21,7 +21,7 @@ class GuruController extends Controller
      */
     public function index()
     {
-        $guru = Guru::paginate(5);
+        $guru = Guru::All();
         return view('admin.kelola-guru.tableView', compact('guru'));
     }
 
@@ -80,7 +80,9 @@ class GuruController extends Controller
      */
     public function show($id)
     {
-        //
+        $data = Guru::find(base64_decode($id));
+        // return $data;
+        return view('admin.kelola-guru.detail', compact('data'));
     }
 
     /**

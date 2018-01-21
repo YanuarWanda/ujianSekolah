@@ -8,10 +8,17 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="{{asset('image/tercyduk.png')}}" type="image/x-icon">
+    <link rel="icon" href="{{asset('image/tercyduk.png')}}" type="image/x-icon">
+
     <title>{{ config('app.name', 'U-LAH') }}</title>
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    
+    <!-- DataTable Plugin -->
+    <link href="{{ asset('vendor/datatables/dataTables.bootstrap4.css') }}" rel="stylesheet">
 </head>
 <body>
     <div id="app">
@@ -29,7 +36,8 @@
 
                     <!-- Branding Image -->
                     <a class="navbar-brand" href="{{ url('/') }}">
-                        {{ config('app.name', 'Laravel') }}
+                        <span><img src="{{asset('image/Facepalm_30px.png')}}" alt="brand">
+                        {{ config('app.name', 'Laravel') }}</span>
                     </a>
                 </div>
 
@@ -78,5 +86,18 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
+
+    <script>
+        $(document).ready(function() {
+            $("#tableGuru").DataTable();
+        });
+    </script>
+
+    <!-- Custom -->
+    <script src="{{ asset('js/jquery-3.1.1.min.js') }}"></script>
+
+    <!-- DataTables -->
+    <script src="{{ asset('vendor/datatables/jquery.dataTables.js') }}"></script>
+    <script src="{{ asset('vendor/datatables/dataTables.bootstrap4.js') }}"></script>
 </body>
 </html>
