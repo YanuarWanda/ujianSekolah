@@ -27,7 +27,6 @@ CREATE TABLE `guru` (
   `nama` varchar(150) NOT NULL,
   `alamat` text,
   `jenis_kelamin` char(1) DEFAULT NULL,
-  `email` varchar(50) NOT NULL,
   `foto` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`nip`),
   KEY `id_user` (`id`),
@@ -35,6 +34,8 @@ CREATE TABLE `guru` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 /*Data for the table `guru` */
+
+insert  into `guru`(`nip`,`id`,`bidang_keahlian`,`nama`,`alamat`,`jenis_kelamin`,`foto`) values ('1111231142513',7,'IT','Faroon','Jalan Suka suka','L','nophoto.jpg'),('4801984901',9,'Hukum','jajang','Coffee Garden','L','nophoto.jpg');
 
 /*Table structure for table `kelas` */
 
@@ -186,11 +187,11 @@ CREATE TABLE `users` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `users` */
 
-insert  into `users`(`id`,`username`,`email`,`password`,`remember_token`,`hak_akses`,`created_at`,`updated_at`) values (1,'laracry','test@example.com','$2y$10$tDcmXuHyf0qm.vlCHGhf/ufbcrC01o99T0Edz4zbPHI4sdVkUc9ja','NZi63CNAc3wrVKlVfVlLj6M1UlRYEVZhQTpTjh9O9hUTZjwgeCM8YugFgUF7','admin','2018-01-21 12:51:29','2018-01-21 12:51:33'),(4,'kuyaBaleum','yanuar.wanda2@gmail.com','$2y$10$z7yhy587bO4HJtlix7.jveH3lbCnW1QTp.TT6XjYdhHKTjmAtb1EC','hgmpkARFsPFJ663nLJXA7lOHMnRMIvcW1Qx1dIoI2tkTyQsgFNW5pev2xZut','siswa','2018-01-21 06:13:50','2018-01-21 06:13:50');
+insert  into `users`(`id`,`username`,`email`,`password`,`remember_token`,`hak_akses`,`created_at`,`updated_at`) values (1,'laracry','test@example.com','$2y$10$tDcmXuHyf0qm.vlCHGhf/ufbcrC01o99T0Edz4zbPHI4sdVkUc9ja','6sUd2r0PmDlyWpSuRPQ7iM4c9SU8mtDyGoA6bmu3Bbv3bEhW7QMitqvsMEv1','admin','2018-01-21 12:51:29','2018-01-21 12:51:33'),(4,'kuyaBaleum','yanuar.wanda2@gmail.com','$2y$10$z7yhy587bO4HJtlix7.jveH3lbCnW1QTp.TT6XjYdhHKTjmAtb1EC','hgmpkARFsPFJ663nLJXA7lOHMnRMIvcW1Qx1dIoI2tkTyQsgFNW5pev2xZut','siswa','2018-01-21 06:13:50','2018-01-21 06:13:50'),(5,'a','test@gmail.com','123','kipffpipo','guru','2018-01-21 10:18:20','2018-01-21 10:18:20'),(6,'guruku','tesst@fda.a','$2y$10$402DyxrYWFBvRq91zVvelOoIecg3ZPYhUebCLYMhd0W/d9oEOSbFG',NULL,'guru','2018-01-21 10:38:52','2018-01-21 12:16:57'),(7,'faroon','far@s.co','$2y$10$9byFuVHo5ZYfrR5to0p6R.UWn7T9JISMSw2rmu3RfMeAQlX1hNlkW',NULL,'guru','2018-01-21 12:21:04','2018-01-21 12:21:04'),(9,'gordon','jang@jajaja.com','$2y$10$J2WflOkWGI9c8QMW6uw.q.2Tr4tt.iIpwzuOPGHeWugjBmNE3l5JO',NULL,'guru','2018-01-21 12:31:57','2018-01-21 12:31:57');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
