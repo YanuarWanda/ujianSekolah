@@ -10,4 +10,8 @@ class Kelas extends Model
     protected $primaryKey = 'id_kelas';
 
     public $timestamps = false;
+
+    public function jurusan() {
+        return $this->belongsTo('App\Jurusan', 'id_jurusan');
+    }
 }

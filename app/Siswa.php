@@ -11,7 +11,7 @@ class Siswa extends Model
     public $incrementing = false;
 
     protected $fillable = [
-        'nis', 'id', 'id_kelas', 'nama', 'alamat', 'jenis_kelamin', 'jurusan', 'foto',
+        'nis', 'id', 'id_kelas', 'nama', 'alamat', 'jenis_kelamin', 'foto',
     ];
 
     public $timestamps = false;

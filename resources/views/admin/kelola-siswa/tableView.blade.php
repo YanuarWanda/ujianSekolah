@@ -10,7 +10,7 @@
                 <div class="panel-body">
                     <div class="table-responsive">
                         @if(count($siswa) > 0)
-                        <table class="table table-bordered" id="tablesiswa">
+                        <table class="table table-bordered" id="tableSiswa">
                             <thead>
                                 <tr>
                                     <th>No.</th>
@@ -45,7 +45,7 @@
                     </div>
                 </div>
                 <div class="panel-footer pull-right">
-                    <a href="{{ route('register') }}" class="btn btn-success">Daftarkan siswa</a>
+                    <a href="{{ url('/kelola-siswa/create') }}" class="btn btn-success">Daftarkan siswa</a>
                 </div>
             </div>
         </div>

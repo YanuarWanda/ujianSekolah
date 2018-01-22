@@ -23,7 +23,7 @@
                         </tr>
                         <tr>
                             <td>Jurusan</td>
-                            <td>{{$data->jurusan}}</td>
+                            <td>{{$data->kelas->jurusan->nama_jurusan}}</td>
                         </tr>
                         <tr>
                             <td>Alamat</td>
@@ -31,7 +31,11 @@
                         </tr>
                         <tr>
                             <td>Jenis Kelamin</td>
-                            <td>{{$data->jenis_kelamin}}</td>
+                            @if($data->jenis_kelamin == 'L')
+                                <td>Laki-laki</td>
+                            @else
+                                <td>Perempuan</td>
+                            @endif
                         </tr>
                     </table>
 

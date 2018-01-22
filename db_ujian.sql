@@ -1,5 +1,7 @@
 /*
-SQLyog Ultimate v12.09 (64 bit)
+SQLyog Job Agent v12.09 (64 bit) Copyright(c) Webyog Inc. All Rights Reserved.
+
+
 MySQL - 10.1.26-MariaDB : Database - db_ujian
 *********************************************************************
 */
@@ -35,7 +37,21 @@ CREATE TABLE `guru` (
 
 /*Data for the table `guru` */
 
-insert  into `guru`(`nip`,`id`,`bidang_keahlian`,`nama`,`alamat`,`jenis_kelamin`,`foto`) values ('1111231142513',7,'IT','Faroon','Jalan Suka suka','L','nophoto.jpg'),('4801984901',9,'Hukum','jajang','Coffee Garden','L','nophoto.jpg');
+insert  into `guru` values ('1111231142513',7,'IT','Faroon','Jalan Suka suka','L','nophoto.jpg'),('123456789987654321',10,'IT','Asep McHusen','SetiaBudi','P','nophoto.jpg');
+
+/*Table structure for table `jurusan` */
+
+DROP TABLE IF EXISTS `jurusan`;
+
+CREATE TABLE `jurusan` (
+  `id_jurusan` int(11) NOT NULL AUTO_INCREMENT,
+  `nama_jurusan` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id_jurusan`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+
+/*Data for the table `jurusan` */
+
+insert  into `jurusan` values (1,'Rekayasa Perangkat Lunak'),(2,'Multimedia'),(3,'Teknik Komputer Jaringan'),(4,'Administrasi Perkantoran'),(5,'Akuntansi'),(6,'Pemasaran');
 
 /*Table structure for table `kelas` */
 
@@ -44,12 +60,15 @@ DROP TABLE IF EXISTS `kelas`;
 CREATE TABLE `kelas` (
   `id_kelas` int(11) NOT NULL AUTO_INCREMENT,
   `nama_kelas` varchar(20) NOT NULL,
-  PRIMARY KEY (`id_kelas`)
+  `id_jurusan` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id_kelas`),
+  KEY `id_jurusan` (`id_jurusan`),
+  CONSTRAINT `kelas_ibfk_1` FOREIGN KEY (`id_jurusan`) REFERENCES `jurusan` (`id_jurusan`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
 /*Data for the table `kelas` */
 
-insert  into `kelas`(`id_kelas`,`nama_kelas`) values (1,'XII RPL 1'),(2,'XII RPL 2'),(3,'XII RPL 3'),(4,'XII MM 1'),(5,'XII MM 2'),(6,'XII TKJ');
+insert  into `kelas` values (1,'XII RPL 1',1),(2,'XII RPL 2',1),(3,'XII RPL 3',1),(4,'XII MM 1',2),(5,'XII MM 2',2),(6,'XII TKJ',3);
 
 /*Table structure for table `mapel` */
 
@@ -120,7 +139,6 @@ CREATE TABLE `siswa` (
   `nama` varchar(150) NOT NULL,
   `alamat` text,
   `jenis_kelamin` char(1) NOT NULL,
-  `jurusan` varchar(50) NOT NULL,
   `foto` varchar(50) NOT NULL,
   PRIMARY KEY (`nis`),
   KEY `id_user` (`id`),
@@ -131,7 +149,7 @@ CREATE TABLE `siswa` (
 
 /*Data for the table `siswa` */
 
-insert  into `siswa`(`nis`,`id`,`id_kelas`,`nama`,`alamat`,`jenis_kelamin`,`jurusan`,`foto`) values ('1502011462',4,2,'Yanuar Wanda Putar','BumAs','L','RPL','nophoto.jpg');
+insert  into `siswa` values ('1502011211',17,5,'Testing','Jalan Colang','L','nophoto.jpg'),('1502011276',15,2,'Amalia Nuro','Jln. Sukawarna no. 22 rt03/rw01 Kel. Padjajaran Kec. Cicendo 40173 Pasteur Kota Bandung','L','nophoto.jpg'),('1502011283',14,2,'Asep McHusen','SetiaBudi','L','nophoto.jpg'),('1502011294',11,2,'Dea Fitri Handoko','Marga Glory','P','nophoto.jpg'),('1502011376',13,2,'Muhammad Syaiful Mahialhakim','Jl. Gunung Batu No.58','L','nophoto.jpg'),('1502011455',12,2,'Wendy Setiadi','Coffee Gordon','L','nophoto.jpg'),('1502011462',4,2,'Yanuar Wanda Putar','BumAs Gloriest','L','nophoto.jpg');
 
 /*Table structure for table `soal` */
 
@@ -187,11 +205,11 @@ CREATE TABLE `users` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `users` */
 
-insert  into `users`(`id`,`username`,`email`,`password`,`remember_token`,`hak_akses`,`created_at`,`updated_at`) values (1,'laracry','test@example.com','$2y$10$tDcmXuHyf0qm.vlCHGhf/ufbcrC01o99T0Edz4zbPHI4sdVkUc9ja','6sUd2r0PmDlyWpSuRPQ7iM4c9SU8mtDyGoA6bmu3Bbv3bEhW7QMitqvsMEv1','admin','2018-01-21 12:51:29','2018-01-21 12:51:33'),(4,'kuyaBaleum','yanuar.wanda2@gmail.com','$2y$10$z7yhy587bO4HJtlix7.jveH3lbCnW1QTp.TT6XjYdhHKTjmAtb1EC','hgmpkARFsPFJ663nLJXA7lOHMnRMIvcW1Qx1dIoI2tkTyQsgFNW5pev2xZut','siswa','2018-01-21 06:13:50','2018-01-21 06:13:50'),(5,'a','test@gmail.com','123','kipffpipo','guru','2018-01-21 10:18:20','2018-01-21 10:18:20'),(6,'guruku','tesst@fda.a','$2y$10$402DyxrYWFBvRq91zVvelOoIecg3ZPYhUebCLYMhd0W/d9oEOSbFG',NULL,'guru','2018-01-21 10:38:52','2018-01-21 12:16:57'),(7,'faroon','far@s.co','$2y$10$9byFuVHo5ZYfrR5to0p6R.UWn7T9JISMSw2rmu3RfMeAQlX1hNlkW',NULL,'guru','2018-01-21 12:21:04','2018-01-21 12:21:04'),(9,'gordon','jang@jajaja.com','$2y$10$J2WflOkWGI9c8QMW6uw.q.2Tr4tt.iIpwzuOPGHeWugjBmNE3l5JO',NULL,'guru','2018-01-21 12:31:57','2018-01-21 12:31:57');
+insert  into `users` values (1,'laracry','test@example.com','$2y$10$tDcmXuHyf0qm.vlCHGhf/ufbcrC01o99T0Edz4zbPHI4sdVkUc9ja','qeTOzcy2t5TocrKHXh77xhvfzDrOYP52WKDV3aUnR4PSAN5U7qPpBVCEgIsA','admin','2018-01-21 12:51:29','2018-01-21 12:51:33'),(4,'kuyaBaleum','yanuar.wanda2@gmail.com','$2y$10$NEGxXp3pi.bdDcMQnzz3ROtE3RKkrR/txgnPnAIPEtniOcYnyAq9O','hgmpkARFsPFJ663nLJXA7lOHMnRMIvcW1Qx1dIoI2tkTyQsgFNW5pev2xZut','siswa','2018-01-21 06:13:50','2018-01-22 07:24:55'),(5,'a','test@gmail.com','123','kipffpipo','guru','2018-01-21 10:18:20','2018-01-21 10:18:20'),(6,'guruku','tesst@fda.a','$2y$10$402DyxrYWFBvRq91zVvelOoIecg3ZPYhUebCLYMhd0W/d9oEOSbFG',NULL,'guru','2018-01-21 10:38:52','2018-01-21 12:16:57'),(7,'faroon','far@s.co','$2y$10$9byFuVHo5ZYfrR5to0p6R.UWn7T9JISMSw2rmu3RfMeAQlX1hNlkW',NULL,'guru','2018-01-21 12:21:04','2018-01-21 12:21:04'),(10,'ieedes','asep@ima.coo','$2y$10$FFpuYrcL0smYOTTCy0hCyu2BCWLdHugXtr/zONy7f.9aC1yWvbet6',NULL,'guru','2018-01-22 03:08:18','2018-01-22 03:08:18'),(11,'onratus','deafitrih16@gmail.com','$2y$10$cSIr1Ex6CSGeqsviz5SBM.GNTjNz5Nc2P1RC37NFxLad/UKpgfQou','NsSBZaNxuyaPTOsg7l1tzebWqnSBJgThhrS6UcLyBpzjyaotuRqmxo2ifZMz','siswa','2018-01-22 06:06:35','2018-01-22 06:06:35'),(12,'jajang','wsetiawan135790@gmail.com','$2y$10$YOQF5NbSRvxlYASE2T.BMujEoUF49khfBkZJqyvj80St/mp/UBFdG','vebLlRmpy8WaGdoCrZTs0xH9wRjTc8thsyvuiC15hdh9gtQOfqkUMtOUEMoE','siswa','2018-01-22 07:28:47','2018-01-22 07:41:53'),(13,'chihuahua bucin','family.syaiful007@gmail.com','$2y$10$mePDg7sdXsFpzVouP5O1TOXFDZTosdb/lcJ.LoqXoqYr9/Ilw.ceC','b3qXcyXwXvf3Deu3JQmIkJGPZLEfOxLilGbPWNfgIMBtafiX9F5aFBqY6ZoJ','siswa','2018-01-22 07:32:29','2018-01-22 07:32:29'),(14,'iedesu','bang@sa.de','$2y$10$iHyVyW05t1eHfWPocB6Tz.d9cTR8fR.71n3xhMx3UutzFX/5C.OQK','ATrhJnFEKcQPRGqg3pz53NOpYxKGGqJJTx7Kg96NsX17l3fHHMJVsSA2nTSZ','siswa','2018-01-22 07:39:14','2018-01-22 07:40:20'),(15,'Nurok','amalianuro74@gmail.com','$2y$10$/lPLnTtuNVh8Cr7SSgOSsupTBN/W0GFBtv6OcdPxf5hZyoF5k8AsS','QWvzdSKvZvzxa1ftccc3pKAzOlaODzlzySTieF4KK8Ep1GxjQzPZOP4VIgiu','siswa','2018-01-22 07:49:48','2018-01-22 07:49:48'),(16,'DummyStyle','jajangwara@gmail.com','$2y$10$jdwoM5SNOYeXTO8EHYujMuhLz1gQ/UMtAKSqx6GN.QWRC6EZJUbya',NULL,'siswa','2018-01-22 07:54:34','2018-01-22 07:54:34'),(17,'tester','test@example.com','$2y$10$9Mh67CVodNC7Ie3/qLIDGuX2NBr94LfLT07adBXYtrF92ePA.xaye',NULL,'siswa','2018-01-22 13:40:52','2018-01-22 13:43:41');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

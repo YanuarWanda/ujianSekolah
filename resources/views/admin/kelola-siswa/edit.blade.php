@@ -58,7 +58,8 @@
                             </div>
                         </div>
 
-                        <div class="form-group{{ $errors->has('jurusan') ? ' has-error' : '' }}">
+                        <!-- Jurusan dipindah ke tablenya sendiri, dengan relasi melalui kelas -->
+                        <!-- <div class="form-group{{ $errors->has('jurusan') ? ' has-error' : '' }}">
                             <label for="jurusan" class="col-md-4 control-label">Jurusan</label>
 
                             <div class="col-md-6">
@@ -70,7 +71,7 @@
                                     </span>
                                 @endif
                             </div>
-                        </div>
+                        </div> -->
 
                         <div class="form-group{{ $errors->has('alamat') ? ' has-error' : '' }}">
                             <label for="alamat" class="col-md-4 control-label">Alamat</label>
