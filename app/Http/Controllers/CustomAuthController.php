@@ -19,6 +19,18 @@ class CustomAuthController extends Controller
         $this->middleware('guest');
     }
 
+    //copas hela nya.
+    public function ambil($file){
+        $fileNameFull = $file->getClientOriginalName();
+        $name = pathinfo($fileNameFull, PATHINFO_FILENAME);
+        $extension = $file->getClientOriginalExtension();
+        $nameFinal = $name.'_'.time().'.'.$extension;
+
+        $file->storeAs('public/foto-profil', $nameFinal);
+
+        return $nameFinal;
+    }
+
     // Menampilkan Form registrasi siswa
     public function studentRegisterForm() {
         $kelas = Kelas::All();
@@ -39,6 +51,7 @@ class CustomAuthController extends Controller
 
         if($user) {
             // Mengisi table siswa jika table user di isi
+            $nameFotoToStore = $this->ambil($data->file('foto'));
             $siswa = Siswa::create([
                 'nis' => $data['nis'],
                 'id' => $user->id,
@@ -48,7 +61,8 @@ class CustomAuthController extends Controller
                 'jenis_kelamin' => $data['jenisKelamin'],
                 // 'email' => $data['email'],
                 'jurusan' => $data['jurusan'],
-                'foto' => "nophoto.jpg", // Untuk sementara dikosongkan
+                //'foto' => "nophoto.jpg", // Untuk sementara dikosongkan
+                'foto' => $nameFotoToStore
             ]);
         }
 

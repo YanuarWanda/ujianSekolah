@@ -16,7 +16,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    
+
     <!-- DataTable Plugin -->
     <link href="{{ asset('vendor/datatables/dataTables.bootstrap4.css') }}" rel="stylesheet">
 </head>
@@ -87,20 +87,36 @@
         @yield('content')
     </div>
 
+    <!-- Custom -->
+    <script src="{{ asset('js/jquery-3.1.1.min.js') }}"></script>
+
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
+
+    <!-- DataTables -->
+    <script src="{{ asset('vendor/datatables/jquery.dataTables.js') }}"></script>
+    <script src="{{ asset('vendor/datatables/dataTables.bootstrap4.js') }}"></script>
 
     <script>
         $(document).ready(function() {
             $("#tableGuru").DataTable();
         });
+
+        // Preview gambar dari file chooser.
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#profile-img-tag').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $("#foto").change(function(){
+            readURL(this);
+        });
     </script>
 
-    <!-- Custom -->
-    <script src="{{ asset('js/jquery-3.1.1.min.js') }}"></script>
-
-    <!-- DataTables -->
-    <script src="{{ asset('vendor/datatables/jquery.dataTables.js') }}"></script>
-    <script src="{{ asset('vendor/datatables/dataTables.bootstrap4.js') }}"></script>
 </body>
 </html>
