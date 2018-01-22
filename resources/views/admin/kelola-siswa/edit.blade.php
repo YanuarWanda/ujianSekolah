@@ -1,3 +1,4 @@
+<!-- Ini Pendaftaran untuk Siswa -->
 @extends('layouts.app')
 
 @section('content')
@@ -5,21 +6,21 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-primary">
-                <div class="panel-heading">Pendaftaran Guru</div>
+                <div class="panel-heading">{{ $data->nis }} | {{ $data->nama }}</div>
 
                 <div class="panel-body">
-                    <form class="form-horizontal" method="POST" action="{{ route('daftar-guru') }}">
+                    <form class="form-horizontal" method="POST" action="{{url('/kelola-siswa/update', base64_encode($data->nis) )}}" >
                         {{ csrf_field() }}
 
-                        <div class="form-group{{ $errors->has('nip') ? ' has-error' : '' }}">
-                            <label for="nip" class="col-md-4 control-label">Nomor Induk Pegawai</label>
+                        <div class="form-group{{ $errors->has('nis') ? ' has-error' : '' }}">
+                            <label for="nis" class="col-md-4 control-label">Nomor Induk Siswa</label>
 
                             <div class="col-md-6">
-                                <input id="nip" type="text" class="form-control" name="nip" value="{{ old('nip') }}" required autofocus>
+                                <input id="nis" type="text" class="form-control" name="nis" value="{{ $data->nis }}" required autofocus>
 
-                                @if ($errors->has('nip'))
+                                @if ($errors->has('nis'))
                                     <span class="help-block">
-                                        <strong>{{ $errors->first('nip') }}</strong>
+                                        <strong>{{ $errors->first('nis') }}</strong>
                                     </span>
                                 @endif
                             </div>
@@ -29,7 +30,7 @@
                             <label for="nama" class="col-md-4 control-label">Nama</label>
 
                             <div class="col-md-6">
-                                <input id="nama" type="text" class="form-control" name="nama" value="{{ old('nama') }}" required>
+                                <input id="nama" type="text" class="form-control" name="nama" value="{{ $data->nama }}" required>
 
                                 @if ($errors->has('nama'))
                                     <span class="help-block">
@@ -39,15 +40,33 @@
                             </div>
                         </div>
 
-                        <div class="form-group{{ $errors->has('bidangKeahlian') ? ' has-error' : '' }}">
-                            <label for="bidangKeahlian" class="col-md-4 control-label">Bidang Keahlian</label>
+                        <div class="form-group{{ $errors->has('kelas') ? ' has-error' : '' }}">
+                            <label for="kelas" class="col-md-4 control-label">Kelas</label>
 
                             <div class="col-md-6">
-                                <input id="bidangKeahlian" type="text" class="form-control" name="bidangKeahlian" value="{{ old('bidangKeahlian') }}" required>
+                                <select name="kelas" id="kelas" class="form-control">
+                                    @foreach($kelas as $k)
+                                        <option @if(old('kelas') == $k->nama_kelas || $data->kelas->nama_kelas == $k->nama_kelas) {{ 'selected' }} @endif>{{ $k->nama_kelas }}</option>
+                                    @endforeach
+                                </select>
 
-                                @if ($errors->has('bidangKeahlian'))
+                                @if ($errors->has('kelas'))
                                     <span class="help-block">
-                                        <strong>{{ $errors->first('bidangKeahlian') }}</strong>
+                                        <strong>{{ $errors->first('kelas') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group{{ $errors->has('jurusan') ? ' has-error' : '' }}">
+                            <label for="jurusan" class="col-md-4 control-label">Jurusan</label>
+
+                            <div class="col-md-6">
+                                <input id="jurusan" type="text" class="form-control" name="jurusan" value="{{ $data->jurusan }}" required>
+
+                                @if ($errors->has('jurusan'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('jurusan') }}</strong>
                                     </span>
                                 @endif
                             </div>
@@ -57,7 +76,7 @@
                             <label for="alamat" class="col-md-4 control-label">Alamat</label>
 
                             <div class="col-md-6">
-                                <textarea name="alamat" id="alamat" class="form-control" required>{{ old('alamat') }}</textarea>
+                                <textarea name="alamat" id="alamat" class="form-control" required>{{ $data->alamat }}</textarea>
 
                                 @if ($errors->has('alamat'))
                                     <span class="help-block">
@@ -72,8 +91,8 @@
 
                             <div class="col-md-6">
                                 <select name="jenisKelamin" id="jenisKelamin" class="form-control">
-                                    <option value='L' {{ old('jenisKelamin') == 'L' ? 'selected' : '' }} >Laki-laki</option>
-                                    <option value='P' {{ old('jenisKelamin') == 'P' ? 'selected' : '' }} >Perempuan</option>
+                                    <option value='L' {{ $data->jenis_kelamin == 'L' ? 'selected' : '' }} >Laki-laki</option>
+                                    <option value='P' {{ $data->jenis_kelamin == 'P' ? 'selected' : '' }} >Perempuan</option>
                                 </select>
 
                                 @if ($errors->has('jenisKelamin'))
@@ -104,7 +123,7 @@
                             <label for="email" class="col-md-4 control-label">E-Mail</label>
 
                             <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required>
+                                <input id="email" type="email" class="form-control" name="email" value="{{ $data->user->email }}" required>
 
                                 @if ($errors->has('email'))
                                     <span class="help-block">
@@ -118,7 +137,7 @@
                             <label for="username" class="col-md-4 control-label">Username</label>
 
                             <div class="col-md-6">
-                                <input id="username" type="text" class="form-control" name="username" value="{{ old('username') }}" required>
+                                <input id="username" type="text" class="form-control" name="username" value="{{ $data->user->username }}" required>
 
                                 @if ($errors->has('username'))
                                     <span class="help-block">
@@ -152,8 +171,9 @@
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary pull-right">
-                                    Register
+                                <a href="/kelola-siswa" class="btn btn-danger">Cancel</a>
+                                <button type="submit" class="btn btn-primary">
+                                    Save
                                 </button>
                             </div>
                         </div>

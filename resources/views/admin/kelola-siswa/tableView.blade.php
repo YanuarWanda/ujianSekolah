@@ -5,34 +5,34 @@
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-default">
-                <div class="panel-heading">Data Guru</div>
+                <div class="panel-heading">Data siswa</div>
 
                 <div class="panel-body">
                     <div class="table-responsive">
-                        @if(count($guru) > 0)
-                        <table class="table table-bordered" id="tableGuru">
+                        @if(count($siswa) > 0)
+                        <table class="table table-bordered" id="tablesiswa">
                             <thead>
                                 <tr>
                                     <th>No.</th>
-                                    <th>NIP</th>
+                                    <th>NIS</th>
                                     <th>Nama</th>
-                                    <th>Bidang Keahlian</th>
+                                    <th>Kelas</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 
                                 <?php $no=1; ?>
-                                    @foreach($guru as $g)
+                                    @foreach($siswa as $s)
                                         <tr>
                                             <td><?php echo $no;$no++; ?></td>
-                                            <td>{{$g->nip}}</td>
-                                            <td>{{$g->nama}}</td>
-                                            <td>{{$g->bidang_keahlian}}</td>
+                                            <td>{{$s->nis}}</td>
+                                            <td>{{$s->nama}}</td>
+                                            <td>{{$s->kelas->nama_kelas}}</td>
                                             <td>
-                                                <a href="{{url('/kelola-guru/show', base64_encode($g->nip))}}" class="btn btn-warning">Detail</a>
-                                                <a href="{{url('/kelola-guru/edit', base64_encode($g->nip))}}" class="btn btn-primary">Edit</a>
-                                                <a href="{{url('/kelola-guru/delete', base64_encode($g->nip))}}" class="btn btn-danger">Delete</a>
+                                                <a href="{{url('/kelola-siswa/show', base64_encode($s->nis))}}" class="btn btn-warning">Detail</a>
+                                                <a href="{{url('/kelola-siswa/edit', base64_encode($s->nis))}}" class="btn btn-primary">Edit</a>
+                                                <a href="{{url('/kelola-siswa/delete', base64_encode($s->nis))}}" class="btn btn-danger">Delete</a>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -45,7 +45,7 @@
                     </div>
                 </div>
                 <div class="panel-footer pull-right">
-                    <a href="{{ route('daftar-guru') }}" class="btn btn-success">Daftarkan Guru</a>
+                    <a href="{{ route('register') }}" class="btn btn-success">Daftarkan siswa</a>
                 </div>
             </div>
         </div>

@@ -52,7 +52,6 @@ class CustomAuthController extends Controller
             ]);
         }
 
-        // return $user;
         return redirect('/')->with('success', 'Pendaftaran Berhasil');
     }
 
