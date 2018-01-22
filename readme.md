@@ -1,15 +1,18 @@
 ## About ujianSekolah
 
-Aplikasi untuk melakukan ujian secara online
+Aplikasi untuk melakukan ujian secara online. Yang dibuat dengan tujuan untuk
+mempermudah proses ujian sekolah.
 
 ## Changelog and New Features
 
 20 - January - 2018 : 1st Upload.
+21 - January - 2018 : Added Login + Register.
+22 - January - 2018 : Added CRUD + Detail Guru.
 
 ## Contributing
 
-* [Yanuar Wanda Putar](https://github.com/YanuarWanda)
-* [Fahri Muhamad Zulkarnaen](https://github.com/FahriMZ)
+* [Yanuar Wanda Putra](https://github.com/YanuarWanda)
+* [Fahri Muhamad Zulkarnaen Iskandar](https://github.com/FahriMZ)
 
 ## License
 
