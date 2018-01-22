@@ -80,8 +80,6 @@ class GuruController extends Controller
             if($request->file('foto')){
                 $nameFotoToStore = $this->ambil($request->file('foto'));
                 $guru->foto = $nameFotoToStore;
-            }else{
-                $guru->foto = "nophoto.jpg";
             }
 
             $guru->save();

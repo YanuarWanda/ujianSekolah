@@ -11,7 +11,13 @@
                     <table class="table table-bordered">
                         <tr>
                             <td>Foto</td>
-                            <td><img src="{{asset('storage/foto-profil/'.$data->foto)}}" width="250px"/></td>
+                            <td>
+                                <?php if(empty($data->foto) == false){?>
+                                <img src="{{asset('storage/foto-profil/'.$data->foto)}}" width="250px"/>
+                                <?php }else{ ?>
+                                <img src="{{asset('image/nophoto.jpg')}}" width="250px"/>
+                                <?php } ?>
+                            </td>
                         </tr>
                         <tr>
                             <td>NIS</td>

@@ -106,11 +106,11 @@
 
                         <!-- Untuk Foto, sementara dikomentar. Menunggu keputusan lebih lanjut, -->
                         <!-- Upload Foto saat register, atau nanti pas edit data. -->
-                        < <div class="form-group{{ $errors->has('foto') ? ' has-error' : '' }}">
+                        <div class="form-group{{ $errors->has('foto') ? ' has-error' : '' }}">
                             <label for="foto" class="col-md-4 control-label">Foto</label>
 
                             <div class="col-md-6">
-                                <img class="img-thumbnail" src="#" id="profile-img-tag" width="200px" />
+                                <img class="img-thumbnail" src="{{ asset('image/nophoto.jpg') }}" id="profile-img-tag" width="200px" />
                                 <input id="foto" type="file" name="foto" value="{{ old('foto') }}" required>
 
                                 @if ($errors->has('foto'))

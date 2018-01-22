@@ -91,7 +91,11 @@
                             <label for="foto" class="col-md-4 control-label">Foto</label>
 
                             <div class="col-md-6">
+                                <?php if(empty($data->foto) == false){?>
                                 <img class="img-thumbnail" src="{{asset('storage/foto-profil/'.$data->foto)}}" id="profile-img-tag" width="200px" />
+                                <?php }else{ ?>
+                                <img class="img-thumbnail" src="{{asset('image/nophoto.jpg')}}" id="profile-img-tag" width="200px" />
+                                <?php } ?>
                                 <input id="foto" type="file" name="foto" value="{{ $data->foto }}" required>
 
                                 @if ($errors->has('foto'))
