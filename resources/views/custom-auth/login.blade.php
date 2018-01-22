@@ -4,15 +4,14 @@
 <div class="container">
     <div class="row">
         <div class="col-md-8 offset-md-2">
-            <div class="card">
-                <div class="card-header bg-success">Login</div>
+            <div class="card my-3">
+                <div class="card-header" style="background-color:#dff0d8;">Login</div>
 
                 <div class="card-block">
-                    <form class="form-horizontal" method="POST" action="{{ route('login') }}">
+                    <form class="my-3" method="POST" action="{{ route('login') }}">
                         {{ csrf_field() }}
-
-                        <div class="form-group{{ $errors->has('username') ? ' has-error' : '' }}">
-                            <label for="username" class="col-md-4 control-label">Username</label>
+                        <div class="form-group row{{ $errors->has('username') ? ' has-error' : '' }}">
+                            <label for="username" class="col-md-2 offset-md-2 form-control-label my-1">Username</label>
 
                             <div class="col-md-6">
                                 <input id="username" type="text" class="form-control" name="username" value="{{ old('username') }}" required autofocus>
@@ -25,8 +24,9 @@
                             </div>
                         </div>
 
-                        <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                            <label for="password" class="col-md-4 control-label">Password</label>
+
+                        <div class="form-group row{{ $errors->has('password') ? ' has-error' : '' }}">
+                            <label for="password" class="col-md-2 offset-md-2 form-control-label my-1">Password</label>
 
                             <div class="col-md-6">
                                 <input id="password" type="password" class="form-control" name="password" required>
@@ -40,7 +40,7 @@
                         </div>
 
                         <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
+                            <div class="col-md-6 offset-md-4">
                                 <div class="checkbox">
                                     <label>
                                         <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> Remember Me
@@ -50,7 +50,7 @@
                         </div>
 
                         <div class="form-group">
-                            <div class="col-md-8 col-md-offset-4">
+                            <div class="col-md-8 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
                                     Login
                                 </button>
