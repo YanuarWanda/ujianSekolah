@@ -15,8 +15,9 @@
                         <div class="form-group{{ $errors->has('foto') ? ' has-error' : ''}}">
                             <label for="foto" class="col-md-4 control-label">Foto Profil</label>
                             <div class="col-md-6">
+                                <img class="img-thumbnail" id="profile-img-tag" src="" width="150px">
                                 <label class="custom-file">
-                                  <input type="file" id="foto" class="custom-file-input">
+                                  <input type="file" name="file" id="profile-img" class="custom-file-input">
                                   <span class="custom-file-control"></span>
                                 </label>
                             </div>
