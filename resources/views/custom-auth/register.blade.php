@@ -12,7 +12,17 @@
                     <form class="form-horizontal" method="POST" action="{{ route('register') }}">
                         {{ csrf_field() }}
 
-                        <div class="form-group{{ $errors->has('nis') ? ' has-error' : '' }}">
+                        <div class="form-group{{ $errors->has('foto') ? ' has-error' : ''}}">
+                            <label for="foto" class="col-md-4 control-label">Foto Profil</label>
+                            <div class="col-md-6">
+                                <label class="custom-file">
+                                  <input type="file" id="foto" class="custom-file-input">
+                                  <span class="custom-file-control"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                       <div class="form-group{{ $errors->has('nis') ? ' has-error' : '' }}">
                             <label for="nis" class="col-md-4 control-label">Nomor Induk Siswa</label>
 
                             <div class="col-md-6">

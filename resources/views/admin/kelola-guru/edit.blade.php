@@ -1,4 +1,4 @@
-<!-- Ini Pendaftaran untuk Siswa -->
+<!-- Ini Pendaftaran untuk Siswa | heeh kitu?-->
 @extends('layouts.app')
 
 @section('content')
