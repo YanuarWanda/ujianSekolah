@@ -57,7 +57,7 @@ class SiswaController extends Controller
      */
     public function store(Request $data)
     {
-        $this->validate($request, [
+        $this->validate($data, [
             'nis' => 'required|string|max:10|unique:siswa',
             'username' => 'required|string|max:20|unique:users',
             'email' => 'required|string|email|max:255|unique:users',
@@ -74,6 +74,7 @@ class SiswaController extends Controller
 
         if($user) {
             // Mengisi table siswa jika table user di isi
+            $nameFotoToStore = $this->ambil($data->file('foto'));
             $siswa = Siswa::create([
                 'nis' => $data['nis'],
                 'id' => $user->id,
@@ -83,7 +84,7 @@ class SiswaController extends Controller
                 'jenis_kelamin' => $data['jenisKelamin'],
                 // 'email' => $data['email'], // Dipindah ke table users
                 // 'jurusan' => $data['jurusan'], // Dipindah ke table jurusan, dengan relasi ke table kelas
-                'foto' => "nophoto.jpg", // Untuk sementara dikosongkan
+                'foto' => $nameFotoToStore, // Untuk sementara dikosongkan
             ]);
         }
 
