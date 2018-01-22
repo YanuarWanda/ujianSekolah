@@ -5,8 +5,8 @@ mempermudah proses ujian sekolah.
 
 ## Changelog and New Features
 
-20 - January - 2018 : 1st Upload.
-21 - January - 2018 : Added Login + Register.
+20 - January - 2018 : 1st Upload.<br />
+21 - January - 2018 : Added Login + Register.<br />
 22 - January - 2018 : Added CRUD + Detail Guru.
 
 ## Contributing
