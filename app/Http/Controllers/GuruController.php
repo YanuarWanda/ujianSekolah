@@ -14,6 +14,18 @@ class GuruController extends Controller
         $this->middleware('auth');
     }
 
+    //copas hela nya.
+    public function ambil($file){
+        $fileNameFull = $file->getClientOriginalName();
+        $name = pathinfo($fileNameFull, PATHINFO_FILENAME);
+        $extension = $file->getClientOriginalExtension();
+        $nameFinal = $name.'_'.time().'.'.$extension;
+
+        $file->storeAs('public/foto-profil', $nameFinal);
+
+        return $nameFinal;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -54,8 +66,8 @@ class GuruController extends Controller
         $user->email = $request['email'];
         $user->password = bcrypt($request['password']);
         $user->hak_akses = 'guru';
-        
-        
+
+
         if($user->save()) {
             $guru = new Guru;
             $guru->nip = $request['nip'];
@@ -64,11 +76,17 @@ class GuruController extends Controller
             $guru->nama = $request['nama'];
             $guru->alamat = $request['alamat'];
             $guru->jenis_kelamin = $request['jenisKelamin'];
-            $guru->foto = "nophoto.jpg";
+
+            if($request->file('foto')){
+                $nameFotoToStore = $this->ambil($request->file('foto'));
+                $guru->foto = $nameFotoToStore;
+            }else{
+                $guru->foto = "nophoto.jpg";
+            }
 
             $guru->save();
         }
-        
+
         return redirect('/kelola-guru')->with('success', 'Pendaftaran berhasil');
     }
 
@@ -120,8 +138,8 @@ class GuruController extends Controller
         $user->email = $request['email'];
         $user->password = bcrypt($request['password']);
         $user->hak_akses = 'guru';
-        
-        
+
+
         if($user->save()) {
             $guru->nip = $request['nip'];
             $guru->id = $user->id;
@@ -129,11 +147,15 @@ class GuruController extends Controller
             $guru->nama = $request['nama'];
             $guru->alamat = $request['alamat'];
             $guru->jenis_kelamin = $request['jenisKelamin'];
-            $guru->foto = "nophoto.jpg";
+
+            if($request->file('foto')){
+                $nameFotoToStore = $this->ambil($request->file('foto'));
+                $guru->foto = $nameFotoToStore;
+            }
 
             $guru->save();
         }
-        
+
         return redirect('/kelola-guru')->with('success', 'Data berhasil diubah.');
     }
 

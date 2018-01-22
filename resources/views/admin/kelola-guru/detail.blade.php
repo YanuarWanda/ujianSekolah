@@ -10,6 +10,10 @@
                 <div class="panel-body">
                     <table class="table table-bordered">
                         <tr>
+                            <td>Foto Profil</td>
+                            <td><img src="{{asset('storage/foto-profil/'.$data->foto)}}" width="250px"/></td>
+                        </tr>
+                        <tr>
                             <td>NIP</td>
                             <td>{{$data->nip}}</td>
                         </tr>
