@@ -40,7 +40,8 @@ Route::get('/kelola-guru/delete/{id}', 'GuruController@destroy');
 
 // CRUD Siswa
 Route::get('kelola-siswa', 'SiswaController@index');
-
+Route::get('/kelola-siswa/create', 'SiswaController@create');
+Route::post('/kelola-siswa/create', 'SiswaController@store');
 Route::get('/kelola-siswa/show/{id}', 'SiswaController@show');
 Route::get('/kelola-siswa/edit/{id}', 'SiswaController@edit');
 Route::post('/kelola-siswa/update/{id}', 'SiswaController@update');

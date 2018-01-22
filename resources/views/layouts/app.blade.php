@@ -92,7 +92,8 @@
 
     <script>
         $(document).ready(function() {
-            $("#tableGuru").DataTable();
+            $("#tableGuru").DataTable(); // Menambahkan pencarian ke table guru di menu kelola-guru (admin)
+            $("#tableSiswa").DataTable(); // Menambahkan pencarian ke table siswa di menu kelola-siswa (admin)
         });
     </script>
 

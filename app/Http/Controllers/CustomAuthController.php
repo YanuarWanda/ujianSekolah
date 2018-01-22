@@ -46,8 +46,8 @@ class CustomAuthController extends Controller
                 'nama' => $data['nama'],
                 'alamat' => $data['alamat'],
                 'jenis_kelamin' => $data['jenisKelamin'],
-                // 'email' => $data['email'],
-                'jurusan' => $data['jurusan'],
+                // 'email' => $data['email'], // Dipindah ke table users
+                // 'jurusan' => $data['jurusan'], // Dipindah ke table jurusan, dengan relasi ke siswa melalui table kelas
                 'foto' => "nophoto.jpg", // Untuk sementara dikosongkan
             ]);
         }
@@ -58,6 +58,7 @@ class CustomAuthController extends Controller
     // Validasi form siswa
     public function studentRegisterValidation($request) {
         return $this->validate($request, [
+            'nis' => 'required|string|max:10|unique:siswa',
             'username' => 'required|string|max:20|unique:users',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',

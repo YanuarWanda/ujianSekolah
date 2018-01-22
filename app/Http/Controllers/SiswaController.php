@@ -33,7 +33,8 @@ class SiswaController extends Controller
      */
     public function create()
     {
-        
+        $kelas = Kelas::All();
+        return view('admin.kelola-siswa.create', compact('kelas'));
     }
 
     /**
@@ -42,9 +43,39 @@ class SiswaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $data)
     {
-        
+        $this->validate($request, [
+            'nis' => 'required|string|max:10|unique:siswa',
+            'username' => 'required|string|max:20|unique:users',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:6|confirmed',
+        ]);
+
+        // Mengisi table user
+        $user = User::create([
+            'username' => $data['username'],
+            'email' => $data['email'],
+            'hak_akses' => 'siswa',
+            'password' => bcrypt($data['password']),
+        ]);
+
+        if($user) {
+            // Mengisi table siswa jika table user di isi
+            $siswa = Siswa::create([
+                'nis' => $data['nis'],
+                'id' => $user->id,
+                'id_kelas' => Kelas::where('nama_kelas', $data['kelas'])->first()->id_kelas,
+                'nama' => $data['nama'],
+                'alamat' => $data['alamat'],
+                'jenis_kelamin' => $data['jenisKelamin'],
+                // 'email' => $data['email'], // Dipindah ke table users
+                // 'jurusan' => $data['jurusan'], // Dipindah ke table jurusan, dengan relasi ke table kelas
+                'foto' => "nophoto.jpg", // Untuk sementara dikosongkan
+            ]);
+        }
+
+        return redirect('/kelola-siswa')->with('success', 'Pendaftaran Berhasil');
     }
 
     /**
@@ -104,7 +135,7 @@ class SiswaController extends Controller
             $siswa->id_kelas = Kelas::where('nama_kelas', $request['kelas'])->first()->id_kelas;
             $siswa->nama = $request['nama'];
             $siswa->alamat = $request['alamat'];
-            $siswa->jurusan = $request['jurusan'];
+            // $siswa->jurusan = $request['jurusan']; // Dipindah ke tablenya sendiri, dengan relasi melalui table kelas
             $siswa->jenis_kelamin = $request['jenisKelamin'];
             $siswa->foto = "nophoto.jpg";
 
