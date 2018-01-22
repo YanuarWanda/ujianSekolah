@@ -22,16 +22,13 @@
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-default navbar-static-top">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container">
                 <div class="navbar-header">
 
                     <!-- Collapsed Hamburger -->
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse" aria-expanded="false">
-                        <span class="sr-only">Toggle Navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
+                    <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#app-navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
                     </button>
 
                     <!-- Branding Image -->
@@ -43,39 +40,32 @@
 
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
-                    <ul class="nav navbar-nav">
+                    <ul class="navbar-nav">
                         &nbsp;
                     </ul>
 
                     <!-- Right Side Of Navbar -->
-                    <ul class="nav navbar-nav navbar-right">
+                    <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
                         @guest
-                            <li><a href="{{ route('login') }}">Login</a></li>
-                            <li><a href="{{ route('register') }}">Register</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Login</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{ route('register') }}">Register</a></li>
                         @else
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
+                            <div class="dropdown">
+                                <a href="#" class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     {{ Auth::user()->username }} <span class="caret"></span>
                                 </a>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="http://">Settings</a>
+                                    <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+                                        Logout
+                                    </a>
 
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <a href="http://">Settings</a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ route('logout') }}"
-                                            onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                            Logout
-                                        </a>
-
-                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                            {{ csrf_field() }}
-                                        </form>
-                                    </li>
-                                </ul>
-                            </li>
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                        {{ csrf_field() }}
+                                    </form>
+                                </div>
+                            </div>
                         @endguest
                     </ul>
                 </div>
@@ -87,46 +77,39 @@
         @yield('content')
     </div>
 
+    <!-- Custom -->
+    <script src="{{ asset('js/jquery-3.1.1.min.js') }}"></script>
+
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
+
+    <!-- DataTables -->
+    <script src="{{ asset('vendor/datatables/jquery.dataTables.js') }}"></script>
+    <script src="{{ asset('vendor/datatables/dataTables.bootstrap4.js') }}"></script>
 
     <script>
         $(document).ready(function() {
             $("#tableGuru").DataTable();
         });
 
+        //Buat Preview Gambar yang mau diupload.
         function readURL(input) {
-
-        if (input.files && input.files[0]) {
-
-            var reader = new FileReader();
-
-
-
-            reader.onload = function (e) {
-
-                $('#profile-img-tag').attr('src', e.target.result);
-
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#profile-img-tag').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
             }
-
-            reader.readAsDataURL(input.files[0]);
-
         }
 
-    }
+        $("#profile-img").change(function(){
+            readURL(this);
+        });
 
-    $("#profile-img").change(function(){
-
-        readURL(this);
-
-    });
+        //Dropdown
+        $('.dropdown-toggle').dropdown();
     </script>
 
-    <!-- Custom -->
-    <script src="{{ asset('js/jquery-3.1.1.min.js') }}"></script>
-
-    <!-- DataTables -->
-    <script src="{{ asset('vendor/datatables/jquery.dataTables.js') }}"></script>
-    <script src="{{ asset('vendor/datatables/dataTables.bootstrap4.js') }}"></script>
 </body>
 </html>

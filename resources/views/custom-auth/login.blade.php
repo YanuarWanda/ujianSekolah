@@ -3,11 +3,11 @@
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-success">
-                <div class="panel-heading">Login</div>
+        <div class="col-md-8 offset-md-2">
+            <div class="card">
+                <div class="card-header bg-success">Login</div>
 
-                <div class="panel-body">
+                <div class="card-block">
                     <form class="form-horizontal" method="POST" action="{{ route('login') }}">
                         {{ csrf_field() }}
 
