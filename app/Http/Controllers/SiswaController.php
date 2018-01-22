@@ -15,6 +15,18 @@ class SiswaController extends Controller
         $this->middleware('auth');
     }
 
+    //copas hela nya.
+    public function ambil($file){
+        $fileNameFull = $file->getClientOriginalName();
+        $name = pathinfo($fileNameFull, PATHINFO_FILENAME);
+        $extension = $file->getClientOriginalExtension();
+        $nameFinal = $name.'_'.time().'.'.$extension;
+
+        $file->storeAs('public/foto-profil', $nameFinal);
+
+        return $nameFinal;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -119,7 +131,6 @@ class SiswaController extends Controller
             'email' => 'required',
             'password' => 'required|string|min:6|confirmed',
         ]);
-
         $siswa = Siswa::find(base64_decode($id));
         $user = User::find($siswa->id);
 
@@ -127,8 +138,8 @@ class SiswaController extends Controller
         $user->email = $request['email'];
         $user->password = bcrypt($request['password']);
         $user->hak_akses = 'siswa';
-        
-        
+
+
         if($user->save()) {
             $siswa->nis = $request['nis'];
             $siswa->id = $user->id;
@@ -137,11 +148,15 @@ class SiswaController extends Controller
             $siswa->alamat = $request['alamat'];
             // $siswa->jurusan = $request['jurusan']; // Dipindah ke tablenya sendiri, dengan relasi melalui table kelas
             $siswa->jenis_kelamin = $request['jenisKelamin'];
-            $siswa->foto = "nophoto.jpg";
+
+            if($request->file('foto')){
+                $nameFotoToStore = $this->ambil($request->file('foto'));
+                $siswa->foto = $nameFotoToStore;
+            }
+
 
             $siswa->save();
         }
-        
         return redirect('/kelola-siswa')->with('success', 'Data berhasil diubah.');
     }
 

@@ -9,7 +9,7 @@
                 <div class="panel-heading">{{ $data->nis }} | {{ $data->nama }}</div>
 
                 <div class="panel-body">
-                    <form class="form-horizontal" method="POST" action="{{url('/kelola-siswa/update', base64_encode($data->nis) )}}" >
+                    <form class="form-horizontal" method="POST" action="{{url('/kelola-siswa/update', base64_encode($data->nis) )}}" enctype="multipart/form-data">
                         {{ csrf_field() }}
 
                         <div class="form-group{{ $errors->has('nis') ? ' has-error' : '' }}">
@@ -106,11 +106,12 @@
 
                         <!-- Untuk Foto, sementara dikomentar. Menunggu keputusan lebih lanjut, -->
                         <!-- Upload Foto saat register, atau nanti pas edit data. -->
-                        <!-- <div class="form-group{{ $errors->has('foto') ? ' has-error' : '' }}">
+                        <div class="form-group{{ $errors->has('foto') ? ' has-error' : '' }}">
                             <label for="foto" class="col-md-4 control-label">Foto</label>
 
                             <div class="col-md-6">
-                                <input id="foto" type="file" class="form-control" name="foto" value="{{ old('foto') }}" required>
+                                <img class="img-thumbnail" src="{{asset('storage/foto-profil/'.$data->foto)}}" id="profile-img-tag" width="200px" />
+                                <input id="foto" type="file" name="foto" value="{{ $data->foto }}">
 
                                 @if ($errors->has('foto'))
                                     <span class="help-block">
@@ -118,7 +119,7 @@
                                     </span>
                                 @endif
                             </div>
-                        </div> -->
+                        </div>
 
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
                             <label for="email" class="col-md-4 control-label">E-Mail</label>
