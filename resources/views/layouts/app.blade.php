@@ -19,6 +19,9 @@
 
     <!-- DataTable Plugin -->
     <link href="{{ asset('vendor/datatables/dataTables.bootstrap4.css') }}" rel="stylesheet">
+
+    {{-- Alerts --}}
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/sweetalert2.min.css') }}">
 </head>
 <body>
     <div id="app">
@@ -42,11 +45,6 @@
                 </div>
 
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="nav navbar-nav">
-                        &nbsp;
-                    </ul>
-
                     <!-- Right Side Of Navbar -->
                     <ul class="nav navbar-nav navbar-right">
                         <!-- Authentication Links -->
@@ -61,7 +59,7 @@
 
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a href="http://">Settings</a>
+                                        {{-- <a href="{{ route('setting', '') }}">Settings</a> --}}
                                     </li>
                                     <li>
                                         <a href="{{ route('logout') }}"
@@ -81,8 +79,6 @@
                 </div>
             </div>
         </nav>
-
-        @include('layouts.messages')
 
         @yield('content')
     </div>
@@ -119,5 +115,9 @@
         });
     </script>
 
+    {{-- Alert --}}
+    <script src="{{ asset('js/sweetalert2.js') }}"></script>
+    @include('layouts.messages')
+    
 </body>
 </html>

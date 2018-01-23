@@ -65,8 +65,7 @@ class CustomAuthController extends Controller
                 'foto' => $nameFotoToStore
             ]);
         }
-
-        return redirect('/')->with('success', 'Pendaftaran Berhasil');
+        return redirect('/login')->with('success', 'Pendaftaran Berhasil');
     }
 
     // Validasi form siswa
@@ -90,7 +89,7 @@ class CustomAuthController extends Controller
         ]);
 
         if(Auth::attempt(['username' => $request->username, 'password' => $request->password])) {
-            return redirect('/home');
+            return redirect('/home')->with('success', 'Login Berhasil');
         } else return redirect('/login')->with('error', 'Login Gagal');
     }
 

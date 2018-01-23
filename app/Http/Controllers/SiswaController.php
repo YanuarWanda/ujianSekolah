@@ -86,9 +86,9 @@ class SiswaController extends Controller
                 // 'jurusan' => $data['jurusan'], // Dipindah ke table jurusan, dengan relasi ke table kelas
                 'foto' => $nameFotoToStore, // Untuk sementara dikosongkan
             ]);
-        }
 
-        return redirect('/kelola-siswa')->with('success', 'Pendaftaran Berhasil');
+            return redirect('/kelola-siswa')->with('success', 'Pendaftaran Berhasil');
+        }
     }
 
     /**
