@@ -89,7 +89,7 @@ class CustomAuthController extends Controller
         ]);
 
         if(Auth::attempt(['username' => $request->username, 'password' => $request->password])) {
-            return redirect('/home')->with('success', 'Login Berhasil');
+            return redirect('/home');
         } else return redirect('/login')->with('error', 'Login Gagal');
     }
 

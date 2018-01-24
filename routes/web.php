@@ -46,3 +46,7 @@ Route::get('/kelola-siswa/show/{id}', 'SiswaController@show');
 Route::get('/kelola-siswa/edit/{id}', 'SiswaController@edit');
 Route::post('/kelola-siswa/update/{id}', 'SiswaController@update');
 Route::get('/kelola-siswa/delete/{id}', 'SiswaController@destroy');
+
+// Settings user
+Route::get('/settings', 'HomeController@settings')->name('settings');
+Route::post('/ubahPassword/{id}', 'HomeController@ubahPassword')->name('ubahPassword');
