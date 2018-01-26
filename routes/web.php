@@ -50,3 +50,7 @@ Route::get('/kelola-siswa/delete/{id}', 'SiswaController@destroy');
 // Settings user
 Route::get('/settings', 'HomeController@settings')->name('settings');
 Route::post('/ubahPassword/{id}', 'HomeController@ubahPassword')->name('ubahPassword');
+
+// Setting - Data User
+Route::post('/edit/s/{id}', 'SiswaController@storeDataSiswa')->name('edit-siswa');
+Route::post('/edit/g/{id}', 'GuruController@storeDataGuru')->name('edit-guru');

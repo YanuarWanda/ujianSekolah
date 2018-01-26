@@ -5,7 +5,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-default">
-                <div class="panel-heading">Dashboard</div>
+                <div class="panel-heading">Settings Menu</div>
 
                 <div class="panel-body">
                     <ul class="nav nav-tabs">
@@ -69,8 +69,12 @@
                         </form>
                     </div>
                     <div id="editData" class="tab-pane fade">
-                      <h3>Menu 2</h3>
-                      <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+                        <br>
+                      @if(Auth::user()->hak_akses == 'siswa')
+                        @include('settings.siswa')
+                      @elseif(Auth::user()->hak_akses == 'guru')
+                        @include('settings.guru')
+                      @endif
                     </div>
                 </div>
             </div>

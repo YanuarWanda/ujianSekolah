@@ -180,4 +180,32 @@ class SiswaController extends Controller
         }
         else return redirect('/kelola-siswa')->with('error', 'Penghapusan gagal');
     }
+
+    // Mengupdate data user, dari menu settings
+    public function storeDataSiswa(Request $request, $id) {
+        $this->validate($request, [
+            'nis' => 'required',
+            'nama' => 'required',
+            'username' => 'required',
+        ]);
+
+        $siswa = Siswa::find(base64_decode($id));
+        $siswa->nis = $request['nis'];
+        $siswa->nama = $request['nama'];
+        $siswa->id_kelas = Kelas::where('nama_kelas', $request['kelas'])->first()->id_kelas;
+        $siswa->alamat = $request['alamat'];
+        $siswa->jenis_kelamin = $request['jenisKelamin'];
+        
+        if($request->file('foto')){
+            $nameFotoToStore = $this->ambil($request->file('foto'));
+            $siswa->foto = $nameFotoToStore;
+        }
+
+        $user = User::find($siswa->id);
+        $user->username = $request['username'];
+
+        if($user->save() && $siswa->save()) {
+            return redirect('/home')->with('success', 'Data berhasil diubah');    
+        } else return redirect('/settings')->with('error', 'Data gagal diubah');
+    }
 }

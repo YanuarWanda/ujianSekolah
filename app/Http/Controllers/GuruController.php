@@ -176,4 +176,31 @@ class GuruController extends Controller
         }
         else return redirect('/kelola-guru')->with('error', 'Penghapusan gagal');
     }
+
+    public function storeDataGuru(Request $request, $id) {
+        $this->validate($request, [
+            'nip' => 'required',
+            'nama' => 'required',
+            'username' => 'required',
+        ]);
+
+        $guru = Guru::find(base64_decode($id));
+        $guru->nip = $request['nip'];
+        $guru->bidang_keahlian = $request['bidangKeahlian'];
+        $guru->nama = $request['nama'];
+        $guru->alamat = $request['alamat'];
+        $guru->jenis_kelamin = $request['jenisKelamin'];
+
+        if($request->file('foto')){
+            $nameFotoToStore = $this->ambil($request->file('foto'));
+            $guru->foto = $nameFotoToStore;
+        }
+
+        $user = User::find($guru->id);
+        $user->username = $request['username'];
+
+        if($user->save() && $guru->save()) {
+            return redirect('/home')->with('success', 'Data berhasil diubah');    
+        } else return redirect('/settings')->with('error', 'Data gagal diubah');
+    }
 }

@@ -8,6 +8,7 @@ use Auth;
 use App\User;
 use App\Guru;
 use App\Siswa;
+use App\Kelas;
 
 class HomeController extends Controller
 {
@@ -31,21 +32,23 @@ class HomeController extends Controller
         if(Auth::user()->hak_akses == 'admin') {
             return view('admin.dashboard');
         } else if(Auth::user()->hak_akses == 'guru') {
-            return view('home')->with('success', 'AKSES - GURU');
+            return view('home');
         } else if(Auth::user()->hak_akses == 'siswa') {
-            return view('home')->with('success', 'AKSES - SISWA');
+            return view('home');
         } 
     }
 
     public function settings() {
         if(Auth::user()->hak_akses == 'admin') {
-            return view('setting');
+            return view('settings.setting');
         } else if(Auth::user()->hak_akses == 'guru') {
-            $guru = Guru::where('id', Auth::user()->id);
-            return $guru;
+            $data = Guru::where('id', Auth::user()->id)->first();
+            return view('settings.setting', compact('data'));
         } else if(Auth::user()->hak_akses == 'siswa') {
-            $siswa = Siswa::where('id', Auth::user()->id)->get();
-            return view('setting', compact('siswa'));
+            $data = Siswa::where('id', Auth::user()->id)->first();
+            $kelas = Kelas::All();
+            // return $data->nis;
+            return view('settings.setting', compact('data', 'kelas'));
         } 
     }
 
@@ -62,5 +65,4 @@ class HomeController extends Controller
 
         return redirect('/home')->with('success', 'Password berhasil diubah');
     }
-
 }
