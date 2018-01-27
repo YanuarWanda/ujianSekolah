@@ -111,9 +111,9 @@
 
                             <div class="col-md-6">
                                 <?php if(empty($data->foto) == false){?>
-                                <img src="{{asset('storage/foto-profil/'.$data->foto)}}" width="250px"/>
+                                    <img class="img-thumbnail" src="{{asset('storage/foto-profil/'.$data->foto)}}" id="profile-img-tag" width="250px"/>
                                 <?php }else{ ?>
-                                <img src="{{asset('image/nophoto.jpg')}}" width="250px"/>
+                                    <img class="img-thumbnail" src="{{asset('image/nophoto.jpg')}}" id="profile-img-tag" width="250px"/>
                                 <?php } ?>
                                 <input id="foto" type="file" name="foto" value="{{ $data->foto }}">
 

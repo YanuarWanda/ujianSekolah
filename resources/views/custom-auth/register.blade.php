@@ -110,7 +110,7 @@
                             <label for="foto" class="col-md-4 control-label">Foto</label>
 
                             <div class="col-md-6">
-                                <img class="img-thumbnail" src="{{ asset('image/nophoto.jpg') }}" id="profile-img-tag" width="200px" />
+                                <img class="img-thumbnail" src="{{ asset('image/nophoto.jpg') }}" id="profile-img-tag" width="250px"/>
                                 <input id="foto" type="file" name="foto" value="{{ old('foto') }}" required>
 
                                 @if ($errors->has('foto'))

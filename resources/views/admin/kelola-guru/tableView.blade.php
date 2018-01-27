@@ -21,7 +21,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                
+
                                 <?php $no=1; ?>
                                     @foreach($guru as $g)
                                         <tr>
@@ -30,15 +30,15 @@
                                             <td>{{$g->nama}}</td>
                                             <td>{{$g->bidang_keahlian}}</td>
                                             <td>
-                                                <a href="{{url('/kelola-guru/show', base64_encode($g->nip))}}" class="btn btn-warning">Detail</a>
-                                                <a href="{{url('/kelola-guru/edit', base64_encode($g->nip))}}" class="btn btn-primary">Edit</a>
+                                                <a href="{{url('/kelola-guru/show', base64_encode($g->nip))}}" class="btn btn-warning"><i class="fa fa-plus" aria-hidden="true"></i></a>
+                                                <a href="{{url('/kelola-guru/edit', base64_encode($g->nip))}}" class="btn btn-primary"><i class="fa fa-edit" aria-hidden="true"></i></a>
                                                 <a href="{{url('/kelola-guru/delete', base64_encode($g->nip))}}" class="btn btn-danger">Delete</a>
                                             </td>
                                         </tr>
                                     @endforeach
                             </tbody>
                         </table>
-                        
+
                         @else
                             <strong><p>Data tidak tersedia.</p></strong>
                         @endif

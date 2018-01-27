@@ -22,6 +22,9 @@
 
     {{-- Alerts --}}
     <link rel="stylesheet" type="text/css" href="{{ asset('css/sweetalert2.min.css') }}">
+
+    {{-- Icon --}}
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/font-awesome.min.css')}}">
 </head>
 <body>
     <div id="app">
@@ -118,6 +121,6 @@
     {{-- Alert --}}
     <script src="{{ asset('js/sweetalert2.js') }}"></script>
     @include('layouts.messages')
-    
+
 </body>
 </html>
