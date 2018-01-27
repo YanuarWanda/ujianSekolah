@@ -29,6 +29,12 @@ class HomeController extends Controller
      */
     public function index()
     {
+        $user = array(
+            'hak_akses' => Auth::user()->hak_akses,
+            'username' => Auth::user()->username,
+        );
+        \Log::info('Mengakses home', $user);
+
         if(Auth::user()->hak_akses == 'admin') {
             return view('admin.dashboard');
         } else if(Auth::user()->hak_akses == 'guru') {

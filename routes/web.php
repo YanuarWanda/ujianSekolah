@@ -23,9 +23,22 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('daftar-siswa', 'CustomAuthController@studentRegisterForm')->name('register');
 Route::post('daftar-siswa', 'CustomAuthController@registerStudent');
 
-// Custom - Login
+// Custom - Login, Logout
 Route::get('login', 'CustomAuthController@loginForm')->name('login');
 Route::post('login', 'CustomAuthController@login');
+
+// Logout tidak disimpan di CustomAuthController, karena tidak berpengaruh
+Route::post('logout', function (){
+	// Log
+    $user = array(
+        'hak_akses' => Auth::user()->hak_akses,
+        'username' => Auth::user()->username,
+    );
+    \Log::info('Logged Out', $user);
+
+	Auth::logout();
+	return redirect('/');
+})->name('logout');
 
 
 // CRUD Guru
