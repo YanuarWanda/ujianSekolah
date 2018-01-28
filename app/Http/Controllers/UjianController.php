@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Ujian;
 use App\Guru;
 use App\Mapel;
+use Auth;
 
 class UjianController extends Controller
 {
@@ -46,12 +47,17 @@ class UjianController extends Controller
      */
     public function store(Request $data)
     {
+        $id = Auth::user()->id;
+
         $ujian = Ujian::create([
-           'id_mapel' = Mapel::where('nama_mapel', $data['mapel'])->first()->id_mapel,
-            
+           'id_mapel'           => Mapel::where('nama_mapel', $data['mapel'])->first()->id_mapel,
+           'nip'                => Guru::where('id', $id)->first()['nip'],
+           'judul_ujian'        => $data['judul'],
+           'waktu_pengerjaan'   => gmdate("H:i:s", $data['waktu_pengerjaan']),
+           'tanggal_kadaluarsa' => $data['batas_pengerjaan'],
         ]);
-        print_r($data['batas_pengerjaan']);
-        // return redirect('/kelola-siswa')->with('success', 'Pendaftaran Berhasil');
+
+        return redirect('/kelola-ujian')->with('success', 'Penambahan Data Ujian Berhasil');
     }
 
     /**

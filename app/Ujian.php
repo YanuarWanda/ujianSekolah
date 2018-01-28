@@ -10,6 +10,9 @@ class Ujian extends Model
     protected $primaryKey = 'id_ujian';
 
     public $timestamps = false;
+    protected $fillable = [
+        'id_ujian', 'id_mapel', 'nip', 'judul_ujian', 'waktu_pengerjaan', 'tanggal_post', 'tanggal_kadaluarsa', 'status'
+    ];
 
     public function mapel() {
         return $this->belongsTo('App\Mapel', 'id_mapel');
