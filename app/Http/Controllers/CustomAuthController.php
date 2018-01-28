@@ -64,6 +64,8 @@ class CustomAuthController extends Controller
                 //'foto' => "nophoto.jpg", // Untuk sementara dikosongkan
                 'foto' => $nameFotoToStore
             ]);
+
+            \Log::info('Pendaftaran berhasil', [$siswa->nama]);
         }
         return redirect('/login')->with('success', 'Pendaftaran Berhasil');
     }
@@ -89,8 +91,13 @@ class CustomAuthController extends Controller
         ]);
 
         if(Auth::attempt(['username' => $request->username, 'password' => $request->password])) {
+            $user = array(
+                'hak_akses' => Auth::user()->hak_akses,
+                'username' => Auth::user()->username,
+            );
+            \Log::info('Logged In', $user);
+
             return redirect('/home');
         } else return redirect('/login')->with('error', 'Login Gagal');
     }
-
 }
