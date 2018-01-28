@@ -10,6 +10,7 @@
                 <div class="panel-body">
                     <a href="/kelola-guru" class="btn btn-primary">Kelola Guru</a>
                     <a href="/kelola-siswa" class="btn btn-success">Kelola Siswa</a>
+                    <a href="/kelola-ujian" class="btn btn-danger">Kelola Ujian</a>
                 </div>
             </div>
         </div>
