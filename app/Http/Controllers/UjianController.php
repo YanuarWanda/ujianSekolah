@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Ujian;
+use App\Guru;
+use App\Mapel;
 
 class UjianController extends Controller
 {
@@ -31,8 +33,9 @@ class UjianController extends Controller
      */
     public function create()
     {
-        $kelas = Kelas::All();
-        return view('admin.kelola-siswa.create', compact('kelas'));
+        $ujian = Ujian::All();
+        $mapel = Mapel::All();
+        return view('admin.kelola-ujian.create', compact('ujian', 'mapel'));
     }
 
     /**
@@ -43,38 +46,12 @@ class UjianController extends Controller
      */
     public function store(Request $data)
     {
-        $this->validate($data, [
-            'nis' => 'required|string|max:10|unique:siswa',
-            'username' => 'required|string|max:20|unique:users',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
+        $ujian = Ujian::create([
+           'id_mapel' = Mapel::where('nama_mapel', $data['mapel'])->first()->id_mapel,
+            
         ]);
-
-        // Mengisi table user
-        $user = User::create([
-            'username' => $data['username'],
-            'email' => $data['email'],
-            'hak_akses' => 'siswa',
-            'password' => bcrypt($data['password']),
-        ]);
-
-        if($user) {
-            // Mengisi table siswa jika table user di isi
-            $nameFotoToStore = $this->ambil($data->file('foto'));
-            $siswa = Siswa::create([
-                'nis' => $data['nis'],
-                'id' => $user->id,
-                'id_kelas' => Kelas::where('nama_kelas', $data['kelas'])->first()->id_kelas,
-                'nama' => $data['nama'],
-                'alamat' => $data['alamat'],
-                'jenis_kelamin' => $data['jenisKelamin'],
-                // 'email' => $data['email'], // Dipindah ke table users
-                // 'jurusan' => $data['jurusan'], // Dipindah ke table jurusan, dengan relasi ke table kelas
-                'foto' => $nameFotoToStore, // Untuk sementara dikosongkan
-            ]);
-
-            return redirect('/kelola-siswa')->with('success', 'Pendaftaran Berhasil');
-        }
+        print_r($data['batas_pengerjaan']);
+        // return redirect('/kelola-siswa')->with('success', 'Pendaftaran Berhasil');
     }
 
     /**

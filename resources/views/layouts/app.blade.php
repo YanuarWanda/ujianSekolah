@@ -23,10 +23,15 @@
     {{-- Alerts --}}
     <link rel="stylesheet" type="text/css" href="{{ asset('css/sweetalert2.min.css') }}">
 
-<<<<<<< HEAD
     {{-- Icon --}}
     <link rel="stylesheet" type="text/css" href="{{ asset('css/font-awesome.min.css')}}">
-=======
+
+    {{-- TimePicker --}}
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/timingfield.css')}}">
+
+    {{-- DateTimePicker --}}
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap-datetimepicker.min.css')}}">
+
     {{-- PleaseWait.js Preloader  --}}
     <link href="{{ asset('css/please-wait.css') }}" rel="stylesheet">
     <style type="text/css">
@@ -44,7 +49,7 @@
               height: 40px;
               position: relative;
               text-align: center;
-              
+
               -webkit-animation: sk-rotate 2.0s infinite linear;
               animation: sk-rotate 2.0s infinite linear;
             }
@@ -57,7 +62,7 @@
               top: 0;
               background-color: #333;
               border-radius: 100%;
-              
+
               -webkit-animation: sk-bounce 2.0s infinite ease-in-out;
               animation: sk-bounce 2.0s infinite ease-in-out;
             }
@@ -78,16 +83,21 @@
             }
 
             @keyframes sk-bounce {
-              0%, 100% { 
+              0%, 100% {
                 transform: scale(0.0);
                 -webkit-transform: scale(0.0);
-              } 50% { 
+              } 50% {
                 transform: scale(1.0);
                 -webkit-transform: scale(1.0);
               }
             }
+
+            .btn-fixed-bottom-right{
+                position: fixed;
+                bottom: 25px;
+                right: 25px;
+            }
     </style>
->>>>>>> 43fe890b0e5e12a61c8407d81f9469d75dd81a24
 </head>
 <body>
     <div id="app">
@@ -154,19 +164,19 @@
 
     {{-- PleaseWait.js Preloader  --}}
     <script type="text/javascript" src="{{ asset('js/please-wait.min.js') }}"></script>
-    <script type="text/javascript">
+    {{-- <script type="text/javascript">
         window.loading_screen = pleaseWait({
           logo: "",
-          backgroundColor: '#f46d3b',
+          // backgroundColor: '#f46d3b',
           loadingHtml: "<p class='loading-message'>Please Wait</p><br><div class='spinner'><div class='dot1'></div><div class='dot2'></div></div>"
         });
 
         $(window).on('load', function() {
             window.loading_screen.finish();
         });
-    </script>
+    </script> --}}
 
-    
+
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
@@ -201,5 +211,27 @@
     <script src="{{ asset('js/sweetalert2.js') }}"></script>
     @include('layouts.messages')
 
+    {{-- TimePicker --}}
+    <script src="{{ asset('js/timingfield.min.js')}}"></script>
+    <script>
+        $(".timing").timingfield({
+            maxHour: 23,
+            width: 263,
+            hoursText: 'H',
+            minutesText: 'M',
+            secondsText: 'S'
+        });
+    </script>
+
+    {{-- Moment buat DateTimePicker --}}
+    <script src="{{ asset('js/moment.js')}}"></script>
+
+    {{-- DateTimePicker --}}
+    <script src="{{ asset('js/bootstrap-datetimepicker.min.js')}}"></script>
+    <script>
+        $('#datetimepicker1').datetimepicker({
+            format: 'YYYY-M-DD'
+        });
+    </script>
 </body>
 </html>
