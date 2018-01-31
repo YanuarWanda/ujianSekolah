@@ -65,10 +65,7 @@ Route::get('kelola-ujian', 'UjianController@index');
 Route::get('/kelola-ujian/create', 'UjianController@create');
 Route::post('/kelola-ujian/create', 'UjianController@store');
 Route::get('/kelola-ujian/edit/{id}', 'UjianController@edit');
-<<<<<<< HEAD
-=======
 Route::post('/kelola-ujian/update/{id}', 'UjianController@update');
->>>>>>> b06d4c5693f9346a388c44a1f99d52e4cefb2f13
 
 // Settings user
 Route::get('/settings', 'HomeController@settings')->name('settings');
