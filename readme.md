@@ -11,8 +11,10 @@ mempermudah proses ujian sekolah.
 
 ## Contributing
 
-* [Yanuar Wanda Putra](https://github.com/YanuarWanda)
-* [Fahri Muhamad Zulkarnaen Iskandar](https://github.com/FahriMZ)
+* [Yanuar Wanda Putar](https://github.com/YanuarWanda)
+* [Wendy Setiadi](https://github.com/wsetiawan)
+* [Muhammad Syaiful MH.](https://github.com/lufiays)
+* [Fahri Muhamad Zulkarnaen](https://github.com/FahriMZ)
 
 ## License
 

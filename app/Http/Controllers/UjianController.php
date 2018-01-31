@@ -50,7 +50,7 @@ class UjianController extends Controller
         $id = Auth::user()->id;
 
         $ujian = Ujian::create([
-           'id_mapel'           => Mapel::where('nama_mapel', $data['mapel'])->first()->id_mapel,
+           'id_mapel'           => Mapel::where('nama_mapel', $data['mapel'])->first()['id_mapel'],
            'nip'                => Guru::where('id', $id)->first()['nip'],
            'judul_ujian'        => $data['judul'],
            'waktu_pengerjaan'   => gmdate("H:i:s", $data['waktu_pengerjaan']),
@@ -59,6 +59,7 @@ class UjianController extends Controller
 
         return redirect('/kelola-ujian')->with('success', 'Penambahan Data Ujian Berhasil');
     }
+
 
     /**
      * Display the specified resource.
