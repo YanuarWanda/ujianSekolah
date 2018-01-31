@@ -75,6 +75,20 @@
                                 </div>
                             </div>
 
+                            <div class="form-group{{ $errors->has('catatan') ? ' has-error' : '' }}">
+                                <label for="catatan" class="col-md-4 control-label">Catatan</label>
+
+                                <div class="col-md-6">
+                                    <textarea id="catatan" class="form-control" name="catatan" >{{ old('catatan') }}</textarea>
+
+                                    @if ($errors->has('catatan'))
+                                        <span class="help-block">
+                                            <strong>{{ $errors->first('catatan') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+
                             <div class="form-group">
                                 <div class="col-md-6 col-md-offset-4">
                                     <a href="/kelola-ujian" class="btn btn-danger">Cancel</a>

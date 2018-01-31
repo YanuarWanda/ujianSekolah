@@ -49,12 +49,17 @@ class UjianController extends Controller
     {
         $id = Auth::user()->id;
 
+        if($data['catatan'] == '') {
+            $data[catatan] == 'Tidak ada catatan.';
+        }
+
         $ujian = Ujian::create([
            'id_mapel'           => Mapel::where('nama_mapel', $data['mapel'])->first()['id_mapel'],
            'nip'                => Guru::where('id', $id)->first()['nip'],
            'judul_ujian'        => $data['judul'],
            'waktu_pengerjaan'   => gmdate("H:i:s", $data['waktu_pengerjaan']),
            'tanggal_kadaluarsa' => $data['batas_pengerjaan'],
+           'catatan' => $data['catatan'],
         ]);
 
         return redirect('/kelola-ujian')->with('success', 'Penambahan Data Ujian Berhasil');
