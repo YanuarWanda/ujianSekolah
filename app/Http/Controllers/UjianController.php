@@ -87,8 +87,16 @@ class UjianController extends Controller
      */
     public function edit($id)
     {
+<<<<<<< HEAD
         $data = Ujian::find(base64_decode($id));
         return view('admin.kelola-ujian.detail', compact('data'));
+=======
+        $ujian = Ujian::find(base64_decode($id));
+        // $waktu_pengerjaan = explode(':', $ujian->waktu_pengerjaan);
+
+        $mapel = Mapel::All();
+        return view('admin.kelola-ujian.edit', compact('ujian', 'mapel'));
+>>>>>>> b06d4c5693f9346a388c44a1f99d52e4cefb2f13
     }
 
     /**

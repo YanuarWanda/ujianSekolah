@@ -7,7 +7,7 @@
             @foreach($ujian as $u)
             <div class="col-sm-12 col-md-4">
                 <div class="panel panel-default">
-                    <div class="panel-heading"><a href="#">{{$u->id_ujian.". ".$u->judul_ujian}}</a></div>
+                    <div class="panel-heading"><a href="{{url('/kelola-ujian/edit', base64_encode($u->id_ujian))}}">{{$u->id_ujian.". ".$u->judul_ujian}}</a></div>
                     <div class="panel-body">
                         (Deskripsi)<br>
                         Waktu Pengerjaan : {{$u->waktu_pengerjaan}}<br>
