@@ -64,6 +64,8 @@ Route::get('/kelola-siswa/delete/{id}', 'SiswaController@destroy');
 Route::get('kelola-ujian', 'UjianController@index');
 Route::get('/kelola-ujian/create', 'UjianController@create');
 Route::post('/kelola-ujian/create', 'UjianController@store');
+Route::get('/kelola-ujian/edit/{id}', 'UjianController@edit');
+Route::post('/kelola-ujian/update/{id}', 'UjianController@update');
 
 // Settings user
 Route::get('/settings', 'HomeController@settings')->name('settings');
