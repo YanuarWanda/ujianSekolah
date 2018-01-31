@@ -10,7 +10,8 @@
                 <div class="panel-body">
                     <ul class="nav nav-tabs">
                         <li class="active"><a data-toggle="tab" href="#ubahPassword">Ubah Password</a></li>
-                        <li><a data-toggle="tab" href="#editData">Edit Data</a></li>
+                        
+                        @if (Auth::user()->hak_akses=='siswa' || Auth::user()->hak_akses=='guru') <li><a data-toggle="tab" href="#editData">Edit Data</a></li>@endif
                     </ul>
 
                   <div class="tab-content">
@@ -68,6 +69,7 @@
                         </div>
                         </form>
                     </div>
+                    @if(Auth::user()->hak_akses == 'siswa' || Auth::user()->hak_akses=='guru')
                     <div id="editData" class="tab-pane fade">
                         <br>
                       @if(Auth::user()->hak_akses == 'siswa')
@@ -76,6 +78,7 @@
                         @include('settings.guru')
                       @endif
                     </div>
+                    @endif
                 </div>
             </div>
         </div>
