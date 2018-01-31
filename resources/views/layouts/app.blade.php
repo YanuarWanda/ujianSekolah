@@ -97,6 +97,10 @@
                 bottom: 25px;
                 right: 25px;
             }
+			
+			.z-top{
+				z-index: 4;
+			}
     </style>
 </head>
 <body>
