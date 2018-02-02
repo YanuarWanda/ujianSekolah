@@ -30,9 +30,9 @@
                                             <td>{{$s->nama}}</td>
                                             <td>{{$s->kelas->nama_kelas}}</td>
                                             <td>
-                                                <a href="{{url('/kelola-siswa/show', base64_encode($s->nis))}}" class="btn btn-warning">Detail</a>
-                                                <a href="{{url('/kelola-siswa/edit', base64_encode($s->nis))}}" class="btn btn-primary">Edit</a>
-                                                <a href="{{url('/kelola-siswa/delete', base64_encode($s->nis))}}" class="btn btn-danger">Delete</a>
+                                                <a href="{{url('/kelola-siswa/show', base64_encode($s->nis))}}" class="btn btn-warning"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                                <a href="{{url('/kelola-siswa/edit', base64_encode($s->nis))}}" class="btn btn-primary"><i class="fa fa-edit" aria-hidden="true"></i></a>
+                                                <a href="{{url('/kelola-siswa/delete', base64_encode($s->nis))}}" class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></a>
                                             </td>
                                         </tr>
                                     @endforeach
