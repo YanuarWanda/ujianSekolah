@@ -65,7 +65,7 @@
           position: relative;
           -webkit-transform: scale(1.1);
               -ms-transform: scale(1.1);
-                  transform: scale(1.1); 
+                  transform: scale(1.1);
         }
         .sk-folding-cube .sk-cube:before {
           content: '';
@@ -99,7 +99,7 @@
         }
         .sk-folding-cube .sk-cube3:before {
           -webkit-animation-delay: 0.6s;
-                  animation-delay: 0.6s; 
+                  animation-delay: 0.6s;
         }
         .sk-folding-cube .sk-cube4:before {
           -webkit-animation-delay: 0.9s;
@@ -109,33 +109,44 @@
           0%, 10% {
             -webkit-transform: perspective(140px) rotateX(-180deg);
                     transform: perspective(140px) rotateX(-180deg);
-            opacity: 0; 
+            opacity: 0;
           } 25%, 75% {
             -webkit-transform: perspective(140px) rotateX(0deg);
                     transform: perspective(140px) rotateX(0deg);
-            opacity: 1; 
+            opacity: 1;
           } 90%, 100% {
             -webkit-transform: perspective(140px) rotateY(180deg);
                     transform: perspective(140px) rotateY(180deg);
-            opacity: 0; 
-          } 
+            opacity: 0;
+          }
         }
 
         @keyframes sk-foldCubeAngle {
           0%, 10% {
             -webkit-transform: perspective(140px) rotateX(-180deg);
                     transform: perspective(140px) rotateX(-180deg);
-            opacity: 0; 
+            opacity: 0;
           } 25%, 75% {
             -webkit-transform: perspective(140px) rotateX(0deg);
                     transform: perspective(140px) rotateX(0deg);
-            opacity: 1; 
+            opacity: 1;
           } 90%, 100% {
             -webkit-transform: perspective(140px) rotateY(180deg);
                     transform: perspective(140px) rotateY(180deg);
-            opacity: 0; 
+            opacity: 0;
           }
         }
+
+        .btn-fixed-bottom-right{
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+        }
+
+       .z-top{
+	       z-index: 4;
+        }
+
     </style>
 </head>
 <body>
@@ -207,14 +218,35 @@
     </div>
 
     {{-- JQuery --}}
-    {{-- <script src="{{ asset('js/jquery-3.1.1.min.js') }}"></script> --}}
+    <script src="{{ asset('js/jquery-3.1.1.min.js') }}"></script>
+
+    {{-- <script src="https://cdn.ckeditor.com/4.8.0/basic/ckeditor.js"></script> --}}
+    {{-- <script src="{{ asset('js/ckeditor.js') }}"></script> --}}
+    {{-- <script type="text/javascript">
+        CKEDITOR.replace('soal1');
+    </script> --}}
+
+    <script src="https://cloud.tinymce.com/stable/tinymce.min.js"></script>
+    <script>tinymce.init({ selector:'textarea' });</script>
+
+    {{-- CKEditor --}}
+
+    {{-- <script src="https://cdn.ckeditor.com/ckeditor5/1.0.0-alpha.2/classic/ckeditor.js"></script>
+    <script>
+        ClassicEditor
+            .create( document.querySelector( '#soal' ) )
+            .catch( error => {
+                console.error( error );
+            } );
+    </script> --}}
+
 
     {{-- CDN --}}
-    <script src="//ajax.aspnetcdn.com/ajax/jquery/jquery-3.1.1.min.js"></script>
+    {{-- <script src="//ajax.aspnetcdn.com/ajax/jquery/jquery-3.1.1.min.js"></script> --}}
 
     {{-- Fallback (Local) --}}
-    <script>window.jQuery || document.write('<script src="{{ asset('js/jquery-3.1.1.min.js') }}">\x3C/script>')</script>
-    
+    {{-- <script>window.jQuery || document.write('<script src="{{ asset('js/jquery-3.1.1.min.js') }}">\x3C/script>')</script> --}}
+
     {{-- End JQuery --}}
 
     {{-- Fadeout Loading Screen --}}
@@ -255,7 +287,7 @@
 
     {{-- Alert --}}
     <script src="{{ asset('js/sweetalert2.js') }}"></script>
-    
+
     @include('layouts.messages')
 
     {{-- TimePicker --}}

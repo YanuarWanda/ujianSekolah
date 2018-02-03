@@ -84,7 +84,7 @@ class UjianController extends Controller
     public function show($id)
     {
         $data = Siswa::find(base64_decode($id));
-        // return $data;
+
         return view('admin.kelola-siswa.detail', compact('data'));
     }
 
@@ -100,7 +100,9 @@ class UjianController extends Controller
         // $waktu_pengerjaan = explode(':', $ujian->waktu_pengerjaan);
         $mapel = Mapel::All();
 
-        return view('admin.kelola-ujian.edit', compact('ujian', 'mapel'));
+        $wp = $this->timetosec($ujian->waktu_pengerjaan);
+
+        return view('admin.kelola-ujian.edit', compact('ujian', 'mapel', 'wp'));
     }
 
     /**
@@ -113,37 +115,24 @@ class UjianController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'username' => 'required',
-            'email' => 'required',
-            'password' => 'required|string|min:6|confirmed',
+            'mapel'                 => 'required',
+            'judul'                 => 'required',
+            'waktu_pengerjaan'      => 'required',
+            'batas_pengerjaan'      => 'required',
+            'catatan'               => 'required',
         ]);
-        $siswa = Siswa::find(base64_decode($id));
-        $user = User::find($siswa->id);
 
-        $user->username = $request['username'];
-        $user->email = $request['email'];
-        $user->password = bcrypt($request['password']);
-        $user->hak_akses = 'siswa';
+        $ujian = Ujian::find(base64_decode($id));
 
+        $ujian->id_mapel            = $request['mapel'];
+        $ujian->judul_ujian         = $request['judul'];
+        $ujian->waktu_pengerjaan    = gmdate("H:i:s", $request['waktu_pengerjaan']);
+        $ujian->tanggal_kadaluarsa  = $request['batas_pengerjaan'];
+        $ujian->catatan             = $request['catatan'];
 
-        if($user->save()) {
-            $siswa->nis = $request['nis'];
-            $siswa->id = $user->id;
-            $siswa->id_kelas = Kelas::where('nama_kelas', $request['kelas'])->first()->id_kelas;
-            $siswa->nama = $request['nama'];
-            $siswa->alamat = $request['alamat'];
-            // $siswa->jurusan = $request['jurusan']; // Dipindah ke tablenya sendiri, dengan relasi melalui table kelas
-            $siswa->jenis_kelamin = $request['jenisKelamin'];
+        $ujian->save();
 
-            if($request->file('foto')){
-                $nameFotoToStore = $this->ambil($request->file('foto'));
-                $siswa->foto = $nameFotoToStore;
-            }
-
-
-            $siswa->save();
-        }
-        return redirect('/kelola-siswa')->with('success', 'Data berhasil diubah.');
+        return redirect('/kelola-ujian')->with('success', 'Data berhasil diubah.');
     }
 
     /**

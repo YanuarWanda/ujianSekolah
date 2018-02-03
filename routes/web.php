@@ -67,6 +67,10 @@ Route::post('/kelola-ujian/create', 'UjianController@store');
 Route::get('/kelola-ujian/edit/{id}', 'UjianController@edit');
 Route::post('/kelola-ujian/update/{id}', 'UjianController@update');
 
+// CRUD Soal
+Route::get('/kelola-soal/create/{id}', 'SoalController@create');
+Route::post('/kelola-soal/create/{id}', 'SOalController@store');
+
 // Settings user
 Route::get('/settings', 'HomeController@settings')->name('settings');
 Route::post('/ubahPassword/{id}', 'HomeController@ubahPassword')->name('ubahPassword');

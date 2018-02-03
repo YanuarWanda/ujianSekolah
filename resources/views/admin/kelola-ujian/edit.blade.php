@@ -16,7 +16,7 @@
                                 <div class="col-md-6">
                                     <select name="mapel" id="mapel" class="form-control">
                                         @foreach($mapel as $m)
-                                            <option @if($m->id_mapel == $ujian->id_mapel || old('mapel') == $m->nama_mapel) {{ 'selected' }} @endif>{{ $m->nama_mapel }}</option>
+                                            <option value="{{ $m->id_mapel }}" @if($m->id_mapel == $ujian->id_mapel || old('mapel') == $m->nama_mapel) {{ 'selected' }} @endif>{{ $m->nama_mapel }}</option>
                                         @endforeach
                                     </select>
 
@@ -46,7 +46,7 @@
                                 <label for="waktu_pengerjaan" class="col-md-4 control-label">Waktu Pengerjaan</label>
 
                                 <div class="col-md-6">
-                                    <input id="waktu_pengerjaan" type="text" class="form-control timing" name="waktu_pengerjaan" value="200" required>
+                                    <input id="waktu_pengerjaan" type="text" class="form-control timing" name="waktu_pengerjaan" value="{{ $wp }}" required>
 
                                     @if ($errors->has('waktu_pengerjaan'))
                                         <span class="help-block">
@@ -93,8 +93,9 @@
                                 <div class="col-md-6 col-md-offset-4">
                                     <a href="/kelola-ujian" class="btn btn-danger">Cancel</a>
                                     <button type="submit" class="btn btn-primary">
-                                        Add
+                                        Update
                                     </button>
+                                    <a href="{{url('/kelola-soal/create', base64_encode($ujian->id_ujian))}}" class="btn btn-primary pull-right">Add Soal</a>
                                 </div>
                             </div>
                         </form>
