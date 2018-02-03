@@ -24,6 +24,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('css/sweetalert2.min.css') }}">
 
     {{-- Icon --}}
+    {{-- <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"> --}}
     <link rel="stylesheet" type="text/css" href="{{ asset('css/font-awesome.min.css')}}">
 
     {{-- TimePicker --}}
@@ -33,73 +34,119 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap-datetimepicker.min.css')}}">
 
     {{-- PleaseWait.js Preloader  --}}
-    <link href="{{ asset('css/please-wait.css') }}" rel="stylesheet">
+    {{-- <link href="{{ asset('css/please-wait.css') }}" rel="stylesheet"> --}}
+
     <style type="text/css">
-        body > .inner {
-          display: none;
+        .loading {
+            width: 60px;
+            height: 60px;
+            position: fixed;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 60px;
+            margin: auto;
+            z-index: 99999999999999999;
+            background : transparent;
+        }
+        .sk-folding-cube {
+          margin: 20px auto;
+          width: 40px;
+          height: 40px;
+          position: relative;
+          -webkit-transform: rotateZ(45deg);
+                  transform: rotateZ(45deg);
         }
 
-        body.pg-loaded > .inner {
-          display: block;
+        .sk-folding-cube .sk-cube {
+          float: left;
+          width: 50%;
+          height: 50%;
+          position: relative;
+          -webkit-transform: scale(1.1);
+              -ms-transform: scale(1.1);
+                  transform: scale(1.1); 
+        }
+        .sk-folding-cube .sk-cube:before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-color: cyan;
+          -webkit-animation: sk-foldCubeAngle 2.4s infinite linear both;
+                  animation: sk-foldCubeAngle 2.4s infinite linear both;
+          -webkit-transform-origin: 100% 100%;
+              -ms-transform-origin: 100% 100%;
+                  transform-origin: 100% 100%;
+        }
+        .sk-folding-cube .sk-cube2 {
+          -webkit-transform: scale(1.1) rotateZ(90deg);
+                  transform: scale(1.1) rotateZ(90deg);
+        }
+        .sk-folding-cube .sk-cube3 {
+          -webkit-transform: scale(1.1) rotateZ(180deg);
+                  transform: scale(1.1) rotateZ(180deg);
+        }
+        .sk-folding-cube .sk-cube4 {
+          -webkit-transform: scale(1.1) rotateZ(270deg);
+                  transform: scale(1.1) rotateZ(270deg);
+        }
+        .sk-folding-cube .sk-cube2:before {
+          -webkit-animation-delay: 0.3s;
+                  animation-delay: 0.3s;
+        }
+        .sk-folding-cube .sk-cube3:before {
+          -webkit-animation-delay: 0.6s;
+                  animation-delay: 0.6s; 
+        }
+        .sk-folding-cube .sk-cube4:before {
+          -webkit-animation-delay: 0.9s;
+                  animation-delay: 0.9s;
+        }
+        @-webkit-keyframes sk-foldCubeAngle {
+          0%, 10% {
+            -webkit-transform: perspective(140px) rotateX(-180deg);
+                    transform: perspective(140px) rotateX(-180deg);
+            opacity: 0; 
+          } 25%, 75% {
+            -webkit-transform: perspective(140px) rotateX(0deg);
+                    transform: perspective(140px) rotateX(0deg);
+            opacity: 1; 
+          } 90%, 100% {
+            -webkit-transform: perspective(140px) rotateY(180deg);
+                    transform: perspective(140px) rotateY(180deg);
+            opacity: 0; 
+          } 
         }
 
-        .spinner {
-              margin: 100px auto;
-              width: 40px;
-              height: 40px;
-              position: relative;
-              text-align: center;
-
-              -webkit-animation: sk-rotate 2.0s infinite linear;
-              animation: sk-rotate 2.0s infinite linear;
-            }
-
-            .dot1, .dot2 {
-              width: 60%;
-              height: 60%;
-              display: inline-block;
-              position: absolute;
-              top: 0;
-              background-color: #333;
-              border-radius: 100%;
-
-              -webkit-animation: sk-bounce 2.0s infinite ease-in-out;
-              animation: sk-bounce 2.0s infinite ease-in-out;
-            }
-
-            .dot2 {
-              top: auto;
-              bottom: 0;
-              -webkit-animation-delay: -1.0s;
-              animation-delay: -1.0s;
-            }
-
-            @-webkit-keyframes sk-rotate { 100% { -webkit-transform: rotate(360deg) }}
-            @keyframes sk-rotate { 100% { transform: rotate(360deg); -webkit-transform: rotate(360deg) }}
-
-            @-webkit-keyframes sk-bounce {
-              0%, 100% { -webkit-transform: scale(0.0) }
-              50% { -webkit-transform: scale(1.0) }
-            }
-
-            @keyframes sk-bounce {
-              0%, 100% {
-                transform: scale(0.0);
-                -webkit-transform: scale(0.0);
-              } 50% {
-                transform: scale(1.0);
-                -webkit-transform: scale(1.0);
-              }
-            }
-
-            .btn-fixed-bottom-right{
-                position: fixed;
-                bottom: 25px;
-                right: 25px;
-            }
+        @keyframes sk-foldCubeAngle {
+          0%, 10% {
+            -webkit-transform: perspective(140px) rotateX(-180deg);
+                    transform: perspective(140px) rotateX(-180deg);
+            opacity: 0; 
+          } 25%, 75% {
+            -webkit-transform: perspective(140px) rotateX(0deg);
+                    transform: perspective(140px) rotateX(0deg);
+            opacity: 1; 
+          } 90%, 100% {
+            -webkit-transform: perspective(140px) rotateY(180deg);
+                    transform: perspective(140px) rotateY(180deg);
+            opacity: 0; 
+          }
+        }
     </style>
 </head>
 <body>
+    <div class="loading">
+        <div class="sk-folding-cube">
+          <div class="sk-cube1 sk-cube"></div>
+          <div class="sk-cube2 sk-cube"></div>
+          <div class="sk-cube4 sk-cube"></div>
+          <div class="sk-cube3 sk-cube"></div>
+        </div>
+    </div>
     <div id="app">
         <nav class="navbar navbar-default navbar-static-top">
             <div class="container">
@@ -159,24 +206,23 @@
         @yield('content')
     </div>
 
-    <!-- Custom -->
-    <script src="{{ asset('js/jquery-3.1.1.min.js') }}"></script>
+    {{-- JQuery --}}
+    {{-- <script src="{{ asset('js/jquery-3.1.1.min.js') }}"></script> --}}
 
-    {{-- PleaseWait.js Preloader  --}}
-    <script type="text/javascript" src="{{ asset('js/please-wait.min.js') }}"></script>
-    {{-- <script type="text/javascript">
-        window.loading_screen = pleaseWait({
-          logo: "",
-          // backgroundColor: '#f46d3b',
-          loadingHtml: "<p class='loading-message'>Please Wait</p><br><div class='spinner'><div class='dot1'></div><div class='dot2'></div></div>"
-        });
+    {{-- CDN --}}
+    <script src="//ajax.aspnetcdn.com/ajax/jquery/jquery-3.1.1.min.js"></script>
 
+    {{-- Fallback (Local) --}}
+    <script>window.jQuery || document.write('<script src="{{ asset('js/jquery-3.1.1.min.js') }}">\x3C/script>')</script>
+    
+    {{-- End JQuery --}}
+
+    {{-- Fadeout Loading Screen --}}
+    <script type="text/javascript">
         $(window).on('load', function() {
-            window.loading_screen.finish();
+            $(".loading").fadeOut("slow").delay(5000);
         });
-    </script> --}}
-
-
+    </script>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
@@ -209,6 +255,7 @@
 
     {{-- Alert --}}
     <script src="{{ asset('js/sweetalert2.js') }}"></script>
+    
     @include('layouts.messages')
 
     {{-- TimePicker --}}

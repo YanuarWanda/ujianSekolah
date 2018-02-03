@@ -49,16 +49,22 @@ class UjianController extends Controller
     {
         $id = Auth::user()->id;
 
+        if($data['catatan'] == '') {
+            $data[catatan] == 'Tidak ada catatan.';
+        }
+
         $ujian = Ujian::create([
-           'id_mapel'           => Mapel::where('nama_mapel', $data['mapel'])->first()->id_mapel,
+           'id_mapel'           => Mapel::where('nama_mapel', $data['mapel'])->first()['id_mapel'],
            'nip'                => Guru::where('id', $id)->first()['nip'],
            'judul_ujian'        => $data['judul'],
            'waktu_pengerjaan'   => gmdate("H:i:s", $data['waktu_pengerjaan']),
            'tanggal_kadaluarsa' => $data['batas_pengerjaan'],
+           'catatan' => $data['catatan'],
         ]);
 
         return redirect('/kelola-ujian')->with('success', 'Penambahan Data Ujian Berhasil');
     }
+
 
     /**
      * Display the specified resource.
@@ -81,10 +87,11 @@ class UjianController extends Controller
      */
     public function edit($id)
     {
-        $data = Siswa::find(base64_decode($id));
-        $kelas = Kelas::All();
-        // return $data;
-        return view('admin.kelola-siswa.edit', compact('data', 'kelas'));
+        $ujian = Ujian::find(base64_decode($id));
+        // $waktu_pengerjaan = explode(':', $ujian->waktu_pengerjaan);
+        $mapel = Mapel::All();
+
+        return view('admin.kelola-ujian.edit', compact('ujian', 'mapel'));
     }
 
     /**
