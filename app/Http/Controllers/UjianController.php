@@ -21,6 +21,15 @@ class UjianController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function timetosec($time){
+        $hours = substr($time, 0, -6);
+        $minutes = substr($time, -5, 2);
+        $seconds = substr($time, -2);
+
+        return $hours * 3600 + $minutes * 60 + $seconds;
+    }
+
     public function index()
     {
         $ujian = Ujian::All();

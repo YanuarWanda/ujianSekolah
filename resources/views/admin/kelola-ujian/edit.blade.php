@@ -5,7 +5,7 @@
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <div class="panel panel-primary">
-                    <div class="panel-heading">Form Tambah Ujian</div>
+                    <div class="panel-heading">Form Edit Ujian</div>
                     <div class="panel-body">
                         <form class="form-horizontal" method="POST" action="{{url('/kelola-ujian/update', base64_encode($ujian->id_ujian))}}">
                             {{csrf_field()}}
@@ -46,7 +46,7 @@
                                 <label for="waktu_pengerjaan" class="col-md-4 control-label">Waktu Pengerjaan</label>
 
                                 <div class="col-md-6">
-                                    <input id="waktu_pengerjaan" type="text" class="form-control timing" name="waktu_pengerjaan" value="{{ $ujian->waktu_pengerjaan }}" required>
+                                    <input id="waktu_pengerjaan" type="text" class="form-control timing" name="waktu_pengerjaan" value="200" required>
 
                                     @if ($errors->has('waktu_pengerjaan'))
                                         <span class="help-block">
