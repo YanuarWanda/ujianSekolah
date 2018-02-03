@@ -73,7 +73,7 @@ class CustomAuthController extends Controller
     // Validasi form siswa
     public function studentRegisterValidation($request) {
         return $this->validate($request, [
-            'nis' => 'required|string|max:10|unique:siswa',
+            'nis' => 'required|integer|max:10|unique:siswa',
             'username' => 'required|string|max:20|unique:users',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
