@@ -55,11 +55,18 @@ class GuruController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
+        $rules = $this->validate($request, [
+            'nip' => 'required|integer|unique:users',
             'username' => 'required|string|max:20|unique:users',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
         ]);
+
+        $message = [
+            'integer' => ':attribute harus angka',
+        ];
+
+        $validator = Validator::make($request, $rules, $message);
 
         $user = new User;
         $user->username = $request['username'];
@@ -203,4 +210,5 @@ class GuruController extends Controller
             return redirect('/home')->with('success', 'Data berhasil diubah');    
         } else return redirect('/settings')->with('error', 'Data gagal diubah');
     }
+
 }
