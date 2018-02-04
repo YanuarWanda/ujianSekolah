@@ -93,3 +93,5 @@
 [2018-02-04 10:17:35] local.INFO: Mengakses home {"hak_akses":"admin","username":"laracry"} []
 [2018-02-04 10:18:10] local.INFO: Logged Out {"hak_akses":"admin","username":"laracry"} []
 [2018-02-04 10:21:35] local.INFO: Pendaftaran berhasil ["qweqwe"] []
+[2018-02-04 10:28:09] local.INFO: Logged In {"hak_akses":"admin","username":"laracry"} []
+[2018-02-04 10:28:10] local.INFO: Mengakses home {"hak_akses":"admin","username":"laracry"} []

@@ -56,17 +56,11 @@ class GuruController extends Controller
     public function store(Request $request)
     {
         $rules = $this->validate($request, [
-            'nip' => 'required|integer|unique:users',
+            'nip' => 'required|numeric|digits_between:19,21|unique:guru',
             'username' => 'required|string|max:20|unique:users',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
         ]);
-
-        $message = [
-            'integer' => ':attribute harus angka',
-        ];
-
-        $validator = Validator::make($request, $rules, $message);
 
         $user = new User;
         $user->username = $request['username'];
