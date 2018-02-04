@@ -37,6 +37,10 @@
     {{-- <link href="{{ asset('css/please-wait.css') }}" rel="stylesheet"> --}}
 
     <style type="text/css">
+        #app {
+            visibility: hidden;
+        }
+
         .loading {
             width: 60px;
             height: 60px;
@@ -226,6 +230,7 @@
         CKEDITOR.replace('soal1');
     </script> --}}
 
+    {{-- Dipindah ke file yang membutuhkan aja gimana ? biar ga berat ke webnya --}}
     <script src="https://cloud.tinymce.com/stable/tinymce.min.js"></script>
     <script>tinymce.init({ selector:'textarea' });</script>
 
@@ -252,7 +257,9 @@
     {{-- Fadeout Loading Screen --}}
     <script type="text/javascript">
         $(window).on('load', function() {
-            $(".loading").fadeOut("slow").delay(5000);
+            $(".loading").fadeOut("slow", function() {
+                $("#app").css('visibility', 'visible');
+            });
         });
     </script>
 
