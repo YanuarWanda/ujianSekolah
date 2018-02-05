@@ -100,3 +100,7 @@
 [2018-02-04 10:28:09] local.INFO: Logged In {"hak_akses":"admin","username":"laracry"} []
 [2018-02-04 10:28:10] local.INFO: Mengakses home {"hak_akses":"admin","username":"laracry"} []
 >>>>>>> 1dc03123b2e3f48f002afe2f98b6ad3a51024df5
+[2018-02-05 08:33:29] local.INFO: Logged In {"hak_akses":"admin","username":"laracry"} []
+[2018-02-05 08:33:30] local.INFO: Mengakses home {"hak_akses":"admin","username":"laracry"} []
+[2018-02-05 14:40:24] local.INFO: Logged In {"hak_akses":"admin","username":"laracry"} []
+[2018-02-05 14:40:24] local.INFO: Mengakses home {"hak_akses":"admin","username":"laracry"} []

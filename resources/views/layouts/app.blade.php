@@ -224,20 +224,14 @@
     {{-- JQuery --}}
     <script src="{{ asset('js/jquery-3.1.1.min.js') }}"></script>
 
-    <script src="https://cdn.ckeditor.com/4.8.0/basic/ckeditor.js"></script>
+    {{-- <script src="https://cdn.ckeditor.com/4.8.0/standard/ckeditor.js"></script> --}}
+    {{-- <script src="/vendor/unisharp/laravel-ckeditor/ckeditor.js"></script> --}}
     {{-- <script src="{{ asset('js/ckeditor.js') }}"></script> --}}
-    <script type="text/javascript">
+    {{-- <script type="text/javascript">
         CKEDITOR.replace('soal1');
-    </script>
+    </script> --}}
 
-<<<<<<< HEAD
-    {{-- <script src="https://cloud.tinymce.com/stable/tinymce.min.js"></script>
-    <script>tinymce.init({ selector:'textarea' });</script> --}}
-=======
     {{-- Dipindah ke file yang membutuhkan aja gimana ? biar ga berat ke webnya --}}
-    <script src="https://cloud.tinymce.com/stable/tinymce.min.js"></script>
-    <script>tinymce.init({ selector:'textarea' });</script>
->>>>>>> 1dc03123b2e3f48f002afe2f98b6ad3a51024df5
 
     {{-- CKEditor --}}
 
