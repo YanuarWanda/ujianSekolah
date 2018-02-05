@@ -58,3 +58,5 @@
 [2018-02-04 00:45:42] local.INFO: Mengakses home {"hak_akses":"admin","username":"laracry"} []
 [2018-02-04 00:46:28] local.INFO: Mengakses home {"hak_akses":"admin","username":"laracry"} []
 [2018-02-04 01:03:01] local.INFO: Mengakses home {"hak_akses":"admin","username":"laracry"} []
+[2018-02-04 17:50:32] local.INFO: Logged In {"hak_akses":"admin","username":"laracry"} []
+[2018-02-04 17:50:33] local.INFO: Mengakses home {"hak_akses":"admin","username":"laracry"} []

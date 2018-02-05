@@ -220,14 +220,14 @@
     {{-- JQuery --}}
     <script src="{{ asset('js/jquery-3.1.1.min.js') }}"></script>
 
-    {{-- <script src="https://cdn.ckeditor.com/4.8.0/basic/ckeditor.js"></script> --}}
+    <script src="https://cdn.ckeditor.com/4.8.0/basic/ckeditor.js"></script>
     {{-- <script src="{{ asset('js/ckeditor.js') }}"></script> --}}
-    {{-- <script type="text/javascript">
+    <script type="text/javascript">
         CKEDITOR.replace('soal1');
-    </script> --}}
+    </script>
 
-    <script src="https://cloud.tinymce.com/stable/tinymce.min.js"></script>
-    <script>tinymce.init({ selector:'textarea' });</script>
+    {{-- <script src="https://cloud.tinymce.com/stable/tinymce.min.js"></script>
+    <script>tinymce.init({ selector:'textarea' });</script> --}}
 
     {{-- CKEditor --}}
 
