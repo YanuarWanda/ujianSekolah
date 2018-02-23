@@ -145,16 +145,15 @@ class UjianController extends Controller
      */
     public function destroy($id)
     {
-        $siswa = Siswa::find(base64_decode($id));
-        $user = User::find($siswa->id);
+        $ujian = Ujian::find(base64_decode($id));
 
-        if($siswa && $user) {
-            $siswa->delete();
-            $user->delete();
+        if($ujian) {
+            $ujian->delete();
 
-            return redirect('/kelola-siswa')->with('success', 'Data Dihapus');
+            return redirect('/kelola-ujian')->with('success', 'Data berhasil dihapus!');
+        }else{
+            return redirect('/kelola-ujian')->with('error', 'Data gagal dihapus!');
         }
-        else return redirect('/kelola-siswa')->with('error', 'Penghapusan gagal');
     }
 
     // Mengupdate data user, dari menu settings

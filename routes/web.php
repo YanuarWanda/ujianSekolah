@@ -66,6 +66,7 @@ Route::get('/kelola-ujian/create', 'UjianController@create');
 Route::post('/kelola-ujian/create', 'UjianController@store');
 Route::get('/kelola-ujian/edit/{id}', 'UjianController@edit');
 Route::post('/kelola-ujian/update/{id}', 'UjianController@update');
+Route::get('/kelola-ujian/delete/{id}', 'UjianController@destroy');
 
 // CRUD Soal
 Route::get('/kelola-soal/create/{id}', 'SoalController@create');

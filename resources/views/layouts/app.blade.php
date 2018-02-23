@@ -37,6 +37,13 @@
     {{-- <link href="{{ asset('css/please-wait.css') }}" rel="stylesheet"> --}}
 
     <style type="text/css">
+        .close-btn{
+            color: red;
+            position: absolute;
+            top: 10px;
+            right: 30px;
+        }
+
         #app {
             visibility: hidden;
         }
