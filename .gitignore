@@ -12,3 +12,6 @@ yarn-error.log
 public/logs/info.log
 public/logs/info.log
 public/logs/info.log
+public/logs/error.log
+public/logs/info.log
+public/logs/error.log
