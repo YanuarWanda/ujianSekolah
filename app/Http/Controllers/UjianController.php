@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Ujian;
 use App\Guru;
 use App\Mapel;
+use App\Soal;
 use Auth;
 
 class UjianController extends Controller
@@ -99,10 +100,11 @@ class UjianController extends Controller
         $ujian = Ujian::find(base64_decode($id));
         // $waktu_pengerjaan = explode(':', $ujian->waktu_pengerjaan);
         $mapel = Mapel::All();
+        $soal = Soal::where('id_ujian', '=', base64_decode($id))->get();
 
         $wp = $this->timetosec($ujian->waktu_pengerjaan);
 
-        return view('admin.kelola-ujian.edit', compact('ujian', 'mapel', 'wp'));
+        return view('admin.kelola-ujian.edit', compact('ujian', 'mapel', 'wp', 'soal'));
     }
 
     /**

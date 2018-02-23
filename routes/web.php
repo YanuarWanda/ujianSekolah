@@ -70,6 +70,8 @@ Route::post('/kelola-ujian/update/{id}', 'UjianController@update');
 // CRUD Soal
 Route::get('/kelola-soal/create/{id}', 'SoalController@create');
 Route::post('/kelola-soal/create/{id}', 'SOalController@store');
+Route::get('/kelola-soal/edit/{id}', 'SoalController@edit');
+Route::post('/kelola-soal/update/{id}', 'SoalController@update');
 
 // Settings user
 Route::get('/settings', 'HomeController@settings')->name('settings');

@@ -99,6 +99,47 @@
                                 </div>
                             </div>
                         </form>
+
+                        <hr>
+
+                        <h1 class="text-center">Soal</h1>
+
+                        @if(count($soal) > 0)
+                        <table class="table table-bordered" id="tableSoal">
+                            <thead>
+                                <tr>
+                                    <th>No.</th>
+                                    <th>Soal</th>
+                                    <th>Jawaban</th>
+                                    <th>Tipe</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                <?php $no=1; ?>
+                                    @foreach($soal as $s)
+                                        <tr>
+                                            <td><?php echo $no;$no++; ?></td>
+                                            <td>{{$s['isi_soal']}}</td>
+                                            <td>{{$s['jawaban']}}</td>
+                                            <td>{{$s['tipe']}}</td>
+                                            <td>
+                                                <a href="{{url('/kelola-soal/edit', base64_encode($s['id_soal']))}}" class="btn btn-primary"><i class="fa fa-edit" aria-hidden="true"></i></a>
+                                                <a href="{{url('/kelola-soal/delete', base64_encode($s['id_soal']))}}" class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                            </tbody>
+                        </table>
+
+                        @else
+                            <strong><p>Data tidak tersedia.</p></strong>
+                        @endif
+
+                        {{-- @foreach ($soal as $s)
+                            <p>{{ $s['id_ujian'] }}a</p>
+                        @endforeach --}}
                     </div>
                 </div>
             </div>
