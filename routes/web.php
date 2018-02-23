@@ -72,6 +72,7 @@ Route::get('/kelola-soal/create/{id}', 'SoalController@create');
 Route::post('/kelola-soal/create/{id}', 'SOalController@store');
 Route::get('/kelola-soal/edit/{id}', 'SoalController@edit');
 Route::post('/kelola-soal/update/{id}', 'SoalController@update');
+Route::get('/kelola-soal/delete/{id}', 'SoalController@delete');
 
 // Settings user
 Route::get('/settings', 'HomeController@settings')->name('settings');
