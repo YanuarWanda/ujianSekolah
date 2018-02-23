@@ -11,6 +11,10 @@ class Soal extends Model
 
     public $timestamps = false;
 
+    protected $fillable = [
+        'id_ujian', 'tipe', 'isi_soal', 'pilihan', 'jawaban',
+    ];
+
     public function ujian() {
         return $this->belongsTo('App\Ujian', 'id_ujian');
     }

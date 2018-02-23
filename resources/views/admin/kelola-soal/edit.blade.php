@@ -8,9 +8,9 @@
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <div class="panel panel-primary">
-                    <div class="panel-heading">Form Tambah Soal</div>
+                    <div class="panel-heading">Form Ubah Soal</div>
                     <div class="panel-body">
-                        <form class="form-horizontal" method="POST" action="{{url('/kelola-soal/create', base64_encode($ujian->id_ujian))}}">
+                        <form class="form-horizontal" method="POST" action="{{url('/kelola-soal/update', base64_encode($soal->id_soal))}}">
                             {{csrf_field()}}
 
                             <div class="form-group{{ $errors->has('tipe') ? ' has-error' : '' }}">
@@ -34,7 +34,7 @@
                                  <label for="soal" class="col-md-2 control-label">Soal</label>
 
                                  <div class="col-md-10">
-                                     <textarea name="soal" id="soal" class="soal" rows="10" cols="80">{{ old('soal') }}</textarea>
+                                         <textarea name="soal" id="soal" class="soal" rows="10" cols="80">{{ $soal['isi_soal'] }}</textarea>
 
                                      @if ($errors->has('soal'))
                                          <span class="help-block">
@@ -48,7 +48,7 @@
                                  <label for="pilihanA" class="col-md-2 control-label">Pilihan A</label>
 
                                  <div class="col-md-10">
-                                     <textarea id="pilihanA" type="text" class="form-control" name="pilihanA" value="{{ old('pilihanA') }}" rows="1" required></textarea>
+                                     <textarea id="pilihanA" type="text" class="form-control" name="pilihanA" value="{{ old('pilihanA') }}" rows="1" required>{{ $pilihan['0'] }}</textarea>
 
                                      @if ($errors->has('pilihanA'))
                                          <span class="help-block">
@@ -62,7 +62,7 @@
                                  <label for="pilihanB" class="col-md-2 control-label">Pilihan B</label>
 
                                  <div class="col-md-10">
-                                     <textarea id="pilihanB" type="text" class="form-control" name="pilihanB" value="{{ old('pilihanB') }}" rows="1" required></textarea>
+                                     <textarea id="pilihanB" type="text" class="form-control" name="pilihanB" value="{{ old('pilihanB') }}" rows="1" required>{{ $pilihan['1'] }}</textarea>
 
                                      @if ($errors->has('pilihanB'))
                                          <span class="help-block">
@@ -76,7 +76,7 @@
                                  <label for="pilihanC" class="col-md-2 control-label">Pilihan C</label>
 
                                  <div class="col-md-10">
-                                     <textarea id="pilihanC" type="text" class="form-control" name="pilihanC" value="{{ old('pilihanC') }}" rows="1" required></textarea>
+                                     <textarea id="pilihanC" type="text" class="form-control" name="pilihanC" value="{{ old('pilihanC') }}" rows="1" required>{{ $pilihan['2'] }}</textarea>
 
                                      @if ($errors->has('pilihanC'))
                                          <span class="help-block">
@@ -90,7 +90,7 @@
                                  <label for="pilihanD" class="col-md-2 control-label">Pilihan D</label>
 
                                  <div class="col-md-10">
-                                     <textarea id="pilihanD" type="text" class="form-control" name="pilihanD" value="{{ old('pilihanD') }}" rows="1" required></textarea>
+                                     <textarea id="pilihanD" type="text" class="form-control" name="pilihanD" value="{{ old('pilihanD') }}" rows="1" required>{{ $pilihan['3'] }}</textarea>
 
                                      @if ($errors->has('pilihanD'))
                                          <span class="help-block">
@@ -104,7 +104,7 @@
                                  <label for="pilihanE" class="col-md-2 control-label">Pilihan E</label>
 
                                  <div class="col-md-10">
-                                     <textarea id="pilihanE" type="text" class="form-control" name="pilihanE" value="{{ old('pilihanE') }}" rows="1" required></textarea>
+                                     <textarea id="pilihanE" type="text" class="form-control" name="pilihanE" value="{{ old('pilihanE') }}" rows="1" required>{{ $pilihan['4'] }}</textarea>
 
                                      @if ($errors->has('pilihanE'))
                                          <span class="help-block">
@@ -128,9 +128,9 @@
 
                              <div class="form-group">
                                  <div class="col-md-6 col-md-offset-4">
-                                     <a href="{{ url('/kelola-ujian/edit', base64_encode($ujian->id_ujian))}}" class="btn btn-danger">Cancel</a>
+                                     {{-- <a href="{{ url('/kelola-ujian/edit', base64_encode($ujian->id_ujian))}}" class="btn btn-danger">Cancel</a> --}}
                                      <button type="submit" class="btn btn-primary">
-                                         Add
+                                         Ubah
                                      </button>
                                  </div>
                              </div>
