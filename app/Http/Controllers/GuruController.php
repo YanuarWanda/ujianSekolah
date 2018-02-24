@@ -72,8 +72,8 @@ class GuruController extends Controller
         if($user->save()) {
             $guru = new Guru;
             $guru->nip = $request['nip'];
-            $guru->id = $user->id;
-            $guru->bidang_keahlian = $request['bidangKeahlian'];
+            $guru->id_users = $user->id_users;
+            // $guru->bidang_keahlian = $request['bidangKeahlian'];
             $guru->nama = $request['nama'];
             $guru->alamat = $request['alamat'];
             $guru->jenis_kelamin = $request['jenisKelamin'];

@@ -54,7 +54,7 @@ class CustomAuthController extends Controller
             $nameFotoToStore = $this->ambil($data->file('foto'));
             $siswa = Siswa::create([
                 'nis' => $data['nis'],
-                'id' => $user->id,
+                'id_users' => $user->id_users,
                 'id_kelas' => Kelas::where('nama_kelas', $data['kelas'])->first()->id_kelas,
                 'nama' => $data['nama'],
                 'alamat' => $data['alamat'],

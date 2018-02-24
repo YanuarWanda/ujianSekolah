@@ -9,6 +9,10 @@ class User extends Authenticatable
 {
     use Notifiable;
 
+    protected $table = 'users';
+
+    protected $primaryKey = 'id_users';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -16,7 +20,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         // 'name', 'email', 'password',
-        'username', 'email','password', 'hak_akses',
+        'id_users', 'username', 'email','password', 'hak_akses',
     ];
 
     /**

@@ -11,13 +11,13 @@ class Siswa extends Model
     public $incrementing = false;
 
     protected $fillable = [
-        'nis', 'id', 'id_kelas', 'nama', 'alamat', 'jenis_kelamin', 'foto',
+        'nis', 'id_users', 'id_kelas', 'nama', 'alamat', 'jenis_kelamin', 'foto',
     ];
 
     public $timestamps = false;
 
     public function user() {
-        return $this->belongsTo('App\User', 'id');
+        return $this->belongsTo('App\User', 'id_users');
     }
 
     public function kelas() {
