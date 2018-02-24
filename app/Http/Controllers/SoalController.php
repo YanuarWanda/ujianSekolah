@@ -41,17 +41,16 @@ class SoalController extends Controller
     {
         $ujian = Ujian::find(base64_decode($id));
 
-        switch($request['jawaban']){
-            case 'A':
-                $jawaban = $request['pilihanA'];
-            case 'B':
-                $jawaban = $request['pilihanB'];
-            case 'C':
-                $jawaban = $request['pilihanC'];
-            case 'D':
-                $jawaban = $request['pilihanD'];
-            case 'E':
-                $jawaban = $request['pilihanE'];
+        if($request['jawaban'] == 'A'){
+            $jawaban = $request['pilihanA'];
+        }else if($request['jawaban'] == 'B'){
+            $jawaban = $request['pilihanB'];
+        }else if($request['jawaban'] == 'C'){
+            $jawaban = $request['pilihanC'];
+        }else if($request['jawaban'] == 'D'){
+            $jawaban = $request['pilihanD'];
+        }else if($request['jawaban'] == 'E'){
+            $jawaban = $request['pilihanE'];
         }
 
         $pilihan = $request['pilihanA']." ,  ".$request['pilihanB']." ,  ".$request['pilihanC']." ,  ".$request['pilihanD']." ,  ".$request['pilihanE'];
@@ -65,7 +64,7 @@ class SoalController extends Controller
         ]);
 
         if($soal){
-            return redirect('/kelola-ujian')->with('success', 'Tambah Soal Berhasil!');
+            return redirect('/kelola-ujian/edit/'.base64_encode($ujian->id_ujian))->with('success', 'Tambah Soal Berhasil!');
         }
     }
 
@@ -104,7 +103,32 @@ class SoalController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $soal = Soal::find(base64_decode($id));
+
+        if($request['jawaban'] == 'A'){
+            $jawaban = $request['pilihanA'];
+        }else if($request['jawaban'] == 'B'){
+            $jawaban = $request['pilihanB'];
+        }else if($request['jawaban'] == 'C'){
+            $jawaban = $request['pilihanC'];
+        }else if($request['jawaban'] == 'D'){
+            $jawaban = $request['pilihanD'];
+        }else if($request['jawaban'] == 'E'){
+            $jawaban = $request['pilihanE'];
+        }
+
+        $pilihan = $request['pilihanA']." ,  ".$request['pilihanB']." ,  ".$request['pilihanC']." ,  ".$request['pilihanD']." ,  ".$request['pilihanE'];
+
+        $soal->tipe        = $request['tipe'];
+        $soal->isi_soal    = $request['soal'];
+        $soal->pilihan     = $pilihan;
+        $soal->jawaban     = $jawaban;
+
+        // dd($request['tipe']);
+
+        if($soal->save()){
+            return redirect('/kelola-ujian/edit/'.base64_encode($soal['id_ujian']))->with('success', 'Update Soal Berhasil!');
+        }
     }
 
     /**
@@ -113,8 +137,16 @@ class SoalController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function delete($id)
     {
-        //
+        $soal = Soal::find(base64_decode($id));
+
+        if($soal){
+            $soal->delete();
+            
+            return redirect('/kelola-ujian/edit/'.base64_encode($soal->id_ujian))->with('success', 'Data berhasil dihapus!');
+        }else{
+            return redirect('/kelola-ujian/edit/'.base64_encode($soal->id_ujian))->with('error', 'Data gagal dihapus!');
+        }
     }
 }

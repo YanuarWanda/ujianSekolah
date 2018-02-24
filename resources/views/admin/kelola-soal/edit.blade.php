@@ -18,8 +18,8 @@
 
                                  <div class="col-md-10">
                                      <select name="tipe" id="tipe" class="form-control">
-                                         <option value="PG">Pilihan Ganda</option>
-                                         <option value="BS">Benar / Salah</option>
+                                         <option value="PG" <?php if($soal['tipe']){if($soal['tipe'] == 'PG'){ ?> selected <?php }} ?>>Pilihan Ganda</option>
+                                         <option value="BS" <?php if($soal['tipe']){if($soal['tipe'] == 'BS'){ ?> selected <?php }} ?>>Benar / Salah</option>
                                      </select>
 
                                      @if ($errors->has('tipe'))
@@ -118,11 +118,11 @@
                                  <label for="jawaban" class="col-md-2 control-label">Jawaban</label>
 
                                  <div class="col-md-10" style="margin-top:1rem">
-                                     A<input type="radio" name="jawaban" value="A" style="margin-right:1rem">
-                                     B<input type="radio" name="jawaban" value="B" style="margin-right:1rem">
-                                     C<input type="radio" name="jawaban" value="C" style="margin-right:1rem">
-                                     D<input type="radio" name="jawaban" value="D" style="margin-right:1rem">
-                                     E<input type="radio" name="jawaban" value="E" style="margin-right:1rem">
+                                     A<input type="radio" name="jawaban" value="A" style="margin-right:1rem" <?php if($soal['jawaban'] == $pilihan['0']){ ?> checked <?php } ?>/>
+                                     B<input type="radio" name="jawaban" value="B" style="margin-right:1rem" <?php if($soal['jawaban'] == $pilihan['1']){ ?> checked <?php } ?>/>
+                                     C<input type="radio" name="jawaban" value="C" style="margin-right:1rem" <?php if($soal['jawaban'] == $pilihan['2']){ ?> checked <?php } ?>/>
+                                     D<input type="radio" name="jawaban" value="D" style="margin-right:1rem" <?php if($soal['jawaban'] == $pilihan['3']){ ?> checked <?php } ?>/>
+                                     E<input type="radio" name="jawaban" value="E" style="margin-right:1rem" <?php if($soal['jawaban'] == $pilihan['4']){ ?> checked <?php } ?>/>
                                  </div>
                              </div>
 

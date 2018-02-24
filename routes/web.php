@@ -66,12 +66,14 @@ Route::get('/kelola-ujian/create', 'UjianController@create');
 Route::post('/kelola-ujian/create', 'UjianController@store');
 Route::get('/kelola-ujian/edit/{id}', 'UjianController@edit');
 Route::post('/kelola-ujian/update/{id}', 'UjianController@update');
+Route::get('/kelola-ujian/delete/{id}', 'UjianController@destroy');
 
 // CRUD Soal
 Route::get('/kelola-soal/create/{id}', 'SoalController@create');
 Route::post('/kelola-soal/create/{id}', 'SOalController@store');
 Route::get('/kelola-soal/edit/{id}', 'SoalController@edit');
 Route::post('/kelola-soal/update/{id}', 'SoalController@update');
+Route::get('/kelola-soal/delete/{id}', 'SoalController@delete');
 
 // Settings user
 Route::get('/settings', 'HomeController@settings')->name('settings');
