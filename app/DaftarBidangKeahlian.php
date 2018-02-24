@@ -14,4 +14,8 @@ class DaftarBidangKeahlian extends Model
     ];
 
     public $timestamps = false;
+
+    public function bidangKeahlian() {
+        return $this->hasMany('App\BidangKeahlian', 'id_daftar_bidang');
+    }
 }

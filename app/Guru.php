@@ -22,4 +22,8 @@ class Guru extends Model
     public function user() {
         return $this->belongsTo('App\User', 'id_users');
     }
+
+    public function bidangKeahlian() {
+        return $this->hasMany('App\BidangKeahlian', 'id_guru');
+    }
 }

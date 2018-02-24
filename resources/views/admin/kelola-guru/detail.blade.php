@@ -28,7 +28,11 @@
                         </tr>
                         <tr>
                             <td>Bidang Keahlian</td>
-                            <td>{{$data->bidang_keahlian}}</td>
+                            <td>
+                                @foreach($data->bidangKeahlian as $bidangKeahlian)
+                                    {{ $bidangKeahlian->daftarBidangKeahlian->bidang_keahlian }},
+                                @endforeach
+                            </td>
                         </tr>
                         <tr>
                             <td>Alamat</td>
