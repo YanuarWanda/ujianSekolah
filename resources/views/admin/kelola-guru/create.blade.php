@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('css')
+<link href="{{ asset('css/bootstrap-select.min.css') }}" rel="stylesheet">
+@endsection
+
 @section('content')
 <div class="container">
     <div class="row">
@@ -43,7 +47,13 @@
                             <label for="bidangKeahlian" class="col-md-4 control-label">Bidang Keahlian</label>
 
                             <div class="col-md-6">
-                                <input id="bidangKeahlian" type="text" class="form-control" name="bidangKeahlian" value="{{ old('bidangKeahlian') }}" required>
+                                <select name="bidangKeahlian[]" id="bidangKeahlian" class="form-control selectpicker show-menu-arrow" title="Silahkan pilih keahlian.." data-live-search="true" multiple data-selected-text-format="count" data-size="5" multiple>
+                                    @foreach($daftarBK as $d)
+                                        <option  @if(old('bidangKeahlian') == $d->bidang_keahlian) {{ 'selected' }} @endif>
+                                            {{ $d->bidang_keahlian }}
+                                        </option>
+                                    @endforeach
+                                </select>
 
                                 @if ($errors->has('bidangKeahlian'))
                                     <span class="help-block">
@@ -165,4 +175,9 @@
         </div>
     </div>
 </div>
+@endsection
+
+
+@section('js')
+<script type="text/javascript" src="{{ asset('js/bootstrap-select.min.js') }}"></script>
 @endsection

@@ -159,6 +159,8 @@
         }
 
     </style>
+
+    @yield('css')
 </head>
 <body>
     <div class="loading">
@@ -271,6 +273,8 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
+
+    @yield('js')
 
     <!-- DataTables -->
     <script src="{{ asset('vendor/datatables/jquery.dataTables.js') }}"></script>

@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 
 use App\Guru;
 use App\User;
+use App\DaftarBidangKeahlian;
+use App\BidangKeahlian;
+use DB;
 
 class GuruController extends Controller
 {
@@ -44,7 +47,9 @@ class GuruController extends Controller
      */
     public function create()
     {
-        return view('admin.kelola-guru.create');
+        $daftarBK = DaftarBidangKeahlian::all();
+        // return $daftarBK;
+        return view('admin.kelola-guru.create', compact('daftarBK'));
     }
 
     /**
@@ -73,7 +78,7 @@ class GuruController extends Controller
             $guru = new Guru;
             $guru->nip = $request['nip'];
             $guru->id_users = $user->id_users;
-            // $guru->bidang_keahlian = $request['bidangKeahlian'];
+
             $guru->nama = $request['nama'];
             $guru->alamat = $request['alamat'];
             $guru->jenis_kelamin = $request['jenisKelamin'];
@@ -83,7 +88,24 @@ class GuruController extends Controller
                 $guru->foto = $nameFotoToStore;
             }
 
-            $guru->save();
+            if($guru->save()) {
+                $bidangKeahlian = $request['bidangKeahlian'];
+
+                foreach ($bidangKeahlian as $bidang) {
+                    $bidang_keahlian = new BidangKeahlian;
+                    $bidang_keahlian->id_guru = $guru->id_guru;
+                    $daftar_bidang_keahlian = 
+                        DaftarBidangKeahlian::select('id_daftar_bidang')
+                            ->where('bidang_keahlian', $bidang)
+                            ->get();
+
+                    foreach($daftar_bidang_keahlian as $daftar) {
+                        $bidang_keahlian->id_daftar_bidang = $daftar->id_daftar_bidang;
+                    }
+
+                    $bidang_keahlian->save();
+                }
+            }
         }
 
         return redirect('/kelola-guru')->with('success', 'Pendaftaran berhasil');

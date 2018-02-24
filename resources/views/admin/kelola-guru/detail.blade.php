@@ -41,7 +41,7 @@
                     </table>
 
                     <a href="/kelola-guru" class="btn btn-info">Back</a>
-                    <a href="{{url('/kelola-guru/edit', base64_encode($data->nip))}}" class="btn btn-primary">Edit</a>
+                    <a href="{{url('/kelola-guru/edit', base64_encode($data->id_guru))}}" class="btn btn-primary">Edit</a>
                 </div>
             </div>
         </div>
