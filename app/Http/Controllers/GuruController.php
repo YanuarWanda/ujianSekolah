@@ -85,8 +85,11 @@ class GuruController extends Controller
 
             if($request->file('foto')){
                 $nameFotoToStore = $this->ambil($request->file('foto'));
-                $guru->foto = $nameFotoToStore;
+            }else{
+                $nameFotoToStore = 'nophoto.jpg';
             }
+
+            $guru->foto = $nameFotoToStore;
 
             if($guru->save()) {
                 $bidangKeahlian = $request['bidangKeahlian'];
@@ -150,18 +153,13 @@ class GuruController extends Controller
         $this->validate($request, [
             'username' => 'required',
             'email' => 'required',
-            'password' => 'required|string|min:6|confirmed',
         ]);
 
-        $guru = Guru::find(base64_decode($id));
-        // return $guru;
+        $guru = Guru::where('nip', base64_decode($id))->get()->first();
         $user = User::find($guru->id_users);
 
         $user->username = $request['username'];
         $user->email = $request['email'];
-        $user->password = bcrypt($request['password']);
-        $user->hak_akses = 'guru';
-
 
         if($user->save()) {
             $guru->nip = $request['nip'];
@@ -171,11 +169,15 @@ class GuruController extends Controller
             $guru->jenis_kelamin = $request['jenisKelamin'];
 
             if($request->file('foto')){
+                if($guru->foto != 'nophoto.jpg'){
+                    unlink('storage/foto-profil/'.$guru->foto);
+                }
+
                 $nameFotoToStore = $this->ambil($request->file('foto'));
                 $guru->foto = $nameFotoToStore;
             }
 
-            if($guru->save()) { 
+            if($guru->save()) {
             // Untuk sementara, cara update bidang keahlian adalah dengan menghapus yang sudah ada, lalu menambahkan kembali
                 $deleteMany = BidangKeahlian::where('id_guru', $guru->id_guru)->delete();
 
@@ -185,7 +187,7 @@ class GuruController extends Controller
                     foreach ($bidangKeahlian as $bidang) {
                         $bidang_keahlian = new BidangKeahlian;
                         $bidang_keahlian->id_guru = $guru->id_guru;
-                        $daftar_bidang_keahlian = 
+                        $daftar_bidang_keahlian =
                             DaftarBidangKeahlian::select('id_daftar_bidang')
                                 ->where('bidang_keahlian', $bidang)
                                 ->get();
@@ -203,6 +205,22 @@ class GuruController extends Controller
         return redirect('/kelola-guru')->with('success', 'Data berhasil diubah.');
     }
 
+    public function updatePassword(Request $data, $id){
+        $this->validate($data, [
+            'password' => 'required|string|min:6|confirmed'
+        ]);
+
+        $user = User::find(base64_decode($id));
+
+        $user->password = bcrypt($data['password']);
+
+        if($user->save()){
+           return redirect('/kelola-guru')->with('success', 'Data berhasil diubah!');
+        }else{
+           return redirect('/kelola-guru/edit/'.$user->id_users)->with('error', 'Data gagal diubah!');
+        }
+    }
+
     /**
      * Remove the specified resource from storage.
      *
@@ -212,15 +230,21 @@ class GuruController extends Controller
     public function destroy($id)
     {
         $guru = Guru::find(base64_decode($id));
-        $user = User::find($guru->id);
+        $user = User::find($guru->id_users);
+        $bidangKeahlian = BidangKeahlian::where('id_guru', base64_decode($id))->get();
 
         if($guru && $user) {
-            $guru->delete();
-            $user->delete();
-
-            return redirect('/kelola-guru')->with('success', 'Data Dihapus');
+            foreach($bidangKeahlian as $bidang){
+                $bidang->delete();
+            }
+            if($guru->delete() && $user->delete()){
+                if($guru->foto != 'nophoto.jpg'){
+                    unlink('storage/foto-profil/'.$guru->foto);
+                }
+                return redirect('/kelola-guru')->with('success', 'Data Dihapus');
+            }
         }
-        else return redirect('/kelola-guru')->with('error', 'Penghapusan gagal');
+        return redirect('/kelola-guru')->with('error', 'Penghapusan gagal');
     }
 
     public function storeDataGuru(Request $request, $id) {
@@ -242,7 +266,7 @@ class GuruController extends Controller
             $guru->foto = $nameFotoToStore;
         }
 
-        $user = User::find($guru->id);
+        $user = User::find($guru->id_users);
         $user->username = $request['username'];
 
         if($user->save() && $guru->save()) {

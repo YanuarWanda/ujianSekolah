@@ -99,10 +99,10 @@
         <label for="foto" class="col-md-4 control-label">Foto</label>
 
         <div class="col-md-6">
-            <?php if(empty($data->foto) == false){?>
-            <img src="{{asset('storage/foto-profil/'.$data->foto)}}" width="250px" alt="foto" />
+            <?php if($data->foto != 'nophoto.jpg'){?>
+                <img class="img-thumbnail" src="{{asset('storage/foto-profil/'.$data->foto)}}" id="profile-img-tag" width="250px"/>
             <?php }else{ ?>
-            <img src="{{asset('image/nophoto.jpg')}}" width="250px" alt="foto" />
+                <img class="img-thumbnail" src="{{asset('image/nophoto.jpg')}}" id="profile-img-tag" width="250px"/>
             <?php } ?>
             <input id="foto" type="file" name="foto" value="{{ $data->foto }}">
 

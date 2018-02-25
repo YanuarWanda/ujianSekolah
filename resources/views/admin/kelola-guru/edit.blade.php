@@ -17,7 +17,7 @@
                         <li class=""><a data-toggle="tab" href="#ubahPassword">Ubah Password</a></li>
                     </ul>
                     <div class="tab-content">
-                        <div id="editData" class="tab-pane fade in active">
+                        <div id="editData" class="tab-pane fade in active"><br>
                             <form class="form-horizontal" method="POST" action="{{url('/kelola-guru/update', base64_encode($data->nip) )}}" enctype="multipart/form-data">
                                 {{ csrf_field() }}
 
@@ -106,10 +106,10 @@
                                     <label for="foto" class="col-md-4 control-label">Foto</label>
 
                                     <div class="col-md-6">
-                                        <?php if(empty($data->foto) == false){?>
-                                        <img class="img-thumbnail" src="{{asset('storage/foto-profil/'.$data->foto)}}" id="profile-img-tag" width="200px" />
+                                        <?php if($data->foto != 'nophoto.jpg'){?>
+                                            <img class="img-thumbnail" src="{{asset('storage/foto-profil/'.$data->foto)}}" id="profile-img-tag" width="200px" />
                                         <?php }else{ ?>
-                                        <img class="img-thumbnail" src="{{asset('image/nophoto.jpg')}}" id="profile-img-tag" width="200px" />
+                                            <img class="img-thumbnail" src="{{asset('image/nophoto.jpg')}}" id="profile-img-tag" width="200px" />
                                         <?php } ?>
                                         <input id="foto" type="file" name="foto" value="{{ $data->foto }}">
 
@@ -134,20 +134,8 @@
                                         @endif
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <div class="col-md-6 col-md-offset-4">
-                                        <a href="/kelola-guru" class="btn btn-danger">Cancel</a>
-                                        <button type="submit" class="btn btn-primary">
-                                            Save
-                                        </button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
 
-                        <div id="ubahPassword" class="tab-pane fade">
-                            <form class="form-horizontal" method="POST" action="{{url('/kelola-guru/updatePassword', base64_encode($data->nip) )}}" enctype="multipart/form-data">
-                                {{ csrf_field() }}
+
                                 <div class="form-group{{ $errors->has('username') ? ' has-error' : '' }}">
                                     <label for="username" class="col-md-4 control-label">Username</label>
 
@@ -161,6 +149,21 @@
                                         @endif
                                     </div>
                                 </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-6 col-md-offset-4">
+                                        <a href="/kelola-guru" class="btn btn-danger">Cancel</a>
+                                        <button type="submit" class="btn btn-primary">
+                                            Save
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div id="ubahPassword" class="tab-pane fade"><br>
+                            <form class="form-horizontal" method="POST" action="{{url('/kelola-guru/updatePassword', base64_encode($data->id_users) )}}" enctype="multipart/form-data">
+                                {{ csrf_field() }}
 
                                 <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
                                     <label for="password" class="col-md-4 control-label">Password</label>

@@ -226,7 +226,7 @@ class SiswaController extends Controller
             $siswa->foto = $nameFotoToStore;
         }
 
-        $user = User::find($siswa->id);
+        $user = User::find($siswa->id_users);
         $user->username = $request['username'];
 
         if($user->save() && $siswa->save()) {

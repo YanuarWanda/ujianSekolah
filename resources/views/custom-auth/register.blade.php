@@ -111,7 +111,7 @@
 
                             <div class="col-md-6">
                                 <img class="img-thumbnail" src="{{ asset('image/nophoto.jpg') }}" id="profile-img-tag" width="250px"/>
-                                <input id="foto" type="file" name="foto" value="{{ old('foto') }}" required>
+                                <input id="foto" type="file" name="foto" value="{{ old('foto') }}">
 
                                 @if ($errors->has('foto'))
                                     <span class="help-block">
