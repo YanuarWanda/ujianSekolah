@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Siswa;
 use App\User;
 use App\Kelas;
+use Storage;
 
 class SiswaController extends Controller
 {
@@ -74,10 +75,15 @@ class SiswaController extends Controller
 
         if($user) {
             // Mengisi table siswa jika table user di isi
-            $nameFotoToStore = $this->ambil($data->file('foto'));
+            if($data->file('foto')){
+                $nameFotoToStore = $this->ambil($data->file('foto'));
+            }else{
+                $nameFotoToStore = 'nophoto.jpg';
+            }
+
             $siswa = Siswa::create([
                 'nis' => $data['nis'],
-                'id' => $user->id,
+                'id_users' => $user->id_users,
                 'id_kelas' => Kelas::where('nama_kelas', $data['kelas'])->first()->id_kelas,
                 'nama' => $data['nama'],
                 'alamat' => $data['alamat'],
@@ -129,21 +135,17 @@ class SiswaController extends Controller
     {
         $this->validate($request, [
             'username' => 'required',
-            'email' => 'required',
-            'password' => 'required|string|min:6|confirmed',
+            'email'    => 'required',
         ]);
+
         $siswa = Siswa::find(base64_decode($id));
-        $user = User::find($siswa->id);
+        $user  = User::find($siswa->id_users);
 
         $user->username = $request['username'];
-        $user->email = $request['email'];
-        $user->password = bcrypt($request['password']);
-        $user->hak_akses = 'siswa';
+        $user->email    = $request['email'];
 
-
-        if($user->save()) {
+        if($user->save()){
             $siswa->nis = $request['nis'];
-            $siswa->id = $user->id;
             $siswa->id_kelas = Kelas::where('nama_kelas', $request['kelas'])->first()->id_kelas;
             $siswa->nama = $request['nama'];
             $siswa->alamat = $request['alamat'];
@@ -151,14 +153,35 @@ class SiswaController extends Controller
             $siswa->jenis_kelamin = $request['jenisKelamin'];
 
             if($request->file('foto')){
+                if($siswa->foto != 'nophoto.jpg'){
+                    unlink('storage/foto-profil/'.$siswa->foto);
+                }
+
                 $nameFotoToStore = $this->ambil($request->file('foto'));
                 $siswa->foto = $nameFotoToStore;
             }
 
-
-            $siswa->save();
+            if($siswa->save()){
+                return redirect('/kelola-siswa')->with('success', 'Data berhasil diubah.');
+            }
         }
-        return redirect('/kelola-siswa')->with('success', 'Data berhasil diubah.');
+        return redirect('/kelola-siswa/edit/'.$user->nis)->with('error', 'Data gagal diubah!');
+    }
+
+    public function updateAkun(Request $data, $id){
+        $this->validate($data, [
+            'password' => 'required|string|min:6|confirmed',
+        ]);
+
+        $user = User::find(base64_decode($id));
+
+        $user->password     = bcrypt($data['password']);
+
+        if($user->save()){
+            return redirect('/kelola-siswa')->with('success', 'Data berhasil diubah');
+        }else{
+            return redirect('/kelola-siswa/edit/'.$user->nis)->with('error', 'Data gagal diubah!');
+        }
     }
 
     /**
@@ -170,13 +193,15 @@ class SiswaController extends Controller
     public function destroy($id)
     {
         $siswa = Siswa::find(base64_decode($id));
-        $user = User::find($siswa->id);
+        $user = User::find($siswa['id_users']);
 
         if($siswa && $user) {
-            $siswa->delete();
-            $user->delete();
-
-            return redirect('/kelola-siswa')->with('success', 'Data Dihapus');
+            if($siswa->delete() && $user->delete()){
+                if($siswa->foto != 'nophoto.jpg'){
+                    unlink('storage/foto-profil/'.$siswa->foto);
+                }
+                return redirect('/kelola-siswa')->with('success', 'Data Dihapus');
+            }
         }
         else return redirect('/kelola-siswa')->with('error', 'Penghapusan gagal');
     }
@@ -195,7 +220,7 @@ class SiswaController extends Controller
         $siswa->id_kelas = Kelas::where('nama_kelas', $request['kelas'])->first()->id_kelas;
         $siswa->alamat = $request['alamat'];
         $siswa->jenis_kelamin = $request['jenisKelamin'];
-        
+
         if($request->file('foto')){
             $nameFotoToStore = $this->ambil($request->file('foto'));
             $siswa->foto = $nameFotoToStore;
@@ -205,7 +230,7 @@ class SiswaController extends Controller
         $user->username = $request['username'];
 
         if($user->save() && $siswa->save()) {
-            return redirect('/home')->with('success', 'Data berhasil diubah');    
+            return redirect('/home')->with('success', 'Data berhasil diubah');
         } else return redirect('/settings')->with('error', 'Data gagal diubah');
     }
 }

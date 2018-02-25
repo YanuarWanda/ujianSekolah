@@ -41,21 +41,21 @@ class HomeController extends Controller
             return view('home');
         } else if(Auth::user()->hak_akses == 'siswa') {
             return view('home');
-        } 
+        }
     }
 
     public function settings() {
         if(Auth::user()->hak_akses == 'admin') {
             return view('settings.setting');
         } else if(Auth::user()->hak_akses == 'guru') {
-            $data = Guru::where('id', Auth::user()->id)->first();
+            $data = Guru::where('id_users', Auth::user()->id_users)->first();
             return view('settings.setting', compact('data'));
         } else if(Auth::user()->hak_akses == 'siswa') {
-            $data = Siswa::where('id', Auth::user()->id)->first();
+            $data = Siswa::where('id_users', Auth::user()->id_users)->first();
             $kelas = Kelas::All();
             // return $data->nis;
             return view('settings.setting', compact('data', 'kelas'));
-        } 
+        }
     }
 
     // Function untuk mengubah password dari semua user
@@ -63,7 +63,7 @@ class HomeController extends Controller
         $this->validate($request, [
             'password' =>'required|string|confirmed',
         ]);
-    
+
         $user = User::find(base64_decode($id));
 
         $user->password = bcrypt($request['password']);
