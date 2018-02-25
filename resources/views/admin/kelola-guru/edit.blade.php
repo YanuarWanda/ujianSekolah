@@ -12,88 +12,6 @@
                 <div class="panel-heading">{{ $data->nip }} | {{ $data->nama }}</div>
 
                 <div class="panel-body">
-<<<<<<< HEAD
-                    <form class="form-horizontal" method="POST" action="{{url('/kelola-guru/update', base64_encode($data->id_guru) )}}" enctype="multipart/form-data">
-                        {{ csrf_field() }}
-
-                        <div class="form-group{{ $errors->has('nip') ? ' has-error' : '' }}">
-                            <label for="nip" class="col-md-4 control-label">Nomor Induk Pegawai</label>
-
-                            <div class="col-md-6">
-                                <input id="nip" type="text" class="form-control" name="nip" value="{{ $data->nip }}" required autofocus>
-
-                                @if ($errors->has('nip'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('nip') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('nama') ? ' has-error' : '' }}">
-                            <label for="nama" class="col-md-4 control-label">Nama</label>
-
-                            <div class="col-md-6">
-                                <input id="nama" type="text" class="form-control" name="nama" value="{{ $data->nama }}" required>
-
-                                @if ($errors->has('nama'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('nama') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('bidangKeahlian') ? ' has-error' : '' }}">
-                            <label for="bidangKeahlian" class="col-md-4 control-label">Bidang Keahlian</label>
-
-                            <div class="col-md-6">
-                                <select name="bidangKeahlian[]" id="bidangKeahlian" class="form-control selectpicker show-menu-arrow" title="Silahkan pilih keahlian.." data-live-search="true" multiple data-selected-text-format="count" data-size="5" multiple>
-                                    @foreach($daftarBK as $d)
-                                        <option  @if(old('bidangKeahlian') == $d->bidang_keahlian || in_array($d->id_daftar_bidang, (array) $data->bidangKeahlian)) {{ selected }} @endif>
-                                            {{ $d->bidang_keahlian }}
-                                        </option>
-                                    @endforeach
-                                </select>
-
-                                @if ($errors->has('bidangKeahlian'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('bidangKeahlian') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('alamat') ? ' has-error' : '' }}">
-                            <label for="alamat" class="col-md-4 control-label">Alamat</label>
-
-                            <div class="col-md-6">
-                                <textarea name="alamat" id="alamat" class="form-control" required>{{ $data->alamat }}</textarea>
-
-                                @if ($errors->has('alamat'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('alamat') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('jenisKelamin') ? ' has-error' : '' }}">
-                            <label for="jenisKelamin" class="col-md-4 control-label">Jenis Kelamin</label>
-
-                            <div class="col-md-6">
-                                <select name="jenisKelamin" id="jenisKelamin" class="form-control">
-                                    <option value='L' {{ $data->jenis_kelamin == 'L' ? 'selected' : '' }} >Laki-laki</option>
-                                    <option value='P' {{ $data->jenis_kelamin == 'P' ? 'selected' : '' }} >Perempuan</option>
-                                </select>
-
-                                @if ($errors->has('jenisKelamin'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('jenisKelamin') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-=======
                     <ul class="nav nav-tabs">
                         <li class="active"><a data-toggle="tab" href="#editData">Edit Data</a></li>
                         <li class=""><a data-toggle="tab" href="#ubahPassword">Ubah Password</a></li>
@@ -193,7 +111,7 @@
                                         <?php }else{ ?>
                                         <img class="img-thumbnail" src="{{asset('image/nophoto.jpg')}}" id="profile-img-tag" width="200px" />
                                         <?php } ?>
-                                        <input id="foto" type="file" name="foto" value="{{ $data->foto }}" required>
+                                        <input id="foto" type="file" name="foto" value="{{ $data->foto }}">
 
                                         @if ($errors->has('foto'))
                                             <span class="help-block">
@@ -225,7 +143,6 @@
                                     </div>
                                 </div>
                             </form>
->>>>>>> d7eb9a46f48cc99dd1c5855b9922d846e19b1bf2
                         </div>
 
                         <div id="ubahPassword" class="tab-pane fade">

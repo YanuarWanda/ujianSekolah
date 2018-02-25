@@ -220,3 +220,5 @@
 [2018-02-25 09:14:57] local.INFO: Mengakses home {"hak_akses":"siswa","username":"furmans123"} []
 [2018-02-25 09:15:01] local.INFO: Logged Out {"hak_akses":"siswa","username":"furmans123"} []
 >>>>>>> d7eb9a46f48cc99dd1c5855b9922d846e19b1bf2
+[2018-02-25 10:01:08] local.INFO: Mengakses home {"hak_akses":"admin","username":"laracry"} []
+[2018-02-25 10:03:21] local.INFO: Mengakses home {"hak_akses":"admin","username":"laracry"} []
