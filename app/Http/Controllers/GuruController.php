@@ -131,9 +131,12 @@ class GuruController extends Controller
      */
     public function edit($id)
     {
+        $daftarBK = DaftarBidangKeahlian::all();
         $data = Guru::find(base64_decode($id));
-        // return $data;
-        return view('admin.kelola-guru.edit', compact('data'));
+
+        // dd($data->bidangKeahlian);
+
+        return view('admin.kelola-guru.edit', compact('data', 'daftarBK'));
     }
 
     /**
@@ -152,7 +155,8 @@ class GuruController extends Controller
         ]);
 
         $guru = Guru::find(base64_decode($id));
-        $user = User::find($guru->id);
+        // return $guru;
+        $user = User::find($guru->id_users);
 
         $user->username = $request['username'];
         $user->email = $request['email'];
@@ -162,8 +166,7 @@ class GuruController extends Controller
 
         if($user->save()) {
             $guru->nip = $request['nip'];
-            $guru->id = $user->id;
-            $guru->bidang_keahlian = $request['bidangKeahlian'];
+            $guru->id_users = $user->id_users;
             $guru->nama = $request['nama'];
             $guru->alamat = $request['alamat'];
             $guru->jenis_kelamin = $request['jenisKelamin'];
@@ -173,7 +176,29 @@ class GuruController extends Controller
                 $guru->foto = $nameFotoToStore;
             }
 
-            $guru->save();
+            if($guru->save()) { 
+            // Untuk sementara, cara update bidang keahlian adalah dengan menghapus yang sudah ada, lalu menambahkan kembali
+                $deleteMany = BidangKeahlian::where('id_guru', $guru->id_guru)->delete();
+
+                if($deleteMany) {
+                    $bidangKeahlian = $request['bidangKeahlian'];
+
+                    foreach ($bidangKeahlian as $bidang) {
+                        $bidang_keahlian = new BidangKeahlian;
+                        $bidang_keahlian->id_guru = $guru->id_guru;
+                        $daftar_bidang_keahlian = 
+                            DaftarBidangKeahlian::select('id_daftar_bidang')
+                                ->where('bidang_keahlian', $bidang)
+                                ->get();
+
+                        foreach($daftar_bidang_keahlian as $daftar) {
+                            $bidang_keahlian->id_daftar_bidang = $daftar->id_daftar_bidang;
+                        }
+
+                        $bidang_keahlian->save();
+                    }
+                }
+            }
         }
 
         return redirect('/kelola-guru')->with('success', 'Data berhasil diubah.');

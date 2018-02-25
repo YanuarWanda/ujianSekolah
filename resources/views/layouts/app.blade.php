@@ -36,6 +36,9 @@
     {{-- PleaseWait.js Preloader  --}}
     {{-- <link href="{{ asset('css/please-wait.css') }}" rel="stylesheet"> --}}
 
+    {{-- Select Picker --}}
+    <link href="{{ asset('css/bootstrap-select.min.css') }}" rel="stylesheet">
+
     <style type="text/css">
         .close-btn{
             color: red;
@@ -274,7 +277,7 @@
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
 
-    @yield('js')
+    <script type="text/javascript" src="{{ asset('js/bootstrap-select.min.js') }}"></script>
 
     <!-- DataTables -->
     <script src="{{ asset('vendor/datatables/jquery.dataTables.js') }}"></script>
@@ -330,5 +333,7 @@
             format: 'YYYY-M-DD'
         });
     </script>
+
+    @yield('js')
 </body>
 </html>

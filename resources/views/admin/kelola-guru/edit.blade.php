@@ -8,7 +8,7 @@
                 <div class="panel-heading">{{ $data->nip }} | {{ $data->nama }}</div>
 
                 <div class="panel-body">
-                    <form class="form-horizontal" method="POST" action="{{url('/kelola-guru/update', base64_encode($data->nip) )}}" enctype="multipart/form-data">
+                    <form class="form-horizontal" method="POST" action="{{url('/kelola-guru/update', base64_encode($data->id_guru) )}}" enctype="multipart/form-data">
                         {{ csrf_field() }}
 
                         <div class="form-group{{ $errors->has('nip') ? ' has-error' : '' }}">
@@ -43,7 +43,13 @@
                             <label for="bidangKeahlian" class="col-md-4 control-label">Bidang Keahlian</label>
 
                             <div class="col-md-6">
-                                <input id="bidangKeahlian" type="text" class="form-control" name="bidangKeahlian" value="{{ $data->bidang_keahlian }}" required>
+                                <select name="bidangKeahlian[]" id="bidangKeahlian" class="form-control selectpicker show-menu-arrow" title="Silahkan pilih keahlian.." data-live-search="true" multiple data-selected-text-format="count" data-size="5" multiple>
+                                    @foreach($daftarBK as $d)
+                                        <option  @if(old('bidangKeahlian') == $d->bidang_keahlian || in_array($d->id_daftar_bidang, (array) $data->bidangKeahlian)) {{ selected }} @endif>
+                                            {{ $d->bidang_keahlian }}
+                                        </option>
+                                    @endforeach
+                                </select>
 
                                 @if ($errors->has('bidangKeahlian'))
                                     <span class="help-block">

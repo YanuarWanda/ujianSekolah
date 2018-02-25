@@ -182,3 +182,5 @@
 [2018-02-24 21:45:54] local.INFO: Logged Out {"hak_akses":"guru","username":"guru3"} []
 [2018-02-24 21:46:26] local.INFO: Logged In {"hak_akses":"admin","username":"laracry"} []
 [2018-02-24 21:46:26] local.INFO: Mengakses home {"hak_akses":"admin","username":"laracry"} []
+[2018-02-25 09:48:44] local.INFO: Logged In {"hak_akses":"admin","username":"laracry"} []
+[2018-02-25 09:48:45] local.INFO: Mengakses home {"hak_akses":"admin","username":"laracry"} []
