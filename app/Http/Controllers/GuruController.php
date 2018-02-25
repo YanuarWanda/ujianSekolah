@@ -94,7 +94,7 @@ class GuruController extends Controller
                 foreach ($bidangKeahlian as $bidang) {
                     $bidang_keahlian = new BidangKeahlian;
                     $bidang_keahlian->id_guru = $guru->id_guru;
-                    $daftar_bidang_keahlian = 
+                    $daftar_bidang_keahlian =
                         DaftarBidangKeahlian::select('id_daftar_bidang')
                             ->where('bidang_keahlian', $bidang)
                             ->get();
@@ -132,8 +132,9 @@ class GuruController extends Controller
     public function edit($id)
     {
         $data = Guru::find(base64_decode($id));
+        $daftarBK = DaftarBidangKeahlian::all();
         // return $data;
-        return view('admin.kelola-guru.edit', compact('data'));
+        return view('admin.kelola-guru.edit', compact('data', 'daftarBK'));
     }
 
     /**
@@ -222,7 +223,7 @@ class GuruController extends Controller
         $user->username = $request['username'];
 
         if($user->save() && $guru->save()) {
-            return redirect('/home')->with('success', 'Data berhasil diubah');    
+            return redirect('/home')->with('success', 'Data berhasil diubah');
         } else return redirect('/settings')->with('error', 'Data gagal diubah');
     }
 

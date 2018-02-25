@@ -121,7 +121,7 @@
                                     @foreach($soal as $s)
                                         <tr>
                                             <td><?php echo $no;$no++; ?></td>
-                                            <td>{{$s['isi_soal']}}</td>
+                                            <td>{!! $s['isi_soal'] !!}</td>
                                             <td>{{$s['jawaban']}}</td>
                                             <td>{{$s['tipe']}}</td>
                                             <td>

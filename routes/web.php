@@ -58,6 +58,7 @@ Route::post('/kelola-siswa/create', 'SiswaController@store');
 Route::get('/kelola-siswa/show/{id}', 'SiswaController@show');
 Route::get('/kelola-siswa/edit/{id}', 'SiswaController@edit');
 Route::post('/kelola-siswa/update/{id}', 'SiswaController@update');
+Route::post('/kelola-siswa/updateAkun/{id}', 'SiswaController@updateAkun');
 Route::get('/kelola-siswa/delete/{id}', 'SiswaController@destroy');
 
 // CRUD ujian
