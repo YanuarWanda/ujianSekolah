@@ -38,7 +38,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="panel panel-primary">
-                    <div class="panel-heading">Form Tambah Soal</div>
+                    <div class="panel-heading">Form Tambah Soal | {{ $ujian->judul_ujian }}</div>
                     <div class="panel-body">
                         <form class="form-horizontal" method="POST" action="{{url('/kelola-soal/create', base64_encode($ujian->id_ujian))}}">
                             {{csrf_field()}}
