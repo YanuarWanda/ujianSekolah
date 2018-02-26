@@ -34,7 +34,7 @@ class UjianController extends Controller
     public function index()
     {
         $ujian = Ujian::All();
-        // dd($ujian);
+        // foreach;
         return view('admin.kelola-ujian.dataView', compact('ujian'));
     }
 

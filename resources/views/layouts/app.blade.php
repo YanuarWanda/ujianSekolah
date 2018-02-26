@@ -352,11 +352,13 @@
         $('#tipe').on('change', function(){
            var $value = $(this).children().attr('value');
            if($value == 'BS'){
-               $('.PG').slideToggle();
-               $('.BS').slideToggle();
+               $('.PG').slideUp(1000, function(){
+                   $('.BS').slideDown(1000);
+               });
            }else if($value == "PG"){
-               $('.PG').slideToggle();
-               $('.BS').slideToggle();
+               $('.BS').slideUp(1000, function(){
+                  $('.PG').slideDown(1000);
+               });
            }
         });
     </script>

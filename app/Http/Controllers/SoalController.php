@@ -44,7 +44,7 @@ class SoalController extends Controller
             'soal'      => 'required',
             'tipe'      => 'required'
         ]);
-        
+
         $ujian = Ujian::find(base64_decode($id));
 
         if($request['tipe'] == 'PG'){
@@ -106,10 +106,11 @@ class SoalController extends Controller
     public function edit($id)
     {
         $soal = Soal::find(base64_decode($id));
+        $ujian = Ujian::where('id_ujian', $soal->id_ujian)->get()->first();
         $pilihan = explode(' ,  ', $soal['pilihan']);
 
-        // dd($pilihan);
-        return view('admin.kelola-soal.edit', compact('soal', 'pilihan'));
+        // return $ujian;
+        return view('admin.kelola-soal.edit', compact('soal', 'pilihan', 'ujian'));
     }
 
     /**
