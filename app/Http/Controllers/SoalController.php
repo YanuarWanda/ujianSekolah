@@ -124,19 +124,29 @@ class SoalController extends Controller
     {
         $soal = Soal::find(base64_decode($id));
 
-        if($request['jawaban'] == 'A'){
-            $jawaban = $request['pilihanA'];
-        }else if($request['jawaban'] == 'B'){
-            $jawaban = $request['pilihanB'];
-        }else if($request['jawaban'] == 'C'){
-            $jawaban = $request['pilihanC'];
-        }else if($request['jawaban'] == 'D'){
-            $jawaban = $request['pilihanD'];
-        }else if($request['jawaban'] == 'E'){
-            $jawaban = $request['pilihanE'];
-        }
+        if($request['tipe'] == 'PG'){
+            $pilihan = $request['pilihanA']." ,  ".$request['pilihanB']." ,  ".$request['pilihanC']." ,  ".$request['pilihanD']." ,  ".$request['pilihanE'];
 
-        $pilihan = $request['pilihanA']." ,  ".$request['pilihanB']." ,  ".$request['pilihanC']." ,  ".$request['pilihanD']." ,  ".$request['pilihanE'];
+            if($request['jawaban'] == 'A'){
+                $jawaban = $request['pilihanA'];
+            }else if($request['jawaban'] == 'B'){
+                $jawaban = $request['pilihanB'];
+            }else if($request['jawaban'] == 'C'){
+                $jawaban = $request['pilihanC'];
+            }else if($request['jawaban'] == 'D'){
+                $jawaban = $request['pilihanD'];
+            }else if($request['jawaban'] == 'E'){
+                $jawaban = $request['pilihanE'];
+            }
+        }else if($request['tipe'] == 'BS'){
+            $pilihan = 'Benar ,  Salah';
+
+            if($request['jawaban'] == 'Benar'){
+                $jawaban = "Benar";
+            }else if($request['jawaban'] == 'Salah'){
+                $jawaban = "Salah";
+            }
+        }
 
         $soal->tipe        = $request['tipe'];
         $soal->isi_soal    = $request['soal'];

@@ -11,6 +11,7 @@ use App\Guru;
 use App\Siswa;
 use App\Kelas;
 use App\Ujian;
+use App\DaftarBidangKeahlian;
 
 // Untuk Pagination
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -35,43 +36,50 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $user = array(
-            'hak_akses' => Auth::user()->hak_akses,
-            'username' => Auth::user()->username,
-        );
-        \Log::info('Mengakses home', $user);
-
         if(Auth::user()->hak_akses == 'admin') {
+            $user = array(
+                'hak_akses' => Auth::user()->hak_akses,
+                'username' => Auth::user()->username,
+            );
+            \Log::info('Mengakses home', $user);
             return view('admin.dashboard');
         } else if(Auth::user()->hak_akses == 'guru') {
-            return view('home');
+            $guru = Guru::where('id_users', Auth::user()->id_users)->get()->first();
+            $user = array(
+                'hak_akses' => Auth::user()->hak_akses,
+                'username'  => Auth::user()->username,
+            );
+            session(['id_guru' => $guru->id_guru]);
+            \Log::info('Mengakses home', $user);
+            // return $guru->id_guru;
+            return view('guru.home');
         } else if(Auth::user()->hak_akses == 'siswa') {
             $siswa = Siswa::where('id_users', Auth::user()->id_users)->first();
             $ujianArray = DB::select('
-                select id_ujian, id_mapel, nama_mapel, id_guru, judul_ujian, waktu_pengerjaan, tanggal_post, tanggal_kadaluarsa, status, catatan from ujian u 
+                select id_ujian, id_mapel, nama_mapel, id_guru, judul_ujian, waktu_pengerjaan, tanggal_post, tanggal_kadaluarsa, status, catatan from ujian u
                 join mapel m using (id_mapel)
-                join kelas_ujian ku using (id_ujian) 
+                join kelas_ujian ku using (id_ujian)
                 join kelas k using (id_kelas)
                 where ku.id_kelas = :id_kelas
-                and status = :status 
+                and status = :status
                 order by tanggal_post asc
                 ', ['id_kelas' => $siswa->id_kelas, 'status' => 'posted']);
 
             // Get current page form url e.x. &page=1
             $currentPage = LengthAwarePaginator::resolveCurrentPage();
-     
+
             // Create a new Laravel collection from the array data
             $itemCollection = collect($ujianArray);
-     
+
             // Define how many items we want to be visible in each page
             $perPage = 2;
-     
+
             // Slice the collection to get the items to display in current page
             $currentPageItems = $itemCollection->slice(($currentPage * $perPage) - $perPage, $perPage)->all();
-     
+
             // Create our paginator and pass it to the view
             $paginatedItems= new LengthAwarePaginator($currentPageItems , count($itemCollection), $perPage);
-     
+
             // set url path for generted links
             $paginatedItems->setPath(url()->current());
 
@@ -87,7 +95,8 @@ class HomeController extends Controller
             return view('settings.setting');
         } else if(Auth::user()->hak_akses == 'guru') {
             $data = Guru::where('id_users', Auth::user()->id_users)->first();
-            return view('settings.setting', compact('data'));
+            $daftarBK = DaftarBidangKeahlian::all();
+            return view('settings.setting', compact('data', 'daftarBK'));
         } else if(Auth::user()->hak_akses == 'siswa') {
             $data = Siswa::where('id_users', Auth::user()->id_users)->first();
             $kelas = Kelas::All();

@@ -292,6 +292,9 @@
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/bootstrap-select.min.js') }}"></script>
+    <script type="text/javascript">
+        $('.selectpicker').selectpicker({});
+    </script>
 
     <!-- DataTables -->
     <script src="{{ asset('vendor/datatables/jquery.dataTables.js') }}"></script>
@@ -362,7 +365,6 @@
            }
         });
     </script>
-
     {{-- Froala --}}
     {{-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/codemirror.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/mode/xml/xml.min.js"></script> --}}
