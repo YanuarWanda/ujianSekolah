@@ -21,8 +21,18 @@
                         Status : {{$u->status}}<br>
                         Catatan : {{$u->catatan}}<br>
                         <a class="text-center" href="#">Daftar Nilai</a>
+                        <br>
+                        @if($u->status == 'Draft')
+                        <a class="text-center" href="{{url('/kelola-ujian/POST', base64_encode($u->id_ujian))}}">Post Ujian</a>
+                        @else
+                        <a class="text-center" href="{{url('/kelola-ujian/DRAFT', base64_encode($u->id_ujian))}}">Unpost Ujian</a>
+                        @endif
                     </div>
-                    <div class="panel-footer">{{"Di post oleh ".$u->guru['nama'].", ".$u->tanggal_post}}</div>
+                    <div class="panel-footer">
+                        @if(Auth::user()->hak_akses == 'admin'){!!"Di post oleh <span style='color:red;'>Administrator</span>, ".$u->tanggal_post!!}
+                        @else {{"Di post oleh ".$u->guru['nama'].", ".$u->tanggal_post}}
+                        @endif
+                    </div>
                 </div>
             </div>
             @endforeach

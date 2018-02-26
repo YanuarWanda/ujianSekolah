@@ -43,7 +43,9 @@
                 </div>
             </div>
             @endforeach
-            {{ $ujian->links() }}
+            <div class="pull-right">
+                {{ $ujian->links() }}
+            </div>
         </div>
     </div>
 </div>
