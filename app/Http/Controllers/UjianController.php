@@ -8,6 +8,8 @@ use App\Ujian;
 use App\Guru;
 use App\Mapel;
 use App\Soal;
+use App\Kelas;
+use App\KelasUjian;
 use Auth;
 
 class UjianController extends Controller
@@ -34,8 +36,8 @@ class UjianController extends Controller
     public function index()
     {
         $ujian = Ujian::All();
-        // foreach;
-        return view('admin.kelola-ujian.dataView', compact('ujian'));
+        $kelas = Kelas::all();
+        return view('admin.kelola-ujian.dataView', compact('ujian', 'kelas'));
     }
 
     /**
@@ -203,12 +205,22 @@ class UjianController extends Controller
         } else return redirect('/settings')->with('error', 'Data gagal diubah');
     }
 
-    public function postUjian($id) {
+    public function postUjian(Request $request, $id) {
+        // return base64_decode($id);
         $ujian = Ujian::find(base64_decode($id));
-
         $ujian->status = 'posted';
 
-        if($ujian->save()) {
+        // return $ujian->judul_ujian;
+
+        if(isset($request['kelas']) && $ujian->save()) {
+            foreach($request['kelas'] as $kelas) {
+                $kelasUjian = new KelasUjian;
+                $kelasUjian->id_ujian = $ujian->id_ujian;
+                $kelasUjian->id_kelas = Kelas::select('id_kelas')->where('nama_kelas', $kelas)->first()['id_kelas'];
+
+                $kelasUjian->save();
+            }
+
             return redirect()->back()->with('success', 'Data berhasil di Post');
         }else{
             return redirect()->back()->with('error', 'Data gagal di Post');

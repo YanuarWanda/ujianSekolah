@@ -23,9 +23,9 @@
                         <a class="text-center" href="#">Daftar Nilai</a>
                         <br>
                         @if($u->status == 'Draft')
-                        <a class="text-center" href="{{url('/kelola-ujian/POST', base64_encode($u->id_ujian))}}">Post Ujian</a>
+                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#post">Post Ujian</button>
                         @else
-                        <a class="text-center" href="{{url('/kelola-ujian/DRAFT', base64_encode($u->id_ujian))}}">Unpost Ujian</a>
+                        <a class="text-center" id="unpostModal" href="{{url('/kelola-ujian/DRAFT', base64_encode($u->id_ujian))}}">Unpost Ujian</a>
                         @endif
                     </div>
                     <div class="panel-footer">
@@ -41,4 +41,44 @@
             @endif
         </div>
     </div>
+@endsection
+
+<!-- Modal -->
+            <div id="post" class="modal fade" role="dialog">
+              <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <form id="post-data" method="POST" action="{{url('/kelola-ujian/POST', base64_encode($u->id_ujian))}}">
+                    {{ csrf_field() }}
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Pilih Kelas</h4>
+                      </div>
+                      <div class="modal-body">
+                        <p>Silahkan pilih kelas-kelas yang akan diberikan soal</p>
+                        <select name="kelas[]" id="kelas" class="form-control selectpicker show-menu-arrow" data-live-search="true" multiple data-selected-text-format="count" data-size="5" multiple>
+                            @foreach($kelas as $k)
+                                <option>
+                                    {{ $k->nama_kelas }}
+                                </option>
+                            @endforeach
+                        </select>
+                      </div>
+                      <div class="modal-footer">
+                        <button onclick="form_submit();" class="btn btn-primary" data-dismiss="modal">Post</button>
+                      </div>
+                    </form>
+                </div>
+
+              </div>
+            </div>
+            <!-- Modal -->
+
+@section('js')
+<script type="text/javascript">
+    function form_submit() {
+        document.getElementById("post-data").submit();
+    }    
+</script>
 @endsection

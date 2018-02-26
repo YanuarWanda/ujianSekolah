@@ -70,7 +70,7 @@ Route::get('/kelola-ujian/edit/{id}', 'UjianController@edit');
 Route::post('/kelola-ujian/update/{id}', 'UjianController@update');
 Route::get('/kelola-ujian/delete/{id}', 'UjianController@destroy');
 // Post Ujian
-Route::get('/kelola-ujian/POST/{id}', 'UjianController@postUjian');
+Route::post('/kelola-ujian/POST/{id}', 'UjianController@postUjian');
 Route::get('/kelola-ujian/DRAFT/{id}', 'UjianController@unpostUjian');
 
 // CRUD Soal
