@@ -21,7 +21,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                
+
                                 <?php $no=1; ?>
                                     @foreach($siswa as $s)
                                         <tr>
@@ -31,14 +31,14 @@
                                             <td>{{$s->kelas->nama_kelas}}</td>
                                             <td>
                                                 <a href="{{url('/kelola-siswa/show', base64_encode($s->nis))}}" class="btn btn-warning"><i class="fa fa-eye" aria-hidden="true"></i></a>
-                                                <a href="{{url('/kelola-siswa/edit', base64_encode($s->nis))}}" class="btn btn-primary"><i class="fa fa-edit" aria-hidden="true"></i></a>
-                                                <a href="{{url('/kelola-siswa/delete', base64_encode($s->nis))}}" class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                                                @if(Auth::user()->hak_akses == 'admin')<a href="{{url('/kelola-siswa/edit', base64_encode($s->nis))}}" class="btn btn-primary"><i class="fa fa-edit" aria-hidden="true"></i></a>@endif
+                                                @if(Auth::user()->hak_akses == 'admin')<a href="{{url('/kelola-siswa/delete', base64_encode($s->nis))}}" class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></a>@endif
                                             </td>
                                         </tr>
                                     @endforeach
                             </tbody>
                         </table>
-                        
+
                         @else
                             <strong><p>Data tidak tersedia.</p></strong>
                         @endif

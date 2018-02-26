@@ -8,6 +8,8 @@ use App\Ujian;
 use App\Guru;
 use App\Mapel;
 use App\Soal;
+use App\BidangKeahlian;
+use DB;
 use Auth;
 
 class UjianController extends Controller
@@ -33,8 +35,12 @@ class UjianController extends Controller
 
     public function index()
     {
-        $ujian = Ujian::All();
-        // foreach;
+        if(Auth::user()->hak_akses == 'admin'){
+            $ujian = Ujian::All();
+        }else if(Auth::user()->hak_akses == 'guru'){
+            $ujian = Ujian::where('id_guru', session()->get('id_guru'))->get();
+        }
+        // return session()->get('id_guru');
         return view('admin.kelola-ujian.dataView', compact('ujian'));
     }
 
@@ -49,17 +55,18 @@ class UjianController extends Controller
         if(Auth::user()->hak_akses == 'admin') {
             $mapel = Mapel::All();
         } else {
-            $guru = Guru::find(Auth::user()->id_users)->get();
-            $mapel = DB::select('
-                SELECT
-                  d.`bidang_keahlian`
-                FROM
-                  `bidang_keahlian`
-                  JOIN `daftar_bidang_keahlian` d USING (id_daftar_bidang)
-                  JOIN guru USING (`id_guru`)
-            ')->get();
+            $guru = Guru::find(session()->get('id_guru'));
+            // $mapel = DB::select('
+            //     SELECT
+            //       d.`bidang_keahlian`
+            //     FROM
+            //       `bidang_keahlian`
+            //       JOIN `daftar_bidang_keahlian` d USING (id_daftar_bidang)
+            //       JOIN guru USING (`id_guru`)
+            // ');
+            $mapel = BidangKeahlian::join('daftar_bidang_keahlian', 'bidang_keahlian.id_daftar_bidang', '=', 'daftar_bidang_keahlian.id_daftar_bidang')->join('guru', 'bidang_keahlian.id_guru', '=', 'guru.id_guru')->where('bidang_keahlian.id_guru', '=', $guru['id_guru'])->get();
         }
-
+        // return $mapel;
         return view('admin.kelola-ujian.create', compact('ujian', 'mapel'));
     }
 
@@ -71,7 +78,7 @@ class UjianController extends Controller
      */
     public function store(Request $data)
     {
-        $id = Auth::user()->id_users;
+        $id = session()->get('id_guru');
 
         if($data['catatan'] == '') {
             $data[catatan] == 'Tidak ada catatan.';
