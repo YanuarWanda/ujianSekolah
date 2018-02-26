@@ -40,7 +40,7 @@
                         </tr>
                         <tr>
                             <td>Jenis Kelamin</td>
-                            <td>{{$data->jenis_kelamin}}</td>
+                            <td>@if($data->jenis_kelamin == 'L') Laki-laki @else Perempuan @endif</td>
                         </tr>
                     </table>
 

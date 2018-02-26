@@ -157,7 +157,8 @@ class GuruController extends Controller
             // 'password' => 'required|string|min:6|confirmed',
         ]);
 
-        $guru = Guru::where('nip', base64_decode($id))->get()->first();
+        // $guru = Guru::where('nip', base64_decode($id))->get()->first();
+        $guru = Guru::find(base64_decode($id));
         $user = User::find($guru->id_users);
 
         $user->username = $request['username'];
@@ -210,26 +211,6 @@ class GuruController extends Controller
         return redirect('/kelola-guru')->with('success', 'Data berhasil diubah.');
     }
 
-    public function updatePassword(Request $request, $id)
-    {
-        $this->validate($request, [
-            'password' => 'required|string|min:6|confirmed',
-        ]);
-
-        // $guru = Guru::find(base64_decode($id));
-        // return $guru;
-        $user = User::find(base64_decode($id));
-
-        // $user->username = $request['username'];
-        // $user->email = $request['email'];
-        $user->password = bcrypt($request['password']);
-        // $user->hak_akses = 'guru';
-
-        $user->save();
-
-        return redirect('/kelola-guru')->with('success', 'Data berhasil diubah.');
-    }
-
     public function updatePassword(Request $data, $id){
         $this->validate($data, [
             'password' => 'required|string|min:6|confirmed'
@@ -264,7 +245,11 @@ class GuruController extends Controller
             }
             if($guru->delete() && $user->delete()){
                 if($guru->foto != 'nophoto.jpg'){
-                    unlink('storage/foto-profil/'.$guru->foto);
+                    if(unlink('storage/foto-profil/'.$guru->foto)) {
+
+                    }else {
+                        
+                    }
                 }
                 return redirect('/kelola-guru')->with('success', 'Data Dihapus');
             }
