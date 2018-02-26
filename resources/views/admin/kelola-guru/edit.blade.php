@@ -18,7 +18,7 @@
                     </ul>
                     <div class="tab-content">
                         <div id="editData" class="tab-pane fade in active"><br>
-                            <form class="form-horizontal" method="POST" action="{{url('/kelola-guru/update', base64_encode($data->nip) )}}" enctype="multipart/form-data">
+                            <form class="form-horizontal" method="POST" action="{{url('/kelola-guru/update', base64_encode($data->id_guru) )}}" enctype="multipart/form-data">
                                 {{ csrf_field() }}
 
                                 <div class="form-group{{ $errors->has('nip') ? ' has-error' : '' }}">

@@ -222,6 +222,13 @@
 >>>>>>> d7eb9a46f48cc99dd1c5855b9922d846e19b1bf2
 [2018-02-25 10:01:08] local.INFO: Mengakses home {"hak_akses":"admin","username":"laracry"} []
 [2018-02-25 10:03:21] local.INFO: Mengakses home {"hak_akses":"admin","username":"laracry"} []
+<<<<<<< HEAD
+[2018-02-26 09:56:40] local.INFO: Logged In {"hak_akses":"admin","username":"laracry"} []
+[2018-02-26 09:56:40] local.INFO: Mengakses home {"hak_akses":"admin","username":"laracry"} []
+[2018-02-26 10:17:51] local.INFO: Logged Out {"hak_akses":"admin","username":"laracry"} []
+[2018-02-26 10:18:01] local.INFO: Logged In {"hak_akses":"guru","username":"ErikaZul"} []
+[2018-02-26 10:18:01] local.INFO: Mengakses home {"hak_akses":"guru","username":"ErikaZul"} []
+=======
 [2018-02-25 10:15:00] local.INFO: Mengakses home {"hak_akses":"admin","username":"laracry"} []
 [2018-02-25 10:21:50] local.INFO: Mengakses home {"hak_akses":"admin","username":"laracry"} []
 [2018-02-25 10:33:59] local.INFO: Logged Out {"hak_akses":"admin","username":"laracry"} []
@@ -237,6 +244,7 @@
 [2018-02-25 10:50:45] local.INFO: Mengakses home {"hak_akses":"admin","username":"laracry"} []
 [2018-02-25 11:06:11] local.INFO: Mengakses home {"hak_akses":"admin","username":"laracry"} []
 [2018-02-25 11:06:24] local.INFO: Mengakses home {"hak_akses":"admin","username":"laracry"} []
+<<<<<<< HEAD
 [2018-02-25 19:06:43] local.INFO: Logged In {"hak_akses":"admin","username":"laracry"} []
 [2018-02-25 19:06:44] local.INFO: Mengakses home {"hak_akses":"admin","username":"laracry"} []
 [2018-02-25 19:06:56] local.INFO: Mengakses home {"hak_akses":"admin","username":"laracry"} []
@@ -250,3 +258,27 @@
 [2018-02-26 08:34:13] local.INFO: Mengakses home {"hak_akses":"admin","username":"laracry"} []
 [2018-02-26 11:50:45] local.INFO: Mengakses home {"hak_akses":"admin","username":"laracry"} []
 [2018-02-26 11:52:25] local.INFO: Mengakses home {"hak_akses":"admin","username":"laracry"} []
+=======
+>>>>>>> 8e98936621a0420e6e8c8c23c0269f88f83722b1
+[2018-02-26 10:51:12] local.INFO: Mengakses home {"hak_akses":"guru","username":"ErikaZul"} []
+[2018-02-26 10:51:28] local.INFO: Logged Out {"hak_akses":"guru","username":"ErikaZul"} []
+[2018-02-26 10:53:07] local.INFO: Logged In {"hak_akses":"admin","username":"laracry"} []
+[2018-02-26 10:53:07] local.INFO: Mengakses home {"hak_akses":"admin","username":"laracry"} []
+[2018-02-26 11:11:45] local.INFO: Mengakses home {"hak_akses":"admin","username":"laracry"} []
+[2018-02-26 11:11:50] local.INFO: Logged Out {"hak_akses":"admin","username":"laracry"} []
+[2018-02-26 11:12:34] local.INFO: Logged In {"hak_akses":"admin","username":"laracry"} []
+[2018-02-26 11:12:34] local.INFO: Mengakses home {"hak_akses":"admin","username":"laracry"} []
+[2018-02-26 11:12:48] local.INFO: Mengakses home {"hak_akses":"admin","username":"laracry"} []
+[2018-02-26 11:13:24] local.INFO: Mengakses home {"hak_akses":"admin","username":"laracry"} []
+[2018-02-26 11:15:34] local.INFO: Mengakses home {"hak_akses":"admin","username":"laracry"} []
+[2018-02-26 11:21:01] local.INFO: Mengakses home {"hak_akses":"admin","username":"laracry"} []
+[2018-02-26 11:29:18] local.INFO: Mengakses home {"hak_akses":"admin","username":"laracry"} []
+[2018-02-26 11:30:20] local.INFO: Mengakses home {"hak_akses":"admin","username":"laracry"} []
+[2018-02-26 11:30:30] local.INFO: Mengakses home {"hak_akses":"admin","username":"laracry"} []
+[2018-02-26 11:31:34] local.INFO: Logged Out {"hak_akses":"admin","username":"laracry"} []
+[2018-02-26 11:31:44] local.INFO: Logged In {"hak_akses":"guru","username":"ErikaZul"} []
+[2018-02-26 11:31:45] local.INFO: Mengakses home {"hak_akses":"guru","username":"ErikaZul"} []
+[2018-02-26 11:32:36] local.INFO: Logged Out {"hak_akses":"guru","username":"ErikaZul"} []
+[2018-02-26 11:32:47] local.INFO: Logged In {"hak_akses":"admin","username":"laracry"} []
+[2018-02-26 11:32:47] local.INFO: Mengakses home {"hak_akses":"admin","username":"laracry"} []
+>>>>>>> 255d2da9eca4b1ba08739bf0946ffcd9c946043c

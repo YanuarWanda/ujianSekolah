@@ -34,7 +34,7 @@ class UjianController extends Controller
     public function index()
     {
         $ujian = Ujian::All();
-        // return $ujian['1']->guru;
+        // dd($ujian);
         return view('admin.kelola-ujian.dataView', compact('ujian'));
     }
 
@@ -46,7 +46,20 @@ class UjianController extends Controller
     public function create()
     {
         $ujian = Ujian::All();
-        $mapel = Mapel::All();
+        if(Auth::user()->hak_akses == 'admin') {
+            $mapel = Mapel::All();
+        } else {
+            $guru = Guru::find(Auth::user()->id_users)->get();
+            $mapel = DB::select('
+                SELECT
+                  d.`bidang_keahlian`
+                FROM
+                  `bidang_keahlian`
+                  JOIN `daftar_bidang_keahlian` d USING (id_daftar_bidang)
+                  JOIN guru USING (`id_guru`)
+            ')->get();
+        }
+
         return view('admin.kelola-ujian.create', compact('ujian', 'mapel'));
     }
 
@@ -66,7 +79,7 @@ class UjianController extends Controller
 
         $ujian = Ujian::create([
            'id_mapel'           => Mapel::where('nama_mapel', $data['mapel'])->first()['id_mapel'],
-           'nip'                => Guru::where('id_users', $id)->first()['nip'],
+           'id_guru'            => Guru::where('id_guru', $id)->first()['id_guru'],
            'judul_ujian'        => $data['judul'],
            'waktu_pengerjaan'   => gmdate("H:i:s", $data['waktu_pengerjaan']),
            'tanggal_kadaluarsa' => $data['batas_pengerjaan'],

@@ -4,6 +4,7 @@
     <div class="container">
         <a href="{{url('/kelola-ujian/create')}}" class="btn btn-primary btn-fixed-bottom-right z-top"><i class="fa fa-plus" aria-hidden="false"></i></a>
         <div class="row">
+            @if(count($ujian) > 0)
             @foreach($ujian as $u)
             <div class="col-sm-12 col-md-4">
                 <div class="panel panel-default">
@@ -25,6 +26,9 @@
                 </div>
             </div>
             @endforeach
+            @else
+            <p>Data not available.</p>
+            @endif
         </div>
     </div>
 @endsection

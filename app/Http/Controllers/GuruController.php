@@ -153,13 +153,19 @@ class GuruController extends Controller
         $this->validate($request, [
             'username' => 'required',
             'email' => 'required',
+
+            // 'password' => 'required|string|min:6|confirmed',
         ]);
 
-        $guru = Guru::where('nip', base64_decode($id))->get()->first();
+        // $guru = Guru::where('nip', base64_decode($id))->get()->first();
+        $guru = Guru::find(base64_decode($id));
         $user = User::find($guru->id_users);
 
         $user->username = $request['username'];
         $user->email = $request['email'];
+
+        // $user->password = bcrypt($request['password']);
+        // $user->hak_akses = 'guru';
 
         if($user->save()) {
             $guru->nip = $request['nip'];
@@ -239,7 +245,11 @@ class GuruController extends Controller
             }
             if($guru->delete() && $user->delete()){
                 if($guru->foto != 'nophoto.jpg'){
-                    unlink('storage/foto-profil/'.$guru->foto);
+                    if(unlink('storage/foto-profil/'.$guru->foto)) {
+
+                    }else {
+                        
+                    }
                 }
                 return redirect('/kelola-guru')->with('success', 'Data Dihapus');
             }

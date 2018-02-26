@@ -11,7 +11,8 @@ class Ujian extends Model
 
     public $timestamps = false;
     protected $fillable = [
-        'id_ujian', 'id_mapel', 'nip', 'judul_ujian', 'waktu_pengerjaan', 'tanggal_post', 'tanggal_kadaluarsa', 'status', 'catatan'
+        'id_ujian', 'id_mapel', 'id_guru', 'judul_ujian', 'waktu_pengerjaan', 'tanggal_post', 'tanggal_kadaluarsa', 'status', 
+        'catatan',
     ];
 
     public function mapel() {
@@ -19,6 +20,10 @@ class Ujian extends Model
     }
 
     public function guru() {
-        return $this->belongsTo('App\Guru', 'nip');
+        return $this->belongsTo('App\Guru', 'id_guru');
     }
+
+    // public function user() {
+    //     return $this->belongsTo('App\User', 'id_users');
+    // }
 }
