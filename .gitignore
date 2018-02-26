@@ -9,15 +9,4 @@ Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
-public/logs/info.log
-public/logs/info.log
-public/logs/info.log
-public/logs/error.log
-public/logs/info.log
-public/logs/error.log
-public/logs/error.log
-*.log
-public/logs/info.log
-public/logs/error.log
-*.log
-public/logs/error.log
+/public/logs
