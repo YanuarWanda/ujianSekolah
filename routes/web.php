@@ -49,6 +49,7 @@ Route::post('daftar-guru', 'GuruController@store');
 Route::get('/kelola-guru/show/{id}', 'GuruController@show');
 Route::get('/kelola-guru/edit/{id}', 'GuruController@edit');
 Route::post('/kelola-guru/update/{id}', 'GuruController@update');
+Route::post('/kelola-guru/updatePassword/{id}', 'GuruController@updatePassword');
 Route::get('/kelola-guru/delete/{id}', 'GuruController@destroy');
 
 // CRUD Siswa

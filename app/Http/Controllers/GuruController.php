@@ -150,7 +150,7 @@ class GuruController extends Controller
         $this->validate($request, [
             'username' => 'required',
             'email' => 'required',
-            'password' => 'required|string|min:6|confirmed',
+            // 'password' => 'required|string|min:6|confirmed',
         ]);
 
         $guru = Guru::find(base64_decode($id));
@@ -159,9 +159,8 @@ class GuruController extends Controller
 
         $user->username = $request['username'];
         $user->email = $request['email'];
-        $user->password = bcrypt($request['password']);
-        $user->hak_akses = 'guru';
-
+        // $user->password = bcrypt($request['password']);
+        // $user->hak_akses = 'guru';
 
         if($user->save()) {
             $guru->nip = $request['nip'];
@@ -199,6 +198,26 @@ class GuruController extends Controller
                 }
             }
         }
+
+        return redirect('/kelola-guru')->with('success', 'Data berhasil diubah.');
+    }
+
+    public function updatePassword(Request $request, $id)
+    {
+        $this->validate($request, [
+            'password' => 'required|string|min:6|confirmed',
+        ]);
+
+        // $guru = Guru::find(base64_decode($id));
+        // return $guru;
+        $user = User::find(base64_decode($id));
+
+        // $user->username = $request['username'];
+        // $user->email = $request['email'];
+        $user->password = bcrypt($request['password']);
+        // $user->hak_akses = 'guru';
+
+        $user->save();
 
         return redirect('/kelola-guru')->with('success', 'Data berhasil diubah.');
     }
