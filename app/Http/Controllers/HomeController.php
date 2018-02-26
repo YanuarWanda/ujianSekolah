@@ -4,11 +4,17 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Auth;
+use DB;
 
 use App\User;
 use App\Guru;
 use App\Siswa;
 use App\Kelas;
+use App\Ujian;
+
+// Untuk Pagination
+use Illuminate\Pagination\LengthAwarePaginator;
+use App\Http\Requests;
 
 class HomeController extends Controller
 {
@@ -40,7 +46,38 @@ class HomeController extends Controller
         } else if(Auth::user()->hak_akses == 'guru') {
             return view('home');
         } else if(Auth::user()->hak_akses == 'siswa') {
-            return view('home');
+            $siswa = Siswa::where('id_users', Auth::user()->id_users)->first();
+            $ujianArray = DB::select('
+                select id_ujian, id_mapel, nama_mapel, id_guru, judul_ujian, waktu_pengerjaan, tanggal_post, tanggal_kadaluarsa, status, catatan from ujian u 
+                join mapel m using (id_mapel)
+                join kelas_ujian ku using (id_ujian) 
+                join kelas k using (id_kelas)
+                where ku.id_kelas = :id_kelas
+                order by tanggal_post asc
+                ', ['id_kelas' => $siswa->id_kelas]);
+
+            // Get current page form url e.x. &page=1
+            $currentPage = LengthAwarePaginator::resolveCurrentPage();
+     
+            // Create a new Laravel collection from the array data
+            $itemCollection = collect($ujianArray);
+     
+            // Define how many items we want to be visible in each page
+            $perPage = 2;
+     
+            // Slice the collection to get the items to display in current page
+            $currentPageItems = $itemCollection->slice(($currentPage * $perPage) - $perPage, $perPage)->all();
+     
+            // Create our paginator and pass it to the view
+            $paginatedItems= new LengthAwarePaginator($currentPageItems , count($itemCollection), $perPage);
+     
+            // set url path for generted links
+            $paginatedItems->setPath(url()->current());
+
+            $ujian = $paginatedItems;
+
+            // dd($ujian);
+            return view('siswa.siswa', compact('siswa', 'ujian'));
         }
     }
 
