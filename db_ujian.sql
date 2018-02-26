@@ -1,8 +1,8 @@
 /*
-SQLyog Ultimate v11.11 (32 bit)
-MySQL - 5.5.5-10.1.30-MariaDB : Database - db_ujian
+SQLyog Ultimate v12.4.3 (64 bit)
+MySQL - 10.1.26-MariaDB : Database - db_ujian
 *********************************************************************
-*/
+*/
 
 /*!40101 SET NAMES utf8 */;
 
@@ -22,16 +22,20 @@ DROP TABLE IF EXISTS `bidang_keahlian`;
 
 CREATE TABLE `bidang_keahlian` (
   `id_bidang_keahlian` int(11) NOT NULL AUTO_INCREMENT,
-  `id_guru` int(11) NOT NULL,
+  `id_guru` int(11) unsigned DEFAULT NULL,
   `id_daftar_bidang` int(11) NOT NULL,
   PRIMARY KEY (`id_bidang_keahlian`),
-  KEY `id_guru` (`id_guru`),
   KEY `id_daftar_bidang` (`id_daftar_bidang`),
-  CONSTRAINT `bidang_keahlian_ibfk_1` FOREIGN KEY (`id_guru`) REFERENCES `guru` (`id_guru`),
-  CONSTRAINT `bidang_keahlian_ibfk_2` FOREIGN KEY (`id_daftar_bidang`) REFERENCES `daftar_bidang_keahlian` (`id_daftar_bidang`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  KEY `id_guru` (`id_guru`),
+  CONSTRAINT `bidang_keahlian_ibfk_2` FOREIGN KEY (`id_daftar_bidang`) REFERENCES `daftar_bidang_keahlian` (`id_daftar_bidang`),
+  CONSTRAINT `bidang_keahlian_ibfk_3` FOREIGN KEY (`id_guru`) REFERENCES `guru` (`id_guru`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 /*Data for the table `bidang_keahlian` */
+
+insert  into `bidang_keahlian`(`id_bidang_keahlian`,`id_guru`,`id_daftar_bidang`) values 
+(1,1,4),
+(2,1,6);
 
 /*Table structure for table `daftar_bidang_keahlian` */
 
@@ -41,18 +45,37 @@ CREATE TABLE `daftar_bidang_keahlian` (
   `id_daftar_bidang` int(11) NOT NULL AUTO_INCREMENT,
   `bidang_keahlian` varchar(100) NOT NULL,
   PRIMARY KEY (`id_daftar_bidang`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
 
 /*Data for the table `daftar_bidang_keahlian` */
 
-insert  into `daftar_bidang_keahlian`(`id_daftar_bidang`,`bidang_keahlian`) values (1,'Web Dinamis'),(2,'Database');
+insert  into `daftar_bidang_keahlian`(`id_daftar_bidang`,`bidang_keahlian`) values 
+(1,'Pendidikan Agama dan Budi Pekerti'),
+(2,'PPKn'),
+(3,'Bahasa Indonesia'),
+(4,'Matematika'),
+(5,'Sejarah Indonesia'),
+(6,'Bahasa Inggris'),
+(7,'Seni Budaya'),
+(8,'Prakarya an Kewirausahaan'),
+(9,'Penjas, Olahraga & Kesehatan'),
+(10,'Pendikikan Lingkungan Hidup'),
+(11,'Bahasa Daerah'),
+(12,'Bahasa Jepang'),
+(13,'Pemrograman Berorientasi Objek'),
+(14,'Basis Data'),
+(15,'Pemrograman Web Dinamis'),
+(16,'Pemrograman Grafik'),
+(17,'Pemrograman Perangkat Bergerak'),
+(18,'Administrasi Basis Data'),
+(19,'Kerja Proyek RPL');
 
 /*Table structure for table `guru` */
 
 DROP TABLE IF EXISTS `guru`;
 
 CREATE TABLE `guru` (
-  `id_guru` int(50) NOT NULL AUTO_INCREMENT,
+  `id_guru` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `nip` varchar(50) NOT NULL,
   `id_users` int(10) unsigned NOT NULL,
   `nama` varchar(150) NOT NULL,
@@ -62,11 +85,12 @@ CREATE TABLE `guru` (
   PRIMARY KEY (`id_guru`),
   KEY `id_user` (`id_users`),
   CONSTRAINT `guru_ibfk_1` FOREIGN KEY (`id_users`) REFERENCES `users` (`id_users`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 /*Data for the table `guru` */
 
-insert  into `guru`(`id_guru`,`nip`,`id_users`,`nama`,`alamat`,`jenis_kelamin`,`foto`) values (1,'1111231142513',7,'Faroon','Jalan Suka suka','L','nophoto.jpg'),(2,'12345678',24,'YANANA','YANANA','L','nophoto.jpg'),(3,'123456789987654321',10,'Asep McHusen','SetiaBudi','P','2_1517026660.jpg'),(4,'1293819284912',25,'MMAKSJDKASJ','MMADKJWDKADJ','L',NULL),(5,'1431242194871248',23,'akdjwjdkaw','djakjdkw','L','nophoto.jpg'),(6,'150901293102',21,'Yanuar Wanda Putra','Jln. Marga Asri VI G. Blok C No 170','L','masyan_1516646821.png'),(7,'182731873812',22,'akjdskawjd','lajkdklawjd','L','13700183_1092905147445894_1933285681459202097_n_1516647055.jpg'),(8,'1958829381923',1,'Admin yang nyamar jadi guru','Jalan Road','L','nophoto.jpg');
+insert  into `guru`(`id_guru`,`nip`,`id_users`,`nama`,`alamat`,`jenis_kelamin`,`foto`) values 
+(1,'1234567890987654321',2,'Erika Karata','Jalan Karapitan','P','Screenshot (3)_1519618625.png');
 
 /*Table structure for table `jurusan` */
 
@@ -80,7 +104,13 @@ CREATE TABLE `jurusan` (
 
 /*Data for the table `jurusan` */
 
-insert  into `jurusan`(`id_jurusan`,`nama_jurusan`) values (1,'Rekayasa Perangkat Lunak'),(2,'Multimedia'),(3,'Teknik Komputer Jaringan'),(4,'Administrasi Perkantoran'),(5,'Akuntansi'),(6,'Pemasaran');
+insert  into `jurusan`(`id_jurusan`,`nama_jurusan`) values 
+(1,'Rekayasa Perangkat Lunak'),
+(2,'Multimedia'),
+(3,'Teknik Komputer Jaringan'),
+(4,'Administrasi Perkantoran'),
+(5,'Akuntansi'),
+(6,'Pemasaran');
 
 /*Table structure for table `kelas` */
 
@@ -97,7 +127,13 @@ CREATE TABLE `kelas` (
 
 /*Data for the table `kelas` */
 
-insert  into `kelas`(`id_kelas`,`nama_kelas`,`id_jurusan`) values (1,'XII RPL 1',1),(2,'XII RPL 2',1),(3,'XII RPL 3',1),(4,'XII MM 1',2),(5,'XII MM 2',2),(6,'XII TKJ',3);
+insert  into `kelas`(`id_kelas`,`nama_kelas`,`id_jurusan`) values 
+(1,'XII RPL 1',1),
+(2,'XII RPL 2',1),
+(3,'XII RPL 3',1),
+(4,'XII MM 1',2),
+(5,'XII MM 2',2),
+(6,'XII TKJ',3);
 
 /*Table structure for table `kelas_ujian` */
 
@@ -124,11 +160,30 @@ CREATE TABLE `mapel` (
   `id_mapel` int(11) NOT NULL AUTO_INCREMENT,
   `nama_mapel` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id_mapel`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
 
 /*Data for the table `mapel` */
 
-insert  into `mapel`(`id_mapel`,`nama_mapel`) values (1,'Pendidikan Agama dan Budi Pekerti'),(2,'PPKn'),(3,'Bahasa Indonesia'),(4,'Matematika'),(5,'Sejarah Indonesia'),(6,'Bahasa Inggris'),(7,'Seni Budaya'),(8,'Prakarya an Kewirausahaan'),(9,'Penjas, Olahraga & Kesehatan'),(10,'Bahasa Daerah'),(11,'Bahasa Jepang'),(12,'Pemrograman Berorientasi Objek'),(13,'Basis Data'),(14,'Pemrograman Web Dinamis'),(15,'Pemrograman Grafik'),(16,'Pemrograman Perangkat Bergerak'),(17,'Administrasi Basis Data'),(18,'Kerja Proyek RPL');
+insert  into `mapel`(`id_mapel`,`nama_mapel`) values 
+(1,'Pendidikan Agama dan Budi Pekerti'),
+(2,'PPKn'),
+(3,'Bahasa Indonesia'),
+(4,'Matematika'),
+(5,'Sejarah Indonesia'),
+(6,'Bahasa Inggris'),
+(7,'Seni Budaya'),
+(8,'Prakarya an Kewirausahaan'),
+(9,'Penjas, Olahraga & Kesehatan'),
+(10,'Pendikikan Lingkungan Hidup'),
+(11,'Bahasa Daerah'),
+(12,'Bahasa Jepang'),
+(13,'Pemrograman Berorientasi Objek'),
+(14,'Basis Data'),
+(15,'Pemrograman Web Dinamis'),
+(16,'Pemrograman Grafik'),
+(17,'Pemrograman Perangkat Bergerak'),
+(18,'Administrasi Basis Data'),
+(19,'Kerja Proyek RPL');
 
 /*Table structure for table `migrations` */
 
@@ -197,7 +252,10 @@ CREATE TABLE `siswa` (
 
 /*Data for the table `siswa` */
 
-insert  into `siswa`(`nis`,`id_users`,`id_kelas`,`nama`,`alamat`,`jenis_kelamin`,`foto`) values ('1502011448',19,2,'MMS','SADMkodakdwo','L','intro_1516645736.jpg'),('1502011462',20,2,'Yanuar Wanda Putra','Jln. Marga Asri VI G. Blok C No 170','L','13700183_1092905147445894_1933285681459202097_n_1517025405.jpg');
+insert  into `siswa`(`nis`,`id_users`,`id_kelas`,`nama`,`alamat`,`jenis_kelamin`,`foto`) values 
+('1502011293',3,2,'Daniel Dwi Fortuna','Jalan Cipedes tengah 38, Bandung','L','Ijazah_180226_0025_1519619013.jpg'),
+('1502011309',5,2,'Wendy Setiawan','Jalan Kebonkopi 80, Bandung','L','Ijazah_180226_0001_1519619299.jpg'),
+('1502011376',4,2,'Muhammad Syaiful Mahialhakim','Jalan Gunungbatu 58, Bandung','L','Ijazah_180226_0013_1519619129.jpg');
 
 /*Table structure for table `soal` */
 
@@ -213,7 +271,7 @@ CREATE TABLE `soal` (
   PRIMARY KEY (`id_soal`),
   KEY `id_ujian` (`id_ujian`),
   CONSTRAINT `soal_ibfk_1` FOREIGN KEY (`id_ujian`) REFERENCES `ujian` (`id_ujian`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 /*Data for the table `soal` */
 
@@ -224,7 +282,7 @@ DROP TABLE IF EXISTS `ujian`;
 CREATE TABLE `ujian` (
   `id_ujian` int(11) NOT NULL AUTO_INCREMENT,
   `id_mapel` int(11) NOT NULL,
-  `nip` varchar(50) NOT NULL,
+  `id_guru` int(10) unsigned DEFAULT NULL,
   `judul_ujian` varchar(200) DEFAULT NULL,
   `waktu_pengerjaan` time NOT NULL,
   `tanggal_post` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -233,13 +291,16 @@ CREATE TABLE `ujian` (
   `catatan` text,
   PRIMARY KEY (`id_ujian`),
   KEY `id_mapel` (`id_mapel`),
-  KEY `nip` (`nip`),
-  CONSTRAINT `ujian_ibfk_1` FOREIGN KEY (`id_mapel`) REFERENCES `mapel` (`id_mapel`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
+  KEY `ujian_ibfk_2` (`id_guru`),
+  CONSTRAINT `ujian_ibfk_1` FOREIGN KEY (`id_mapel`) REFERENCES `mapel` (`id_mapel`),
+  CONSTRAINT `ujian_ibfk_2` FOREIGN KEY (`id_guru`) REFERENCES `guru` (`id_guru`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 /*Data for the table `ujian` */
 
-insert  into `ujian`(`id_ujian`,`id_mapel`,`nip`,`judul_ujian`,`waktu_pengerjaan`,`tanggal_post`,`tanggal_kadaluarsa`,`status`,`catatan`) values (2,17,'12345678','Judul Judulan v2 berhasil update','04:10:00','2018-01-09 00:00:00','2018-01-31','Draft','Tidak ada deskripsi v2.'),(3,1,'1958829381923',NULL,'02:02:00','2018-01-28 20:54:51','2018-01-17','Draft','Tidak ada deskripsi.'),(4,1,'1958829381923','Judul yang ke 3','03:03:00','2018-01-28 20:56:26','2018-01-19','Draft','Tidak ada deskripsi v2.'),(5,12,'1958829381923','Konsep OOP','01:00:00','2018-01-30 15:20:41','2018-01-30','Draft','Tidak ada deskripsi.'),(6,1,'1958829381923','Test Kejujuran','00:30:00','2018-01-30 15:53:24','2018-01-30','Draft','Tidak ada deskripsi.'),(12,9,'1958829381923','Teori Senam','01:00:00','2018-01-31 14:00:50','2018-01-31','Draft','Tidak ada catatan.'),(13,1,'1958829381923','dfdlsjklaj','00:01:00','2018-01-31 14:08:20','2018-01-31','Draft','ini catatan ulangan.'),(14,1,'1958829381923','Ulangan Akhir Semester Pendidikan Agama','03:00:00','2018-01-31 14:21:15','2018-02-09','Draft','Ulangan ini tidak boleh open book bolehnya open internet karena internet lebih bagus daripada buku, boom.');
+insert  into `ujian`(`id_ujian`,`id_mapel`,`id_guru`,`judul_ujian`,`waktu_pengerjaan`,`tanggal_post`,`tanggal_kadaluarsa`,`status`,`catatan`) values 
+(1,6,1,'Things about manners','01:00:00','2018-02-26 12:30:04','2018-02-26','Draft','Ulangan harian'),
+(3,12,1,'Ujian Harian','01:00:00','2018-02-26 12:42:33','2018-02-26','Draft','untuk kepentingan laporan');
 
 /*Table structure for table `users` */
 
@@ -255,11 +316,16 @@ CREATE TABLE `users` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id_users`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `users` */
 
-insert  into `users`(`id_users`,`username`,`email`,`password`,`remember_token`,`hak_akses`,`created_at`,`updated_at`) values (1,'laracry','test@example.com','$2y$10$tDcmXuHyf0qm.vlCHGhf/ufbcrC01o99T0Edz4zbPHI4sdVkUc9ja','GRX0tyajgSAFlJiam11oHS80ya14bNoZmmKlAr45Rg0GZPSm7zxdSk4JCkvv','admin','2018-01-21 12:51:29','2018-01-21 12:51:33'),(4,'kuyaBaleum','yanuar.wanda2@gmail.com','$2y$10$NEGxXp3pi.bdDcMQnzz3ROtE3RKkrR/txgnPnAIPEtniOcYnyAq9O','hgmpkARFsPFJ663nLJXA7lOHMnRMIvcW1Qx1dIoI2tkTyQsgFNW5pev2xZut','siswa','2018-01-21 06:13:50','2018-01-22 07:24:55'),(5,'a','test@gmail.com','123','kipffpipo','guru','2018-01-21 10:18:20','2018-01-21 10:18:20'),(6,'guruku','tesst@fda.a','$2y$10$402DyxrYWFBvRq91zVvelOoIecg3ZPYhUebCLYMhd0W/d9oEOSbFG',NULL,'guru','2018-01-21 10:38:52','2018-01-21 12:16:57'),(7,'faroon','far@s.co','$2y$10$9byFuVHo5ZYfrR5to0p6R.UWn7T9JISMSw2rmu3RfMeAQlX1hNlkW',NULL,'guru','2018-01-21 12:21:04','2018-01-21 12:21:04'),(10,'ieedes','asep@ima.coo','$2y$10$4TQsUj3KpL27NN3UbkPpU.l2RHN.90PicAbUeH1K0EEXvJjFuxvXu',NULL,'guru','2018-01-22 03:08:18','2018-01-27 04:17:40'),(11,'onratus','deafitrih16@gmail.com','$2y$10$cSIr1Ex6CSGeqsviz5SBM.GNTjNz5Nc2P1RC37NFxLad/UKpgfQou','NsSBZaNxuyaPTOsg7l1tzebWqnSBJgThhrS6UcLyBpzjyaotuRqmxo2ifZMz','siswa','2018-01-22 06:06:35','2018-01-22 06:06:35'),(12,'jajang','wsetiawan135790@gmail.com','$2y$10$YOQF5NbSRvxlYASE2T.BMujEoUF49khfBkZJqyvj80St/mp/UBFdG','vebLlRmpy8WaGdoCrZTs0xH9wRjTc8thsyvuiC15hdh9gtQOfqkUMtOUEMoE','siswa','2018-01-22 07:28:47','2018-01-22 07:41:53'),(13,'chihuahua bucin','family.syaiful007@gmail.com','$2y$10$mePDg7sdXsFpzVouP5O1TOXFDZTosdb/lcJ.LoqXoqYr9/Ilw.ceC','b3qXcyXwXvf3Deu3JQmIkJGPZLEfOxLilGbPWNfgIMBtafiX9F5aFBqY6ZoJ','siswa','2018-01-22 07:32:29','2018-01-22 07:32:29'),(14,'iedesu','bang@sa.de','$2y$10$iHyVyW05t1eHfWPocB6Tz.d9cTR8fR.71n3xhMx3UutzFX/5C.OQK','ATrhJnFEKcQPRGqg3pz53NOpYxKGGqJJTx7Kg96NsX17l3fHHMJVsSA2nTSZ','siswa','2018-01-22 07:39:14','2018-01-22 07:40:20'),(15,'Nurok','amalianuro74@gmail.com','$2y$10$/lPLnTtuNVh8Cr7SSgOSsupTBN/W0GFBtv6OcdPxf5hZyoF5k8AsS','QWvzdSKvZvzxa1ftccc3pKAzOlaODzlzySTieF4KK8Ep1GxjQzPZOP4VIgiu','siswa','2018-01-22 07:49:48','2018-01-22 07:49:48'),(16,'DummyStyle','jajangwara@gmail.com','$2y$10$jdwoM5SNOYeXTO8EHYujMuhLz1gQ/UMtAKSqx6GN.QWRC6EZJUbya',NULL,'siswa','2018-01-22 07:54:34','2018-01-22 07:54:34'),(17,'tester','test@example.com','$2y$10$9Mh67CVodNC7Ie3/qLIDGuX2NBr94LfLT07adBXYtrF92ePA.xaye',NULL,'siswa','2018-01-22 13:40:52','2018-01-22 13:43:41'),(18,'aksjak','ss@s.css','$2y$10$ofsgDtIKUA.AswYUNTsHWO8on2LRjTiWKWyPqvvBr1jqKp.FbnSre',NULL,'siswa','2018-01-22 18:06:53','2018-01-22 18:06:53'),(19,'akabsjsk','ss@s.xxs','$2y$10$kNuINXXb5y.rt.2.nfc8s.oEkAOZDfzg2dxZEfRP7EOIO0L5lo71a',NULL,'siswa','2018-01-22 18:08:33','2018-01-22 18:28:56'),(20,'yanuarwanda','yanuar.wanda22@gmail.com','$2y$10$Crn1ZZqVDiCKM7M6Z9DPlO2GAT09k8ytAc6AZoXCbFo5lZ0G4WaB.',NULL,'siswa','2018-01-22 18:35:43','2018-01-31 14:29:20'),(21,'yanuaww','yanuar.wanda221@gmail.co','$2y$10$8rfkDLtXxFX0pIt1u8SA9.qpxEh1mY5pjz42J8cjReNcetJhj9.9a',NULL,'guru','2018-01-22 18:47:01','2018-01-22 18:47:01'),(22,'adwadawd','awdadawd@a.a','$2y$10$3.C0zA76bWFwfhyABZYs8eHqXKCwayXW826SEfVOoFmfanFR.OgF2',NULL,'guru','2018-01-22 18:47:24','2018-01-22 18:50:55'),(23,'1231kjsks','akjdkwad@a.s','$2y$10$tjc3sBT/3QT6IKu.qNSime.LofQokOBNjlLa8G/HdoEw8OE/KbMe6',NULL,'guru','2018-01-22 19:01:12','2018-01-22 19:01:12'),(24,'YANANA','YANANA@NA.NA','$2y$10$9C067KYxaMkW4ZIyeJwDLO1dhvaJxA3s5ipJSTTYCGSBeU..8sEU6',NULL,'guru','2018-01-22 19:02:30','2018-01-22 19:02:30'),(25,'mmmmmmmm','MM@mm.mm','$2y$10$iaZHNRQOzI5GpWum1Es9Y.L7F9Fkq0vTfA3oiZuDxb0iU1avNdKci',NULL,'guru','2018-01-22 19:03:16','2018-01-22 19:03:16');
+insert  into `users`(`id_users`,`username`,`email`,`password`,`remember_token`,`hak_akses`,`created_at`,`updated_at`) values 
+(1,'laracry','mzfahri620@gmail.com','$2y$10$aVnJAtv0V.Jo4e2Ob0GOFO/2fsdbjC347gNPCPUHYL9wu3Nfsv7sC','uZRmZtsys4AaTcf7wHlGB0vhWeGL3WYjOF87htQX2EB11T4m4CRtpI9x7SLM','admin','2018-02-26 11:11:25','2018-02-26 11:11:30'),
+(2,'ErikaZul','erika_zul@gmail.com','$2y$10$Vz81o01vf1SMDHMoGNBboO5wAPGjvk/OQN54NqUQB06p07yrI6IVq','iysGDmJMxELE7nP2dnLcAXNUfdXyqjCfGzUgFb0csYUycsSA0nje2avvQvJ5','guru','2018-02-26 11:17:05','2018-02-26 11:20:25'),
+(3,'dnaomissions','danieldwifortuna48@gmail.com','$2y$10$QLDH5YW3laEDwTA17E/roe/YQjURNR2LK/WZunY83sMDzGDwzUgCG',NULL,'siswa','2018-02-26 11:23:33','2018-02-26 11:23:33'),
+(4,'lufiays','family.syaiful007@gmail.com','$2y$10$axMteHGXeN16MSzlt3TD0unWosFoCgTtN65BNK84HgifpwEBN54jW',NULL,'siswa','2018-02-26 11:25:29','2018-02-26 11:25:29'),
+(5,'wsetiawan','wsetiawan135790@gmail.com','$2y$10$b/Mc1lHX5xJKSgXiUzjwIe1NImR8yui.OIGFJ/baKlD6VvrmLX22G',NULL,'siswa','2018-02-26 11:28:19','2018-02-26 11:28:19');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
