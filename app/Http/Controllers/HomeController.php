@@ -12,6 +12,7 @@ use App\Siswa;
 use App\Kelas;
 use App\Ujian;
 use App\DaftarBidangKeahlian;
+use App\BidangKeahlian;
 
 // Untuk Pagination
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -94,9 +95,13 @@ class HomeController extends Controller
         if(Auth::user()->hak_akses == 'admin') {
             return view('settings.setting');
         } else if(Auth::user()->hak_akses == 'guru') {
-            $data = Guru::where('id_users', Auth::user()->id_users)->first();
-            $daftarBK = DaftarBidangKeahlian::all();
-            return view('settings.setting', compact('data', 'daftarBK'));
+            $data       = Guru::where('id_users', Auth::user()->id_users)->first();
+            $bidang     = BidangKeahlian::join('guru', 'bidang_keahlian.id_guru', '=', 'guru.id_guru')->join('daftar_bidang_keahlian', 'bidang_keahlian.id_daftar_bidang', '=', 'daftar_bidang_keahlian.id_daftar_bidang')->where('bidang_keahlian.id_guru', $data->id_guru)->pluck('daftar_bidang_keahlian.bidang_keahlian', 'daftar_bidang_keahlian.bidang_keahlian');
+            $daftarBK   = DaftarBidangKeahlian::pluck('bidang_keahlian', 'bidang_keahlian');
+            // return $bidang;
+            // dd($bidang);
+            // dd($daftarBK);
+            return view('settings.setting', compact('data', 'daftarBK', 'bidang'));
         } else if(Auth::user()->hak_akses == 'siswa') {
             $data = Siswa::where('id_users', Auth::user()->id_users)->first();
             $kelas = Kelas::All();

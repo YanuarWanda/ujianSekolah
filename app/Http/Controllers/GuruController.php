@@ -134,11 +134,11 @@ class GuruController extends Controller
      */
     public function edit($id)
     {
-        $daftarBK = DaftarBidangKeahlian::all();
         $data = Guru::find(base64_decode($id));
         $daftarBK = DaftarBidangKeahlian::all();
-        // return $data;
-        return view('admin.kelola-guru.edit', compact('data', 'daftarBK'));
+        $bidang = BidangKeahlian::join('guru', 'bidang_keahlian.id_guru', '=', 'guru.id_guru')->join('daftar_bidang_keahlian', 'bidang_keahlian.id_daftar_bidang', '=', 'daftar_bidang_keahlian.id_daftar_bidang')->where('bidang_keahlian.id_guru', $data->id_guru)->get();
+        // return $bidang;
+        return view('admin.kelola-guru.edit', compact('data', 'daftarBK', 'bidang'));
     }
 
     /**
@@ -248,7 +248,7 @@ class GuruController extends Controller
                     if(unlink('storage/foto-profil/'.$guru->foto)) {
 
                     }else {
-                        
+
                     }
                 }
                 return redirect('/kelola-guru')->with('success', 'Data Dihapus');

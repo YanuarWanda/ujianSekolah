@@ -34,13 +34,12 @@
 
         <div class="col-md-6">
             <select name="bidangKeahlian[]" id="bidangKeahlian" class="form-control selectpicker show-menu-arrow" title="Silahkan pilih keahlian.." data-live-search="true" multiple data-selected-text-format="count" data-size="5" multiple>
-                @foreach($daftarBK as $d)
-                    <option  @if(old('bidangKeahlian') == $d->bidang_keahlian) {{ 'selected' }} @endif>
-                        {{ $d->bidang_keahlian }}
+                @foreach($daftarBK as $d => $value)
+                    <option @foreach($bidang as $b) @if($b == $d) selected @endif @endforeach>
+                        {{ $d }}
                     </option>
                 @endforeach
             </select>
-
             @if ($errors->has('bidangKeahlian'))
                 <span class="help-block">
                     <strong>{{ $errors->first('bidangKeahlian') }}</strong>
