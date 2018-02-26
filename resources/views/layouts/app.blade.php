@@ -46,7 +46,6 @@
     {{-- <link href="{{ asset('css/please-wait.css') }}" rel="stylesheet"> --}}
 
     {{-- Select Picker --}}
-    <link href="{{ asset('css/bootstrap-select.min.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/sample.css') }}">
 
     {{-- <script src="https://cdn.ckeditor.com/4.8.0/standard/ckeditor.js"></script> --}}
@@ -249,7 +248,6 @@
 
     {{-- JQuery --}}
     <script src="{{ asset('js/jquery-3.1.1.min.js') }}"></script>
-
     {{-- CKEditor --}}
     {{-- <script src="//cdn.ckeditor.com/4.5.10/standard-all/ckeditor.js"></script>
     <script src="{{ asset('js/ckfinder.js') }}"></script> --}}
@@ -291,10 +289,6 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/bootstrap-select.min.js') }}"></script>
-    <script type="text/javascript">
-        $('.selectpicker').selectpicker({});
-    </script>
 
     <!-- DataTables -->
     <script src="{{ asset('vendor/datatables/jquery.dataTables.js') }}"></script>
