@@ -2,13 +2,13 @@
 
 @section('content')
     <script src="https://cloud.tinymce.com/stable/tinymce.min.js"></script>
-    <script>tinyMCE.init({ mode:'specific_textareas', editor_selector:'soal' });</script>
+    <script>tinyMCE.init({ mode:'specific_textareas', editor_selector:'editor' });</script>
 
     <div class="container">
         <div class="row">
             <div class="col-md-12">
                 <div class="panel panel-primary">
-                    <div class="panel-heading">Form Ubah Soal</div>
+                    <div class="panel-heading">Form Ubah Soal | {{ $ujian->judul_ujian }}</div>
                     <div class="panel-body">
                         <form class="form-horizontal" method="POST" action="{{url('/kelola-soal/update', base64_encode($soal->id_soal))}}">
                             {{csrf_field()}}
@@ -34,7 +34,7 @@
                                  <label for="soal" class="col-md-2 control-label">Soal</label>
 
                                  <div class="col-md-9">
-                                         <textarea name="soal" id="soal" class="soal" rows="10" cols="80">{{ $soal['isi_soal'] }}</textarea>
+                                         <textarea name="soal" id="soal" class="editor" rows="10" cols="80">{{ $soal['isi_soal'] }}</textarea>
 
                                      @if ($errors->has('soal'))
                                          <span class="help-block">
@@ -45,12 +45,12 @@
                              </div>
 
 
-                             <div @if($soal['tipe'] == 'BS') style="display:none" @endif>
+                             <div class="PG" @if($soal['tipe'] == 'BS') style="display:none" @endif>
                                  <div class="form-group{{ $errors->has('pilihanA') ? ' has-error' : '' }}">
                                      <label for="pilihanA" class="col-md-2 control-label">Pilihan A</label>
 
                                      <div class="col-md-9">
-                                         <textarea id="pilihanA" type="text" class="form-control PG" name="pilihanA" value="{{ old('pilihanA') }}" rows="1" required>@if($soal['tipe'] == 'PG') {{ $pilihan['0'] }} @endif</textarea>
+                                         <textarea id="pilihanA" type="text" class="form-control editor" name="pilihanA" value="{{ old('pilihanA') }}" rows="1" required>@if($soal['tipe'] == 'PG') {{ $pilihan['0'] }} @endif</textarea>
 
                                          @if ($errors->has('pilihanA'))
                                              <span class="help-block">
@@ -64,7 +64,7 @@
                                      <label for="pilihanB" class="col-md-2 control-label">Pilihan B</label>
 
                                      <div class="col-md-9">
-                                         <textarea id="pilihanB" type="text" class="form-control PG" name="pilihanB" value="{{ old('pilihanB') }}" rows="1" required>@if($soal['tipe'] == 'PG') {{ $pilihan['1'] }} @endif</textarea>
+                                         <textarea id="pilihanB" type="text" class="form-control editor" name="pilihanB" value="{{ old('pilihanB') }}" rows="1" required>@if($soal['tipe'] == 'PG') {{ $pilihan['1'] }} @endif</textarea>
 
                                          @if ($errors->has('pilihanB'))
                                              <span class="help-block">
@@ -78,7 +78,7 @@
                                      <label for="pilihanC" class="col-md-2 control-label">Pilihan C</label>
 
                                      <div class="col-md-9">
-                                         <textarea id="pilihanC" type="text" class="form-control PG" name="pilihanC" value="{{ old('pilihanC') }}" rows="1" required>@if($soal['tipe'] == 'PG') {{ $pilihan['2'] }} @endif</textarea>
+                                         <textarea id="pilihanC" type="text" class="form-control editor" name="pilihanC" value="{{ old('pilihanC') }}" rows="1" required>@if($soal['tipe'] == 'PG') {{ $pilihan['2'] }} @endif</textarea>
 
                                          @if ($errors->has('pilihanC'))
                                              <span class="help-block">
@@ -92,7 +92,7 @@
                                      <label for="pilihanD" class="col-md-2 control-label">Pilihan D</label>
 
                                      <div class="col-md-9">
-                                         <textarea id="pilihanD" type="text" class="form-control PG" name="pilihanD" value="{{ old('pilihanD') }}" rows="1" required>@if($soal['tipe'] == 'PG') {{ $pilihan['3'] }} @endif</textarea>
+                                         <textarea id="pilihanD" type="text" class="form-control editor" name="pilihanD" value="{{ old('pilihanD') }}" rows="1" required>@if($soal['tipe'] == 'PG') {{ $pilihan['3'] }} @endif</textarea>
 
                                          @if ($errors->has('pilihanD'))
                                              <span class="help-block">
@@ -106,7 +106,7 @@
                                      <label for="pilihanE" class="col-md-2 control-label">Pilihan E</label>
 
                                      <div class="col-md-9">
-                                         <textarea id="pilihanE" type="text" class="form-control PG" name="pilihanE" value="{{ old('pilihanE') }}" rows="1" required>@if($soal['tipe'] == 'PG') {{ $pilihan['4'] }} @endif</textarea>
+                                         <textarea id="pilihanE" type="text" class="form-control editor" name="pilihanE" value="{{ old('pilihanE') }}" rows="1" required>@if($soal['tipe'] == 'PG') {{ $pilihan['4'] }} @endif</textarea>
 
                                          @if ($errors->has('pilihanE'))
                                              <span class="help-block">
@@ -121,14 +121,14 @@
                                  <label for="jawaban" class="col-md-2 control-label">Jawaban</label>
 
                                  <div class="col-md-9" style="margin-top:1rem">
-                                     <div @if($soal['tipe'] == 'BS') style="display:none" @endif>
+                                     <div class="PG" @if($soal['tipe'] == 'BS') style="display:none" @endif>
                                          <span class="PG">A<input type="radio" name="jawaban" value="A" style="margin-right:1rem" @if($soal['tipe'] == 'PG') @if($soal['jawaban'] == $pilihan['0']) checked @endif @endif/></span>
                                          <span class="PG">B<input type="radio" name="jawaban" value="B" style="margin-right:1rem" @if($soal['tipe'] == 'PG') @if($soal['jawaban'] == $pilihan['1']) checked @endif @endif/></span>
                                          <span class="PG">C<input type="radio" name="jawaban" value="C" style="margin-right:1rem" @if($soal['tipe'] == 'PG') @if($soal['jawaban'] == $pilihan['2']) checked @endif @endif/></span>
                                          <span class="PG">D<input type="radio" name="jawaban" value="D" style="margin-right:1rem" @if($soal['tipe'] == 'PG') @if($soal['jawaban'] == $pilihan['3']) checked @endif @endif/></span>
                                          <span class="PG">E<input type="radio" name="jawaban" value="E" style="margin-right:1rem" @if($soal['tipe'] == 'PG') @if($soal['jawaban'] == $pilihan['4']) checked @endif @endif/></span>
                                     </div>
-                                    <div @if ($soal['tipe'] == 'PG') style="display:none" @endif>
+                                    <div class="BS" @if ($soal['tipe'] == 'PG') style="display:none" @endif>
                                          <span class="BS">Benar<input type="radio" name="jawaban" value="Benar" style="margin-right:1rem" @if($soal['tipe'] == 'BS') @if($soal['jawaban'] == $pilihan['0']) checked @endif @endif></span>
                                          <span class="BS">Salah<input type="radio" name="jawaban" value="Salah" style="margin-right:1rem" @if($soal['tipe'] == 'BS') @if($soal['jawaban'] == $pilihan['1']) checked @endif @endif></span>
                                     </div>

@@ -350,7 +350,7 @@
     {{-- Toggle Select Bikin Soal --}}
     <script type="text/javascript">
         $('#tipe').on('change', function(){
-           var $value = $(this).children().attr('value');
+           var $value = $('#tipe option:selected').attr('value');
            if($value == 'BS'){
                $('.PG').slideUp(1000, function(){
                    $('.BS').slideDown(1000);
