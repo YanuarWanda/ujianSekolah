@@ -19,8 +19,9 @@
                         Batas Pengerjaan : {{$u->tanggal_kadaluarsa}}<br>
                         Status : {{$u->status}}<br>
                         Catatan : {{$u->catatan}}<br>
+                        <a class="text-center" href="#">Daftar Nilai</a>
                     </div>
-                    <div class="panel-footer">{{"Di post oleh ".$u->guru->nama.", ".$u->tanggal_post}}</div>
+                    <div class="panel-footer">{{"Di post oleh ".$u->guru['nama'].", ".$u->tanggal_post}}</div>
                 </div>
             </div>
             @endforeach

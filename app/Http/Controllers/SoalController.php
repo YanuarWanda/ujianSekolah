@@ -39,21 +39,37 @@ class SoalController extends Controller
      */
     public function store(Request $request, $id)
     {
+        $this->validate($request, [
+            'jawaban'   => 'required',
+            'soal'      => 'required',
+            'tipe'      => 'required'
+        ]);
+        
         $ujian = Ujian::find(base64_decode($id));
 
-        if($request['jawaban'] == 'A'){
-            $jawaban = $request['pilihanA'];
-        }else if($request['jawaban'] == 'B'){
-            $jawaban = $request['pilihanB'];
-        }else if($request['jawaban'] == 'C'){
-            $jawaban = $request['pilihanC'];
-        }else if($request['jawaban'] == 'D'){
-            $jawaban = $request['pilihanD'];
-        }else if($request['jawaban'] == 'E'){
-            $jawaban = $request['pilihanE'];
-        }
+        if($request['tipe'] == 'PG'){
+            $pilihan = $request['pilihanA']." ,  ".$request['pilihanB']." ,  ".$request['pilihanC']." ,  ".$request['pilihanD']." ,  ".$request['pilihanE'];
 
-        $pilihan = $request['pilihanA']." ,  ".$request['pilihanB']." ,  ".$request['pilihanC']." ,  ".$request['pilihanD']." ,  ".$request['pilihanE'];
+            if($request['jawaban'] == 'A'){
+                $jawaban = $request['pilihanA'];
+            }else if($request['jawaban'] == 'B'){
+                $jawaban = $request['pilihanB'];
+            }else if($request['jawaban'] == 'C'){
+                $jawaban = $request['pilihanC'];
+            }else if($request['jawaban'] == 'D'){
+                $jawaban = $request['pilihanD'];
+            }else if($request['jawaban'] == 'E'){
+                $jawaban = $request['pilihanE'];
+            }
+        }else if($request['tipe'] == 'BS'){
+            $pilihan = 'Benar ,  Salah';
+
+            if($request['jawaban'] == 'Benar'){
+                $jawaban = "Benar";
+            }else if($request['jawaban'] == 'Salah'){
+                $jawaban = "Salah";
+            }
+        }
 
         $soal = Soal::create([
             'id_ujian'  => $ujian['id_ujian'],
@@ -64,7 +80,9 @@ class SoalController extends Controller
         ]);
 
         if($soal){
-            return redirect('/kelola-ujian/edit/'.base64_encode($ujian->id_ujian))->with('success', 'Tambah Soal Berhasil!');
+            return redirect('/kelola-ujian/edit/'.base64_encode($ujian->id_ujian))->with('success', 'Data berhasil ditambahkan!');
+        }else{
+            return redirect('/kelola-ujian/edit/'.base64_encode($ujian->id_ujian))->with('error', 'Data gagal ditambahkan!');
         }
     }
 
@@ -143,7 +161,7 @@ class SoalController extends Controller
 
         if($soal){
             $soal->delete();
-            
+
             return redirect('/kelola-ujian/edit/'.base64_encode($soal->id_ujian))->with('success', 'Data berhasil dihapus!');
         }else{
             return redirect('/kelola-ujian/edit/'.base64_encode($soal->id_ujian))->with('error', 'Data gagal dihapus!');

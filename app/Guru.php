@@ -10,7 +10,7 @@ class Guru extends Model
     protected $table = 'guru';
 
     // Mendefinisikan primary key
-    protected $primaryKey = "id_guru";
+    protected $primaryKey = "nip";
 
     protected $fillable = [
         'id_guru', 'nip', 'id_users', 'nama', 'alamat', 'jenis_kelamin', 'foto',

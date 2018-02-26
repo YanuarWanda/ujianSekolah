@@ -34,6 +34,7 @@ class UjianController extends Controller
     public function index()
     {
         $ujian = Ujian::All();
+        // return $ujian['1']->guru;
         return view('admin.kelola-ujian.dataView', compact('ujian'));
     }
 
@@ -57,7 +58,7 @@ class UjianController extends Controller
      */
     public function store(Request $data)
     {
-        $id = Auth::user()->id;
+        $id = Auth::user()->id_users;
 
         if($data['catatan'] == '') {
             $data[catatan] == 'Tidak ada catatan.';
@@ -65,7 +66,7 @@ class UjianController extends Controller
 
         $ujian = Ujian::create([
            'id_mapel'           => Mapel::where('nama_mapel', $data['mapel'])->first()['id_mapel'],
-           'nip'                => Guru::where('id', $id)->first()['nip'],
+           'nip'                => Guru::where('id_users', $id)->first()['nip'],
            'judul_ujian'        => $data['judul'],
            'waktu_pengerjaan'   => gmdate("H:i:s", $data['waktu_pengerjaan']),
            'tanggal_kadaluarsa' => $data['batas_pengerjaan'],
@@ -146,11 +147,16 @@ class UjianController extends Controller
     public function destroy($id)
     {
         $ujian = Ujian::find(base64_decode($id));
+        $soal = Soal::where('id_ujian', $ujian->id_ujian)->get();
 
         if($ujian) {
-            $ujian->delete();
+            foreach($soal as $s){
+                $s->delete();
+            }
 
-            return redirect('/kelola-ujian')->with('success', 'Data berhasil dihapus!');
+            if($ujian->delete()){
+                return redirect('/kelola-ujian')->with('success', 'Data berhasil dihapus!');
+            }
         }else{
             return redirect('/kelola-ujian')->with('error', 'Data gagal dihapus!');
         }

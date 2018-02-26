@@ -33,11 +33,25 @@
     {{-- DateTimePicker --}}
     <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap-datetimepicker.min.css')}}">
 
+    {{-- Froala --}}
+    {{-- <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" /> --}}
+    {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/codemirror.min.css"> --}}
+    {{-- <link href="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.7.5/css/froala_editor.pkgd.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.7.5/css/froala_style.min.css" rel="stylesheet" type="text/css" /> --}}
+    {{-- <link rel="stylesheet" type="text/css" href="{{ asset('css/froala_editor.pkgd.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/froala_style.min.css') }}"> --}}
+
+
     {{-- PleaseWait.js Preloader  --}}
     {{-- <link href="{{ asset('css/please-wait.css') }}" rel="stylesheet"> --}}
 
     {{-- Select Picker --}}
     <link href="{{ asset('css/bootstrap-select.min.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/sample.css') }}">
+
+    {{-- <script src="https://cdn.ckeditor.com/4.8.0/standard/ckeditor.js"></script> --}}
+    {{-- <script src="//cdn.ckeditor.com/4.5.10/standard-all/ckeditor.js"></script>
+    <script src="{{ asset('js/ckfinder.js') }}"></script> --}}
 
     <style type="text/css">
         .close-btn{
@@ -236,34 +250,35 @@
     {{-- JQuery --}}
     <script src="{{ asset('js/jquery-3.1.1.min.js') }}"></script>
 
-    {{-- <script src="https://cdn.ckeditor.com/4.8.0/standard/ckeditor.js"></script> --}}
-    {{-- <script src="/vendor/unisharp/laravel-ckeditor/ckeditor.js"></script> --}}
-    {{-- <script src="{{ asset('js/ckeditor.js') }}"></script> --}}
-    {{-- <script type="text/javascript">
-        CKEDITOR.replace('soal1');
-    </script> --}}
-
-    {{-- Dipindah ke file yang membutuhkan aja gimana ? biar ga berat ke webnya --}}
-
     {{-- CKEditor --}}
-
-    {{-- <script src="https://cdn.ckeditor.com/ckeditor5/1.0.0-alpha.2/classic/ckeditor.js"></script>
-    <script>
-        ClassicEditor
-            .create( document.querySelector( '#soal' ) )
-            .catch( error => {
-                console.error( error );
+    {{-- <script src="//cdn.ckeditor.com/4.5.10/standard-all/ckeditor.js"></script>
+    <script src="{{ asset('js/ckfinder.js') }}"></script> --}}
+    {{-- <script src="//cdn.ckeditor.com/4.8.0/full/ckeditor.js"></script> --}}
+    {{-- <script src="{{ asset('js/ckeditor/ckeditor.js') }}"></script> --}}
+    {{-- <script>
+        // Note: in this sample we use CKEditor with two extra plugins:
+        // - uploadimage to support pasting and dragging images,
+        // - image2 (instead of image) to provide images with captions.
+        // Additionally, the CSS style for the editing area has been slightly modified to provide responsive images during editing.
+        // All these modifications are not required by CKFinder, they just provide better user experience.
+        if ( typeof CKEDITOR !== 'undefined' ) {
+            CKEDITOR.addCss( 'img {max-width:100%; height: auto;}' );
+            var editor = CKEDITOR.replace( 'soal', {
+                extraPlugins: 'uploadimage',
+                removePlugins: 'image',
+                height:350
             } );
+            CKFinder.setupCKEditor( editor );
+        } else {
+            document.getElementById( 'soal' ).innerHTML = '<div class="tip-a tip-a-alert">This sample requires working Internet connection to load CKEditor from CDN.</div>'
+        }
     </script> --}}
-
 
     {{-- CDN --}}
     {{-- <script src="//ajax.aspnetcdn.com/ajax/jquery/jquery-3.1.1.min.js"></script> --}}
 
     {{-- Fallback (Local) --}}
     {{-- <script>window.jQuery || document.write('<script src="{{ asset('js/jquery-3.1.1.min.js') }}">\x3C/script>')</script> --}}
-
-    {{-- End JQuery --}}
 
     {{-- Fadeout Loading Screen --}}
     <script type="text/javascript">
@@ -276,13 +291,11 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
-
     <script type="text/javascript" src="{{ asset('js/bootstrap-select.min.js') }}"></script>
 
     <!-- DataTables -->
     <script src="{{ asset('vendor/datatables/jquery.dataTables.js') }}"></script>
     <script src="{{ asset('vendor/datatables/dataTables.bootstrap4.js') }}"></script>
-
     <script>
         $(document).ready(function() {
             $("#tableGuru").DataTable(); // Menambahkan pencarian ke table guru di menu kelola-guru (admin)
@@ -334,6 +347,25 @@
         });
     </script>
 
+    {{-- Toggle Select Bikin Soal --}}
+    <script type="text/javascript">
+        $('#tipe').on('change', function(){
+           var $value = $(this).children().attr('value');
+           if($value == 'BS'){
+               $('.PG').slideToggle();
+               $('.BS').slideToggle();
+           }else if($value == "PG"){
+               $('.PG').slideToggle();
+               $('.BS').slideToggle();
+           }
+        });
+    </script>
+
+    {{-- Froala --}}
+    {{-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/codemirror.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/mode/xml/xml.min.js"></script> --}}
+    {{-- <script type="text/javascript" src="{{ asset('js/froala_editor.pkgd.min.js') }}"></script> --}}
+    {{-- <script> $(function() { $('.froala-editor').froalaEditor() }); </script> --}}
     @yield('js')
 </body>
 </html>
