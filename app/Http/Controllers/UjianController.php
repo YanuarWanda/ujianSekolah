@@ -202,4 +202,28 @@ class UjianController extends Controller
             return redirect('/home')->with('success', 'Data berhasil diubah');
         } else return redirect('/settings')->with('error', 'Data gagal diubah');
     }
+
+    public function postUjian($id) {
+        $ujian = Ujian::find(base64_decode($id));
+
+        $ujian->status = 'posted';
+
+        if($ujian->save()) {
+            return redirect()->back()->with('success', 'Data berhasil di Post');
+        }else{
+            return redirect()->back()->with('error', 'Data gagal di Post');
+        }
+    }
+
+    public function unpostUjian($id) {
+        $ujian = Ujian::find(base64_decode($id));
+
+        $ujian->status = 'Draft';
+
+        if($ujian->save()) {
+            return redirect()->back()->with('success', 'Data disimpan di Draft');
+        }else {
+            return redirect()->back()->with('error', 'Penyimpanan data di Draft gagal');
+        }
+    }
 }

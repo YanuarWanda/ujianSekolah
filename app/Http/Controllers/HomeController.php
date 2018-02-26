@@ -53,8 +53,9 @@ class HomeController extends Controller
                 join kelas_ujian ku using (id_ujian) 
                 join kelas k using (id_kelas)
                 where ku.id_kelas = :id_kelas
+                and status = :status 
                 order by tanggal_post asc
-                ', ['id_kelas' => $siswa->id_kelas]);
+                ', ['id_kelas' => $siswa->id_kelas, 'status' => 'posted']);
 
             // Get current page form url e.x. &page=1
             $currentPage = LengthAwarePaginator::resolveCurrentPage();
