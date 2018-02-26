@@ -51,7 +51,12 @@ class CustomAuthController extends Controller
 
         if($user) {
             // Mengisi table siswa jika table user di isi
-            $nameFotoToStore = $this->ambil($data->file('foto'));
+            if($data->file('foto')){
+                $nameFotoToStore = $this->ambil($data->file('foto'));
+            }else{
+                $nameFotoToStore = 'nophoto.jpg';
+            }
+
             $siswa = Siswa::create([
                 'nis' => $data['nis'],
                 'id_users' => $user->id_users,

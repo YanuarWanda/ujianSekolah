@@ -81,9 +81,9 @@
 
         <div class="col-md-6">
             <?php if(empty($data->foto) == false){?>
-            <img class="img-thumbnail" src="{{asset('storage/foto-profil/'.$data->foto)}}" id="profile-img-tag" width="200px" />
+                <img class="img-thumbnail" src="{{asset('storage/foto-profil/'.$data->foto)}}" id="profile-img-tag" width="200px" />
             <?php }else{ ?>
-            <img class="img-thumbnail" src="{{asset('image/nophoto.jpg')}}" id="profile-img-tag" width="200px" />
+                <img class="img-thumbnail" src="{{asset('image/nophoto.jpg')}}" id="profile-img-tag" width="200px" />
             <?php } ?>
             <input id="foto" type="file" name="foto" value="{{ $data->foto }}" required>
 
@@ -122,7 +122,7 @@
             @endif
         </div>
     </div>
-    
+
     <div class="form-group">
         <div class="col-md-6 col-md-offset-4">
             <button type="submit" class="btn btn-primary pull-right">

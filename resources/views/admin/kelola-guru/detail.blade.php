@@ -12,10 +12,10 @@
                         <tr>
                             <td>Foto Profil</td>
                             <td>
-                                <?php if(empty($data->foto) == false){?>
-                                <img src="{{asset('storage/foto-profil/'.$data->foto)}}" width="250px"/></td>
+                                <?php if($data->foto != 'nophoto.jpg'){?>
+                                    <img src="{{asset('storage/foto-profil/'.$data->foto)}}" width="250px"/></td>
                                 <?php }else{ ?>
-                                <img src="{{asset('image/nophoto.jpg')}}" width="250px"/></td>
+                                    <img src="{{asset('image/nophoto.jpg')}}" width="250px"/></td>
                                 <?php } ?>
                         </tr>
                         <tr>
