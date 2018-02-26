@@ -137,9 +137,6 @@
                             <strong><p>Data tidak tersedia.</p></strong>
                         @endif
 
-                        {{-- @foreach ($soal as $s)
-                            <p>{{ $s['id_ujian'] }}a</p>
-                        @endforeach --}}
                     </div>
                 </div>
             </div>

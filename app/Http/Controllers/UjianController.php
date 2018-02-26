@@ -59,7 +59,7 @@ class UjianController extends Controller
                   JOIN guru USING (`id_guru`)
             ')->get();
         }
-        
+
         return view('admin.kelola-ujian.create', compact('ujian', 'mapel'));
     }
 
@@ -160,11 +160,16 @@ class UjianController extends Controller
     public function destroy($id)
     {
         $ujian = Ujian::find(base64_decode($id));
+        $soal = Soal::where('id_ujian', $ujian->id_ujian)->get();
 
         if($ujian) {
-            $ujian->delete();
+            foreach($soal as $s){
+                $s->delete();
+            }
 
-            return redirect('/kelola-ujian')->with('success', 'Data berhasil dihapus!');
+            if($ujian->delete()){
+                return redirect('/kelola-ujian')->with('success', 'Data berhasil dihapus!');
+            }
         }else{
             return redirect('/kelola-ujian')->with('error', 'Data gagal dihapus!');
         }
