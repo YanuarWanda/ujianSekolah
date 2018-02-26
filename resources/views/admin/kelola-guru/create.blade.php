@@ -1,9 +1,5 @@
 @extends('layouts.app')
 
-@section('css')
-<link href="{{ asset('css/bootstrap-select.min.css') }}" rel="stylesheet">
-@endsection
-
 @section('content')
 <div class="container">
     <div class="row">
@@ -175,8 +171,4 @@
         </div>
     </div>
 </div>
-@endsection
-
-@section('js')
-<script type="text/javascript" src="{{ asset('js/bootstrap-select.min.js') }}"></script>
 @endsection

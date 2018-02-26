@@ -222,16 +222,18 @@ class UjianController extends Controller
 
         // return $ujian->judul_ujian;
 
-        if(isset($request['kelas']) && $ujian->save()) {
-            foreach($request['kelas'] as $kelas) {
+        if(isset($request['kelas'])) {
+            if($ujian->save()) {
+                foreach($request['kelas'] as $kelas) {
                 $kelasUjian = new KelasUjian;
                 $kelasUjian->id_ujian = $ujian->id_ujian;
                 $kelasUjian->id_kelas = Kelas::select('id_kelas')->where('nama_kelas', $kelas)->first()['id_kelas'];
 
                 $kelasUjian->save();
+                
+                return redirect()->back()->with('success', 'Data berhasil di Post');
             }
-
-            return redirect()->back()->with('success', 'Data berhasil di Post');
+        }
         }else{
             return redirect()->back()->with('error', 'Data gagal di Post');
         }
@@ -243,7 +245,10 @@ class UjianController extends Controller
         $ujian->status = 'Draft';
 
         if($ujian->save()) {
+            $deleteMany = KelasUjian::where('id_ujian', $ujian->id_ujian)->delete();
+            
             return redirect()->back()->with('success', 'Data disimpan di Draft');
+
         }else {
             return redirect()->back()->with('error', 'Penyimpanan data di Draft gagal');
         }

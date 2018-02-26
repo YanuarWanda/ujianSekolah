@@ -20,6 +20,9 @@
     <!-- DataTable Plugin -->
     <link href="{{ asset('vendor/datatables/dataTables.bootstrap4.css') }}" rel="stylesheet">
 
+    {{-- Multi Select Picker --}}
+    <link href="{{ asset('css/bootstrap-select.min.css') }}" rel="stylesheet">
+
     {{-- Alerts --}}
     <link rel="stylesheet" type="text/css" href="{{ asset('css/sweetalert2.min.css') }}">
 
@@ -343,6 +346,9 @@
             format: 'YYYY-M-DD'
         });
     </script>
+
+    {{-- Multi Select Picker --}}
+    <script type="text/javascript" src="{{ asset('js/bootstrap-select.min.js') }}"></script>
 
     {{-- Toggle Select Bikin Soal --}}
     <script type="text/javascript">
