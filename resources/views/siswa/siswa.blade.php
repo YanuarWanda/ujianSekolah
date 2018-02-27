@@ -39,7 +39,7 @@
                 </div>
 
                 <div class="panel-footer">
-                    <a href="{{ url('/soal/{id}', base64_encode($u->id_ujian)) }}" class="btn btn-primary">Kerjakan</a>
+                    <a href="{{ url('/soal', base64_encode($u->id_ujian)) }}" class="btn btn-primary">Kerjakan</a>
                 </div>
             </div>
             @endforeach

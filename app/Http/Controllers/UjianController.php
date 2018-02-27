@@ -253,4 +253,12 @@ class UjianController extends Controller
             return redirect()->back()->with('error', 'Penyimpanan data di Draft gagal');
         }
     }
+
+    public function kerjakanSoal($id) {
+        $ujian = Ujian::find(base64_decode($id));
+
+        // return $ujian;
+
+        return view('siswa.kerjakan-soal', compact('ujian'));
+    }
 }

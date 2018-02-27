@@ -69,6 +69,7 @@ Route::post('/kelola-ujian/create', 'UjianController@store');
 Route::get('/kelola-ujian/edit/{id}', 'UjianController@edit');
 Route::post('/kelola-ujian/update/{id}', 'UjianController@update');
 Route::get('/kelola-ujian/delete/{id}', 'UjianController@destroy');
+
 // Post Ujian
 Route::post('/kelola-ujian/POST/{id}', 'UjianController@postUjian');
 Route::get('/kelola-ujian/DRAFT/{id}', 'UjianController@unpostUjian');
@@ -87,3 +88,6 @@ Route::post('/ubahPassword/{id}', 'HomeController@ubahPassword')->name('ubahPass
 // Setting - Data User
 Route::post('/edit/s/{id}', 'SiswaController@storeDataSiswa')->name('edit-siswa');
 Route::post('/edit/g/{id}', 'GuruController@storeDataGuru')->name('edit-guru');
+
+// Dashboard Siswa
+Route::get('/soal/{id}', 'UjianController@kerjakanSoal');

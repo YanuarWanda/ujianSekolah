@@ -315,20 +315,12 @@
     {{-- Multi Select Picker --}}
     <script type="text/javascript" src="{{ asset('js/bootstrap-select.min.js') }}"></script>
 
+    {{-- Countdown JS --}}
+    <script type="text/javascript" src="{{ asset('js/jquery.countdown.js') }}"></script>
+
     {{-- Toggle Select Bikin Soal --}}
     <script type="text/javascript">
-        $('#tipe').on('change', function(){
-           var $value = $('#tipe option:selected').attr('value');
-           if($value == 'BS'){
-               $('.PG').slideUp(1000, function(){
-                   $('.BS').slideDown(1000);
-               });
-           }else if($value == "PG"){
-               $('.BS').slideUp(1000, function(){
-                  $('.PG').slideDown(1000);
-               });
-           }
-        });
+        
     </script>
     {{-- Froala --}}
     {{-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/codemirror.min.js"></script>
