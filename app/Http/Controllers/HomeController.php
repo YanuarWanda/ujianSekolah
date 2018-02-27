@@ -58,6 +58,11 @@ class HomeController extends Controller
             return view('guru.home');
         } else if(Auth::user()->hak_akses == 'siswa') {
             $siswa = Siswa::where('id_users', Auth::user()->id_users)->first();
+            $user = array(
+                'hak_akses' => Auth::user()->hak_akses,
+                'username'  => Auth::user()->username,
+            );
+            session(['nis' => $siswa->nis]);
             $ujianArray = DB::select('
                 select id_ujian, id_mapel, nama_mapel, id_guru, judul_ujian, waktu_pengerjaan, tanggal_post, tanggal_kadaluarsa, status, catatan from ujian u
                 join mapel m using (id_mapel)
