@@ -256,11 +256,26 @@ class UjianController extends Controller
         foreach($soalFull as $s){
             $soal[]       = explode(' ,  ', $s['soal']);
         }
-        
+
         $str_time = $ujian->waktu_pengerjaan;
         sscanf($str_time, "%d:%d:%d", $hours, $minutes, $seconds);
         $sisa_waktu = isset($seconds) ? $hours * 3600 + $minutes * 60 + $seconds : $hours * 60 + $minutes;
-
+        // return count($soalFull);
         return view('siswa.kerjakan-soal', compact('ujian', 'soal', 'soalFull', 'sisa_waktu', 'pilihan'));
+    }
+
+    public function submitSoal(Request $data, $id){
+        $ujian  = Ujian::find(base64_decode($id));
+        $soal   = Soal::where('id_ujian', $ujian->id_ujian)->get();
+
+        for($i=0;$i<=count($soal)-1;$i++){
+            $jawaban[] = $data['jawaban_'.$i];
+        }
+
+        foreach($soal as $s){
+            $jawaban_benar[] = $s['jawaban'];
+        }
+
+        return $jawaban;
     }
 }

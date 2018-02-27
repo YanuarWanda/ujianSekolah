@@ -24,29 +24,36 @@
                     <strong id="coba">Sisa waktu : <span style="color: orange;" id="pageTimer"></span></strong>
                 </div>
 
-                @foreach($soalFull as $s => $isi)
-                <div class="panel-body" id="Soal_{{$s}}" @if($s == '0') style="display:block" @else style="display:none" @endif>
-                    <h4>{!! $isi->isi_soal !!}</h4>
-                    <p></p>
+                <form class="form-horizontal" method="POST" action="{{ url('/soal/submit', base64_encode($ujian->id_ujian)) }}">
+                    {{ csrf_field() }}
+                    @foreach($soalFull as $s => $isi)
+                    <div class="panel-body" id="Soal_{{$s}}" @if($s == '0') style="display:block" @else style="display:none" @endif>
+                            <h4>{!! $isi->isi_soal !!}</h4>
 
-                    <hr>
+                            <hr>
 
-                    <h4>Jawaban</h4>
-                        <?php $pilihanAsli = explode(' ,  ', $soalFull[$s]['pilihan']);?>
-                        <div>
-                            @foreach($pilihanAsli as $p)
-                                <div class="radio">
-                                    <label><input type="radio" name="optradio">{!! $p !!}</label>
+                            <h4>Jawaban</h4>
+                            <?php $pilihanAsli = explode(' ,  ', $soalFull[$s]['pilihan']);?>
+                            <div>
+                                @foreach($pilihanAsli as $p)
+                                    <div class="radio">
+                                        <label><input type="radio" name="jawaban_{{$s}}" value="{{ $p }}">{!! $p !!}</label>
+                                    </div>
+                                @endforeach
+                            </div>
+
+                            @if($s == count($soalFull)-1)
+                                <div class="form-group pull-right" style="margin-right: 20px">
+                                    <button type="submit" class="btn btn-primary">Submit</button>
                                 </div>
-                            @endforeach
+                            @else
+                                <div class="form-group pull-right" style="margin-right: 20px">
+                                  <a class="btn btn-success nextSoal" data-panel="Soal_{{$s}}">Next</a>
+                                </div>
+                            @endif
                         </div>
-
-                        <div class="form-group pull-right">
-                          <button class="btn btn-success nextSoal" data-panel="Soal_{{$s}}">Next</button>
-                        </div>
-                    </form>
-                </div>
-                @endforeach
+                    @endforeach
+                </form>
 
             </div>
         </div>
@@ -57,14 +64,9 @@
                         <div class="col">
                         @for($a = 1; $a<= count($ujian->soal) ;$a++)
                         {{-- {{ count($ujian->soal) }} --}}
-                            @if($a == count($ujian->soal))
-                                <button type="button" name="button"></button>
-                            @else
-                                <button style="margin: 0;margin-left: 5px; border-radius: 0px" class="btn btn-default btnPindah" value="{{ $a }}" data-panel="Soal_{{$a-1}}">
-                                     {{ $a }}
-                                 </button>
-                            @endif
-
+                            <button style="margin: 0; margin-left: 10px; border-radius: 0px" class="btn btn-default btnPindah" value="{{ $a }}" data-panel="Soal_{{$a-1}}">
+                                 {{ $a }}
+                             </button>
                         @endfor
                         </div>
                     </div>
