@@ -333,7 +333,30 @@
                });
            }
         });
+
+        $('#coba').on('click', function(){
+           var $isi = $('.panel-body').attr('id');
+           $('#'+$isi).slideToggle();
+        });
+
+        $('.nextSoal').on('click', function(){
+            var $index = $(this).attr('data-panel');
+            var $nowIndex = $index.split('_', 3);
+            var $nextIndex = parseInt($nowIndex['1'])+1;
+            $('#Soal_'+$nowIndex['1']).slideUp(1000, function(){
+                $('#Soal_'+$nextIndex).slideDown(1000);
+            });
+        });
+
+        $('.btnPindah').on('click', function(){
+            var $nowIndex = $('.panel-body:visible').attr('id');
+            var $index = $(this).attr('data-panel');
+            $('#'+$nowIndex).slideUp(1000, function(){
+                $('#'+$index).slideDown(1000);
+            });
+        })
     </script>
+
     {{-- Froala --}}
     {{-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/codemirror.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/mode/xml/xml.min.js"></script> --}}

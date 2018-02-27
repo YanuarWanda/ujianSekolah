@@ -246,16 +246,21 @@ class UjianController extends Controller
     }
 
     public function kerjakanSoal($id) {
-        $ujian = Ujian::find(base64_decode($id));
+        $ujian      = Ujian::find(base64_decode($id));
+        $soalFull       = Soal::where('id_ujian', $ujian->id_ujian)->get();
 
+        foreach($soalFull as $s){
+            $pilihan[]    = explode(' ,  ', $s['pilihan']);
+        }
+
+        foreach($soalFull as $s){
+            $soal[]       = explode(' ,  ', $s['soal']);
+        }
+        
         $str_time = $ujian->waktu_pengerjaan;
         sscanf($str_time, "%d:%d:%d", $hours, $minutes, $seconds);
         $sisa_waktu = isset($seconds) ? $hours * 3600 + $minutes * 60 + $seconds : $hours * 60 + $minutes;
 
-        // return $time_seconds;
-
-        // return $ujian;
-
-        return view('siswa.kerjakan-soal', compact('ujian', 'sisa_waktu'));
+        return view('siswa.kerjakan-soal', compact('ujian', 'soal', 'soalFull', 'sisa_waktu', 'pilihan'));
     }
 }

@@ -11,67 +11,65 @@
 
 @section('content')
 <div class="container">
-    <div class="row">
+    {{-- <div class="row">
         <div class="col-md-12">
+
+        </div>
+    </div> --}}
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <strong id="coba">Sisa waktu : <span style="color: orange;" id="pageTimer"></span></strong>
+                </div>
+
+                @foreach($soalFull as $s => $isi)
+                <div class="panel-body" id="Soal_{{$s}}" @if($s == '0') style="display:block" @else style="display:none" @endif>
+                    <h4>{!! $isi->isi_soal !!}</h4>
+                    <p></p>
+
+                    <hr>
+
+                    <h4>Jawaban</h4>
+                        <?php $pilihanAsli = explode(' ,  ', $soalFull[$s]['pilihan']);?>
+                        <div>
+                            @foreach($pilihanAsli as $p)
+                                <div class="radio">
+                                    <label><input type="radio" name="optradio">{!! $p !!}</label>
+                                </div>
+                            @endforeach
+                        </div>
+
+                        <div class="form-group pull-right">
+                          <button class="btn btn-success nextSoal" data-panel="Soal_{{$s}}">Next</button>
+                        </div>
+                    </form>
+                </div>
+                @endforeach
+
+            </div>
+        </div>
+        <div class="col-md-4 detail">
             <div class="panel panel-default">
                 <div class="panel-body">
                     <div class="row">
                         <div class="col">
                         @for($a = 1; $a<= count($ujian->soal) ;$a++)
                         {{-- {{ count($ujian->soal) }} --}}
-                        <button 
-                            style="margin-left: 5px; margin-bottom: 5px;" 
-                            class="btn btn-default" 
-                            value="{{ $a }}">
-                             {{ $a }} 
-                         </button>
+                            @if($a == count($ujian->soal))
+                                <button type="button" name="button"></button>
+                            @else
+                                <button style="margin: 0;margin-left: 5px; border-radius: 0px" class="btn btn-default btnPindah" value="{{ $a }}" data-panel="Soal_{{$a-1}}">
+                                     {{ $a }}
+                                 </button>
+                            @endif
+
                         @endfor
                         </div>
                     </div>
                 </div>
             </div>
-        </div> 
-    </div>
-
-    <div class="row">
-        <div class="col-md-8">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <strong>Sisa waktu : <span style="color: orange;" id="pageTimer"></span></strong>
-                </div>
-
-                <div class="panel-body">
-                    <h4>Soal ke-1</h4>
-                    <p></p>
-                    
-                    <hr>
-                    
-                    <h4>Jawaban</h4>
-                    <form class="form-group">
-                        <div class="radio">
-                          <label><input type="radio" name="optradio">Ini pilihan ke sekian</label>
-                        </div>
-                        <div class="radio">
-                          <label><input type="radio" name="optradio">Ini pilihan ke sekian</label>
-                        </div>
-                        <div class="radio">
-                          <label><input type="radio" name="optradio">Ini pilihan ke sekian</label>
-                        </div>
-                        <div class="radio">
-                          <label><input type="radio" name="optradio">Ini pilihan ke sekian</label>
-                        </div>
-                        <div class="radio">
-                          <label><input type="radio" name="optradio">Ini pilihan ke sekian</label>
-                        </div>
-
-                        <div class="form-group pull-right">
-                          <button class="btn btn-success">Next</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4 detail">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h4>Detail Ujian</h4>
