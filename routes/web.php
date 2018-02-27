@@ -52,6 +52,8 @@ Route::get('/kelola-guru/edit/{id}', 'GuruController@edit');
 Route::post('/kelola-guru/update/{id}', 'GuruController@update');
 Route::post('/kelola-guru/updatePassword/{id}', 'GuruController@updatePassword');
 Route::get('/kelola-guru/delete/{id}', 'GuruController@destroy');
+Route::get('/kelola-guru/import', 'GuruController@importView');
+Route::post('/kelola-guru/import', 'GuruController@importToDatabase');
 
 // CRUD Siswa
 Route::get('kelola-siswa', 'SiswaController@index');

@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Auth;
 use DB;
 
+use Excel;
+
 use App\User;
 use App\Guru;
 use App\Siswa;
