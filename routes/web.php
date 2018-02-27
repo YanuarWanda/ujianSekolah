@@ -77,10 +77,26 @@ Route::get('/kelola-ujian/DRAFT/{id}', 'UjianController@unpostUjian');
 
 // CRUD Soal
 Route::get('/kelola-soal/create/{id}', 'SoalController@create');
-Route::post('/kelola-soal/create/{id}', 'SOalController@store');
+Route::post('/kelola-soal/create/{id}', 'SoalController@store');
 Route::get('/kelola-soal/edit/{id}', 'SoalController@edit');
 Route::post('/kelola-soal/update/{id}', 'SoalController@update');
 Route::get('/kelola-soal/delete/{id}', 'SoalController@delete');
+
+// CRUD Jurusan
+Route::get('/kelola-jurusan', 'JurusanController@index');
+Route::get('/kelola-jurusan/create', 'JurusanController@create');
+Route::post('/kelola-jurusan/create', 'JurusanController@store');
+Route::get('/kelola-jurusan/edit/{id}', 'JurusanController@edit');
+Route::post('/kelola-jurusan/update/{id}', 'JurusanController@update');
+Route::get('/kelola-jurusan/delete/{id}', 'JurusanController@destroy');
+
+// CRUD Kelas
+Route::get('/kelola-kelas', 'KelasController@index');
+Route::get('/kelola-kelas/create', 'KelasController@create');
+Route::post('/kelola-kelas/create', 'KelasController@store');
+Route::get('/kelola-kelas/edit/{id}', 'KelasController@edit');
+Route::post('/kelola-kelas/update/{id}', 'KelasController@update');
+Route::get('/kelola-kelas/delete/{id}', 'KelasController@destroy');
 
 // Settings user
 Route::get('/settings', 'HomeController@settings')->name('settings');
@@ -92,6 +108,3 @@ Route::post('/edit/g/{id}', 'GuruController@storeDataGuru')->name('edit-guru');
 
 // Dashboard Siswa
 Route::get('/soal/{id}', 'UjianController@kerjakanSoal');
-Route::post('/pass_value', function() {
-	return view('pass_value');
-});
