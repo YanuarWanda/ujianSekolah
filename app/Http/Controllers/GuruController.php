@@ -10,6 +10,10 @@ use App\DaftarBidangKeahlian;
 use App\BidangKeahlian;
 use DB;
 
+use App\Jurusan;
+
+use Excel;
+
 class GuruController extends Controller
 {
     public function __construct()
@@ -282,6 +286,61 @@ class GuruController extends Controller
         if($user->save() && $guru->save()) {
             return redirect('/home')->with('success', 'Data berhasil diubah');
         } else return redirect('/settings')->with('error', 'Data gagal diubah');
+    }
+
+    public function importView() {
+        return view('admin.kelola-guru.import');
+    }
+
+    public function importToDatabase(Request $request) {
+        $this->validate($request, [
+            'fileExcel' => 'required',
+        ]);
+
+        if($request->hasFile('fileExcel')){
+            $path = $request->file('fileExcel')->getRealPath();
+            $data = \Excel::load($path)->get();
+            if($data->count()){
+                foreach ($data as $key => $value) {
+                    $user[] = [
+                        'username'      => $value->username,
+                        'password'      => bcrypt($value->password),
+                        'email'         => $value->email,
+                        'hak_akses'     => 'guru',
+                        'created_at'    => now(),
+                        'updated_at'    => now(),
+                    ];
+
+                    $guru[] = [
+                        'nip'           => $value->nip,
+                        'nama'          => $value->nama,
+                        'alamat'        => $value->alamat,
+                        'jenis_kelamin' => $value->jenis_kelamin,
+                        // 'id_users'      => '',
+                    ];
+                }
+
+                if(!empty($user) && !empty($guru)){
+                    \DB::table('users')->insert($user);
+
+                    $data = DB::select("SELECT * FROM users WHERE users.id_users NOT IN (SELECT id_users FROM guru) AND hak_akses = 'guru'");
+
+                    // dd($data);
+
+                    foreach ($data as $key => $value) {
+                        $guru[$key]['id_users'] = $value->id_users;
+                    }
+
+                    // dd($guru);
+
+                    \DB::table('guru')->insert($guru);
+                    // dd($guru);
+                    // dd('Insert Record successfully.');
+
+                    return redirect('/home')->with('success', 'Import data berhasil dilakukan');
+                }
+            }
+        }
     }
 
 }
