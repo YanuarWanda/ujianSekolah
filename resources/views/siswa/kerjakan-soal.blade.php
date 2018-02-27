@@ -43,7 +43,8 @@
 
 @section('js')
 <script type="text/javascript">
-var count = 3600;
+var count = {{ $sisa_waktu }};
+// console.log(count);
 var counter = setInterval(timer, 1000); //1000 will  run it every 1 second
 
 function timer() {
