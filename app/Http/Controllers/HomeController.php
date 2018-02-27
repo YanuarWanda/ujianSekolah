@@ -84,7 +84,7 @@ class HomeController extends Controller
             $itemCollection = collect($ujianArray);
 
             // Define how many items we want to be visible in each page
-            $perPage = 3;
+            $perPage = 2;
 
             // Slice the collection to get the items to display in current page
             $currentPageItems = $itemCollection->slice(($currentPage * $perPage) - $perPage, $perPage)->all();
