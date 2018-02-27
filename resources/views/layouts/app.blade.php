@@ -316,9 +316,6 @@
     {{-- Multi Select Picker --}}
     <script type="text/javascript" src="{{ asset('js/bootstrap-select.min.js') }}"></script>
 
-    {{-- Countdown JS --}}
-    <script type="text/javascript" src="{{ asset('js/jquery.countdown.js') }}"></script>
-
     {{-- Toggle Select Bikin Soal --}}
     <script type="text/javascript">
         $('#tipe').on('change', function(){

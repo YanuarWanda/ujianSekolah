@@ -10,4 +10,8 @@ class Jurusan extends Model
     protected $primaryKey = 'id_jurusan';
 
     public $timestamps = false;
+
+    public function kelas() {
+    	return $this->hasMany('App\Kelas', 'id_jurusan');
+    }
 }
