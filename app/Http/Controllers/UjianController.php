@@ -10,6 +10,7 @@ use App\Mapel;
 use App\Soal;
 use App\Kelas;
 use App\KelasUjian;
+use App\Nilai;
 
 use App\BidangKeahlian;
 use DB;
@@ -211,7 +212,7 @@ class UjianController extends Controller
         $ujian = Ujian::find(base64_decode($id));
         $ujian->status = 'posted';
         // return $ujian->judul_ujian;
-
+        // return base64_decode($id);
         if(isset($request['kelas'])) {
             if($ujian->save()) {
                 foreach($request['kelas'] as $kelas) {
@@ -267,15 +268,34 @@ class UjianController extends Controller
     public function submitSoal(Request $data, $id){
         $ujian  = Ujian::find(base64_decode($id));
         $soal   = Soal::where('id_ujian', $ujian->id_ujian)->get();
-
-        for($i=0;$i<=count($soal)-1;$i++){
-            $jawaban[] = $data['jawaban_'.$i];
-        }
+        $jumlahBenar = 0;
 
         foreach($soal as $s){
             $jawaban_benar[] = $s['jawaban'];
         }
 
-        return $jawaban;
+        for($i=0;$i<=count($soal)-1;$i++){
+            $jawaban[] = $data['jawaban_'.$i];
+
+            if($jawaban[$i] == $jawaban_benar[$i]){
+                $jumlahBenar = $jumlahBenar+1;
+            }
+        }
+
+        $jumlahSalah    = count($soal) - $jumlahBenar;
+        $nilaiKetampanan= ($jumlahBenar / count($soal)) * 100;
+
+        $nilai = new Nilai;
+        $nilai->id_ujian = $ujian->id_ujian;
+        $nilai->id_siswa = session()->get('id_siswa');
+        $nilai->jawaban_benar = $jumlahBenar;
+        $nilai->jawaban_salah = $jumlahSalah;
+        $nilai->nilai = $nilaiKetampanan;
+
+        if($nilai->save()){
+            return redirect('/home')->with('success', 'Selamat, anda telah selesai mengerjakan soal.');
+        }else{
+            return redirect('/home')->with('error', 'Maaf, terjadi kesalahan.');
+        }
     }
 }

@@ -13,6 +13,7 @@ use App\Kelas;
 use App\Ujian;
 use App\DaftarBidangKeahlian;
 use App\BidangKeahlian;
+use App\Nilai;
 
 // Untuk Pagination
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -60,7 +61,10 @@ class HomeController extends Controller
                 'hak_akses' => Auth::user()->hak_akses,
                 'username'  => Auth::user()->username,
             );
-            session(['nis' => $siswa->nis]);
+            session(['id_siswa' => $siswa->id_siswa]);
+
+            $nilai = Nilai::join('siswa', 'nilai.id_siswa', '=', 'siswa.id_siswa')->where('siswa.id_siswa', $siswa->id_siswa)->get();
+            // return $nilai;
             $ujianArray = DB::select('
                 select id_ujian, id_mapel, nama_mapel, id_guru, judul_ujian, waktu_pengerjaan, tanggal_post, tanggal_kadaluarsa, status, catatan from ujian u
                 join mapel m using (id_mapel)
@@ -78,7 +82,7 @@ class HomeController extends Controller
             $itemCollection = collect($ujianArray);
 
             // Define how many items we want to be visible in each page
-            $perPage = 2;
+            $perPage = 3;
 
             // Slice the collection to get the items to display in current page
             $currentPageItems = $itemCollection->slice(($currentPage * $perPage) - $perPage, $perPage)->all();
@@ -91,8 +95,9 @@ class HomeController extends Controller
 
             $ujian = $paginatedItems;
 
-            // dd($ujian);
-            return view('siswa.siswa', compact('siswa', 'ujian'));
+            // return $ujian;
+            // return $ujianArray;
+            return view('siswa.siswa', compact('siswa', 'ujian', 'ujianArray', 'nilai'));
         }
     }
 
