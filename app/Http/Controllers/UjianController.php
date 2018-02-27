@@ -61,14 +61,6 @@ class UjianController extends Controller
             $mapel = Mapel::All();
         } else {
             $guru = Guru::find(session()->get('id_guru'));
-            // $mapel = DB::select('
-            //     SELECT
-            //       d.`bidang_keahlian`
-            //     FROM
-            //       `bidang_keahlian`
-            //       JOIN `daftar_bidang_keahlian` d USING (id_daftar_bidang)
-            //       JOIN guru USING (`id_guru`)
-            // ');
             $mapel = BidangKeahlian::join('daftar_bidang_keahlian', 'bidang_keahlian.id_daftar_bidang', '=', 'daftar_bidang_keahlian.id_daftar_bidang')->join('guru', 'bidang_keahlian.id_guru', '=', 'guru.id_guru')->where('bidang_keahlian.id_guru', '=', $guru['id_guru'])->get();
         }
         // return $mapel;
@@ -216,24 +208,23 @@ class UjianController extends Controller
     }
 
     public function postUjian(Request $request, $id) {
-        // return base64_decode($id);
         $ujian = Ujian::find(base64_decode($id));
         $ujian->status = 'posted';
-
         // return $ujian->judul_ujian;
 
         if(isset($request['kelas'])) {
             if($ujian->save()) {
                 foreach($request['kelas'] as $kelas) {
-                $kelasUjian = new KelasUjian;
-                $kelasUjian->id_ujian = $ujian->id_ujian;
-                $kelasUjian->id_kelas = Kelas::select('id_kelas')->where('nama_kelas', $kelas)->first()['id_kelas'];
+                    $kelasUjian = new KelasUjian;
+                    $kelasUjian->id_ujian = $ujian->id_ujian;
+                    $kelasUjian->id_kelas = Kelas::select('id_kelas')->where('nama_kelas', $kelas)->get()->first()['id_kelas'];
 
-                $kelasUjian->save();
-                
+                    // return $kelasUjian->id_kelas->id_kelas;
+
+                    $kelasUjian->save();
+                }
                 return redirect()->back()->with('success', 'Data berhasil di Post');
             }
-        }
         }else{
             return redirect()->back()->with('error', 'Data gagal di Post');
         }
@@ -246,7 +237,7 @@ class UjianController extends Controller
 
         if($ujian->save()) {
             $deleteMany = KelasUjian::where('id_ujian', $ujian->id_ujian)->delete();
-            
+
             return redirect()->back()->with('success', 'Data disimpan di Draft');
 
         }else {
@@ -260,7 +251,7 @@ class UjianController extends Controller
         $str_time = $ujian->waktu_pengerjaan;
         sscanf($str_time, "%d:%d:%d", $hours, $minutes, $seconds);
         $sisa_waktu = isset($seconds) ? $hours * 3600 + $minutes * 60 + $seconds : $hours * 60 + $minutes;
-        
+
         // return $time_seconds;
 
         // return $ujian;

@@ -91,7 +91,7 @@
           height: 100%;
           width: 6px;
           display: inline-block;
-          
+
           -webkit-animation: sk-stretchdelay 1.2s infinite ease-in-out;
           animation: sk-stretchdelay 1.2s infinite ease-in-out;
         }
@@ -117,15 +117,15 @@
         }
 
         @-webkit-keyframes sk-stretchdelay {
-          0%, 40%, 100% { -webkit-transform: scaleY(0.4) }  
+          0%, 40%, 100% { -webkit-transform: scaleY(0.4) }
           20% { -webkit-transform: scaleY(1.0) }
         }
 
         @keyframes sk-stretchdelay {
-          0%, 40%, 100% { 
+          0%, 40%, 100% {
             transform: scaleY(0.4);
             -webkit-transform: scaleY(0.4);
-          }  20% { 
+          }  20% {
             transform: scaleY(1.0);
             -webkit-transform: scaleY(1.0);
   }
@@ -216,6 +216,7 @@
 
     {{-- JQuery --}}
     <script src="{{ asset('js/jquery-3.1.1.min.js') }}"></script>
+
     {{-- CKEditor --}}
     {{-- <script src="//cdn.ckeditor.com/4.5.10/standard-all/ckeditor.js"></script>
     <script src="{{ asset('js/ckfinder.js') }}"></script> --}}
@@ -320,7 +321,18 @@
 
     {{-- Toggle Select Bikin Soal --}}
     <script type="text/javascript">
-        
+        $('#tipe').on('change', function(){
+           var $value = $('#tipe option:selected').attr('value');
+           if($value == 'BS'){
+               $('.PG').slideUp(1000, function(){
+                   $('.BS').slideDown(1000);
+               });
+           }else if($value == "PG"){
+               $('.BS').slideUp(1000, function(){
+                  $('.PG').slideDown(1000);
+               });
+           }
+        });
     </script>
     {{-- Froala --}}
     {{-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/codemirror.min.js"></script>

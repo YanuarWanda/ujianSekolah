@@ -20,13 +20,19 @@
                         Batas Pengerjaan : {{$u->tanggal_kadaluarsa}}<br>
                         Status : {{$u->status}}<br>
                         Catatan : {{$u->catatan}}<br>
-                        <a class="text-center" href="#">Daftar Nilai</a>
-                        <br>
-                        @if($u->status == 'Draft')
-                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#post">Post Ujian</button>
-                        @else
-                        <a class="text-center" id="unpostModal" href="{{url('/kelola-ujian/DRAFT', base64_encode($u->id_ujian))}}">Unpost Ujian</a>
-                        @endif
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <a class="text-center btn btn-primary btn-block" href="#">Daftar Nilai</a>
+                            </div>
+                            <div class="col-sm-6">
+                                @if($u->status == 'Draft')
+                                <button type="button" class="btn btn-info btn-block" data-toggle="modal" data-target="#post">Post Ujian</button>
+                                @else
+                                <a class="text-center btn btn-info btn-block" id="unpostModal" href="{{url('/kelola-ujian/DRAFT', base64_encode($u->id_ujian))}}">Unpost Ujian</a>
+                                @endif
+                            </div>
+                        </div>
                     </div>
                     <div class="panel-footer">
                         @if(Auth::user()->hak_akses == 'admin'){!!"Di post oleh <span style='color:red;'>Administrator</span>, ".$u->tanggal_post!!}
@@ -79,6 +85,6 @@
 <script type="text/javascript">
     function form_submit() {
         document.getElementById("post-data").submit();
-    }    
+    }
 </script>
 @endsection
