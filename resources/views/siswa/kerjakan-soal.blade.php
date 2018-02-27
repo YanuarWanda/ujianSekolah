@@ -12,6 +12,28 @@
 @section('content')
 <div class="container">
     <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col">
+                        @for($a = 1; $a<= count($ujian->soal) ;$a++)
+                        {{-- {{ count($ujian->soal) }} --}}
+                        <button 
+                            style="margin-left: 5px; margin-bottom: 5px;" 
+                            class="btn btn-default" 
+                            value="{{ $a }}">
+                             {{ $a }} 
+                         </button>
+                        @endfor
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> 
+    </div>
+
+    <div class="row">
         <div class="col-md-8">
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -19,6 +41,33 @@
                 </div>
 
                 <div class="panel-body">
+                    <h4>Soal ke-1</h4>
+                    <p></p>
+                    
+                    <hr>
+                    
+                    <h4>Jawaban</h4>
+                    <form class="form-group">
+                        <div class="radio">
+                          <label><input type="radio" name="optradio">Ini pilihan ke sekian</label>
+                        </div>
+                        <div class="radio">
+                          <label><input type="radio" name="optradio">Ini pilihan ke sekian</label>
+                        </div>
+                        <div class="radio">
+                          <label><input type="radio" name="optradio">Ini pilihan ke sekian</label>
+                        </div>
+                        <div class="radio">
+                          <label><input type="radio" name="optradio">Ini pilihan ke sekian</label>
+                        </div>
+                        <div class="radio">
+                          <label><input type="radio" name="optradio">Ini pilihan ke sekian</label>
+                        </div>
+
+                        <div class="form-group pull-right">
+                          <button class="btn btn-success">Next</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -43,7 +92,7 @@
 
 @section('js')
 <script type="text/javascript">
-var count = {{ $sisa_waktu }};
+var count = {{ $sisa_waktu }}; // 3600s
 // console.log(count);
 var counter = setInterval(timer, 1000); //1000 will  run it every 1 second
 
@@ -61,6 +110,8 @@ function timer() {
     hours %= 60;
 
     document.getElementById("pageTimer").innerHTML = hours + " Jam " + minutes + " Menit " + seconds + " Detik ";
+    var sisa_waktu = hours + ":" + minutes + ":" + seconds;
+    // console.log(sisa_waktu);
 }
 </script>
 @endsection

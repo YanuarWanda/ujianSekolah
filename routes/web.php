@@ -12,7 +12,8 @@
 */
 
 Route::get('/', function () {
-    return redirect('/home');
+	// return session()->all();
+	return redirect('/home');
 });
 
 Auth::routes();
@@ -91,3 +92,6 @@ Route::post('/edit/g/{id}', 'GuruController@storeDataGuru')->name('edit-guru');
 
 // Dashboard Siswa
 Route::get('/soal/{id}', 'UjianController@kerjakanSoal');
+Route::post('/pass_value', function() {
+	return view('pass_value');
+});

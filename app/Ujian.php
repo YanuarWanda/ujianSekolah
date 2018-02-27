@@ -23,6 +23,10 @@ class Ujian extends Model
         return $this->belongsTo('App\Guru', 'id_guru');
     }
 
+    public function soal() {
+        return $this->hasMany('App\Soal', 'id_ujian');
+    }
+
     // public function user() {
     //     return $this->belongsTo('App\User', 'id_users');
     // }
