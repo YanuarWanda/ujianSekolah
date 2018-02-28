@@ -9,6 +9,7 @@ use App\User;
 use App\Kelas;
 use Storage;
 
+use DB;
 class SiswaController extends Controller
 {
     public function __construct()
@@ -232,5 +233,69 @@ class SiswaController extends Controller
         if($user->save() && $siswa->save()) {
             return redirect('/home')->with('success', 'Data berhasil diubah');
         } else return redirect('/settings')->with('error', 'Data gagal diubah');
+    }
+
+    public function importView() {
+        return view('admin.kelola-siswa.import');
+    }
+
+    public function importToDatabase(Request $request) {
+        $this->validate($request, [
+            'fileExcel' => 'required',
+        ]);
+
+        if($request->hasFile('fileExcel')){
+            $path = $request->file('fileExcel')->getRealPath();
+            $data = \Excel::load($path)->get();
+            if($data->count()){
+                foreach ($data as $key => $value) {
+                    $user[] = [
+                        'username'      => $value->username,
+                        'password'      => bcrypt($value->password),
+                        'email'         => $value->email,
+                        'hak_akses'     => 'siswa',
+                        'created_at'    => now(),
+                        'updated_at'    => now(),
+                    ];
+
+                    $siswa[] = [
+                        'nis'           => $value->nis,
+                        'nama'          => $value->nama,
+                        'alamat'        => $value->alamat,
+                        'jenis_kelamin' => $value->jenis_kelamin,
+                        'id_kelas'      => Kelas::select('id_kelas')->where('nama_kelas', $value->kelas)->first()['id_kelas'],
+                        'foto'          => 'nophoto.jpg',
+                    ];
+                }
+
+                if(!empty($user) && !empty($siswa)){
+
+                    \DB::table('users')->insert($user);
+
+                    $dataUser = DB::select("SELECT * FROM users WHERE users.id_users NOT IN (SELECT id_users FROM siswa) AND hak_akses = 'siswa'");
+
+                    foreach ($dataUser as $key => $value) {
+                        $siswa[$key]['id_users'] = $value->id_users;
+                    }
+
+                    if(count($siswa) > $data->count()) {
+                        $dataCount = $data->count(); // Jumlah data asli
+                        $emptyCount = count($siswa); // Jumlah data keseluruhan (plus empty row)
+
+                        // return $dataCount;
+                        for($x = $dataCount; $x <= $emptyCount; $x++) {
+                            unset($siswa[$x]); // Menghapus row kosong
+                        }
+
+                        // dd($siswa);
+                    }
+
+                    \DB::table('siswa')->insert($siswa);
+                    
+
+                    return redirect('/home')->with('success', 'Import data berhasil dilakukan');
+                }
+            }
+        }
     }
 }

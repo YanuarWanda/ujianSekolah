@@ -64,6 +64,8 @@ Route::get('/kelola-siswa/edit/{id}', 'SiswaController@edit');
 Route::post('/kelola-siswa/update/{id}', 'SiswaController@update');
 Route::post('/kelola-siswa/updateAkun/{id}', 'SiswaController@updateAkun');
 Route::get('/kelola-siswa/delete/{id}', 'SiswaController@destroy');
+Route::get('/kelola-siswa/import', 'SiswaController@importView');
+Route::post('/kelola-siswa/import', 'SiswaController@importToDatabase');
 
 // CRUD ujian
 Route::get('kelola-ujian', 'UjianController@index');
