@@ -291,7 +291,6 @@ class SiswaController extends Controller
                     }
 
                     \DB::table('siswa')->insert($siswa);
-                    
 
                     return redirect('/home')->with('success', 'Import data berhasil dilakukan');
                 }

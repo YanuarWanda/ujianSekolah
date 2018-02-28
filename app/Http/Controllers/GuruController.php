@@ -323,15 +323,25 @@ class GuruController extends Controller
                 if(!empty($user) && !empty($guru)){
                     \DB::table('users')->insert($user);
 
-                    $data = DB::select("SELECT * FROM users WHERE users.id_users NOT IN (SELECT id_users FROM guru) AND hak_akses = 'guru'");
+                    $dataUser = DB::select("SELECT * FROM users WHERE users.id_users NOT IN (SELECT id_users FROM guru) AND hak_akses = 'guru'");
 
                     // dd($data);
 
-                    foreach ($data as $key => $value) {
+                    foreach ($dataUser as $key => $value) {
                         $guru[$key]['id_users'] = $value->id_users;
                     }
 
-                    // dd($guru);
+                    if(count($guru) > $data->count()) {
+                        $dataCount = $data->count(); // Jumlah data asli
+                        $emptyCount = count($guru); // Jumlah data keseluruhan (plus empty row)
+
+                        // return $dataCount;
+                        for($x = $dataCount; $x <= $emptyCount; $x++) {
+                            unset($guru[$x]); // Menghapus row kosong
+                        }
+
+                        // dd($guru);
+                    }
 
                     \DB::table('guru')->insert($guru);
                     // dd($guru);

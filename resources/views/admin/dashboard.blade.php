@@ -13,6 +13,7 @@
                     <a href="/kelola-ujian" class="btn btn-danger">Kelola Ujian</a>
                     <a href="/kelola-jurusan" class="btn btn-info">Kelola Jurusan</a>
                     <a href="/kelola-kelas" class="btn btn-warning">Kelola Kelas</a>
+                    <br><br>
                     <a href="/kelola-guru/import" class="btn btn-default">Import data Guru</a>
                     <a href="/kelola-siswa/import" class="btn btn-default">Import data Siswa</a>
                 </div>
