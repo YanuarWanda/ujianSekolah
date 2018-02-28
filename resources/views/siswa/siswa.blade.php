@@ -26,6 +26,7 @@
 
         <div class="col-md-8">
             <h1 style="margin-top: -5px; margin-bottom: 25px; text-align: center;">Daftar Ujian</h1>
+            <?php $index=0; ?>
             @foreach($ujian as $u => $isi)
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -40,37 +41,40 @@
                 </div>
                 {{-- @foreach($nilai as $n) --}}
                     {{-- {{ $u->id_ujian.', '.$n['id_ujian'] }} --}}
-                @if(count($nilai) == count($ujian))
-                    @for($i=0;$i<=2;$i++)
-                        @if($isi->id_ujian == $nilai[$i]['id_ujian'])
+                @if(count($nilai) == count($ujianArray))
+
+                        @if($isi->id_ujian == $nilai[$index]['id_ujian'])
                             <div class="panel-footer">
                                 <p>Anda Sudah Mengerjakan!</p>
                             </div>
-                        @elseif($isi->id_ujian != $nilai[$i]['id_ujian'])
+                        @elseif($isi->id_ujian != $nilai[$index]['id_ujian'])
                             <div class="panel-footer">
                                 <a href="{{ url('/soal', base64_encode($isi->id_ujian)) }}" class="btn btn-primary">Kerjakan</a>
                             </div>
                         @endif
-                    @endfor
+
                 @elseif(count($nilai) == 0)
                     <div class="panel-footer">
                         <a href="{{ url('/soal', base64_encode($isi->id_ujian)) }}" class="btn btn-primary">Kerjakan</a>
                     </div>
                 @else
-                    @foreach($nilai as $n)
-                        @if($isi->id_ujian == $n['id_ujian'])
+                    {{-- @foreach($nilai as $n) --}}
+                        {{-- {{ $isi->id_ujian.', '.$nilai[$index]['id_ujian'].', '.$index }} --}}
+                        @if($isi->id_ujian == $nilai[$index]['id_ujian'])
                             <div class="panel-footer">
                                 <p>Anda Sudah Mengerjakan!</p>
                             </div>
-                        @elseif($isi->id_ujian != $n['id_ujian'])
+                        @elseif($isi->id_ujian != $nilai[$index]['id_ujian'])
                             <div class="panel-footer">
                                 <a href="{{ url('/soal', base64_encode($isi->id_ujian)) }}" class="btn btn-primary">Kerjakan</a>
                             </div>
                         @endif
-                    @endforeach
+                    {{-- @endforeach --}}
                 @endif
                 {{-- @endforeach --}}
             </div>
+            {{ $index }}
+            <?php if($index < count($nilai)-1){ $index++; }?>
             @endforeach
             <div class="pull-right">
                 {{ $ujian->links() }}

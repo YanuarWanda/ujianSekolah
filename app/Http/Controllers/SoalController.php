@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Ujian;
 use App\Soal;
+use App\Nilai;
 
 class SoalController extends Controller
 {
@@ -177,5 +178,13 @@ class SoalController extends Controller
         }else{
             return redirect('/kelola-ujian/edit/'.base64_encode($soal->id_ujian))->with('error', 'Data gagal dihapus!');
         }
+    }
+
+    public function daftarNilai($id){
+        $nilai          = Nilai::join('siswa', 'nilai.id_siswa', '=', 'siswa.id_siswa')->where('id_ujian', base64_decode($id))->orderBy('id_kelas', 'asc')->get();
+        $jumlahNilai    = Nilai::join('siswa', 'nilai.id_siswa', '=', 'siswa.id_siswa')->join('kelas', 'siswa.id_kelas', '=', 'kelas.id_kelas')->groupBy('kelas.id_kelas')->get();
+
+        // return $jumlahNilai[1]['nama_kelas'];
+        return view('admin.kelola-nilai.daftar_nilai', compact('nilai', 'jumlahNilai'));
     }
 }

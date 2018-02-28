@@ -96,8 +96,7 @@ class HomeController extends Controller
             $paginatedItems->setPath(url()->current());
 
             $ujian = $paginatedItems;
-
-            // return $ujian;
+            // return count($nilai);
             // return $ujianArray;
             return view('siswa.siswa', compact('siswa', 'ujian', 'ujianArray', 'nilai'));
         }

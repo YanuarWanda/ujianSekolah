@@ -23,7 +23,7 @@
                         <hr>
                         <div class="row">
                             <div class="col-sm-6">
-                                <a class="text-center btn btn-primary btn-block" href="#">Daftar Nilai</a>
+                                <a class="text-center btn btn-primary btn-block" href="{{ url('/daftar-nilai', base64_encode($isi->id_ujian)) }}">Daftar Nilai</a>
                             </div>
                             <div class="col-sm-6">
                                 @if($isi->status == 'Draft')
@@ -35,9 +35,14 @@
                         </div>
                     </div>
                     <div class="panel-footer">
-                        @if(Auth::user()->hak_akses == 'admin'){!!"Di post oleh <span style='color:red;'>Administrator</span>, ".$isi->tanggal_post!!}
-                        @else {{"Di post oleh ".$isi->guru['nama'].", ".$isi->tanggal_post}}
+                        {{-- @if(Auth::user()->hak_akses == 'admin'){!!"Di post oleh <span style='color:red;'>Administrator</span>, ".$isi->tanggal_post!!} --}}
+                        {{-- @else  --}}
+                        @if($isi->guru['nama'])
+                            {{"Di post oleh ".$isi->guru['nama'].", ".$isi->tanggal_post}}
+                        @else
+                            {!! "Di post oleh <span style='color:red'> Admin </span>, ".$isi->tanggal_post !!}
                         @endif
+                        {{-- @endif --}}
                     </div>
                 </div>
             </div>

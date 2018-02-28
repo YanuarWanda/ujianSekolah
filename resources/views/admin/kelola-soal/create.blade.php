@@ -60,6 +60,7 @@
                                  </div>
                              </div>
 
+
                              <div class="form-group{{ $errors->has('soal') ? ' has-error' : '' }}">
                                  <label for="soal" class="col-md-2 control-label">Soal</label>
 

@@ -18,4 +18,5 @@ class Nilai extends Model
     public function siswa() {
         return $this->belongsTo('App\Siswa', 'nis');
     }
+
 }

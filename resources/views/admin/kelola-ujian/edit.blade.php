@@ -122,7 +122,7 @@
                                         <tr>
                                             <td><?php echo $no;$no++; ?></td>
                                             <td>{!! $s['isi_soal'] !!}</td>
-                                            <td>{{$s['jawaban']}}</td>
+                                            <td>{!! $s['jawaban'] !!}</td>
                                             <td>{{$s['tipe']}}</td>
                                             <td>
                                                 <a href="{{url('/kelola-soal/edit', base64_encode($s['id_soal']))}}" class="btn btn-primary"><i class="fa fa-edit" aria-hidden="true"></i></a>
