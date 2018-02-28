@@ -24,7 +24,7 @@
                     <strong id="coba">Sisa waktu : <span style="color: orange;" id="pageTimer"></span></strong>
                 </div>
 
-                <form class="form-horizontal" method="POST" action="{{ url('/soal/submit', base64_encode($ujian->id_ujian)) }}">
+                <form class="form-horizontal" id="ujian" method="POST" action="{{ url('/soal/submit', base64_encode($ujian->id_ujian)) }}">
                     {{ csrf_field() }}
                     @foreach($soalFull as $s => $isi)
                     <div class="panel-body" id="Soal_{{$s}}" @if($s == '0') style="display:block" @else style="display:none" @endif>
@@ -111,7 +111,15 @@ function timer() {
 
     document.getElementById("pageTimer").innerHTML = hours + " Jam " + minutes + " Menit " + seconds + " Detik ";
     var sisa_waktu = hours + ":" + minutes + ":" + seconds;
-    // console.log(sisa_waktu);
+    console.log(sisa_waktu);
+    
+    if(sisa_waktu == '0:0:0') {
+        swal('', 'Waktu Pengerjaan Habis !', 'warning').then((selesai) => {
+            if(selesai) {
+                document.getElementById('ujian').submit();
+            }
+        });
+    }
 }
 </script>
 @endsection

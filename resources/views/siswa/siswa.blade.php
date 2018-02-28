@@ -73,7 +73,7 @@
                 @endif
                 {{-- @endforeach --}}
             </div>
-            {{ $index }}
+            {{-- {{ $index }} --}}
             <?php if($index < count($nilai)-1){ $index++; }?>
             @endforeach
             <div class="pull-right">
