@@ -65,7 +65,7 @@ class HomeController extends Controller
             );
             session(['id_siswa' => $siswa->id_siswa]);
 
-            $nilai = Nilai::join('siswa', 'nilai.id_siswa', '=', 'siswa.id_siswa')->where('siswa.id_siswa', $siswa->id_siswa)->get();
+            $nilai = Nilai::join('siswa', 'nilai.id_siswa', '=', 'siswa.id_siswa')->where('siswa.id_siswa', $siswa->id_siswa)->orderBy('siswa.id_siswa')->get();
             // return $nilai;
             $ujianArray = DB::select('
                 select id_ujian, id_mapel, nama_mapel, id_guru, judul_ujian, waktu_pengerjaan, tanggal_post, tanggal_kadaluarsa, status, catatan from ujian u
@@ -97,7 +97,7 @@ class HomeController extends Controller
 
             $ujian = $paginatedItems;
             // return count($nilai);
-            // return $ujianArray;
+            // return $nilai;
             return view('siswa.siswa', compact('siswa', 'ujian', 'ujianArray', 'nilai'));
         }
     }

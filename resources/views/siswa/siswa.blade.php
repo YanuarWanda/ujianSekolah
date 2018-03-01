@@ -59,7 +59,7 @@
                 @else
                     {{-- @foreach($nilai as $n) --}}
                         {{-- {{ $isi->id_ujian.', '.$nilai[$index]['id_ujian'].', '.$index }} --}}
-                                {{ $isi->id_ujian.', '.$nilai[$index]['id_ujian']}}
+                        {{-- {{ $isi->id_ujian.', '.$nilai[$index]['id_ujian']}} --}}
                         @if($isi->id_ujian == $nilai[$index]['id_ujian'])
                             <div class="panel-footer">
                                 <p>Anda Sudah Mengerjakan!</p>
@@ -70,11 +70,11 @@
                             </div>
                         @endif
                     {{-- @endforeach --}}
+                    <?php if($index < count($nilai)-1){ $index++; }?>
                 @endif
                 {{-- @endforeach --}}
             </div>
             {{-- {{ $index }} --}}
-            <?php if($index < count($nilai)-1){ $index++; }?>
             @endforeach
             <div class="pull-right">
                 {{ $ujian->links() }}

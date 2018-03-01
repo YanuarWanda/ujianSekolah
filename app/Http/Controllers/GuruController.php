@@ -243,6 +243,12 @@ class GuruController extends Controller
         $user = User::find($guru->id_users);
         $bidangKeahlian = BidangKeahlian::where('id_guru', base64_decode($id))->get();
 
+        // return $guru->ujian;
+
+        if($guru->ujian) {
+            return redirect()->back()->with('error', 'Guru tidak dapat dihapus');
+        }
+
         if($guru && $user) {
             foreach($bidangKeahlian as $bidang){
                 $bidang->delete();
