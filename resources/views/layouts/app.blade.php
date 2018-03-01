@@ -53,6 +53,11 @@
     <script src="{{ asset('js/ckfinder.js') }}"></script> --}}
 
     <style type="text/css">
+        .perKelas{
+            background-color: #273627;
+
+        }
+
         .close-btn{
             color: red;
             position: absolute;
@@ -351,7 +356,12 @@
             $('#'+$nowIndex).slideUp(1000, function(){
                 $('#'+$index).slideDown(1000);
             });
-        })
+        });
+
+        $('.block').on('click', function(){
+            var $index  = $(this).attr('data-panel');
+            $('#'+$index).slideToggle(1000);
+        });
     </script>
 
     {{-- Froala --}}
