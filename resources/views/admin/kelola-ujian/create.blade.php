@@ -17,7 +17,7 @@
                                     <select name="mapel" id="mapel" class="form-control">
 
                                             @foreach($mapel as $m)
-                                                <option @if(old('mapel') == $m->bidang_keahlian) {{ 'selected' }} @endif>{{ $m->bidang_keahlian }}</option>
+                                                <option @if(old('mapel') == $m->nama_mapel) {{ 'selected' }} @endif>{{ $m->nama_mapel }}</option>
                                             @endforeach
 
                                     </select>
