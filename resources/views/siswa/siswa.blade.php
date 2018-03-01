@@ -12,9 +12,9 @@
                 <div class="panel-body">
                     <p align="center">
                         <?php if($siswa->foto != 'nophoto.jpg'){?>
-                            <img src="{{asset('storage/foto-profil/'.$siswa->foto)}}" width="250px"/></td>
+                            <img src="{{asset('storage/foto-profil/'.$siswa->foto)}}" width="250px"/>
                         <?php }else{ ?>
-                            <img src="{{asset('image/nophoto.jpg')}}" width="250px"/></td>
+                            <img src="{{asset('image/nophoto.jpg')}}" width="250px"/>
                         <?php } ?>
                     </p>
                     <p>NIS : {{ $siswa->nis }}</p>
@@ -39,42 +39,33 @@
                     <strong>Deskripsi</strong>
                     <p>{{ $isi->catatan }}</p>
                 </div>
-                {{-- @foreach($nilai as $n) --}}
-                    {{-- {{ $u->id_ujian.', '.$n['id_ujian'] }} --}}
-                @if(count($nilai) == count($ujianArray))
-                        @if($isi->id_ujian == $nilai[$index]['id_ujian'])
-                            <div class="panel-footer">
-                                <p>Anda Sudah Mengerjakan!</p>
-                            </div>
-                        @elseif($isi->id_ujian != $nilai[$index]['id_ujian'])
-                            <div class="panel-footer">
-                                <a href="{{ url('/soal', base64_encode($isi->id_ujian)) }}" class="btn btn-primary">Kerjakan</a>
-                            </div>
-                        @endif
 
+                @if(count($nilai) == count($ujianArray))
+                    <div class="panel-footer">
+                            <p>Anda Sudah Mengerjakan!</p>
+                    </div>
                 @elseif(count($nilai) == 0)
                     <div class="panel-footer">
                         <a href="{{ url('/soal', base64_encode($isi->id_ujian)) }}" class="btn btn-primary">Kerjakan</a>
                     </div>
                 @else
-                    {{-- @foreach($nilai as $n) --}}
-                        {{-- {{ $isi->id_ujian.', '.$nilai[$index]['id_ujian'].', '.$index }} --}}
-                        {{-- {{ $isi->id_ujian.', '.$nilai[$index]['id_ujian']}} --}}
-                        @if($isi->id_ujian == $nilai[$index]['id_ujian'])
-                            <div class="panel-footer">
-                                <p>Anda Sudah Mengerjakan!</p>
-                            </div>
-                        @elseif($isi->id_ujian != $nilai[$index]['id_ujian'])
+                        {{-- {{ $isiNilai['id_ujian'].'('.$IDNilai[$ni].')' }} --}}
+                        {{-- {{ in_array($isiNilai['id_ujian'], $IDNilai) }} --}}
+                    @foreach($nilai as $n => $isiNilai)
+                        @if($isi->id_ujian == $isiNilai->id_ujian)
+                        <div class="panel-footer">
+                            <p>Anda Sudah Mengerjakan!</p>
+                        </div>
+                            @if($u < $n) <?php break; ?> @endif
+                        @endif
+                        @if($u < $n)
                             <div class="panel-footer">
                                 <a href="{{ url('/soal', base64_encode($isi->id_ujian)) }}" class="btn btn-primary">Kerjakan</a>
                             </div>
                         @endif
-                    {{-- @endforeach --}}
-                    <?php if($index < count($nilai)-1){ $index++; }?>
+                    @endforeach
                 @endif
-                {{-- @endforeach --}}
             </div>
-            {{-- {{ $index }} --}}
             @endforeach
             <div class="pull-right">
                 {{ $ujian->links() }}

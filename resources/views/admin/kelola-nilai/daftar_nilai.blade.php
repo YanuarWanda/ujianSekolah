@@ -34,9 +34,9 @@
                                                         <tr>
                                                             <td><?php echo $no;$no++; ?></td>
                                                             <td>{{$isiN->nama}}</td>
-                                                            <td>{{$isiJumlah['jawaban_benar']}}</td>
-                                                            <td>{{$isiJumlah['jawaban_salah']}}</td>
-                                                            <td>{{$isiJumlah['nilai']}}</td>
+                                                            <td>{{$isiN['jawaban_benar']}}</td>
+                                                            <td>{{$isiN['jawaban_salah']}}</td>
+                                                            <td>{{$isiN['nilai']}}</td>
                                                         </tr>
                                                     </tbody>
                                                 @endif

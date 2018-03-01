@@ -208,11 +208,11 @@ class GuruController extends Controller
 
                         $bidang_keahlian->save();
                     }
+                    return redirect('/kelola-guru')->with('success', 'Data berhasil diubah.');
                 }
             }
         }
-
-        return redirect('/kelola-guru')->with('success', 'Data berhasil diubah.');
+        return redirect('/kelola-guru/edit', $id)->with('error', 'Data gagal diubah.');
     }
 
     public function updatePassword(Request $data, $id){
@@ -245,9 +245,9 @@ class GuruController extends Controller
 
         // return $guru->ujian;
 
-        if($guru->ujian) {
-            return redirect()->back()->with('error', 'Guru tidak dapat dihapus');
-        }
+        // if($guru->ujian) {
+        //     return redirect()->back()->with('error', 'Guru tidak dapat dihapus');
+        // }
 
         if($guru && $user) {
             foreach($bidangKeahlian as $bidang){

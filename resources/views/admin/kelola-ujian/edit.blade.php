@@ -92,18 +92,22 @@
                             <div class="form-group">
                                 <div class="col-md-6 col-md-offset-4">
                                     <a href="/kelola-ujian" class="btn btn-danger">Cancel</a>
-                                    <button type="submit" class="btn btn-primary">
-                                        Update
+                                    <button type="submit" class="btn btn-primary pull-right">
+                                        <i class="fa fa-edit fa-1x"></i> Update Ujian
                                     </button>
-                                    <a href="{{url('/kelola-soal/create', base64_encode($ujian->id_ujian))}}" class="btn btn-primary pull-right">Add Soal</a>
                                 </div>
                             </div>
                         </form>
 
-                        <hr>
+                    </div>
+                </div>
 
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        Daftar Soal |  {{ $ujian->judul_ujian }}
+                    </div>
+                    <div class="panel-body">
                         <h1 class="text-center">Soal</h1>
-
                         @if(count($soal) > 0)
                         <table class="table table-bordered" id="tableSoal">
                             <thead>
@@ -136,8 +140,10 @@
                         @else
                             <strong><p>Data tidak tersedia.</p></strong>
                         @endif
-
+                        <a href="{{url('/kelola-soal/create', base64_encode($ujian->id_ujian))}}" class="btn btn-primary btn-block"><i class="fa fa-plus fa-1x"></i> Tambah Soal</a>
                     </div>
+                </div>
+
                 </div>
             </div>
         </div>

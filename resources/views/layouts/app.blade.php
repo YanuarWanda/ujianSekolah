@@ -362,6 +362,36 @@
             var $index  = $(this).attr('data-panel');
             $('#'+$index).slideToggle(1000);
         });
+
+        $('.remove').on('click', function(){
+            var url = $(this).attr('href');
+            swal({
+                title: 'Hapus data?',
+                text: 'Data yang dihapus tidak bisa dikembalikan! Data ujian guru ini juga akan ikut terhapus!',
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Okelah, hapus aja!'
+            }).then((result) =>{
+                window.location.replace(url);
+            });
+        });
+
+        $('.removeSiswa').on('click', function(){
+            var url = $(this).attr('href');
+            swal({
+                title: 'Hapus data?',
+                text: 'Data yang dihapus tidak bisa dikembalikan! Data nilai siswa ini juga akan ikut terhapus!',
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Okelah, hapus aja!'
+            }).then((result) =>{
+                window.location.replace(url);
+            });
+        });
     </script>
 
     {{-- Froala --}}
