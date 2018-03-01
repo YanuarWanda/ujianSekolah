@@ -42,7 +42,6 @@
                 {{-- @foreach($nilai as $n) --}}
                     {{-- {{ $u->id_ujian.', '.$n['id_ujian'] }} --}}
                 @if(count($nilai) == count($ujianArray))
-
                         @if($isi->id_ujian == $nilai[$index]['id_ujian'])
                             <div class="panel-footer">
                                 <p>Anda Sudah Mengerjakan!</p>
@@ -60,6 +59,7 @@
                 @else
                     {{-- @foreach($nilai as $n) --}}
                         {{-- {{ $isi->id_ujian.', '.$nilai[$index]['id_ujian'].', '.$index }} --}}
+                                {{ $isi->id_ujian.', '.$nilai[$index]['id_ujian']}}
                         @if($isi->id_ujian == $nilai[$index]['id_ujian'])
                             <div class="panel-footer">
                                 <p>Anda Sudah Mengerjakan!</p>
