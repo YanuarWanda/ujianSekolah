@@ -43,10 +43,28 @@
                     </div>
                 </div>
                 <div class="panel-footer pull-right">
+                    <button id="export" class="btn btn-success">Export Data Guru</button>
                     <a href="{{ route('daftar-guru') }}" class="btn btn-success">Daftarkan Guru</a>
                 </div>
             </div>
         </div>
     </div>
 </div>
+@endsection
+
+@section('js')
+<script type="text/javascript">
+    $('#export').click(function() {
+        swal({
+          title: 'Export Data ?',
+          text: 'Data yang di Export akan otomatis terdownload',
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+        }).then((data) => {
+            window.location = '{{ route('export-guru') }}';
+        })
+    });
+</script>
 @endsection

@@ -52,8 +52,14 @@ Route::get('/kelola-guru/edit/{id}', 'GuruController@edit');
 Route::post('/kelola-guru/update/{id}', 'GuruController@update');
 Route::post('/kelola-guru/updatePassword/{id}', 'GuruController@updatePassword');
 Route::get('/kelola-guru/delete/{id}', 'GuruController@destroy');
+
+// Import Guru
 Route::get('/kelola-guru/import', 'GuruController@importView');
 Route::post('/kelola-guru/import', 'GuruController@importToDatabase');
+
+// Export Guru
+// Route::get('/kelola-guru/export', 'GuruController@exportView')->name('export-guru');
+Route::get('/kelola-guru/export', 'GuruController@exportToExcel')->name('export-guru');
 
 // CRUD Siswa
 Route::get('kelola-siswa', 'SiswaController@index');
@@ -64,8 +70,14 @@ Route::get('/kelola-siswa/edit/{id}', 'SiswaController@edit');
 Route::post('/kelola-siswa/update/{id}', 'SiswaController@update');
 Route::post('/kelola-siswa/updateAkun/{id}', 'SiswaController@updateAkun');
 Route::get('/kelola-siswa/delete/{id}', 'SiswaController@destroy');
+
+// Import Siswa
 Route::get('/kelola-siswa/import', 'SiswaController@importView');
 Route::post('/kelola-siswa/import', 'SiswaController@importToDatabase');
+
+// Export Siswa
+// Route::get('/kelola-siswa/export', 'SiswaController@exportView');
+Route::get('/kelola-siswa/export', 'SiswaController@exportToExcel')->name('export-siswa');
 
 // CRUD ujian
 Route::get('kelola-ujian', 'UjianController@index');

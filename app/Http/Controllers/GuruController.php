@@ -362,4 +362,31 @@ class GuruController extends Controller
         }
     }
 
+    public function exportToExcel() {
+        Excel::create('Data Guru', function($excel) {
+            $excel->sheet('Sheet 1', function($sheet) {
+                // Data yang akan di Export
+                $dataGuru = Guru::select('nip', 'nama', 'alamat', 'jenis_kelamin')->get();
+
+                foreach($dataGuru as $guru) {
+                    $data[] = array(
+                        $guru->nip,
+                        $guru->nama,
+                        $guru->alamat,
+                        $guru->jenis_kelamin,
+                    );
+                }
+
+                // Mengisi Data ke Excel
+                $sheet->fromArray($data, null, 'A1', false, false);
+
+                // Menambahkan Judul ke Excel
+                $headings = array('NIP', 'Nama', 'Alamat', 'Jenis Kelamin');
+                $sheet->prependRow(1, $headings);
+            });
+        })->export('xls');
+
+        return redirect()->back()->with('success', 'Data Guru berhasil di Export');
+    }
+
 }

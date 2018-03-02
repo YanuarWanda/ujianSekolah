@@ -8,7 +8,7 @@ use App\Siswa;
 use App\User;
 use App\Kelas;
 use Storage;
-
+use Excel;
 use DB;
 class SiswaController extends Controller
 {
@@ -296,5 +296,35 @@ class SiswaController extends Controller
                 }
             }
         }
+    }
+
+    public function exportToExcel() {
+        Excel::create('Data Siswa', function($excel) {
+            $excel->sheet('Sheet 1', function($sheet) {
+                // Data yang akan di Export
+                $dataSiswa = Siswa::join('kelas', 'siswa.id_kelas', '=', 'kelas.id_kelas')
+                    ->select('nis', 'nama', 'kelas.nama_kelas', 'alamat', 'jenis_kelamin')
+                    ->get();
+
+                foreach($dataSiswa as $siswa) {
+                    $data[] = array(
+                        $siswa->nis,
+                        $siswa->nama,
+                        $siswa->nama_kelas,
+                        $siswa->alamat,
+                        $siswa->jenis_kelamin,
+                    );
+                }
+
+                // Mengisi Data ke Excel
+                $sheet->fromArray($data, null, 'A1', false, false);
+
+                // Menambahkan Judul ke Excel
+                $headings = array('NIS', 'Nama', 'Kelas', 'Alamat', 'Jenis Kelamin');
+                $sheet->prependRow(1, $headings);
+            });
+        })->export('xls');
+
+        return redirect()->back()->with('success', 'Data Siswa berhasil di Export');
     }
 }
