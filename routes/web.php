@@ -87,6 +87,9 @@ Route::get('/kelola-ujian/edit/{id}', 'UjianController@edit');
 Route::post('/kelola-ujian/update/{id}', 'UjianController@update');
 Route::get('/kelola-ujian/delete/{id}', 'UjianController@destroy');
 
+// Export Nilai per Ujian
+Route::get('/daftar-nilai/export/{id}', 'SoalController@exportToExcel');
+
 // Post Ujian
 Route::post('/kelola-ujian/POST/{id}', 'UjianController@postUjian');
 Route::get('/kelola-ujian/DRAFT/{id}', 'UjianController@unpostUjian');

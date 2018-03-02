@@ -190,4 +190,48 @@ class SoalController extends Controller
         // return $jumlahNilai[1]['nama_kelas'];
         return view('admin.kelola-nilai.daftar_nilai', compact('nilai', 'jumlahNilai'));
     }
+
+    public function exportToExcel($id) {
+        // if(empty($ujian->soal)) {
+        //     return redirect()->back()->with('error', 'Nilai Kosong');
+        // }
+
+        $ujian = Ujian::select('id_ujian', 'judul_ujian')->where('id_ujian', base64_decode($id))->first();
+
+        \Excel::create(strtoupper('nilai_ujian '.$ujian->judul_ujian), function($excel) use($ujian) {
+            $excel->sheet('Sheet 1', function($sheet) use($ujian) {
+                // Data yang akan di Export
+                $dataNilai = Nilai::join('ujian', 'nilai.id_ujian', '=', 'ujian.id_ujian')
+                    ->join('siswa', 'nilai.id_siswa', '=', 'siswa.id_siswa')
+                    ->select('siswa.nis', 'siswa.nama', 'nilai.nilai')
+                    ->where('ujian.id_ujian', $ujian->id_ujian)
+                    ->get();
+
+                foreach($dataNilai as $nilai) {
+                    $data[] = array(
+                        $nilai->nis,
+                        $nilai->nama,
+                        $nilai->nilai,
+                    );
+                }
+
+                // Mengisi Data ke Excel
+                $sheet->fromArray($data, null, 'A1', false, false);
+
+                // Menambahkan Judul ke Excel
+                $judul = array(strtoupper($ujian->judul_ujian), '', '');
+                $sheet->prependRow(1, $judul);
+                $headings = array('NIS', 'Nama', 'Nilai');
+                $sheet->prependRow(2, $headings);
+
+                // Merge & Align Center Judul
+                $sheet->mergeCells('A1:C1');
+                $sheet->getStyle('A1')->getAlignment()->applyFromArray(
+                    array('horizontal' => 'center')
+                );
+            });
+        })->export('xlsx');
+
+        return redirect()->back()->with('success', 'Daftar Nilai berhasil di Export');
+    }
 }

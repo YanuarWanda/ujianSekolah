@@ -2,6 +2,7 @@
 
 @section('content')
     <div class="container">
+        <a href="{{url('/daftar-nilai/export', Request::segment(2))}}" class="btn btn-primary btn-fixed-bottom-right z-top">Export Nilai</a>
         <div class="row">
             <div class="col-sm-12">
                 <div class="panel panel-default">
