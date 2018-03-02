@@ -19,6 +19,10 @@ class Guru extends Model
     // Memberitahu laravel bahwa table ini tidak memiliki kolom created_at & updated_at
     public $timestamps = false;
 
+    public function ujian() {
+        return $this->hasMany('App\Ujian', 'id_guru');
+    }
+
     public function user() {
         return $this->belongsTo('App\User', 'id_users');
     }

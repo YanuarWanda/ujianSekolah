@@ -17,7 +17,11 @@
                                     <select name="mapel" id="mapel" class="form-control">
 
                                             @foreach($mapel as $m)
-                                                <option @if(old('mapel') == $m->bidang_keahlian) {{ 'selected' }} @endif>{{ $m->bidang_keahlian }}</option>
+                                                @if(Auth::user()->hak_akses == 'admin')
+                                                    <option @if(old('mapel') == $m->nama_mapel) {{ 'selected' }} @endif>{{ $m->nama_mapel }}</option>
+                                                @else
+                                                    <option @if(old('mapel') == $m->bidang_keahlian) {{ 'selected' }} @endif>{{ $m->bidang_keahlian }}</option>
+                                                @endif
                                             @endforeach
 
                                     </select>
@@ -95,7 +99,7 @@
                                 <div class="col-md-6 col-md-offset-4">
                                     <a href="/kelola-ujian" class="btn btn-danger">Cancel</a>
                                     <button type="submit" class="btn btn-primary">
-                                        Add
+                                        <i class="fa fa-plus fa-1x"></i> Add
                                     </button>
                                 </div>
                             </div>

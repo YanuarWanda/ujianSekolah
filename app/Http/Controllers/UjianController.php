@@ -64,7 +64,7 @@ class UjianController extends Controller
             $guru = Guru::find(session()->get('id_guru'));
             $mapel = BidangKeahlian::join('daftar_bidang_keahlian', 'bidang_keahlian.id_daftar_bidang', '=', 'daftar_bidang_keahlian.id_daftar_bidang')->join('guru', 'bidang_keahlian.id_guru', '=', 'guru.id_guru')->where('bidang_keahlian.id_guru', '=', $guru['id_guru'])->get();
         }
-        // return $mapel;
+        // return $ujian;
         return view('admin.kelola-ujian.create', compact('ujian', 'mapel'));
     }
 
@@ -79,7 +79,7 @@ class UjianController extends Controller
         $id = session()->get('id_guru');
 
         if($data['catatan'] == '') {
-            $data[catatan] == 'Tidak ada catatan.';
+            $data['catatan'] = 'Tidak ada catatan.';
         }
 
         $ujian = Ujian::create([
@@ -91,6 +91,7 @@ class UjianController extends Controller
            'catatan' => $data['catatan'],
         ]);
 
+        // return $ujian->id_ujian;
         return redirect('/kelola-ujian')->with('success', 'Penambahan Data Ujian Berhasil');
     }
 

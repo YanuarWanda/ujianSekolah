@@ -32,7 +32,7 @@
                                             <td>
                                                 <a href="{{url('/kelola-siswa/show', base64_encode($s->nis))}}" class="btn btn-warning"><i class="fa fa-eye" aria-hidden="true"></i></a>
                                                 @if(Auth::user()->hak_akses == 'admin')<a href="{{url('/kelola-siswa/edit', base64_encode($s->nis))}}" class="btn btn-primary"><i class="fa fa-edit" aria-hidden="true"></i></a>@endif
-                                                @if(Auth::user()->hak_akses == 'admin')<a href="{{url('/kelola-siswa/delete', base64_encode($s->nis))}}" class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></a>@endif
+                                                @if(Auth::user()->hak_akses == 'admin')<button type="button" href="{{url('/kelola-siswa/delete', base64_encode($s->nis))}}" class="btn btn-danger removeSiswa"><i class="fa fa-trash" aria-hidden="true"></i></button>@endif
                                             </td>
                                         </tr>
                                     @endforeach
@@ -44,9 +44,11 @@
                         @endif
                     </div>
                 </div>
+                @if(Auth::user()->hak_akses == 'admin')
                 <div class="panel-footer pull-right">
                     <a href="{{ url('/kelola-siswa/create') }}" class="btn btn-success">Daftarkan siswa</a>
                 </div>
+                @endif
             </div>
         </div>
     </div>

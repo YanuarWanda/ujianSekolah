@@ -30,7 +30,7 @@
                                             <td>
                                                 <a href="{{url('/kelola-guru/show', base64_encode($g->id_guru))}}" class="btn btn-warning"><i class="fa fa-eye" aria-hidden="true"></i></a>
                                                 <a href="{{url('/kelola-guru/edit', base64_encode($g->id_guru))}}" class="btn btn-primary"><i class="fa fa-edit" aria-hidden="true"></i></a>
-                                                <a href="{{url('/kelola-guru/delete', base64_encode($g->id_guru))}}" class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                                                <button type="button" class="btn btn-danger remove" href="{{url('/kelola-guru/delete', base64_encode($g->id_guru))}}"><i class="fa fa-trash" aria-hidden="true"></i></button>
                                             </td>
                                         </tr>
                                     @endforeach

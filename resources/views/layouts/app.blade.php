@@ -53,6 +53,11 @@
     <script src="{{ asset('js/ckfinder.js') }}"></script> --}}
 
     <style type="text/css">
+        .perKelas{
+            background-color: #273627;
+
+        }
+
         .close-btn{
             color: red;
             position: absolute;
@@ -351,7 +356,57 @@
             $('#'+$nowIndex).slideUp(1000, function(){
                 $('#'+$index).slideDown(1000);
             });
-        })
+        });
+
+        $('.block').on('click', function(){
+            var $index  = $(this).attr('data-panel');
+            $('#'+$index).slideToggle(1000);
+        });
+
+        $('.remove').on('click', function(){
+            var url = $(this).attr('href');
+            swal({
+                title: 'Hapus data?',
+                text: 'Data yang dihapus tidak bisa dikembalikan! Data ujian guru ini juga akan ikut terhapus!',
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Okelah, hapus aja!'
+            }).then((result) =>{
+                window.location.replace(url);
+            });
+        });
+
+        $('.removeSiswa').on('click', function(){
+            var url = $(this).attr('href');
+            swal({
+                title: 'Hapus data?',
+                text: 'Data yang dihapus tidak bisa dikembalikan! Data nilai siswa ini juga akan ikut terhapus!',
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Okelah, hapus aja!'
+            }).then((result) =>{
+                window.location.replace(url);
+            });
+        });
+
+        $('.removeUjian').on('click', function(){
+            var url = $(this).attr('href');
+            swal({
+                title: 'Hapus data?',
+                text: 'Data yang dihapus tidak bisa dikembalikan! Data nilai siswa yang sudah mengikuti ujian ini juga akan ikut terhapus!',
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Okelah, hapus aja!'
+            }).then((result) =>{
+                window.location.replace(url);
+            });
+        });
     </script>
 
     {{-- Froala --}}

@@ -51,10 +51,11 @@
                                     <div class="col-md-6">
                                         <select name="bidangKeahlian[]" id="bidangKeahlian" class="form-control selectpicker show-menu-arrow" title="Silahkan pilih keahlian.." data-live-search="true" multiple data-selected-text-format="count" data-size="5" multiple>
                                             @foreach($daftarBK as $d)
-                                                <option 
-                                                    @foreach($bidang as $b) 
-                                                        @if($d->id_daftar_bidang == $b->id_daftar_bidang) selected 
-                                                        @endif 
+                                                <option
+                                                    @foreach($bidang as $b)
+                                                        @if($d->id_daftar_bidang == $b->id_daftar_bidang)
+                                                            selected
+                                                        @endif
                                                     @endforeach>
                                                     {{ $d->bidang_keahlian }}
                                                 </option>

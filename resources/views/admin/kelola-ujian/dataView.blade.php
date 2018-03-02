@@ -2,16 +2,16 @@
 
 @section('content')
     <div class="container">
-        <a href="{{url('/kelola-ujian/create')}}" class="btn btn-primary btn-fixed-bottom-right z-top"><i class="fa fa-plus" aria-hidden="false"></i></a>
+        <a href="{{url('/kelola-ujian/create')}}" class="btn btn-primary btn-fixed-bottom-right z-top"><i class="fa fa-plus" aria-hidden="false"> Tambah Ujian</i></a>
         <div class="row">
             @if(count($ujian) > 0)
             @foreach($ujian as $u => $isi)
-            <div class="col-sm-12 col-md-4">
+            <div class="col-sm-12 col-md-6">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <a href="{{url('/kelola-ujian/edit', base64_encode($isi->id_ujian))}}">{{$isi->id_ujian.". ".$isi->judul_ujian}}</a>
+                        {{$isi->id_ujian.". ".$isi->judul_ujian}}
                         <div class="close-btn">
-                            <a href="{{ url('/kelola-ujian/delete', base64_encode($isi->id_ujian)) }}"><i class="fa fa-close fa-1x"></i></a>
+                            <button type="button" href="{{ url('/kelola-ujian/delete', base64_encode($isi->id_ujian)) }}" class="btn btn-danger removeUjian" style="padding-right:5px;padding-left:5px;padding-top:2px;padding-bottom:2px;margin:0"><i class="fa fa-close fa-1x"></i></button>
                         </div>
                     </div>
                     <div class="panel-body">
@@ -22,15 +22,18 @@
                         Catatan : {{$isi->catatan}}<br>
                         <hr>
                         <div class="row">
-                            <div class="col-sm-6">
+                            <div class="col-sm-4">
                                 <a class="text-center btn btn-primary btn-block" href="{{ url('/daftar-nilai', base64_encode($isi->id_ujian)) }}">Daftar Nilai</a>
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-4">
                                 @if($isi->status == 'Draft')
                                 <button type="button" class="btn btn-info btn-block" data-toggle="modal" data-target="#post_{{$u}}">Post Ujian</button>
                                 @else
                                 <a class="text-center btn btn-info btn-block" id="unpostModal" href="{{url('/kelola-ujian/DRAFT', base64_encode($isi->id_ujian))}}">Unpost Ujian</a>
                                 @endif
+                            </div>
+                            <div class="col-sm-4">
+                                <a class="text-center btn btn-warning btn-block" href="{{url('/kelola-ujian/edit', base64_encode($isi->id_ujian))}}">Detail Ujian</a>
                             </div>
                         </div>
                     </div>
