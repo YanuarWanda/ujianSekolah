@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 28, 2018 at 07:24 AM
+-- Generation Time: Mar 02, 2018 at 06:55 AM
 -- Server version: 10.1.26-MariaDB
 -- PHP Version: 7.1.9
 
@@ -39,10 +39,8 @@ CREATE TABLE `bidang_keahlian` (
 --
 
 INSERT INTO `bidang_keahlian` (`id_bidang_keahlian`, `id_guru`, `id_daftar_bidang`) VALUES
-(1, 1, 4),
-(2, 1, 6),
-(3, 2, 10),
-(4, 2, 14);
+(5, 2, 5),
+(6, 2, 18);
 
 -- --------------------------------------------------------
 
@@ -80,6 +78,16 @@ INSERT INTO `daftar_bidang_keahlian` (`id_daftar_bidang`, `bidang_keahlian`) VAL
 (18, 'Administrasi Basis Data'),
 (19, 'Kerja Proyek RPL');
 
+--
+-- Triggers `daftar_bidang_keahlian`
+--
+DELIMITER $$
+CREATE TRIGGER `hapus_bidang_keahlian_pas_hapus_daftar_bidang_keahlian` BEFORE DELETE ON `daftar_bidang_keahlian` FOR EACH ROW BEGIN
+	DELETE FROM bidang_keahlian WHERE id_daftar_bidang = old.id_daftar_bidang;
+    END
+$$
+DELIMITER ;
+
 -- --------------------------------------------------------
 
 --
@@ -101,8 +109,18 @@ CREATE TABLE `guru` (
 --
 
 INSERT INTO `guru` (`id_guru`, `nip`, `id_users`, `nama`, `alamat`, `jenis_kelamin`, `foto`) VALUES
-(1, '1234567890987654321', 2, 'Erika Karata', 'Jalan Karapitan', 'P', 'Screenshot (3)_1519618625.png'),
-(2, '12738292718347382937', 6, 'Yanuar Wanda Putra', 'Bumi Asri', 'L', 'nophoto.jpg');
+(2, '12345678912345678912', 140, 'Yesterday Once More', 'Jalan Dimana Saja', 'P', 'water-bg_1519917994.jpg');
+
+--
+-- Triggers `guru`
+--
+DELIMITER $$
+CREATE TRIGGER `hapus_user_dan_ujian_pas_hapus_guru` BEFORE DELETE ON `guru` FOR EACH ROW BEGIN
+	DELETE FROM ujian WHERE id_guru = old.id_guru;
+	DELETE FROM bidang_keahlian WHERE id_guru = old.id_guru;
+    END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -125,7 +143,18 @@ INSERT INTO `jurusan` (`id_jurusan`, `nama_jurusan`) VALUES
 (3, 'Teknik Komputer Jaringan'),
 (4, 'Administrasi Perkantoran'),
 (5, 'Akuntansi'),
-(6, 'Pemasaran');
+(6, 'Pemasaran'),
+(7, 'Jurusan Baru');
+
+--
+-- Triggers `jurusan`
+--
+DELIMITER $$
+CREATE TRIGGER `hapus_kelas_pas_hapus_jurusan` BEFORE DELETE ON `jurusan` FOR EACH ROW BEGIN
+	delete from kelas WHERE id_jurusan = old.id_jurusan;
+    END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -149,7 +178,19 @@ INSERT INTO `kelas` (`id_kelas`, `nama_kelas`, `id_jurusan`) VALUES
 (3, 'XII RPL 3', 1),
 (4, 'XII MM 1', 2),
 (5, 'XII MM 2', 2),
-(6, 'XII TKJ', 3);
+(6, 'XII TKJ', 3),
+(7, 'XIII RPL 1', 1);
+
+--
+-- Triggers `kelas`
+--
+DELIMITER $$
+CREATE TRIGGER `hapus_kelas_ujian_dan_siswa_pas_hapus_kelas` BEFORE DELETE ON `kelas` FOR EACH ROW BEGIN
+	DELETE FROM kelas_ujian WHERE id_kelas = old.id_kelas;
+	DELETE FROM siswa WHERE id_kelas = old.id_kelas;
+    END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -168,12 +209,13 @@ CREATE TABLE `kelas_ujian` (
 --
 
 INSERT INTO `kelas_ujian` (`id_kelas_ujian`, `id_ujian`, `id_kelas`) VALUES
-(7, 1, 2),
-(8, 1, 4),
-(9, 1, 5),
-(17, 6, 2),
-(18, 7, 2),
-(19, 8, 2);
+(1, 7, 1),
+(2, 7, 2),
+(3, 7, 3),
+(4, 7, 4),
+(5, 7, 5),
+(6, 7, 6),
+(7, 7, 7);
 
 -- --------------------------------------------------------
 
@@ -211,6 +253,16 @@ INSERT INTO `mapel` (`id_mapel`, `nama_mapel`) VALUES
 (18, 'Administrasi Basis Data'),
 (19, 'Kerja Proyek RPL');
 
+--
+-- Triggers `mapel`
+--
+DELIMITER $$
+CREATE TRIGGER `hapus_ujian_pas_hapus_mapel` BEFORE DELETE ON `mapel` FOR EACH ROW BEGIN
+	DELETE FROM ujian WHERE id_mapel = old.id_mapel;
+    END
+$$
+DELIMITER ;
+
 -- --------------------------------------------------------
 
 --
@@ -243,8 +295,12 @@ CREATE TABLE `nilai` (
 --
 
 INSERT INTO `nilai` (`id_nilai`, `id_ujian`, `id_siswa`, `jawaban_benar`, `jawaban_salah`, `nilai`) VALUES
-(3, 6, 3, 0, 1, 0),
-(4, 1, 2, 3, 1, 75);
+(1, 7, 2, 1, 1, 50),
+(2, 7, 3, 0, 2, 0),
+(3, 7, 4, 1, 1, 50),
+(4, 7, 5, 2, 0, 100),
+(5, 7, 6, 2, 0, 100),
+(6, 7, 7, 2, 0, 100);
 
 -- --------------------------------------------------------
 
@@ -257,6 +313,13 @@ CREATE TABLE `password_resets` (
   `token` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `password_resets`
+--
+
+INSERT INTO `password_resets` (`email`, `token`, `created_at`) VALUES
+('yanuar.wanda2@gmail.com', '$2y$10$gNVzBLl6iEGSPx8sKJDuRuOVSoXOzYrgRtUMa0tZOibXSDy9JT/Sa', '2018-03-01 16:25:36');
 
 -- --------------------------------------------------------
 
@@ -280,9 +343,22 @@ CREATE TABLE `siswa` (
 --
 
 INSERT INTO `siswa` (`id_siswa`, `nis`, `id_users`, `id_kelas`, `nama`, `alamat`, `jenis_kelamin`, `foto`) VALUES
-(1, '1502011293', 3, 2, 'Daniel Dwi Fortuna', 'Jalan Cipedes tengah 38, Bandung', 'L', 'Ijazah_180226_0025_1519619013.jpg'),
-(2, '1502011309', 5, 2, 'Wendy Setiawan', 'Jalan Kebonkopi 80, Bandung', 'L', 'Ijazah_180226_0001_1519619299.jpg'),
-(3, '1502011376', 4, 2, 'Muhammad Syaiful Mahialhakim', 'Jalan Gunungbatu 58, Bandung', 'L', 'Ijazah_180226_0013_1519619129.jpg');
+(2, '1502011462', 142, 2, 'Yanuar Wanda Putra', 'Jalan Marga Asri VI G.', 'L', '13700183_1092905147445894_1933285681459202097_n_1519918379.jpg'),
+(3, '1502011463', 143, 1, 'Riki Subagja', 'Jalan Deket Rumah Saya', 'L', '1_1519919858.jpg'),
+(4, '1502011464', 144, 3, 'Whisnu Mulya Kedua', 'Pasar Atas', 'L', 'IMG_20151118_105710_1519920021.jpg'),
+(5, '1502011466', 145, 4, 'Muhammad Rizal', 'Pasar Pojok', 'L', 'DSC_0126_1519920077.JPG'),
+(6, '1502011467', 146, 5, 'Ngudi Prasodjo', 'Jalan Padjajaran Deket SMKN 12 Bandung', 'L', 'IMG_20150925_085835_1519920356.jpg'),
+(7, '1502011468', 147, 6, 'Muhammad Fauzan Faturrahman', 'Jamika', 'L', 'Screenshot (160)_1519920644.png');
+
+--
+-- Triggers `siswa`
+--
+DELIMITER $$
+CREATE TRIGGER `hapus_nilai_pas_hapus_siswa` BEFORE DELETE ON `siswa` FOR EACH ROW BEGIN
+	DELETE FROM nilai WHERE id_siswa = old.id_siswa;
+    END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -304,11 +380,8 @@ CREATE TABLE `soal` (
 --
 
 INSERT INTO `soal` (`id_soal`, `id_ujian`, `tipe`, `isi_soal`, `pilihan`, `jawaban`) VALUES
-(2, 1, 'BS', '<p>Apakah ini bisa digunakan?</p>', 'Benar ,  Salah', 'Benar'),
-(3, 1, 'BS', '<p>Apakah isi dari 5 x 5 + 5 - 5 x 0 = 20?</p>', 'Benar ,  Salah', 'Salah'),
-(4, 1, 'BS', 'Apakah 1 + 1 = 5?', 'Benar ,  Salah', 'Salah'),
-(5, 6, 'PG', '<p>asdaldjwaljdjkwa</p>', '<p>ZXCXCMZ,C</p> ,  <p>AKLSDJAS</p> ,  <p>SDJKAKLDJAS</p> ,  <p>LKSDJKALSD</p> ,  <p>JASLJKDAKSD</p>', '<p>LKSDJKALSD</p>'),
-(6, 1, 'PG', '<p>Apakah semuanya akan berlalu?</p>', '<p>Mungkin</p> ,  <p>Bisa Jadi</p> ,  <p>Tidak</p> ,  <p>Iya</p> ,  <p>Nya kitu welah</p>', '<p>Nya kitu welah</p>');
+(1, 7, 'BS', '<p>Apakah i termasuk dalam alphabet?</p>', 'Benar ,  Salah', 'Benar'),
+(2, 7, 'PG', '<p>Apakah bahasa daerah utama di jawa barat?</p>', '<p>Sunda</p> ,  <p>Jawa</p> ,  <p>Inggris</p> ,  <p>Jerman</p> ,  <p>Russia</p>', '<p>Sunda</p>');
 
 -- --------------------------------------------------------
 
@@ -334,13 +407,19 @@ CREATE TABLE `ujian` (
 --
 
 INSERT INTO `ujian` (`id_ujian`, `id_mapel`, `id_guru`, `judul_ujian`, `waktu_pengerjaan`, `tanggal_pembuatan`, `tanggal_post`, `tanggal_kadaluarsa`, `status`, `catatan`) VALUES
-(1, 6, 1, 'Things about manners', '01:00:00', '2018-02-27 07:39:56', '2018-02-26 05:30:04', '2018-02-26', 'posted', 'Ulangan harian'),
-(3, 12, 1, 'Ujian Harian', '01:00:00', '2018-02-27 07:39:56', '2018-02-26 05:42:33', '2018-02-26', 'Draft', 'untuk kepentingan laporan'),
-(4, 1, 1, 'Judul ke 221x', '02:01:00', '2018-02-27 07:39:56', '2018-02-26 15:13:08', '2018-02-28', 'Draft', 'asdasd'),
-(5, 14, NULL, 'Judul ke berapa', '03:00:00', '2018-02-27 07:39:56', '2018-02-26 15:30:58', '2018-03-09', 'Draft', 'adjakwdjka'),
-(6, 14, 2, 'adiowdjoa', '03:00:00', '2018-02-27 07:39:56', '2018-02-26 15:31:50', '2018-02-26', 'posted', 'klasdjkasld'),
-(7, 14, 2, 'Ini Basis Data', '02:00:00', '2018-02-27 18:39:02', '2018-02-27 18:39:02', '2018-03-09', 'posted', 'Ini Catatan'),
-(8, 10, 2, 'Ini PLH', '00:05:00', '2018-02-27 18:56:52', '2018-02-27 18:56:52', '2018-03-10', 'posted', 'Ini Catatan 2');
+(7, 11, 2, 'Judul', '01:03:01', '2018-03-01 15:50:23', '2018-03-01 15:50:23', '2018-04-06', 'posted', 'Ini Catatan');
+
+--
+-- Triggers `ujian`
+--
+DELIMITER $$
+CREATE TRIGGER `hapus_soal_dan_nilai_pas_hapus_ujian` BEFORE DELETE ON `ujian` FOR EACH ROW BEGIN
+	DELETE FROM soal WHERE id_ujian = old.id_ujian;
+	DELETE FROM nilai WHERE id_ujian = old.id_ujian;
+	delete from kelas_ujian WHERE id_ujian = old.id_ujian;
+    END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -364,12 +443,24 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id_users`, `username`, `email`, `password`, `remember_token`, `hak_akses`, `created_at`, `updated_at`) VALUES
-(1, 'laracry', 'mzfahri620@gmail.com', '$2y$10$aVnJAtv0V.Jo4e2Ob0GOFO/2fsdbjC347gNPCPUHYL9wu3Nfsv7sC', 'qZKUrsbkXp6JCI1X7jkRgQfPBQwdpoyPxQiwEAAPGmi2g8MP9TJYBlL1EXxr', 'admin', '2018-02-26 04:11:25', '2018-02-26 04:11:30'),
-(2, 'ErikaZul', 'erika_zul@gmail.com', '$2y$10$jAIDnzFg0Yus4xxyjOnk9eB2pYuYfm7ZF7c3.QXb4a5MYueYZ8Z9u', 'FgrFxOMcvtDFh640FTSVCFl9KLJms2jQVpIAXiZzQ7AM5F6hlYWeOJawSTED', 'guru', '2018-02-26 04:17:05', '2018-02-26 14:39:29'),
-(3, 'dnaomissions', 'danieldwifortuna48@gmail.com', '$2y$10$QLDH5YW3laEDwTA17E/roe/YQjURNR2LK/WZunY83sMDzGDwzUgCG', NULL, 'siswa', '2018-02-26 04:23:33', '2018-02-26 04:23:33'),
-(4, 'lufiays', 'family.syaiful007@gmail.com', '$2y$10$QKODz5qcLcxo0AavaKINdeQYCY8Bl6Ba/ZqN/567T1pxo0oFv51qi', 'zHLcA3owYDfdddhyuHnz8LqQpacNaRJwF9O5hByvDGumVGsfO0hR2eYOGlYZ', 'siswa', '2018-02-26 04:25:29', '2018-02-26 14:38:18'),
-(5, 'wsetiawan', 'wsetiawan135790@gmail.com', '$2y$10$DaTUQVhL8DIcc6z5OBnr9ePSVoRHleoDLQz3KyZ5LoP/uQXwYHYNy', 'tHaTA3etD1HORI8uDTI14RjXOBMSzsTi6L8wYkI5dfhNGRBReL3s8f9wUxhv', 'siswa', '2018-02-26 04:28:19', '2018-02-27 06:47:46'),
-(6, 'yanuarwanda', 'yanuar.wanda2@gmail.com', '$2y$10$JdoFIr3Kka/gjRwxrVA08uUbFZiuMK1.46bJGgc6sHIc3inB.BHLe', 'sMPs9f7jQAsi1c6WmRAYstHh9ijiOONb5tkh3kgQ4aO81ojLcb5rgKVuys0W', 'guru', '2018-02-26 15:15:24', '2018-02-26 15:15:24');
+(1, 'laracry', 'mzfahri620@gmail.com', '$2y$10$aVnJAtv0V.Jo4e2Ob0GOFO/2fsdbjC347gNPCPUHYL9wu3Nfsv7sC', 'FSKyjRrN6FT1AG1EipoQHdAhGefHVxZWT7bcbtQ79TbUFxLTynA6HFPDCPJO', 'admin', '2018-02-26 04:11:25', '2018-02-26 04:11:30'),
+(140, 'yesterdayoncemore', 'yesterday.once@gmail.com', '$2y$10$2dYgZFHwrXOHZTdvmbLn0esBYpuMi4cQ5dhoo/C/el91h1aG0MDcK', 'UqSM3Nais8xv2h3dGalXf393YK1tuUgIA2VWy5Cb1YpRyQ2ILOjZoKAGqyoh', 'guru', '2018-03-01 15:26:34', '2018-03-01 15:26:34'),
+(142, 'yanuarwanda', 'yanuar.wanda2@gmail.com', '$2y$10$RHae3tmG0.8.vr8DH.Iff.VVH5hCmk4gax64.8mxDXE96XlLL9dyi', 'l64dtCfmmz2A3NLfCVThtrN35bE39ud8QAk2qLFHWjfUHpzZpSooFLjNqAod', 'siswa', '2018-03-01 15:29:35', '2018-03-01 15:29:35'),
+(143, 'bagja', 'riki.subagja@gmail.com', '$2y$10$KwJdfJaM9Kh0IlY7AR/m3OnGs0/abWofeUFfhP9Li/P8Ms4XWvvZG', '0yDPMoehLkYMekzDIcGn6COIlIHK5wQxqflklq4LmNiDqkTuBiYMgxzRkaPx', 'siswa', '2018-03-01 15:57:38', '2018-03-01 15:57:38'),
+(144, 'whisnu', 'whisnu.mulya@gmail.com', '$2y$10$tyDXfjZFiz/DuKS3ibGUkOzNs2VUDM7k7AsSyP5P4tgVaIDSV72me', 'VGEL54rwY7TEYhllTYMuxonY8LzGTU0GuIqq0wLqMeQ2cg59xwAr9pwAW4Dc', 'siswa', '2018-03-01 16:00:21', '2018-03-01 16:00:21'),
+(145, 'rizal2', 'vectorarts@gmail.com', '$2y$10$MSSxumU.qaInYH1pzbDgW.4kYYx5MYdznEGrARRbWYQveXXxNRMeS', 'bWKYOMX4O6mSIJISFTI6LbRKEbsdy119F42V4hBx047TQkM6eLnhlVS3zYUq', 'siswa', '2018-03-01 16:01:17', '2018-03-01 16:01:17'),
+(146, 'nguday', 'n.pras@gmail.com', '$2y$10$L27.mRMMksIaoL7sAsdhAuCRENq6RxizXXh4m5zO8FEhWn.LaDDLy', 'TyhOtO1HbbtffA8Vxq9jjO9JyMJRhTcuVj4yCCGzBWzuEqngMaHrhMBgUlo2', 'siswa', '2018-03-01 16:05:56', '2018-03-01 16:05:56'),
+(147, 'jantung', 'mfauzan@gmail.com', '$2y$10$jJ/5LRh.K5gmAphqrrfpx.ZR4rqeKGMUMmtK2QzUem6ZmYZxXThpa', 'lKMWU8k5eEBSNpxgXZVTPrc7RsohITAK6EXNuPQ9PStv4gSVHlPDX7dBStrv', 'siswa', '2018-03-01 16:10:44', '2018-03-01 16:10:44');
+
+--
+-- Triggers `users`
+--
+DELIMITER $$
+CREATE TRIGGER `hapus_guru_pas_hapus_users` BEFORE DELETE ON `users` FOR EACH ROW BEGIN
+	DELETE FROM guru WHERE id_users = old.id_users;
+    END
+$$
+DELIMITER ;
 
 --
 -- Indexes for dumped tables
@@ -480,7 +571,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `bidang_keahlian`
 --
 ALTER TABLE `bidang_keahlian`
-  MODIFY `id_bidang_keahlian` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_bidang_keahlian` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `daftar_bidang_keahlian`
@@ -498,19 +589,19 @@ ALTER TABLE `guru`
 -- AUTO_INCREMENT for table `jurusan`
 --
 ALTER TABLE `jurusan`
-  MODIFY `id_jurusan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_jurusan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `kelas`
 --
 ALTER TABLE `kelas`
-  MODIFY `id_kelas` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_kelas` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `kelas_ujian`
 --
 ALTER TABLE `kelas_ujian`
-  MODIFY `id_kelas_ujian` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id_kelas_ujian` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `mapel`
@@ -528,31 +619,31 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `nilai`
 --
 ALTER TABLE `nilai`
-  MODIFY `id_nilai` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_nilai` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `siswa`
 --
 ALTER TABLE `siswa`
-  MODIFY `id_siswa` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary Key', AUTO_INCREMENT=4;
+  MODIFY `id_siswa` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary Key', AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `soal`
 --
 ALTER TABLE `soal`
-  MODIFY `id_soal` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_soal` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `ujian`
 --
 ALTER TABLE `ujian`
-  MODIFY `id_ujian` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary Key.', AUTO_INCREMENT=9;
+  MODIFY `id_ujian` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary Key.', AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id_users` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_users` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=148;
 
 --
 -- Constraints for dumped tables

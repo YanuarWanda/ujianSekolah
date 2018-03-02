@@ -392,6 +392,21 @@
                 window.location.replace(url);
             });
         });
+
+        $('.removeUjian').on('click', function(){
+            var url = $(this).attr('href');
+            swal({
+                title: 'Hapus data?',
+                text: 'Data yang dihapus tidak bisa dikembalikan! Data nilai siswa yang sudah mengikuti ujian ini juga akan ikut terhapus!',
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Okelah, hapus aja!'
+            }).then((result) =>{
+                window.location.replace(url);
+            });
+        });
     </script>
 
     {{-- Froala --}}

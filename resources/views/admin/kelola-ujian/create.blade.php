@@ -99,7 +99,7 @@
                                 <div class="col-md-6 col-md-offset-4">
                                     <a href="/kelola-ujian" class="btn btn-danger">Cancel</a>
                                     <button type="submit" class="btn btn-primary">
-                                        Add
+                                        <i class="fa fa-plus fa-1x"></i> Add
                                     </button>
                                 </div>
                             </div>

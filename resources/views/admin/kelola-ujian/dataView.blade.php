@@ -11,7 +11,7 @@
                     <div class="panel-heading">
                         {{$isi->id_ujian.". ".$isi->judul_ujian}}
                         <div class="close-btn">
-                            <a href="{{ url('/kelola-ujian/delete', base64_encode($isi->id_ujian)) }}"><i class="fa fa-close fa-1x"></i></a>
+                            <button type="button" href="{{ url('/kelola-ujian/delete', base64_encode($isi->id_ujian)) }}" class="btn btn-danger removeUjian" style="padding-right:5px;padding-left:5px;padding-top:2px;padding-bottom:2px;margin:0"><i class="fa fa-close fa-1x"></i></button>
                         </div>
                     </div>
                     <div class="panel-body">
