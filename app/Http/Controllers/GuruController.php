@@ -241,19 +241,22 @@ class GuruController extends Controller
     {
         $guru = Guru::find(base64_decode($id));
         $user = User::find($guru->id_users);
-        $bidangKeahlian = BidangKeahlian::where('id_guru', base64_decode($id))->get();
+        if(BidangKeahlian::where('id_guru', base64_decode($id))->get()) {
+            $bidangKeahlian = BidangKeahlian::where('id_guru', base64_decode($id))->get();
+        }else {
+            $bidangKeahlian = null;
+        }
 
         if($guru && $user) {
-            foreach($bidangKeahlian as $bidang){
-                $bidang->delete();
+            if($bidangKeahlian != null) {
+                foreach($bidangKeahlian as $bidang){
+                    $bidang->delete();
+                }    
             }
+            
             if($guru->delete() && $user->delete()){
                 if($guru->foto != 'nophoto.jpg'){
-                    if(unlink('storage/foto-profil/'.$guru->foto)) {
-
-                    }else {
-
-                    }
+                    unlink('storage/foto-profil/'.$guru->foto);
                 }
                 return redirect('/kelola-guru')->with('success', 'Data Dihapus');
             }
@@ -316,7 +319,7 @@ class GuruController extends Controller
                         'nama'          => $value->nama,
                         'alamat'        => $value->alamat,
                         'jenis_kelamin' => $value->jenis_kelamin,
-                        // 'id_users'      => '',
+                        'foto'          => 'nophoto.jpg',
                     ];
                 }
 
