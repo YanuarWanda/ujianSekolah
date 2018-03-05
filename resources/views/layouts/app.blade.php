@@ -36,21 +36,15 @@
     {{-- DateTimePicker --}}
     <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap-datetimepicker.min.css')}}">
 
-    {{-- Froala --}}
-    {{-- <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" /> --}}
-    {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/codemirror.min.css"> --}}
-    {{-- <link href="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.7.5/css/froala_editor.pkgd.min.css" rel="stylesheet" type="text/css" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.7.5/css/froala_style.min.css" rel="stylesheet" type="text/css" /> --}}
-    {{-- <link rel="stylesheet" type="text/css" href="{{ asset('css/froala_editor.pkgd.min.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/froala_style.min.css') }}"> --}}
+    {{-- SummerNote --}}
+    {{-- <link href="{{ asset('css/bootstrap.3.3.5.css') }}" rel="stylesheet">
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.css" rel="stylesheet"> --}}
 
+    {{-- CKEditor --}}
+    <script type="text/javascript" src="{{ asset('vendor/ckeditor/ckeditor.js') }}"></script>
 
     {{-- PleaseWait.js Preloader  --}}
     {{-- <link href="{{ asset('css/please-wait.css') }}" rel="stylesheet"> --}}
-
-    {{-- <script src="https://cdn.ckeditor.com/4.8.0/standard/ckeditor.js"></script> --}}
-    {{-- <script src="//cdn.ckeditor.com/4.5.10/standard-all/ckeditor.js"></script>
-    <script src="{{ asset('js/ckfinder.js') }}"></script> --}}
 
     <style type="text/css">
         .perKelas{
@@ -127,14 +121,14 @@
         }
 
         @keyframes sk-stretchdelay {
-          0%, 40%, 100% {
-            transform: scaleY(0.4);
-            -webkit-transform: scaleY(0.4);
-          }  20% {
-            transform: scaleY(1.0);
-            -webkit-transform: scaleY(1.0);
-  }
-}
+            0%, 40%, 100% {
+                transform: scaleY(0.4);
+                -webkit-transform: scaleY(0.4);
+            }  20% {
+                transform: scaleY(1.0);
+                -webkit-transform: scaleY(1.0);
+            }
+        }
 
         .btn-fixed-bottom-right{
             position: fixed;
@@ -220,34 +214,10 @@
     </div>
 
     {{-- JQuery --}}
-    <script src="{{ asset('js/jquery-3.1.1.min.js') }}"></script>
+    <script src="{{ asset('js/jquery-3.3.1.min.js') }}"></script>
 
-    {{-- CKEditor --}}
-    {{-- <script src="//cdn.ckeditor.com/4.5.10/standard-all/ckeditor.js"></script>
-    <script src="{{ asset('js/ckfinder.js') }}"></script> --}}
-    {{-- <script src="//cdn.ckeditor.com/4.8.0/full/ckeditor.js"></script> --}}
-    {{-- <script src="{{ asset('js/ckeditor/ckeditor.js') }}"></script> --}}
-    {{-- <script>
-        // Note: in this sample we use CKEditor with two extra plugins:
-        // - uploadimage to support pasting and dragging images,
-        // - image2 (instead of image) to provide images with captions.
-        // Additionally, the CSS style for the editing area has been slightly modified to provide responsive images during editing.
-        // All these modifications are not required by CKFinder, they just provide better user experience.
-        if ( typeof CKEDITOR !== 'undefined' ) {
-            CKEDITOR.addCss( 'img {max-width:100%; height: auto;}' );
-            var editor = CKEDITOR.replace( 'soal', {
-                extraPlugins: 'uploadimage',
-                removePlugins: 'image',
-                height:350
-            } );
-            CKFinder.setupCKEditor( editor );
-        } else {
-            document.getElementById( 'soal' ).innerHTML = '<div class="tip-a tip-a-alert">This sample requires working Internet connection to load CKEditor from CDN.</div>'
-        }
-    </script> --}}
-
-    {{-- CDN --}}
-    {{-- <script src="//ajax.aspnetcdn.com/ajax/jquery/jquery-3.1.1.min.js"></script> --}}
+    <script src="{{ asset('js/bootstrap-3.3.5.js') }}"></script>
+    {{-- <script src="{{ asset('js/summernote-0.8.9.js') }}"></script> --}}
 
     {{-- Fallback (Local) --}}
     {{-- <script>window.jQuery || document.write('<script src="{{ asset('js/jquery-3.1.1.min.js') }}">\x3C/script>')</script> --}}
@@ -262,7 +232,7 @@
     </script>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}"></script>
+    {{-- <script src="{{ asset('js/app.js') }}"></script> --}}
 
     <!-- DataTables -->
     <script src="{{ asset('vendor/datatables/jquery.dataTables.js') }}"></script>
@@ -407,13 +377,10 @@
                 window.location.replace(url);
             });
         });
+
+        // $('.editor').summernote();
     </script>
 
-    {{-- Froala --}}
-    {{-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/codemirror.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/mode/xml/xml.min.js"></script> --}}
-    {{-- <script type="text/javascript" src="{{ asset('js/froala_editor.pkgd.min.js') }}"></script> --}}
-    {{-- <script> $(function() { $('.froala-editor').froalaEditor() }); </script> --}}
     @yield('js')
 </body>
 </html>

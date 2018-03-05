@@ -56,12 +56,15 @@
                         <div class="panel-footer">
                             <p>Anda Sudah Mengerjakan!</p>
                         </div>
-                            @if($u < $n) <?php break; ?> @endif
-                        @endif
-                        @if($u < $n)
+                        <?php break; ?>
+                        @elseif($isi->id_ujian != $isiNilai->id_ujian)
+                            @if($n != count($nilai)-1)
+                            <?php continue; ?>
+                            @elseif($n == count($nilai)-1)
                             <div class="panel-footer">
                                 <a href="{{ url('/soal', base64_encode($isi->id_ujian)) }}" class="btn btn-primary">Kerjakan</a>
                             </div>
+                            @endif
                         @endif
                     @endforeach
                 @endif

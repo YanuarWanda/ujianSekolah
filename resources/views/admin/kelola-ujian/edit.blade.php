@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <div class="row">
-            <div class="col-md-8 col-md-offset-2">
+            <div class="col-md-12">
                 <div class="panel panel-primary">
                     <div class="panel-heading">Form Edit Ujian | {{ $ujian->judul_ujian }}</div>
                     <div class="panel-body">
@@ -107,7 +107,7 @@
                         Daftar Soal |  {{ $ujian->judul_ujian }}
                     </div>
                     <div class="panel-body">
-                        <h1 class="text-center">Soal</h1>
+                        <h1 class="text-center">Daftar Soal</h1>
                         @if(count($soal) > 0)
                         <table class="table table-bordered" id="tableSoal">
                             <thead>
@@ -125,9 +125,9 @@
                                     @foreach($soal as $s)
                                         <tr>
                                             <td><?php echo $no;$no++; ?></td>
-                                            <td>{!! $s['isi_soal'] !!}</td>
-                                            <td>{!! $s['jawaban'] !!}</td>
-                                            <td>{{$s['tipe']}}</td>
+                                            <td>{{ $s->bankSoal['isi_soal'] }}</td>
+                                            <td>{{ $s->bankSoal['jawaban'] }}</td>
+                                            <td>{{$s->bankSoal['tipe']}}</td>
                                             <td>
                                                 <a href="{{url('/kelola-soal/edit', base64_encode($s['id_soal']))}}" class="btn btn-primary"><i class="fa fa-edit" aria-hidden="true"></i></a>
                                                 <a href="{{url('/kelola-soal/delete', base64_encode($s['id_soal']))}}" class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></a>

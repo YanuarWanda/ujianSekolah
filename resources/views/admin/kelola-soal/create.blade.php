@@ -1,38 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-    <script src="https://cloud.tinymce.com/stable/tinymce.min.js"></script>
-    <script>tinyMCE.init({ mode:'specific_textareas', editor_selector:'editor' });</script>
-    {{-- <script type="text/javascript">
-        tinymce.init({
-            mode: 'specific_textareas',
-            editor_selector: 'soal',
-            plugins: "moxiemanager link image",
-            menubar: "insert",
-            toolbar: "image",
-            image_caption: true,
-            external_plugins: {
-		              "moxiemanager": "/moxiemanager/plugin.min.js"
-            }
-        });
-    </script> --}}
-    {{-- <script>
-    tinymce.init({
-        imageupload_url: "../upload/",
-        mode: 'specific_textareas',
-        editor_selector: 'soal',
-        theme: "modern",
-        language: "en",
-        plugins: [
-             "advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker",
-             "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
-             "save table contextmenu directionality emoticons template paste textcolor imageupload"
-        ],
-        content_css: "css/content.css",
-        toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | print preview media fullpage | forecolor backcolor emoticons imageupload",
-        relative_urls: false
-    });
-    </script>? --}}
+    {{-- <script src="https://cloud.tinymce.com/stable/tinymce.min.js"></script>
+    <script>tinyMCE.init({ mode:'specific_textareas', editor_selector:'editor' });</script> --}}
 
     <div class="container">
         <div class="row">
@@ -44,7 +14,7 @@
                             {{csrf_field()}}
 
                             <div class="form-group{{ $errors->has('tipe') ? ' has-error' : '' }}">
-                                 <label for="tipe" class="col-md-2 control-label">Tipe Soal</label>
+                                 <label for="tipe" class="col-md-2 control-label">Tipe</label>
 
                                  <div class="col-md-9">
                                      <select name="tipe" id="tipe" class="form-control">
@@ -60,25 +30,25 @@
                                  </div>
                              </div>
 
+                             <div class="form-group{{ $errors->has('point') ? ' has-error' : '' }}">
+                                 <label for="point" class="col-md-2 control-label">Point</label>
+
+                                 <div class="col-md-9">
+                                     <input class="form-control" type="number" name="point" value=""/>
+
+                                     @if($errors->has('point'))
+                                         <span class="help-block">
+                                             <strong>{{ $errors->first('point') }}</strong>
+                                         </span>
+                                     @endif
+                                 </div>
+                             </div>
 
                              <div class="form-group{{ $errors->has('soal') ? ' has-error' : '' }}">
                                  <label for="soal" class="col-md-2 control-label">Soal</label>
 
                                  <div class="col-md-9">
-                                     <textarea name="soal" id="soal" class="editor" rows="10" cols="120">{{ old('soal') }}</textarea>
-                                     {{-- <script>
-                                         if ( typeof CKEDITOR !== 'undefined' ) {
-                                             CKEDITOR.addCss( 'img {max-width:100%; height: auto;}' );
-                                             var editor = CKEDITOR.replace( 'soal', {
-                                                 extraPlugins: 'uploadimage,image2',
-                                                 removePlugins: 'image',
-                                                 height:350
-                                             } );
-                                             CKFinder.setupCKEditor( editor );
-                                         } else {
-                                             document.getElementById( 'editor1' ).innerHTML = '<div class="tip-a tip-a-alert">This sample requires working Internet connection to load CKEditor from CDN.</div>'
-                                         }
-                                     </script> --}}
+                                     <textarea name="soal" id="soal" class="form-control editor" rows="10" cols="120">{{ old('soal') }}</textarea>
 
                                      @if ($errors->has('soal'))
                                          <span class="help-block">
@@ -187,4 +157,64 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('js')
+    <script type="text/javascript">
+        $(document).ready(function(){
+           // $('.editor').summernote({
+           //     tabsize: 2,
+           //     height: 300
+           // });
+           CKEDITOR.replace( 'soal',{
+                filebrowserBrowseUrl: "{{ asset('vendor/ckfinder/ckfinder.html?Type=Files') }}",
+                filebrowserImageBrowseUrl: "{{ asset('vendor/ckfinder/ckfinder.html?Type=Images') }}",
+                filebrowserFlashBrowseUrl: "{{ asset('vendor/ckfinder/ckfinder.html?Type=Flash') }}",
+                filebrowserUploadUrl: "{{ asset('vendor/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files') }}",
+                filebrowserImageUploadUrl: "{{ asset('vendor/ckfinder/core/connctor/php/connector.php?command=QuickUpload&type=Images') }}",
+                filebrowserFlashUploadUrl: "{{ asset('vendor/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Flash') }}"
+           });
+           CKEDITOR.replace( 'pilihanA',{
+                filebrowserBrowseUrl: "{{ asset('vendor/ckfinder/ckfinder.html?Type=Files') }}",
+                filebrowserImageBrowseUrl: "{{ asset('vendor/ckfinder/ckfinder.html?Type=Images') }}",
+                filebrowserFlashBrowseUrl: "{{ asset('vendor/ckfinder/ckfinder.html?Type=Flash') }}",
+                filebrowserUploadUrl: "{{ asset('vendor/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files') }}",
+                filebrowserImageUploadUrl: "{{ asset('vendor/ckfinder/core/connctor/php/connector.php?command=QuickUpload&type=Images') }}",
+                filebrowserFlashUploadUrl: "{{ asset('vendor/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Flash') }}"
+           });
+           CKEDITOR.replace( 'pilihanB',{
+                filebrowserBrowseUrl: "{{ asset('vendor/ckfinder/ckfinder.html?Type=Files') }}",
+                filebrowserImageBrowseUrl: "{{ asset('vendor/ckfinder/ckfinder.html?Type=Images') }}",
+                filebrowserFlashBrowseUrl: "{{ asset('vendor/ckfinder/ckfinder.html?Type=Flash') }}",
+                filebrowserUploadUrl: "{{ asset('vendor/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files') }}",
+                filebrowserImageUploadUrl: "{{ asset('vendor/ckfinder/core/connctor/php/connector.php?command=QuickUpload&type=Images') }}",
+                filebrowserFlashUploadUrl: "{{ asset('vendor/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Flash') }}"
+           });
+           CKEDITOR.replace( 'pilihanC',{
+                filebrowserBrowseUrl: "{{ asset('vendor/ckfinder/ckfinder.html?Type=Files') }}",
+                filebrowserImageBrowseUrl: "{{ asset('vendor/ckfinder/ckfinder.html?Type=Images') }}",
+                filebrowserFlashBrowseUrl: "{{ asset('vendor/ckfinder/ckfinder.html?Type=Flash') }}",
+                filebrowserUploadUrl: "{{ asset('vendor/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files') }}",
+                filebrowserImageUploadUrl: "{{ asset('vendor/ckfinder/core/connctor/php/connector.php?command=QuickUpload&type=Images') }}",
+                filebrowserFlashUploadUrl: "{{ asset('vendor/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Flash') }}"
+           });
+           CKEDITOR.replace( 'pilihanD',{
+                filebrowserBrowseUrl: "{{ asset('vendor/ckfinder/ckfinder.html?Type=Files') }}",
+                filebrowserImageBrowseUrl: "{{ asset('vendor/ckfinder/ckfinder.html?Type=Images') }}",
+                filebrowserFlashBrowseUrl: "{{ asset('vendor/ckfinder/ckfinder.html?Type=Flash') }}",
+                filebrowserUploadUrl: "{{ asset('vendor/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files') }}",
+                filebrowserImageUploadUrl: "{{ asset('vendor/ckfinder/core/connctor/php/connector.php?command=QuickUpload&type=Images') }}",
+                filebrowserFlashUploadUrl: "{{ asset('vendor/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Flash') }}"
+           });
+           CKEDITOR.replace( 'pilihanE',{
+                filebrowserBrowseUrl: "{{ asset('vendor/ckfinder/ckfinder.html?Type=Files') }}",
+                filebrowserImageBrowseUrl: "{{ asset('vendor/ckfinder/ckfinder.html?Type=Images') }}",
+                filebrowserFlashBrowseUrl: "{{ asset('vendor/ckfinder/ckfinder.html?Type=Flash') }}",
+                filebrowserUploadUrl: "{{ asset('vendor/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files') }}",
+                filebrowserImageUploadUrl: "{{ asset('vendor/ckfinder/core/connctor/php/connector.php?command=QuickUpload&type=Images') }}",
+                filebrowserFlashUploadUrl: "{{ asset('vendor/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Flash') }}"
+           });
+
+       });
+    </script>
 @endsection

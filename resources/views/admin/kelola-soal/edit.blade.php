@@ -1,9 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-    <script src="https://cloud.tinymce.com/stable/tinymce.min.js"></script>
-    <script>tinyMCE.init({ mode:'specific_textareas', editor_selector:'editor' });</script>
-
     <div class="container">
         <div class="row">
             <div class="col-md-12">
@@ -18,8 +15,8 @@
 
                                  <div class="col-md-9">
                                      <select name="tipe" id="tipe" class="form-control">
-                                         <option value="PG" <?php if($soal['tipe']){if($soal['tipe'] == 'PG'){ ?> selected <?php }} ?>>Pilihan Ganda</option>
-                                         <option value="BS" <?php if($soal['tipe']){if($soal['tipe'] == 'BS'){ ?> selected <?php }} ?>>Benar / Salah</option>
+                                         <option value="PG" <?php if($soal->bankSoal['tipe']){if($soal->bankSoal['tipe'] == 'PG'){ ?> selected <?php }} ?>>Pilihan Ganda</option>
+                                         <option value="BS" <?php if($soal->bankSoal['tipe']){if($soal->bankSoal['tipe'] == 'BS'){ ?> selected <?php }} ?>>Benar / Salah</option>
                                      </select>
 
                                      @if ($errors->has('tipe'))
@@ -30,11 +27,25 @@
                                  </div>
                              </div>
 
+                             <div class="form-group{{ $errors->has('point') ? ' has-error' : '' }}">
+                                 <label for="point" class="col-md-2 control-label">Point</label>
+
+                                 <div class="col-md-9">
+                                     <input class="form-control" type="number" name="point" value="{{ $soal->bankSoal['point'] }}"/>
+
+                                     @if($errors->has('point'))
+                                         <span class="help-block">
+                                             <strong>{{ $errors->first('point') }}</strong>
+                                         </span>
+                                     @endif
+                                 </div>
+                             </div>
+
                              <div class="form-group{{ $errors->has('soal') ? ' has-error' : '' }}">
                                  <label for="soal" class="col-md-2 control-label">Soal</label>
 
                                  <div class="col-md-9">
-                                         <textarea name="soal" id="soal" class="editor" rows="10" cols="80">{{ $soal['isi_soal'] }}</textarea>
+                                     <textarea name="soal" id="soal" class="editor" rows="10" cols="80">{{ $soal->bankSoal['isi_soal'] }}</textarea>
 
                                      @if ($errors->has('soal'))
                                          <span class="help-block">
@@ -45,12 +56,12 @@
                              </div>
 
 
-                             <div class="PG" @if($soal['tipe'] == 'BS') style="display:none" @endif>
+                             <div class="PG" @if($soal->bankSoal['tipe'] == 'BS') style="display:none" @endif>
                                  <div class="form-group{{ $errors->has('pilihanA') ? ' has-error' : '' }}">
                                      <label for="pilihanA" class="col-md-2 control-label">Pilihan A</label>
 
                                      <div class="col-md-9">
-                                         <textarea id="pilihanA" type="text" class="form-control editor" name="pilihanA" value="{{ old('pilihanA') }}" rows="1" required>@if($soal['tipe'] == 'PG') {{ $pilihan['0'] }} @endif</textarea>
+                                         <textarea id="pilihanA" type="text" class="form-control editor" name="pilihanA" value="{{ old('pilihanA') }}" rows="1" required>@if($soal->bankSoal['tipe'] == 'PG') {{ $pilihan['0'] }} @endif</textarea>
 
                                          @if ($errors->has('pilihanA'))
                                              <span class="help-block">
@@ -64,7 +75,7 @@
                                      <label for="pilihanB" class="col-md-2 control-label">Pilihan B</label>
 
                                      <div class="col-md-9">
-                                         <textarea id="pilihanB" type="text" class="form-control editor" name="pilihanB" value="{{ old('pilihanB') }}" rows="1" required>@if($soal['tipe'] == 'PG') {{ $pilihan['1'] }} @endif</textarea>
+                                         <textarea id="pilihanB" type="text" class="form-control editor" name="pilihanB" value="{{ old('pilihanB') }}" rows="1" required>@if($soal->bankSoal['tipe'] == 'PG') {{ $pilihan['1'] }} @endif</textarea>
 
                                          @if ($errors->has('pilihanB'))
                                              <span class="help-block">
@@ -78,7 +89,7 @@
                                      <label for="pilihanC" class="col-md-2 control-label">Pilihan C</label>
 
                                      <div class="col-md-9">
-                                         <textarea id="pilihanC" type="text" class="form-control editor" name="pilihanC" value="{{ old('pilihanC') }}" rows="1" required>@if($soal['tipe'] == 'PG') {{ $pilihan['2'] }} @endif</textarea>
+                                         <textarea id="pilihanC" type="text" class="form-control editor" name="pilihanC" value="{{ old('pilihanC') }}" rows="1" required>@if($soal->bankSoal['tipe'] == 'PG') {{ $pilihan['2'] }} @endif</textarea>
 
                                          @if ($errors->has('pilihanC'))
                                              <span class="help-block">
@@ -92,7 +103,7 @@
                                      <label for="pilihanD" class="col-md-2 control-label">Pilihan D</label>
 
                                      <div class="col-md-9">
-                                         <textarea id="pilihanD" type="text" class="form-control editor" name="pilihanD" value="{{ old('pilihanD') }}" rows="1" required>@if($soal['tipe'] == 'PG') {{ $pilihan['3'] }} @endif</textarea>
+                                         <textarea id="pilihanD" type="text" class="form-control editor" name="pilihanD" value="{{ old('pilihanD') }}" rows="1" required>@if($soal->bankSoal['tipe'] == 'PG') {{ $pilihan['3'] }} @endif</textarea>
 
                                          @if ($errors->has('pilihanD'))
                                              <span class="help-block">
@@ -106,7 +117,7 @@
                                      <label for="pilihanE" class="col-md-2 control-label">Pilihan E</label>
 
                                      <div class="col-md-9">
-                                         <textarea id="pilihanE" type="text" class="form-control editor" name="pilihanE" value="{{ old('pilihanE') }}" rows="1" required>@if($soal['tipe'] == 'PG') {{ $pilihan['4'] }} @endif</textarea>
+                                         <textarea id="pilihanE" type="text" class="form-control editor" name="pilihanE" value="{{ old('pilihanE') }}" rows="1" required>@if($soal->bankSoal['tipe'] == 'PG') {!! $pilihan['4'] !!} @endif</textarea>
 
                                          @if ($errors->has('pilihanE'))
                                              <span class="help-block">
@@ -121,16 +132,16 @@
                                  <label for="jawaban" class="col-md-2 control-label">Jawaban</label>
 
                                  <div class="col-md-9" style="margin-top:1rem">
-                                     <div class="PG" @if($soal['tipe'] == 'BS') style="display:none" @endif>
-                                         <span class="PG">A<input type="radio" name="jawaban" value="A" style="margin-right:1rem" @if($soal['tipe'] == 'PG') @if($soal['jawaban'] == $pilihan['0']) checked @endif @endif/></span>
-                                         <span class="PG">B<input type="radio" name="jawaban" value="B" style="margin-right:1rem" @if($soal['tipe'] == 'PG') @if($soal['jawaban'] == $pilihan['1']) checked @endif @endif/></span>
-                                         <span class="PG">C<input type="radio" name="jawaban" value="C" style="margin-right:1rem" @if($soal['tipe'] == 'PG') @if($soal['jawaban'] == $pilihan['2']) checked @endif @endif/></span>
-                                         <span class="PG">D<input type="radio" name="jawaban" value="D" style="margin-right:1rem" @if($soal['tipe'] == 'PG') @if($soal['jawaban'] == $pilihan['3']) checked @endif @endif/></span>
-                                         <span class="PG">E<input type="radio" name="jawaban" value="E" style="margin-right:1rem" @if($soal['tipe'] == 'PG') @if($soal['jawaban'] == $pilihan['4']) checked @endif @endif/></span>
+                                     <div class="PG" @if($soal->bankSoal['tipe'] == 'BS') style="display:none" @endif>
+                                         <span class="PG">A<input type="radio" name="jawaban" value="A" style="margin-right:1rem" @if($soal->bankSoal['tipe'] == 'PG') @if($soal->bankSoal['jawaban'] == $pilihan['0']) checked @endif @endif/></span>
+                                         <span class="PG">B<input type="radio" name="jawaban" value="B" style="margin-right:1rem" @if($soal->bankSoal['tipe'] == 'PG') @if($soal->bankSoal['jawaban'] == $pilihan['1']) checked @endif @endif/></span>
+                                         <span class="PG">C<input type="radio" name="jawaban" value="C" style="margin-right:1rem" @if($soal->bankSoal['tipe'] == 'PG') @if($soal->bankSoal['jawaban'] == $pilihan['2']) checked @endif @endif/></span>
+                                         <span class="PG">D<input type="radio" name="jawaban" value="D" style="margin-right:1rem" @if($soal->bankSoal['tipe'] == 'PG') @if($soal->bankSoal['jawaban'] == $pilihan['3']) checked @endif @endif/></span>
+                                         <span class="PG">E<input type="radio" name="jawaban" value="E" style="margin-right:1rem" @if($soal->bankSoal['tipe'] == 'PG') @if($soal->bankSoal['jawaban'] == $pilihan['4']) checked @endif @endif/></span>
                                     </div>
-                                    <div class="BS" @if ($soal['tipe'] == 'PG') style="display:none" @endif>
-                                         <span class="BS">Benar<input type="radio" name="jawaban" value="Benar" style="margin-right:1rem" @if($soal['tipe'] == 'BS') @if($soal['jawaban'] == $pilihan['0']) checked @endif @endif></span>
-                                         <span class="BS">Salah<input type="radio" name="jawaban" value="Salah" style="margin-right:1rem" @if($soal['tipe'] == 'BS') @if($soal['jawaban'] == $pilihan['1']) checked @endif @endif></span>
+                                    <div class="BS" @if ($soal->bankSoal['tipe'] == 'PG') style="display:none" @endif>
+                                         <span class="BS">Benar<input type="radio" name="jawaban" value="Benar" style="margin-right:1rem" @if($soal->bankSoal['tipe'] == 'BS') @if($soal->bankSoal['jawaban'] == $pilihan['0']) checked @endif @endif></span>
+                                         <span class="BS">Salah<input type="radio" name="jawaban" value="Salah" style="margin-right:1rem" @if($soal->bankSoal['tipe'] == 'BS') @if($soal->bankSoal['jawaban'] == $pilihan['1']) checked @endif @endif></span>
                                     </div>
                                 </div>
                              </div>
@@ -149,4 +160,63 @@
             </div>
         </div>
     </div>
+@endsection
+@section('js')
+    <script type="text/javascript">
+        $(document).ready(function(){
+           // $('.editor').summernote({
+           //     tabsize: 2,
+           //     height: 300
+           // });
+           CKEDITOR.replace( 'soal', {placeholder: 'asd', height: 350}, {
+                filebrowserBrowseUrl: "{{ asset('vendor/ckfinder/ckfinder.html?Type=Files') }}",
+                filebrowserImageBrowseUrl: "{{ asset('vendor/ckfinder/ckfinder.html?Type=Images') }}",
+                filebrowserFlashBrowseUrl: "{{ asset('vendor/ckfinder/ckfinder.html?Type=Flash') }}",
+                filebrowserUploadUrl: "{{ asset('vendor/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files') }}",
+                filebrowserImageUploadUrl: "{{ asset('vendor/ckfinder/core/connctor/php/connector.php?command=QuickUpload&type=Images') }}",
+                filebrowserFlashUploadUrl: "{{ asset('vendor/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Flash') }}"
+           });
+           CKEDITOR.replace( 'pilihanA', {placeholder: 'asd', height: 350}, {
+                filebrowserBrowseUrl: "{{ asset('vendor/ckfinder/ckfinder.html?Type=Files') }}",
+                filebrowserImageBrowseUrl: "{{ asset('vendor/ckfinder/ckfinder.html?Type=Images') }}",
+                filebrowserFlashBrowseUrl: "{{ asset('vendor/ckfinder/ckfinder.html?Type=Flash') }}",
+                filebrowserUploadUrl: "{{ asset('vendor/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files') }}",
+                filebrowserImageUploadUrl: "{{ asset('vendor/ckfinder/core/connctor/php/connector.php?command=QuickUpload&type=Images') }}",
+                filebrowserFlashUploadUrl: "{{ asset('vendor/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Flash') }}"
+           });
+           CKEDITOR.replace( 'pilihanB', {placeholder: 'asd', height: 350}, {
+                filebrowserBrowseUrl: "{{ asset('vendor/ckfinder/ckfinder.html?Type=Files') }}",
+                filebrowserImageBrowseUrl: "{{ asset('vendor/ckfinder/ckfinder.html?Type=Images') }}",
+                filebrowserFlashBrowseUrl: "{{ asset('vendor/ckfinder/ckfinder.html?Type=Flash') }}",
+                filebrowserUploadUrl: "{{ asset('vendor/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files') }}",
+                filebrowserImageUploadUrl: "{{ asset('vendor/ckfinder/core/connctor/php/connector.php?command=QuickUpload&type=Images') }}",
+                filebrowserFlashUploadUrl: "{{ asset('vendor/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Flash') }}"
+           });
+           CKEDITOR.replace( 'pilihanC', {placeholder: 'asd', height: 350}, {
+                filebrowserBrowseUrl: "{{ asset('vendor/ckfinder/ckfinder.html?Type=Files') }}",
+                filebrowserImageBrowseUrl: "{{ asset('vendor/ckfinder/ckfinder.html?Type=Images') }}",
+                filebrowserFlashBrowseUrl: "{{ asset('vendor/ckfinder/ckfinder.html?Type=Flash') }}",
+                filebrowserUploadUrl: "{{ asset('vendor/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files') }}",
+                filebrowserImageUploadUrl: "{{ asset('vendor/ckfinder/core/connctor/php/connector.php?command=QuickUpload&type=Images') }}",
+                filebrowserFlashUploadUrl: "{{ asset('vendor/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Flash') }}"
+           });
+           CKEDITOR.replace( 'pilihanD', {placeholder: 'asd', height: 350}, {
+                filebrowserBrowseUrl: "{{ asset('vendor/ckfinder/ckfinder.html?Type=Files') }}",
+                filebrowserImageBrowseUrl: "{{ asset('vendor/ckfinder/ckfinder.html?Type=Images') }}",
+                filebrowserFlashBrowseUrl: "{{ asset('vendor/ckfinder/ckfinder.html?Type=Flash') }}",
+                filebrowserUploadUrl: "{{ asset('vendor/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files') }}",
+                filebrowserImageUploadUrl: "{{ asset('vendor/ckfinder/core/connctor/php/connector.php?command=QuickUpload&type=Images') }}",
+                filebrowserFlashUploadUrl: "{{ asset('vendor/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Flash') }}"
+           });
+           CKEDITOR.replace( 'pilihanE', {placeholder: 'asd', height: 350}, {
+                filebrowserBrowseUrl: "{{ asset('vendor/ckfinder/ckfinder.html?Type=Files') }}",
+                filebrowserImageBrowseUrl: "{{ asset('vendor/ckfinder/ckfinder.html?Type=Images') }}",
+                filebrowserFlashBrowseUrl: "{{ asset('vendor/ckfinder/ckfinder.html?Type=Flash') }}",
+                filebrowserUploadUrl: "{{ asset('vendor/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files') }}",
+                filebrowserImageUploadUrl: "{{ asset('vendor/ckfinder/core/connctor/php/connector.php?command=QuickUpload&type=Images') }}",
+                filebrowserFlashUploadUrl: "{{ asset('vendor/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Flash') }}"
+           });
+
+       });
+    </script>
 @endsection

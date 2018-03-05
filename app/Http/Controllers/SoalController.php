@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Ujian;
 use App\Soal;
 use App\Nilai;
+use App\BankSoal;
 
 class SoalController extends Controller
 {
@@ -40,8 +41,11 @@ class SoalController extends Controller
      */
     public function store(Request $request, $id)
     {
+        // return $request['soal'];
+
         $this->validate($request, [
             'jawaban'   => 'required',
+            'point'     => 'required|integer',
             'soal'      => 'required',
             'tipe'      => 'required'
         ]);
@@ -72,19 +76,25 @@ class SoalController extends Controller
             }
         }
 
-        $soal = Soal::create([
-            'id_ujian'  => $ujian['id_ujian'],
+        $soal = BankSoal::create([
             'tipe'      => $request['tipe'],
             'isi_soal'  => $request['soal'],
             'pilihan'   => $pilihan,
-            'jawaban'   => $jawaban
+            'jawaban'   => $jawaban,
+            'point'     => $request['point']
         ]);
 
         if($soal){
-            return redirect('/kelola-ujian/edit/'.base64_encode($ujian->id_ujian))->with('success', 'Data berhasil ditambahkan!');
-        }else{
-            return redirect('/kelola-ujian/edit/'.base64_encode($ujian->id_ujian))->with('error', 'Data gagal ditambahkan!');
+            $soalUjian = Soal::create([
+                'id_ujian'      => $ujian['id_ujian'],
+                'id_bank_soal'  => $soal['id_bank_soal']
+            ]);
+
+            if($soalUjian){
+                return redirect('/kelola-ujian/edit/'.base64_encode($ujian->id_ujian))->with('success', 'Data berhasil ditambahkan!');
+            }
         }
+        return redirect('/kelola-ujian/edit/'.base64_encode($ujian->id_ujian))->with('error', 'Data gagal ditambahkan!');
     }
 
     /**
@@ -108,9 +118,9 @@ class SoalController extends Controller
     {
         $soal = Soal::find(base64_decode($id));
         $ujian = Ujian::where('id_ujian', $soal->id_ujian)->get()->first();
-        $pilihan = explode(' ,  ', $soal['pilihan']);
+        $pilihan = explode(' ,  ', $soal->bankSoal['pilihan']);
 
-        // return $ujian;
+        // return $soal->bankSoal['tipe'];
         return view('admin.kelola-soal.edit', compact('soal', 'pilihan', 'ujian'));
     }
 
@@ -124,6 +134,7 @@ class SoalController extends Controller
     public function update(Request $request, $id)
     {
         $soal = Soal::find(base64_decode($id));
+        $bankSoal = BankSoal::find($soal['id_bank_soal']);
 
         if($request['tipe'] == 'PG'){
             $pilihan = $request['pilihanA']." ,  ".$request['pilihanB']." ,  ".$request['pilihanC']." ,  ".$request['pilihanD']." ,  ".$request['pilihanE'];
@@ -149,14 +160,14 @@ class SoalController extends Controller
             }
         }
 
-        $soal->tipe        = $request['tipe'];
-        $soal->isi_soal    = $request['soal'];
-        $soal->pilihan     = $pilihan;
-        $soal->jawaban     = $jawaban;
-
+        $bankSoal->tipe        = $request['tipe'];
+        $bankSoal->isi_soal    = $request['soal'];
+        $bankSoal->pilihan     = $pilihan;
+        $bankSoal->jawaban     = $jawaban;
+        $bankSoal->point       = $request['point'];
         // dd($request['tipe']);
 
-        if($soal->save()){
+        if($bankSoal->save()){
             return redirect('/kelola-ujian/edit/'.base64_encode($soal['id_ujian']))->with('success', 'Update Soal Berhasil!');
         }
     }

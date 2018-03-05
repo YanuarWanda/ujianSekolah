@@ -97,7 +97,7 @@ class HomeController extends Controller
 
             $ujian = $paginatedItems;
             // return count($nilai);
-            // return $IDNilai;
+            // return count($nilai);
             return view('siswa.siswa', compact('siswa', 'ujian', 'ujianArray', 'nilai'));
         }
     }

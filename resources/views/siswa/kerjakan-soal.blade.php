@@ -28,12 +28,12 @@
                     {{ csrf_field() }}
                     @foreach($soalFull as $s => $isi)
                     <div class="panel-body" id="Soal_{{$s}}" @if($s == '0') style="display:block" @else style="display:none" @endif>
-                            <h4>{!! $isi->isi_soal !!}</h4>
+                            <h4 class="text-center">{!! $isi->bankSoal['isi_soal'] !!}</h4>
 
                             <hr>
 
                             <h4>Jawaban</h4>
-                            <?php $pilihanAsli = explode(' ,  ', $soalFull[$s]['pilihan']);?>
+                            <?php $pilihanAsli = explode(' ,  ', $soalFull[$s]['bankSoal']['pilihan']);?>
                             <div>
                                 @foreach($pilihanAsli as $p)
                                     <div class="radio">
@@ -79,8 +79,10 @@
 
                 <div class="panel-body">
                     <p>Ulangan : {{ $ujian->judul_ujian }}</p>
-                    <p>NIP : {{ $ujian->guru->nip }}</p>
+                    @if($ujian->guru['nip'])
+                    <p>NIP :  {{ $ujian->guru['nip'] }}</p>
                     <p>Nama  : {{ $ujian->guru->nama }}</p>
+                    @endif
                     <p>Waktu Pengerjaan : {{ $ujian->waktu_pengerjaan }}</p>
                     <p>Catatan : {{ $ujian->catatan }}</p>
                 </div>
@@ -112,7 +114,7 @@ function timer() {
     document.getElementById("pageTimer").innerHTML = hours + " Jam " + minutes + " Menit " + seconds + " Detik ";
     var sisa_waktu = hours + ":" + minutes + ":" + seconds;
     console.log(sisa_waktu);
-    
+
     if(sisa_waktu == '0:0:0') {
         swal('', 'Waktu Pengerjaan Habis !', 'warning').then((selesai) => {
             if(selesai) {

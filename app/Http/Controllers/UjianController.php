@@ -62,9 +62,10 @@ class UjianController extends Controller
             $mapel = Mapel::All();
         } else {
             $guru = Guru::find(session()->get('id_guru'));
-            $mapel = BidangKeahlian::join('daftar_bidang_keahlian', 'bidang_keahlian.id_daftar_bidang', '=', 'daftar_bidang_keahlian.id_daftar_bidang')->join('guru', 'bidang_keahlian.id_guru', '=', 'guru.id_guru')->where('bidang_keahlian.id_guru', '=', $guru['id_guru'])->get();
+            $mapel = BidangKeahlian::join('daftar_bidang_keahlian', 'bidang_keahlian.id_daftar_bidang', '=', 'daftar_bidang_keahlian.id_daftar_bidang')->join('guru', 'bidang_keahlian.id_guru', '=', 'guru.id_guru')->join('mapel', 'bidang_keahlian.id_daftar_bidang', '=', 'mapel.id_daftar_bidang')->where('bidang_keahlian.id_guru', '=', $guru['id_guru'])->get();
         }
-        // return $ujian;
+
+        // return $mapel;
         return view('admin.kelola-ujian.create', compact('ujian', 'mapel'));
     }
 
@@ -256,17 +257,18 @@ class UjianController extends Controller
         $soalFull       = Soal::where('id_ujian', $ujian->id_ujian)->get();
 
         foreach($soalFull as $s){
-            $pilihan[]    = explode(' ,  ', $s['pilihan']);
+            $pilihan[]    = explode(' ,  ', $s->bankSoal['pilihan']);
         }
 
         foreach($soalFull as $s){
-            $soal[]       = explode(' ,  ', $s['soal']);
+            $soal[]       = explode(' ,  ', $s->bankSoal['isi_soal']);
         }
 
         $str_time = $ujian->waktu_pengerjaan;
         sscanf($str_time, "%d:%d:%d", $hours, $minutes, $seconds);
         $sisa_waktu = isset($seconds) ? $hours * 3600 + $minutes * 60 + $seconds : $hours * 60 + $minutes;
-        // return count($soalFull);
+
+        // return $soalFull;
         return view('siswa.kerjakan-soal', compact('ujian', 'soal', 'soalFull', 'sisa_waktu', 'pilihan'));
     }
 
