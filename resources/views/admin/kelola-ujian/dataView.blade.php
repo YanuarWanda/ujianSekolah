@@ -17,7 +17,7 @@
                     <div class="panel-body">
                         (Deskripsi)<br>
                         Waktu Pengerjaan : {{$isi->waktu_pengerjaan}}<br>
-                        Batas Pengerjaan : {{$isi->tanggal_kadaluarsa}}<br>
+                        {{-- Batas Pengerjaan : {{$isi->tanggal_kadaluarsa}}<br> --}}
                         Status : {{$isi->status}}<br>
                         Catatan : {{$isi->catatan}}<br>
                         <hr>

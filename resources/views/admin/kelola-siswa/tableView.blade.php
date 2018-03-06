@@ -48,6 +48,7 @@
                 <div class="panel-footer pull-right">
                     <button id="export" class="btn btn-success">Export Data Siswa</button>
                     <a href="{{ url('/kelola-siswa/create') }}" class="btn btn-success">Daftarkan siswa</a>
+                    <a href="{{ url('/kelola-siswa/naik-kelas') }}" class="btn btn-success">Kenaikan Kelas</a>
                 </div>
                 @endif
             </div>

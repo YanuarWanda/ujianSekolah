@@ -56,7 +56,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group{{ $errors->has('batas_pengerjaan') ? ' has-error' : '' }}">
+                            {{-- <div class="form-group{{ $errors->has('batas_pengerjaan') ? ' has-error' : '' }}">
                                 <label for="batas_pengerjaan" class="col-md-4 control-label">Batas Pengerjaan</label>
 
                                 <div class="col-md-6">
@@ -73,7 +73,7 @@
                                         </span>
                                     @endif
                                 </div>
-                            </div>
+                            </div> --}}
 
                             <div class="form-group{{ $errors->has('catatan') ? ' has-error' : '' }}">
                                 <label for="catatan" class="col-md-4 control-label">Catatan</label>

@@ -79,6 +79,9 @@ Route::post('/kelola-siswa/import', 'SiswaController@importToDatabase');
 // Route::get('/kelola-siswa/export', 'SiswaController@exportView');
 Route::get('/kelola-siswa/export', 'SiswaController@exportToExcel')->name('export-siswa');
 
+// Siswa naik kelas
+Route::get('/kelola-siswa/naik-kelas', 'SiswaController@naikKelasView');
+
 // CRUD ujian
 Route::get('kelola-ujian', 'UjianController@index');
 Route::get('/kelola-ujian/create', 'UjianController@create');

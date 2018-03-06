@@ -88,7 +88,7 @@ class UjianController extends Controller
            'id_guru'            => Guru::where('id_guru', $id)->first()['id_guru'],
            'judul_ujian'        => $data['judul'],
            'waktu_pengerjaan'   => gmdate("H:i:s", $data['waktu_pengerjaan']),
-           'tanggal_kadaluarsa' => $data['batas_pengerjaan'],
+           // 'tanggal_kadaluarsa' => $data['batas_pengerjaan'],
            'catatan' => $data['catatan'],
         ]);
 
@@ -141,7 +141,6 @@ class UjianController extends Controller
             'mapel'                 => 'required',
             'judul'                 => 'required',
             'waktu_pengerjaan'      => 'required',
-            'batas_pengerjaan'      => 'required',
             'catatan'               => 'required',
         ]);
 
@@ -150,7 +149,7 @@ class UjianController extends Controller
         $ujian->id_mapel            = $request['mapel'];
         $ujian->judul_ujian         = $request['judul'];
         $ujian->waktu_pengerjaan    = gmdate("H:i:s", $request['waktu_pengerjaan']);
-        $ujian->tanggal_kadaluarsa  = $request['batas_pengerjaan'];
+        // $ujian->tanggal_kadaluarsa  = $request['batas_pengerjaan'];
         $ujian->catatan             = $request['catatan'];
 
         $ujian->save();

@@ -327,4 +327,17 @@ class SiswaController extends Controller
 
         return redirect()->back()->with('success', 'Data Siswa berhasil di Export');
     }
+
+    public function naikKelasView() {
+        if(isset($_GET['idk'])) {
+            $idk = $_GET['idk'];
+            $siswa = Siswa::where('id_kelas', $idk)->get();
+        }else{
+            $idk = 1;
+            $siswa = Siswa::where('id_kelas', $idk)->get();
+        }
+
+        $kelas = Kelas::all();
+        return view('admin.kelola-siswa.naik-kelas', compact('siswa', 'kelas', 'idk'));
+    }
 }
