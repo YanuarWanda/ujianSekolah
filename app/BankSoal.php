@@ -12,6 +12,10 @@ class BankSoal extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'tipe', 'isi_soal', 'pilihan', 'jawaban', 'point'
+        'id_bank_soal', 'id_daftar_bidang', 'tipe', 'isi_soal', 'pilihan', 'jawaban',
     ];
+
+    public function daftarBidangKeahlian() {
+    	return $this->belongsTo('App\DaftarBidangKeahlian', 'id_daftar_bidang');
+    }
 }

@@ -18,4 +18,12 @@ class DaftarBidangKeahlian extends Model
     public function bidangKeahlian() {
         return $this->hasMany('App\BidangKeahlian', 'id_daftar_bidang');
     }
+
+    public function bankSoal() {
+    	return $this->hasMany('App\BankSoal', 'id_daftar_bidang');
+    }
+
+    public function mapel() {
+    	return $this->hasMany('App\Mapel', 'id_daftar_bidang');
+    }
 }

@@ -12,7 +12,7 @@ class Soal extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'id_ujian', 'id_bank_soal'
+        'id_ujian', 'id_bank_soal', 'point',
     ];
 
     public function ujian() {
