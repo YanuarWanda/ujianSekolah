@@ -1,8 +1,8 @@
 /*
-SQLyog Ultimate v10.42 
-MySQL - 5.5.5-10.1.26-MariaDB : Database - db_ujian
+SQLyog Ultimate v12.4.3 (64 bit)
+MySQL - 10.1.26-MariaDB : Database - db_ujian
 *********************************************************************
-*/
+*/
 
 /*!40101 SET NAMES utf8 */;
 
@@ -26,14 +26,16 @@ CREATE TABLE `bank_soal` (
   `isi_soal` text NOT NULL,
   `pilihan` text NOT NULL,
   `jawaban` text NOT NULL,
-  `point` int(11) NOT NULL,
   `id_daftar_bidang` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_bank_soal`),
   KEY `id_daftar_bidang` (`id_daftar_bidang`),
   CONSTRAINT `bank_soal_ibfk_1` FOREIGN KEY (`id_daftar_bidang`) REFERENCES `daftar_bidang_keahlian` (`id_daftar_bidang`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 /*Data for the table `bank_soal` */
+
+insert  into `bank_soal`(`id_bank_soal`,`tipe`,`isi_soal`,`pilihan`,`jawaban`,`id_daftar_bidang`) values 
+(1,'BS','<p>OOP singkatan dari Object Oriented Programming</p>','Benar ,  Salah','Benar',NULL);
 
 /*Table structure for table `bidang_keahlian` */
 
@@ -64,7 +66,10 @@ CREATE TABLE `daftar_bidang_keahlian` (
 
 /*Data for the table `daftar_bidang_keahlian` */
 
-insert  into `daftar_bidang_keahlian`(`id_daftar_bidang`,`bidang_keahlian`) values (1,'Rekayasa Perangkat Lunak'),(2,'Multimedia'),(3,'Teknik Komputer dan Jaringan');
+insert  into `daftar_bidang_keahlian`(`id_daftar_bidang`,`bidang_keahlian`) values 
+(1,'Rekayasa Perangkat Lunak'),
+(2,'Multimedia'),
+(3,'Teknik Komputer dan Jaringan');
 
 /*Table structure for table `guru` */
 
@@ -129,7 +134,13 @@ CREATE TABLE `jurusan` (
 
 /*Data for the table `jurusan` */
 
-insert  into `jurusan`(`id_jurusan`,`nama_jurusan`) values (1,'Rekayasa Perangkat Lunak'),(2,'Multimedia'),(3,'Teknik Komputer Jaringan'),(4,'Administrasi Perkantoran'),(5,'Akuntansi'),(6,'Pemasaran');
+insert  into `jurusan`(`id_jurusan`,`nama_jurusan`) values 
+(1,'Rekayasa Perangkat Lunak'),
+(2,'Multimedia'),
+(3,'Teknik Komputer Jaringan'),
+(4,'Administrasi Perkantoran'),
+(5,'Akuntansi'),
+(6,'Pemasaran');
 
 /*Table structure for table `kelas` */
 
@@ -142,11 +153,19 @@ CREATE TABLE `kelas` (
   PRIMARY KEY (`id_kelas`),
   KEY `id_jurusan` (`id_jurusan`),
   CONSTRAINT `kelas_ibfk_1` FOREIGN KEY (`id_jurusan`) REFERENCES `jurusan` (`id_jurusan`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 
 /*Data for the table `kelas` */
 
-insert  into `kelas`(`id_kelas`,`nama_kelas`,`id_jurusan`) values (1,'XII RPL 1',1),(2,'XII RPL 2',1),(3,'XII RPL 3',1),(4,'XII MM 1',2),(5,'XII MM 2',2),(6,'XII TKJ',3);
+insert  into `kelas`(`id_kelas`,`nama_kelas`,`id_jurusan`) values 
+(1,'XII RPL 1',1),
+(2,'XII RPL 2',1),
+(3,'XII RPL 3',1),
+(4,'XII MM 1',2),
+(5,'XII MM 2',2),
+(6,'XII TKJ',3),
+(7,'X RPL 1',1),
+(9,'XI RPL 1',1);
 
 /*Table structure for table `kelas_ujian` */
 
@@ -161,9 +180,14 @@ CREATE TABLE `kelas_ujian` (
   KEY `id_kelas` (`id_kelas`),
   CONSTRAINT `kelas_ujian_ibfk_1` FOREIGN KEY (`id_ujian`) REFERENCES `ujian` (`id_ujian`),
   CONSTRAINT `kelas_ujian_ibfk_2` FOREIGN KEY (`id_kelas`) REFERENCES `kelas` (`id_kelas`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 /*Data for the table `kelas_ujian` */
+
+insert  into `kelas_ujian`(`id_kelas_ujian`,`id_ujian`,`id_kelas`) values 
+(1,2,1),
+(2,2,2),
+(3,2,3);
 
 /*Table structure for table `mapel` */
 
@@ -180,7 +204,10 @@ CREATE TABLE `mapel` (
 
 /*Data for the table `mapel` */
 
-insert  into `mapel`(`id_mapel`,`id_daftar_bidang`,`nama_mapel`) values (1,1,'Pemrograman Berorientasi Objek'),(2,1,'Web Dinamis'),(3,1,'Basis Data');
+insert  into `mapel`(`id_mapel`,`id_daftar_bidang`,`nama_mapel`) values 
+(1,1,'Pemrograman Berorientasi Objek'),
+(2,1,'Web Dinamis'),
+(3,1,'Basis Data');
 
 /*Table structure for table `migrations` */
 
@@ -264,9 +291,13 @@ CREATE TABLE `siswa` (
   KEY `id_kelas` (`id_kelas`),
   CONSTRAINT `siswa_ibfk_1` FOREIGN KEY (`id_kelas`) REFERENCES `kelas` (`id_kelas`),
   CONSTRAINT `siswa_ibfk_2` FOREIGN KEY (`id_users`) REFERENCES `users` (`id_users`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 /*Data for the table `siswa` */
+
+insert  into `siswa`(`id_siswa`,`nis`,`id_users`,`id_kelas`,`nama`,`alamat`,`jenis_kelamin`,`foto`) values 
+(2,'1502011309',5,9,'Fahri Muhamad Zulkarnaen','Jalan Cigondewah Kaler','L','Ijazah_180226_0020_1520310706.jpg'),
+(3,'1502011310',6,9,'Fariz','Jalan Pangembangan','L','70525086-b842-4394-8d6b-570d77b084db_1520328021.jpg');
 
 /*Table structure for table `soal` */
 
@@ -282,9 +313,12 @@ CREATE TABLE `soal` (
   KEY `id_bank_soal` (`id_bank_soal`),
   CONSTRAINT `soal_ibfk_1` FOREIGN KEY (`id_ujian`) REFERENCES `ujian` (`id_ujian`),
   CONSTRAINT `soal_ibfk_2` FOREIGN KEY (`id_bank_soal`) REFERENCES `bank_soal` (`id_bank_soal`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 /*Data for the table `soal` */
+
+insert  into `soal`(`id_soal`,`id_ujian`,`id_bank_soal`,`point`) values 
+(1,2,1,1);
 
 /*Table structure for table `soal_remed` */
 
@@ -317,7 +351,7 @@ CREATE TABLE `ujian` (
   `waktu_pengerjaan` time NOT NULL COMMENT 'Batas waktu pengerjaan saat ujian.',
   `tanggal_pembuatan` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Tanggal pembuatan ujian.',
   `tanggal_post` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Tanggal ujian di post.',
-  `tanggal_kadaluarsa` date NOT NULL COMMENT 'Tanggal ujian akan berakhir.',
+  `tanggal_kadaluarsa` date DEFAULT NULL COMMENT 'Tanggal post akan berakhir',
   `status` varchar(50) NOT NULL DEFAULT 'Draft' COMMENT 'Status ujian antara Draft/Belum di Post atau Posted/Sudah di post.',
   `catatan` text COMMENT 'Catatan tentang ujian.',
   PRIMARY KEY (`id_ujian`),
@@ -325,9 +359,12 @@ CREATE TABLE `ujian` (
   KEY `ujian_ibfk_2` (`id_guru`),
   CONSTRAINT `ujian_ibfk_1` FOREIGN KEY (`id_mapel`) REFERENCES `mapel` (`id_mapel`),
   CONSTRAINT `ujian_ibfk_2` FOREIGN KEY (`id_guru`) REFERENCES `guru` (`id_guru`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 /*Data for the table `ujian` */
+
+insert  into `ujian`(`id_ujian`,`id_mapel`,`id_guru`,`judul_ujian`,`kkm`,`waktu_pengerjaan`,`tanggal_pembuatan`,`tanggal_post`,`tanggal_kadaluarsa`,`status`,`catatan`) values 
+(2,1,NULL,'Konsep OOP',0,'01:00:00','2018-03-06 07:14:58','2018-03-06 07:14:58',NULL,'posted','Untuk ulangan harian.');
 
 /*Table structure for table `ujian_remedial` */
 
@@ -360,11 +397,14 @@ CREATE TABLE `users` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id_users`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `users` */
 
-insert  into `users`(`id_users`,`username`,`email`,`password`,`remember_token`,`hak_akses`,`created_at`,`updated_at`) values (1,'laracry','test@example.com','$2y$10$tDcmXuHyf0qm.vlCHGhf/ufbcrC01o99T0Edz4zbPHI4sdVkUc9ja','23lejnqWw2ddGLHmQRrJz8NSGnktWbwTCFfK463w0NLoLKUhS6CJafDvyCpa','admin','2018-01-20 22:51:29','2018-01-20 22:51:33'),(2,'','','$2y$10$p.y5.jHM.yqm41m0sCM88.KeXuo0SxLXdOIX1NqVeBJLO6vpYb0..',NULL,'guru','2018-03-05 21:26:42','2018-03-05 21:26:42'),(3,'','','$2y$10$g4RUKM.GyhGORO6ZNrc3oegk8JDeqXjItSo4auVHYQcfkJ6ZPGNau',NULL,'guru','2018-03-05 21:26:42','2018-03-05 21:26:42'),(4,'','','$2y$10$20FR/fVRXur0b9u9MeXBd.9DYApusSqfxuqfj7G8V1wijf5XiERxq',NULL,'guru','2018-03-05 21:26:42','2018-03-05 21:26:42');
+insert  into `users`(`id_users`,`username`,`email`,`password`,`remember_token`,`hak_akses`,`created_at`,`updated_at`) values 
+(1,'laracry','test@example.com','$2y$10$tDcmXuHyf0qm.vlCHGhf/ufbcrC01o99T0Edz4zbPHI4sdVkUc9ja','hEOSv8KaLRuvhAjwXZlN8s8lJB5ReQykePLAxIZ0wlfoG6ucOIRA6ThexvAB','admin','2018-01-20 22:51:29','2018-01-20 22:51:33'),
+(5,'fahri','mzfahri620@gmail.com','$2y$10$fOkp04.6ln1LRK4v.5447.3sXeqypUHvbV5TRujiYTQxpNzAGpzzS','ZK3JPjxkK2bikrZgXcNfAUSRtgVSfYSDmdjK2EffuxxuU7R5ZoyZLCbMTDV0','siswa','2018-03-06 11:31:45','2018-03-06 11:31:45'),
+(6,'fariz','fafafa@gmail.com','$2y$10$S0XyU.9cj3k4hiIa.ZBbGuaHcKYgTqQOlFQfi/w5.QYNH/Nrcd8/2',NULL,'siswa','2018-03-06 16:20:21','2018-03-06 16:20:21');
 
 /* Trigger structure for table `daftar_bidang_keahlian` */
 
