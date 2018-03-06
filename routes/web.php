@@ -14,6 +14,7 @@
 Route::get('/', function () {
 	// return session()->all();
 	return redirect('/home');
+	return view('home');
 });
 
 Auth::routes();
@@ -81,6 +82,7 @@ Route::get('/kelola-siswa/export', 'SiswaController@exportToExcel')->name('expor
 
 // Siswa naik kelas
 Route::get('/kelola-siswa/naik-kelas', 'SiswaController@naikKelasView');
+Route::post('/kelola-siswa/naik-kelas', 'SiswaController@naikKelas');
 
 // CRUD ujian
 Route::get('kelola-ujian', 'UjianController@index');

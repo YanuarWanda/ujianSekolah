@@ -340,4 +340,76 @@ class SiswaController extends Controller
         $kelas = Kelas::all();
         return view('admin.kelola-siswa.naik-kelas', compact('siswa', 'kelas', 'idk'));
     }
+
+    Public function naikKelas(Request $request) {
+        if(isset($_POST)) {
+            foreach($request['id_siswa'] as $id_siswa) {
+                $siswa = Siswa::find($id_siswa);
+                
+                $nama_kelas = $siswa->kelas->nama_kelas; // Contoh : XI RPL 2
+
+                // Dipisah dulu jadi array
+                $angka_kelas = explode(' ', trim($nama_kelas)); // Hasil harusnya jadi [0] = 'XI', [1] = 'RPL', [2] = 2
+
+                // Logika kenaikan kelas
+                switch($angka_kelas[0]) {
+                    case 'X'  :
+                        $angka_kelas[0] = 'XI';
+                        break;
+                    case 'XI' :
+                        $angka_kelas[0] = 'XII';
+                        break;
+                    default   :
+                        break;
+                }
+
+                // Sekarang tinggal disatukan lagi
+                $kelas = implode(' ', $angka_kelas); // Berdasarkan contoh, hasil harusnya jadi XII RPL 2
+
+                $daftarKelas = Kelas::select('nama_kelas')->get(); // Daftar nama kelas yang ada
+
+                if(in_array($kelas, array_column($daftarKelas->toArray(), 'nama_kelas') ) ) { // Apakah nama kelas ada di daftar kelas
+                // Untuk if diatas, dia meng-check apakah 'XII RPL 2' ada di array daftar_kelas, di kolom nama_kelas nya (multidimensional array)
+                // if(XII RPL in $daftarKelas['nama_kelas']) <-- Logika nya seperti ini
+
+                    $id_kelas_baru = Kelas::select('id_kelas')->where('nama_kelas', $kelas)->first()['id_kelas']; // Hasil harusnya id_kelas
+                    
+                    $siswa->id_kelas = $id_kelas_baru;
+                    $siswa->save();
+
+                }else { // Kalau ternyata kelasnya belum ada
+                    $kelas_baru = new Kelas;
+                    $kelas_baru->nama_kelas = $kelas;
+
+                    // Untuk sementara, pilihan jurusannya manual dulu
+                    switch($angka_kelas[1]) {
+                        case 'RPL' :
+                            $kelas_baru->id_jurusan = 1;
+                            break;
+                        case 'MM' :
+                            $kelas_baru->id_jurusan = 2;
+                            break;
+                        case 'TKJ' :
+                            $kelas_baru->id_jurusan = 3;
+                            break;
+                        case 'AP' :
+                            $kelas_baru->id_jurusan = 4;
+                            break;
+                        case 'AK' :
+                            $kelas_baru->id_jurusan = 5;
+                            break;
+                        case 'PM' :
+                            $kelas_baru->id_jurusan = 6;
+                            break;
+                    }
+
+                    $kelas_baru->save();
+
+                    $siswa->id_kelas = $kelas_baru->id_kelas;
+                    $siswa->save();
+                }
+            }
+            // Nah, sampai sini, program cuma menaikan kelas saja, tapi untuk di tampilannya belum di refresh.
+        }
+    }
 }
