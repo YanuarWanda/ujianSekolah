@@ -44,6 +44,20 @@
                                 </div>
                             </div>
 
+                            <div class="form-group{{ $errors->has('kkm') ? ' has-error' : '' }}">
+                                <label for="kkm" class="col-md-4 control-label">Nilai KKM</label>
+
+                                <div class="col-md-6">
+                                    <input id="kkm" class="form-control" type="number" name="kkm" value="{{ old('kkm') }}" required/>
+
+                                    @if($errors->has('kkm'))
+                                        <span class="help-block">
+                                            <strong>{{ $errors->first('kkm') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+
                             <div class="form-group{{ $errors->has('waktu_pengerjaan') ? ' has-error' : '' }}">
                                 <label for="waktu_pengerjaan" class="col-md-4 control-label">Waktu Pengerjaan</label>
 

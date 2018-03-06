@@ -77,6 +77,10 @@ class UjianController extends Controller
      */
     public function store(Request $data)
     {
+        $this->validate($data, [
+            'kkm'   => 'required|integer',
+        ]);
+
         $id = session()->get('id_guru');
 
         if($data['catatan'] == '') {
@@ -87,6 +91,7 @@ class UjianController extends Controller
            'id_mapel'           => Mapel::where('nama_mapel', $data['mapel'])->first()['id_mapel'],
            'id_guru'            => Guru::where('id_guru', $id)->first()['id_guru'],
            'judul_ujian'        => $data['judul'],
+           'kkm'                => $data['kkm'],
            'waktu_pengerjaan'   => gmdate("H:i:s", $data['waktu_pengerjaan']),
            // 'tanggal_kadaluarsa' => $data['batas_pengerjaan'],
            'catatan' => $data['catatan'],
