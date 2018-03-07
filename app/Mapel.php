@@ -11,7 +11,7 @@ class Mapel extends Model
 
     public $timestamps = false;
 
-    public function daftarBidangKeahlian() {
+    public function daftar_bidang_keahlian() {
     	return $this->belongsTo('App\DaftarBidangKeahlian', 'id_daftar_bidang');
     }
 

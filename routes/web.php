@@ -122,6 +122,14 @@ Route::get('/kelola-kelas/edit/{id}', 'KelasController@edit');
 Route::post('/kelola-kelas/update/{id}', 'KelasController@update');
 Route::get('/kelola-kelas/delete/{id}', 'KelasController@destroy');
 
+// CRUD Mapel
+Route::get('/kelola-mapel', 'MapelController@index');
+Route::get('/kelola-mapel/create', 'MapelController@create');
+Route::post('/kelola-mapel/create', 'MapelController@store');
+Route::get('/kelola-mapel/edit/{id}', 'MapelController@edit');
+Route::post('/kelola-mapel/update/{id}', 'MapelController@update');
+Route::get('/kelola-mapel/delete/{id}', 'MapelController@destroy');
+
 // Settings user
 Route::get('/settings', 'HomeController@settings')->name('settings');
 Route::post('/ubahPassword/{id}', 'HomeController@ubahPassword')->name('ubahPassword');
