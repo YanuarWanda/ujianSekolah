@@ -295,13 +295,23 @@
         $('#tipe').on('change', function(){
            var $value = $('#tipe option:selected').attr('value');
            if($value == 'BS'){
-               $('.PG').slideUp(1000, function(){
-                   $('.BS').slideDown(1000);
+               $('.PG').slideUp(500, function(){
+                   $('.MC').slideUp(500, function (){
+                      $('.BS').slideDown(500);
+                   });
                });
            }else if($value == "PG"){
-               $('.BS').slideUp(1000, function(){
-                  $('.PG').slideDown(1000);
+               $('.MC').slideUp(500, function(){
+                  $('.BS').slideUp(500, function(){
+                     $('.PG').slideDown(500);
+                  });
                });
+           }else if($value == "MC"){
+               $('.PG').slideUp(500, function(){
+                   $('.BS').slideUp(500, function(){
+                       $('.MC').slideDown(500);
+                   })
+               })
            }
         });
 

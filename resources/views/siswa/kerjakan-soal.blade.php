@@ -33,13 +33,28 @@
                             <hr>
 
                             <h4>Jawaban</h4>
-                            <?php $pilihanAsli = explode(' ,  ', $soalFull[$s]['bankSoal']['pilihan']);?>
+                            <?php
+                                $pilihanAsli = explode(' ,  ', $soalFull[$s]['bankSoal']['pilihan']);
+                                foreach($pilihanAsli as $pa => $isiPA){
+                                    if($isiPA == ''){
+                                        unset($pilihanAsli[$pa]);
+                                    }
+                                }
+                            ?>
                             <div>
-                                @foreach($pilihanAsli as $p)
-                                    <div class="radio">
-                                        <label><input type="radio" name="jawaban_{{$s}}" value="{{ $p }}">{!! $p !!}</label>
-                                    </div>
-                                @endforeach
+                                @if ($isi->bankSoal['tipe'] != 'MC')
+                                    @foreach($pilihanAsli as $p)
+                                        <div class="radio">
+                                            <label><input type="radio" name="jawaban_{{$s}}" value="{{ $p }}">{!! $p !!}</label>
+                                        </div>
+                                    @endforeach
+                                @else
+                                    @foreach($pilihanAsli as $p)
+                                        <div class="checkbox">
+                                            <label><input type="checkbox" name="jawaban_{{$s}}[]" value="{{ $p }}">{!! $p !!}</label>
+                                        </div>
+                                    @endforeach
+                                @endif
                             </div>
 
                             @if($s == count($soalFull)-1)

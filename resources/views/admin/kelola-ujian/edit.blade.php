@@ -122,15 +122,15 @@
                             <tbody>
 
                                 <?php $no=1; ?>
-                                    @foreach($soal as $s)
+                                    @foreach($soal as $s => $isiSoal)
                                         <tr>
                                             <td><?php echo $no;$no++; ?></td>
-                                            <td>{{ $s->bankSoal['isi_soal'] }}</td>
-                                            <td>{{ $s->bankSoal['jawaban'] }}</td>
-                                            <td>{{$s->bankSoal['tipe']}}</td>
+                                            <td>{{ $isiSoal->bankSoal['isi_soal'] }}</td>
+                                            <td>{{ $jawabanAsli[$s] }}</td>
+                                            <td>{{ $isiSoal->bankSoal['tipe']}}</td>
                                             <td>
-                                                <a href="{{url('/kelola-soal/edit', base64_encode($s['id_soal']))}}" class="btn btn-primary"><i class="fa fa-edit" aria-hidden="true"></i></a>
-                                                <a href="{{url('/kelola-soal/delete', base64_encode($s['id_soal']))}}" class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                                                <a href="{{url('/kelola-soal/edit', base64_encode($isiSoal['id_soal']))}}" class="btn btn-primary"><i class="fa fa-edit" aria-hidden="true"></i></a>
+                                                <a href="{{url('/kelola-soal/delete', base64_encode($isiSoal['id_soal']))}}" class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></a>
                                             </td>
                                         </tr>
                                     @endforeach

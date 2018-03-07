@@ -17,6 +17,7 @@
                                      <select name="tipe" id="tipe" class="form-control">
                                          <option value="PG" <?php if($soal->bankSoal['tipe']){if($soal->bankSoal['tipe'] == 'PG'){ ?> selected <?php }} ?>>Pilihan Ganda</option>
                                          <option value="BS" <?php if($soal->bankSoal['tipe']){if($soal->bankSoal['tipe'] == 'BS'){ ?> selected <?php }} ?>>Benar / Salah</option>
+                                         <option value="MC" <?php if($soal->bankSoal['tipe']){if($soal->bankSoal['tipe'] == 'MC'){ ?> selected <?php }} ?>>Multichoice</option>
                                      </select>
 
                                      @if ($errors->has('tipe'))
@@ -31,7 +32,7 @@
                                  <label for="point" class="col-md-2 control-label">Point</label>
 
                                  <div class="col-md-9">
-                                     <input class="form-control" type="number" name="point" value="{{ $soal->bankSoal['point'] }}"/>
+                                     <input class="form-control" type="number" name="point" value="{{ $soal['point'] }}"/>
 
                                      @if($errors->has('point'))
                                          <span class="help-block">
@@ -56,12 +57,12 @@
                              </div>
 
 
-                             <div class="PG" @if($soal->bankSoal['tipe'] == 'BS') style="display:none" @endif>
+                             <div class="PG MC" @if($soal->bankSoal['tipe'] == 'BS') style="display:none" @endif>
                                  <div class="form-group{{ $errors->has('pilihanA') ? ' has-error' : '' }}">
                                      <label for="pilihanA" class="col-md-2 control-label">Pilihan A</label>
 
                                      <div class="col-md-9">
-                                         <textarea id="pilihanA" type="text" class="form-control editor" name="pilihanA" value="{{ old('pilihanA') }}" rows="1" required>@if($soal->bankSoal['tipe'] == 'PG') {{ $pilihan['0'] }} @endif</textarea>
+                                         <textarea id="pilihanA" type="text" class="form-control editor" name="pilihanA" value="{{ old('pilihanA') }}" rows="1" required>@if($soal->bankSoal['tipe'] == 'PG' || $soal->bankSoal['tipe'] == 'MC') {!! $pilihan['0'] !!} @endif</textarea>
 
                                          @if ($errors->has('pilihanA'))
                                              <span class="help-block">
@@ -75,7 +76,7 @@
                                      <label for="pilihanB" class="col-md-2 control-label">Pilihan B</label>
 
                                      <div class="col-md-9">
-                                         <textarea id="pilihanB" type="text" class="form-control editor" name="pilihanB" value="{{ old('pilihanB') }}" rows="1" required>@if($soal->bankSoal['tipe'] == 'PG') {{ $pilihan['1'] }} @endif</textarea>
+                                         <textarea id="pilihanB" type="text" class="form-control editor" name="pilihanB" value="{{ old('pilihanB') }}" rows="1" required>@if($soal->bankSoal['tipe'] == 'PG' || $soal->bankSoal['tipe'] == 'MC') {!! $pilihan['1'] !!} @endif</textarea>
 
                                          @if ($errors->has('pilihanB'))
                                              <span class="help-block">
@@ -89,7 +90,7 @@
                                      <label for="pilihanC" class="col-md-2 control-label">Pilihan C</label>
 
                                      <div class="col-md-9">
-                                         <textarea id="pilihanC" type="text" class="form-control editor" name="pilihanC" value="{{ old('pilihanC') }}" rows="1" required>@if($soal->bankSoal['tipe'] == 'PG') {{ $pilihan['2'] }} @endif</textarea>
+                                         <textarea id="pilihanC" type="text" class="form-control editor" name="pilihanC" value="{{ old('pilihanC') }}" rows="1" required>@if($soal->bankSoal['tipe'] == 'PG' || $soal->bankSoal['tipe'] == 'MC') {!! $pilihan['2'] !!} @endif</textarea>
 
                                          @if ($errors->has('pilihanC'))
                                              <span class="help-block">
@@ -103,7 +104,7 @@
                                      <label for="pilihanD" class="col-md-2 control-label">Pilihan D</label>
 
                                      <div class="col-md-9">
-                                         <textarea id="pilihanD" type="text" class="form-control editor" name="pilihanD" value="{{ old('pilihanD') }}" rows="1" required>@if($soal->bankSoal['tipe'] == 'PG') {{ $pilihan['3'] }} @endif</textarea>
+                                         <textarea id="pilihanD" type="text" class="form-control editor" name="pilihanD" value="{{ old('pilihanD') }}" rows="1" required>@if($soal->bankSoal['tipe'] == 'PG' || $soal->bankSoal['tipe'] == 'MC') {!! $pilihan['3'] !!} @endif</textarea>
 
                                          @if ($errors->has('pilihanD'))
                                              <span class="help-block">
@@ -117,7 +118,7 @@
                                      <label for="pilihanE" class="col-md-2 control-label">Pilihan E</label>
 
                                      <div class="col-md-9">
-                                         <textarea id="pilihanE" type="text" class="form-control editor" name="pilihanE" value="{{ old('pilihanE') }}" rows="1" required>@if($soal->bankSoal['tipe'] == 'PG') {!! $pilihan['4'] !!} @endif</textarea>
+                                         <textarea id="pilihanE" type="text" class="form-control editor" name="pilihanE" value="{{ old('pilihanE') }}" rows="1" required>@if($soal->bankSoal['tipe'] == 'PG' || $soal->bankSoal['tipe'] == 'MC') {!! $pilihan['4'] !!} @endif</textarea>
 
                                          @if ($errors->has('pilihanE'))
                                              <span class="help-block">
@@ -132,16 +133,23 @@
                                  <label for="jawaban" class="col-md-2 control-label">Jawaban</label>
 
                                  <div class="col-md-9" style="margin-top:1rem">
-                                     <div class="PG" @if($soal->bankSoal['tipe'] == 'BS') style="display:none" @endif>
+                                     <div class="PG" @if($soal->bankSoal['tipe'] != 'PG') style="display:none" @endif>
                                          <span class="PG">A<input type="radio" name="jawaban" value="A" style="margin-right:1rem" @if($soal->bankSoal['tipe'] == 'PG') @if($soal->bankSoal['jawaban'] == $pilihan['0']) checked @endif @endif/></span>
                                          <span class="PG">B<input type="radio" name="jawaban" value="B" style="margin-right:1rem" @if($soal->bankSoal['tipe'] == 'PG') @if($soal->bankSoal['jawaban'] == $pilihan['1']) checked @endif @endif/></span>
                                          <span class="PG">C<input type="radio" name="jawaban" value="C" style="margin-right:1rem" @if($soal->bankSoal['tipe'] == 'PG') @if($soal->bankSoal['jawaban'] == $pilihan['2']) checked @endif @endif/></span>
                                          <span class="PG">D<input type="radio" name="jawaban" value="D" style="margin-right:1rem" @if($soal->bankSoal['tipe'] == 'PG') @if($soal->bankSoal['jawaban'] == $pilihan['3']) checked @endif @endif/></span>
                                          <span class="PG">E<input type="radio" name="jawaban" value="E" style="margin-right:1rem" @if($soal->bankSoal['tipe'] == 'PG') @if($soal->bankSoal['jawaban'] == $pilihan['4']) checked @endif @endif/></span>
                                     </div>
-                                    <div class="BS" @if ($soal->bankSoal['tipe'] == 'PG') style="display:none" @endif>
+                                    <div class="BS" @if ($soal->bankSoal['tipe'] != 'BS') style="display:none" @endif>
                                          <span class="BS">Benar<input type="radio" name="jawaban" value="Benar" style="margin-right:1rem" @if($soal->bankSoal['tipe'] == 'BS') @if($soal->bankSoal['jawaban'] == $pilihan['0']) checked @endif @endif></span>
                                          <span class="BS">Salah<input type="radio" name="jawaban" value="Salah" style="margin-right:1rem" @if($soal->bankSoal['tipe'] == 'BS') @if($soal->bankSoal['jawaban'] == $pilihan['1']) checked @endif @endif></span>
+                                    </div>
+                                    <div class="MC" @if($soal->bankSoal['tipe'] != 'MC') style="display:none" @endif>
+                                        <span class="MC">A<input type="checkbox" name="jawabanMC[]" value="A" style="margin-right:1rem" @if($soal->bankSoal['tipe'] == 'MC') @if($pilihan['0'] == $jawaban['0']) checked @endif @endif/></span>
+                                        <span class="MC">B<input type="checkbox" name="jawabanMC[]" value="B" style="margin-right:1rem" @if($soal->bankSoal['tipe'] == 'MC') @if($pilihan['1'] == $jawaban['1']) checked @endif @endif/></span>
+                                        <span class="MC">C<input type="checkbox" name="jawabanMC[]" value="C" style="margin-right:1rem" @if($soal->bankSoal['tipe'] == 'MC') @if($pilihan['2'] == $jawaban['2']) checked @endif @endif/></span>
+                                        <span class="MC">D<input type="checkbox" name="jawabanMC[]" value="D" style="margin-right:1rem" @if($soal->bankSoal['tipe'] == 'MC') @if($pilihan['3'] == $jawaban['3']) checked @endif @endif/></span>
+                                        <span class="MC">E<input type="checkbox" name="jawabanMC[]" value="E" style="margin-right:1rem" @if($soal->bankSoal['tipe'] == 'MC') @if($pilihan['4'] == $jawaban['4']) checked @endif @endif/></span>
                                     </div>
                                 </div>
                              </div>

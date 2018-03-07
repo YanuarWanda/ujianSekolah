@@ -44,7 +44,6 @@ class SoalController extends Controller
         // return $request['soal'];
 
         $this->validate($request, [
-            'jawaban'   => 'required',
             'point'     => 'required|integer',
             'soal'      => 'required',
             'tipe'      => 'required'
@@ -66,6 +65,7 @@ class SoalController extends Controller
             }else if($request['jawaban'] == 'E'){
                 $jawaban = $request['pilihanE'];
             }
+
         }else if($request['tipe'] == 'BS'){
             $pilihan = 'Benar ,  Salah';
 
@@ -74,20 +74,67 @@ class SoalController extends Controller
             }else if($request['jawaban'] == 'Salah'){
                 $jawaban = "Salah";
             }
-        }
+        }else if($request['tipe'] == 'MC'){
+            $pilihan = $request['pilihanA']." ,  ".$request['pilihanB']." ,  ".$request['pilihanC']." ,  ".$request['pilihanD']." ,  ".$request['pilihanE'];
 
+            $jawaban = '';
+            foreach($request['jawabanMC'] as $j => $jajang){
+                if($jajang == 'A'){
+                    $jawabanA = $request['pilihanA']." ,  ";break;
+                }else{
+                    $jawabanA = ''.' ,  ';
+                }
+            }
+
+            foreach($request['jawabanMC'] as $j => $jajang){
+                if($jajang == 'B'){
+                    $jawabanB = $request['pilihanB']." ,  ";break;
+                }else{
+                    $jawabanB = ''.' ,  ';
+                }
+            }
+
+            foreach($request['jawabanMC'] as $j => $jajang){
+                if($jajang == 'C'){
+                    $jawabanC = $request['pilihanC']." ,  ";break;
+                }else{
+                    $jawabanC = ''.' ,  ';
+                }
+            }
+
+            foreach($request['jawabanMC'] as $j => $jajang){
+                if($jajang == 'D'){
+                    $jawabanD = $request['pilihanD']." ,  ";break;
+                }else{
+                    $jawabanD = ''.' ,  ';
+                }
+            }
+
+            foreach($request['jawabanMC'] as $j => $jajang){
+                if($jajang == 'E'){
+                    $jawabanE = $request['pilihanE'];break;
+                }else{
+                    $jawabanE = '';
+                }
+            }
+
+            $jawaban = $jawabanA.$jawabanB.$jawabanC.$jawabanD.$jawabanE;
+            // return explode(" ,  ", $jawaban);
+        }
+        // return $jawaban;
         $soal = BankSoal::create([
-            'tipe'      => $request['tipe'],
-            'isi_soal'  => $request['soal'],
-            'pilihan'   => $pilihan,
-            'jawaban'   => $jawaban,
-            'point'     => $request['point']
+            'tipe'              => $request['tipe'],
+            'isi_soal'          => $request['soal'],
+            'pilihan'           => $pilihan,
+            'jawaban'           => $jawaban,
+            'id_daftar_bidang'  => $ujian->mapel->daftarBidangKeahlian->id_daftar_bidang,
         ]);
 
         if($soal){
             $soalUjian = Soal::create([
                 'id_ujian'      => $ujian['id_ujian'],
-                'id_bank_soal'  => $soal['id_bank_soal']
+                'id_bank_soal'  => $soal['id_bank_soal'],
+                'point'         => $request['point'],
             ]);
 
             if($soalUjian){
@@ -116,12 +163,17 @@ class SoalController extends Controller
      */
     public function edit($id)
     {
-        $soal = Soal::find(base64_decode($id));
-        $ujian = Ujian::where('id_ujian', $soal->id_ujian)->get()->first();
-        $pilihan = explode(' ,  ', $soal->bankSoal['pilihan']);
+        $soal       = Soal::find(base64_decode($id));
+        $ujian      = Ujian::where('id_ujian', $soal->id_ujian)->get()->first();
+        $pilihan    = explode(' ,  ', $soal->bankSoal['pilihan']);
+        $jawaban    = $soal->bankSoal['jawaban'];
+        if($soal->bankSoal['tipe'] == 'MC'){
+            $jawaban = explode(' ,  ', $jawaban);
+            unset($jawaban[5]);
+        }
 
-        // return $soal->bankSoal['tipe'];
-        return view('admin.kelola-soal.edit', compact('soal', 'pilihan', 'ujian'));
+        // return $pilihan['0'];
+        return view('admin.kelola-soal.edit', compact('soal', 'pilihan', 'ujian', 'jawaban'));
     }
 
     /**
@@ -158,16 +210,63 @@ class SoalController extends Controller
             }else if($request['jawaban'] == 'Salah'){
                 $jawaban = "Salah";
             }
+        }else if($request['tipe'] == 'MC'){
+            $pilihan = $request['pilihanA']." ,  ".$request['pilihanB']." ,  ".$request['pilihanC']." ,  ".$request['pilihanD']." ,  ".$request['pilihanE'];
+
+            $jawaban = '';
+            foreach($request['jawabanMC'] as $j => $jajang){
+                if($jajang == 'A'){
+                    $jawabanA = $request['pilihanA']." ,  ";break;
+                }else{
+                    $jawabanA = ''.' ,  ';
+                }
+            }
+
+            foreach($request['jawabanMC'] as $j => $jajang){
+                if($jajang == 'B'){
+                    $jawabanB = $request['pilihanB']." ,  ";break;
+                }else{
+                    $jawabanB = ''.' ,  ';
+                }
+            }
+
+            foreach($request['jawabanMC'] as $j => $jajang){
+                if($jajang == 'C'){
+                    $jawabanC = $request['pilihanC']." ,  ";break;
+                }else{
+                    $jawabanC = ''.' ,  ';
+                }
+            }
+
+            foreach($request['jawabanMC'] as $j => $jajang){
+                if($jajang == 'D'){
+                    $jawabanD = $request['pilihanD']." ,  ";break;
+                }else{
+                    $jawabanD = ''.' ,  ';
+                }
+            }
+
+            foreach($request['jawabanMC'] as $j => $jajang){
+                if($jajang == 'E'){
+                    $jawabanE = $request['pilihanE'];break;
+                }else{
+                    $jawabanE = '';
+                }
+            }
+
+            $jawaban = $jawabanA.$jawabanB.$jawabanC.$jawabanD.$jawabanE;
         }
+
+        // return explode(' ,  ', $jawaban);
 
         $bankSoal->tipe        = $request['tipe'];
         $bankSoal->isi_soal    = $request['soal'];
         $bankSoal->pilihan     = $pilihan;
         $bankSoal->jawaban     = $jawaban;
-        $bankSoal->point       = $request['point'];
-        // dd($request['tipe']);
+        // return $jawaban;
+        $soal->point           = $request['point'];
 
-        if($bankSoal->save()){
+        if($bankSoal->save() && $soal->save()){
             return redirect('/kelola-ujian/edit/'.base64_encode($soal['id_ujian']))->with('success', 'Update Soal Berhasil!');
         }
     }
