@@ -14,6 +14,8 @@
                     <a href="/kelola-jurusan" class="btn btn-info">Kelola Jurusan</a>
                     <a href="/kelola-kelas" class="btn btn-warning">Kelola Kelas</a>
                     <br><br>
+                    <a href="/kelola-bidang" class="btn btn-primary">Kelola Bidang Keahlian</a>
+                    <br><br>
                     <a href="/kelola-guru/import" class="btn btn-default">Import data Guru</a>
                     <a href="/kelola-siswa/import" class="btn btn-default">Import data Siswa</a>
                 </div>

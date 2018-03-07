@@ -122,13 +122,13 @@ Route::get('/kelola-kelas/edit/{id}', 'KelasController@edit');
 Route::post('/kelola-kelas/update/{id}', 'KelasController@update');
 Route::get('/kelola-kelas/delete/{id}', 'KelasController@destroy');
 
-// CRUD Mapel
-Route::get('/kelola-mapel', 'MapelController@index');
-Route::get('/kelola-mapel/create', 'MapelController@create');
-Route::post('/kelola-mapel/create', 'MapelController@store');
-Route::get('/kelola-mapel/edit/{id}', 'MapelController@edit');
-Route::post('/kelola-mapel/update/{id}', 'MapelController@update');
-Route::get('/kelola-mapel/delete/{id}', 'MapelController@destroy');
+// CRUD Bidang Keahlian
+Route::get('/kelola-bidang', 'DaftarBidangKeahlianController@index');
+Route::get('/kelola-bidang/create', 'DaftarBidangKeahlianController@create');
+Route::post('/kelola-bidang/create', 'DaftarBidangKeahlianController@store');
+Route::get('/kelola-bidang/edit/{id}', 'DaftarBidangKeahlianController@edit');
+Route::post('/kelola-bidang/update/{id}', 'DaftarBidangKeahlianController@update');
+Route::get('/kelola-bidang/delete/{id}', 'DaftarBidangKeahlianController@destroy');
 
 // Settings user
 Route::get('/settings', 'HomeController@settings')->name('settings');
