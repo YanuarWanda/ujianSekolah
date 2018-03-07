@@ -71,6 +71,12 @@
                                 </option>
                             @endforeach
                         </select>
+
+                        <hr>
+
+                        <p>Silahkan tentukan kapan post kadaluarsa</p>
+                        <input type="date" name="tanggalKadaluarsa" class="form-control">
+
                       </div>
                       <div class="modal-footer">
                         <button onclick="submit();" class="btn btn-primary" data-dismiss="modal">Post</button>

@@ -215,13 +215,19 @@ class UjianController extends Controller
     }
 
     public function postUjian(Request $request, $id) {
+        $this->validate($request ,[
+            'kelas' => 'required',
+            'tanggalKadaluarsa' => 'required',
+        ]);
+
         $ujian = Ujian::find(base64_decode($id));
         if(count($ujian->soal) == 0) {
             return redirect()->back()->with('error', 'Silahkan tambah soal terlebih dahulu');
         }
 
         $ujian->status = 'posted';
-        // return $ujian->judul_ujian;
+        $ujian->tanggal_kadaluarsa = $request['tanggalKadaluarsa'];
+
         // return base64_decode($id);
         if(isset($request['kelas'])) {
             if($ujian->save()) {

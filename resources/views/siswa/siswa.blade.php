@@ -34,7 +34,7 @@
                 </div>
 
                 <div class="panel-body">
-                    <p>Dibuat pada <span style="color: red;">{{ $isi->tanggal_post }}</span></p>
+                    <p>Dipost pada <span style="color: red;">{{ $isi->tanggal_post }}</span></p>
                     <p>Batas Pengerjaan <span style="color: red">{{ $isi->tanggal_kadaluarsa }}</span></p>
                     <strong>Deskripsi</strong>
                     <p>{{ $isi->catatan }}</p>
