@@ -20,6 +20,7 @@
                                      <select name="tipe" id="tipe" class="form-control">
                                          <option value="PG">Pilihan Ganda</option>
                                          <option value="BS">Benar / Salah</option>
+                                         <option value="MC">Multichoice</option>
                                      </select>
 
                                      @if ($errors->has('tipe'))
@@ -34,7 +35,7 @@
                                  <label for="point" class="col-md-2 control-label">Point</label>
 
                                  <div class="col-md-9">
-                                     <input class="form-control" type="number" name="point" value=""/>
+                                     <input class="form-control" type="number" name="point" value="{{ old('point') }}"/>
 
                                      @if($errors->has('point'))
                                          <span class="help-block">
@@ -48,7 +49,7 @@
                                  <label for="soal" class="col-md-2 control-label">Soal</label>
 
                                  <div class="col-md-9">
-                                     <textarea name="soal" id="soal" class="form-control editor" rows="10" cols="120">{{ old('soal') }}</textarea>
+                                     <textarea name="soal" id="soal" class="form-control editor" rows="10" cols="120">{!! old('soal') !!}</textarea>
 
                                      @if ($errors->has('soal'))
                                          <span class="help-block">
@@ -58,11 +59,11 @@
                                  </div>
                              </div>
 
-                             <div class="form-group{{ $errors->has('pilihanA') ? ' has-error' : '' }} PG">
+                             <div class="form-group{{ $errors->has('pilihanA') ? ' has-error' : '' }} PG MC">
                                  <label for="pilihanA" class="col-md-2 control-label">Pilihan A</label>
 
                                  <div class="col-md-9">
-                                     <textarea id="pilihanA" type="text" class="form-control editor" name="pilihanA" value="{{ old('pilihanA') }}" rows="1"></textarea>
+                                     <textarea id="pilihanA" type="text" class="form-control editor" name="pilihanA" rows="1">{!! old('pilihanA') !!}</textarea>
 
                                      @if ($errors->has('pilihanA'))
                                          <span class="help-block">
@@ -72,11 +73,11 @@
                                  </div>
                              </div>
 
-                             <div class="form-group{{ $errors->has('pilihanB') ? ' has-error' : '' }} PG">
+                             <div class="form-group{{ $errors->has('pilihanB') ? ' has-error' : '' }} PG MC">
                                  <label for="pilihanB" class="col-md-2 control-label">Pilihan B</label>
 
                                  <div class="col-md-9">
-                                     <textarea id="pilihanB" type="text" class="form-control editor" name="pilihanB" value="{{ old('pilihanB') }}" rows="1"></textarea>
+                                     <textarea id="pilihanB" type="text" class="form-control editor" name="pilihanB" rows="1">{!! old('pilihanB') !!}</textarea>
 
                                      @if ($errors->has('pilihanB'))
                                          <span class="help-block">
@@ -86,11 +87,11 @@
                                  </div>
                              </div>
 
-                             <div class="form-group{{ $errors->has('pilihanC') ? ' has-error' : '' }} PG">
+                             <div class="form-group{{ $errors->has('pilihanC') ? ' has-error' : '' }} PG MC">
                                  <label for="pilihanC" class="col-md-2 control-label">Pilihan C</label>
 
                                  <div class="col-md-9">
-                                     <textarea id="pilihanC" type="text" class="form-control editor" name="pilihanC" value="{{ old('pilihanC') }}" rows="1"></textarea>
+                                     <textarea id="pilihanC" type="text" class="form-control editor" name="pilihanC" rows="1">{!! old('pilihanC') !!}</textarea>
 
                                      @if ($errors->has('pilihanC'))
                                          <span class="help-block">
@@ -100,11 +101,11 @@
                                  </div>
                              </div>
 
-                             <div class="form-group{{ $errors->has('pilihanD') ? ' has-error' : '' }} PG">
+                             <div class="form-group{{ $errors->has('pilihanD') ? ' has-error' : '' }} PG MC">
                                  <label for="pilihanD" class="col-md-2 control-label">Pilihan D</label>
 
                                  <div class="col-md-9">
-                                     <textarea id="pilihanD" type="text" class="form-control editor" name="pilihanD" value="{{ old('pilihanD') }}" rows="1"></textarea>
+                                     <textarea id="pilihanD" type="text" class="form-control editor" name="pilihanD" rows="1">{!! old('pilihanD') !!}</textarea>
 
                                      @if ($errors->has('pilihanD'))
                                          <span class="help-block">
@@ -114,11 +115,11 @@
                                  </div>
                              </div>
 
-                             <div class="form-group{{ $errors->has('pilihanE') ? ' has-error' : '' }} PG">
+                             <div class="form-group{{ $errors->has('pilihanE') ? ' has-error' : '' }} PG MC">
                                  <label for="pilihanE" class="col-md-2 control-label">Pilihan E</label>
 
                                  <div class="col-md-9">
-                                     <textarea id="pilihanE" type="text" class="form-control editor" name="pilihanE" value="{{ old('pilihanE') }}" rows="1"></textarea>
+                                     <textarea id="pilihanE" type="text" class="form-control editor" name="pilihanE" rows="1">{!! old('pilihanE') !!}</textarea>
 
                                      @if ($errors->has('pilihanE'))
                                          <span class="help-block">
@@ -139,6 +140,11 @@
                                      <span class="PG">E<input type="radio" name="jawaban" value="E" style="margin-right:1rem"></span>
                                      <span class="BS" style="display:none">Benar<input type="radio" name="jawaban" value="Benar" style="margin-right:1rem"></span>
                                      <span class="BS" style="display:none">Salah<input type="radio" name="jawaban" value="Salah" style="margin-right:1rem"></span>
+                                     <span class="MC" style="display:none">A<input type="checkbox" name="jawabanMC[]" value="A" style="margin-right:1rem" /></span>
+                                     <span class="MC" style="display:none">B<input type="checkbox" name="jawabanMC[]" value="B" style="margin-right:1rem" /></span>
+                                     <span class="MC" style="display:none">C<input type="checkbox" name="jawabanMC[]" value="C" style="margin-right:1rem" /></span>
+                                     <span class="MC" style="display:none">D<input type="checkbox" name="jawabanMC[]" value="D" style="margin-right:1rem" /></span>
+                                     <span class="MC" style="display:none">E<input type="checkbox" name="jawabanMC[]" value="E" style="margin-right:1rem" /></span>
                                  </div>
 
                              </div>
@@ -162,10 +168,9 @@
 @section('js')
     <script type="text/javascript">
         $(document).ready(function(){
-           // $('.editor').summernote({
-           //     tabsize: 2,
-           //     height: 300
-           // });
+           if('#tipe').val() == 'MC'){
+               alert('bgst');
+           }
            CKEDITOR.replace( 'soal',{
                 filebrowserBrowseUrl: "{{ asset('vendor/ckfinder/ckfinder.html?Type=Files') }}",
                 filebrowserImageBrowseUrl: "{{ asset('vendor/ckfinder/ckfinder.html?Type=Images') }}",
