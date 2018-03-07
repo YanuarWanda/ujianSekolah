@@ -15,6 +15,7 @@
                     <a href="/kelola-kelas" class="btn btn-warning">Kelola Kelas</a>
                     <br><br>
                     <a href="/kelola-bidang" class="btn btn-primary">Kelola Bidang Keahlian</a>
+                    <a href="/kelola-mapel" class="btn btn-primary">Kelola Mata Pelajaran</a>
                     <br><br>
                     <a href="/kelola-guru/import" class="btn btn-default">Import data Guru</a>
                     <a href="/kelola-siswa/import" class="btn btn-default">Import data Siswa</a>
