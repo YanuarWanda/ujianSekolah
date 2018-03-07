@@ -122,6 +122,14 @@ Route::get('/kelola-kelas/edit/{id}', 'KelasController@edit');
 Route::post('/kelola-kelas/update/{id}', 'KelasController@update');
 Route::get('/kelola-kelas/delete/{id}', 'KelasController@destroy');
 
+// CRUD Bidang Keahlian
+Route::get('/kelola-bidang', 'DaftarBidangKeahlianController@index');
+Route::get('/kelola-bidang/create', 'DaftarBidangKeahlianController@create');
+Route::post('/kelola-bidang/create', 'DaftarBidangKeahlianController@store');
+Route::get('/kelola-bidang/edit/{id}', 'DaftarBidangKeahlianController@edit');
+Route::post('/kelola-bidang/update/{id}', 'DaftarBidangKeahlianController@update');
+Route::get('/kelola-bidang/delete/{id}', 'DaftarBidangKeahlianController@destroy');
+
 // Settings user
 Route::get('/settings', 'HomeController@settings')->name('settings');
 Route::post('/ubahPassword/{id}', 'HomeController@ubahPassword')->name('ubahPassword');
