@@ -86,7 +86,7 @@ class MapelController extends Controller
     {
         $mapel = mapel::find(base64_decode($id));
         $mapel->nama_mapel = $request['nama_mapel'];
-        $mapel->id_daftar_bidang = DaftarBidangKeahlian::select('id_daftar_bidang')->where('bidang_keahlian', $request['daftar_bidang_keahlian'])->first()['id_daftar_bidang'];
+        $mapel->id_daftar_bidang = DaftarBidangKeahlian::select('id_daftar_bidang')->where('bidang_keahlian', $request['bidang_keahlian'])->first()['id_daftar_bidang'];
 
         $mapel->save();
 
