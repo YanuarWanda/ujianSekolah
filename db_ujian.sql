@@ -180,14 +180,14 @@ CREATE TABLE `kelas_ujian` (
   KEY `id_kelas` (`id_kelas`),
   CONSTRAINT `kelas_ujian_ibfk_1` FOREIGN KEY (`id_ujian`) REFERENCES `ujian` (`id_ujian`),
   CONSTRAINT `kelas_ujian_ibfk_2` FOREIGN KEY (`id_kelas`) REFERENCES `kelas` (`id_kelas`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
 /*Data for the table `kelas_ujian` */
 
 insert  into `kelas_ujian`(`id_kelas_ujian`,`id_ujian`,`id_kelas`) values 
-(1,2,1),
-(2,2,2),
-(3,2,3);
+(4,2,1),
+(5,2,2),
+(6,2,3);
 
 /*Table structure for table `mapel` */
 
@@ -286,6 +286,7 @@ CREATE TABLE `siswa` (
   `alamat` text COMMENT 'Alamat Siswa.',
   `jenis_kelamin` char(1) NOT NULL COMMENT 'Jenis Kelamin Siswa.',
   `foto` varchar(256) NOT NULL COMMENT 'Foto Profil Siswa',
+  `tahun_ajaran` varchar(9) DEFAULT NULL COMMENT 'Untuk tahun ajar siswa',
   PRIMARY KEY (`id_siswa`),
   KEY `id_user` (`id_users`),
   KEY `id_kelas` (`id_kelas`),
@@ -295,9 +296,9 @@ CREATE TABLE `siswa` (
 
 /*Data for the table `siswa` */
 
-insert  into `siswa`(`id_siswa`,`nis`,`id_users`,`id_kelas`,`nama`,`alamat`,`jenis_kelamin`,`foto`) values 
-(2,'1502011309',5,9,'Fahri Muhamad Zulkarnaen','Jalan Cigondewah Kaler','L','Ijazah_180226_0020_1520310706.jpg'),
-(3,'1502011310',6,9,'Fariz','Jalan Pangembangan','L','70525086-b842-4394-8d6b-570d77b084db_1520328021.jpg');
+insert  into `siswa`(`id_siswa`,`nis`,`id_users`,`id_kelas`,`nama`,`alamat`,`jenis_kelamin`,`foto`,`tahun_ajaran`) values 
+(2,'1502011309',5,2,'Fahri Muhamad Zulkarnaen','Jalan Cigondewah Kaler','L','Ijazah_180226_0020_1520310706.jpg','2017-2018'),
+(3,'1502011310',6,2,'Fariz','Jalan Pangembangan','L','70525086-b842-4394-8d6b-570d77b084db_1520328021.jpg','2017-2018');
 
 /*Table structure for table `soal` */
 
@@ -364,7 +365,7 @@ CREATE TABLE `ujian` (
 /*Data for the table `ujian` */
 
 insert  into `ujian`(`id_ujian`,`id_mapel`,`id_guru`,`judul_ujian`,`kkm`,`waktu_pengerjaan`,`tanggal_pembuatan`,`tanggal_post`,`tanggal_kadaluarsa`,`status`,`catatan`) values 
-(2,1,NULL,'Konsep OOP',0,'01:00:00','2018-03-06 07:14:58','2018-03-06 07:14:58',NULL,'posted','Untuk ulangan harian.');
+(2,1,NULL,'Konsep OOP',0,'01:00:00','2018-03-06 07:14:58','2018-03-06 07:14:58','2018-03-14','posted','Untuk ulangan harian.');
 
 /*Table structure for table `ujian_remedial` */
 
