@@ -8,9 +8,9 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="panel panel-primary">
-                    <div class="panel-heading">Form Tambah Soal | {{ $ujian->judul_ujian }}</div>
+                    <div class="panel-heading">Form Tambah Soal Remed| {{ $ujian->judul_ujian }}</div>
                     <div class="panel-body">
-                        <form class="form-horizontal" method="POST" action="{{url('/kelola-soal/create', base64_encode($ujian->id_ujian))}}">
+                        <form class="form-horizontal" method="POST" action="{{url('/kelola-soal-remed/create', base64_encode($ujian->id_ujian))}}">
                             {{csrf_field()}}
 
                             <div class="form-group{{ $errors->has('tipe') ? ' has-error' : '' }}">
@@ -151,7 +151,7 @@
 
                              <div class="form-group">
                                  <div class="col-md-6 col-md-offset-4">
-                                     <a href="{{ url('/kelola-ujian/edit', base64_encode($ujian->id_ujian))}}" class="btn btn-danger">Cancel</a>
+                                     <a href="{{ url('/kelola-remed/edit', base64_encode($ujian->id_ujian))}}" class="btn btn-danger">Cancel</a>
                                      <button type="submit" class="btn btn-primary">
                                          Add
                                      </button>

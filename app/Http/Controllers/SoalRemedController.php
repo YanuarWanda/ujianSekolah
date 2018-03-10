@@ -5,11 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Ujian;
-use App\Soal;
-use App\Nilai;
+use App\UjianRemedial;
 use App\BankSoal;
+use App\SoalRemed;
 
-class SoalController extends Controller
+class SoalRemedController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -29,8 +29,9 @@ class SoalController extends Controller
     public function create($id)
     {
         $ujian = Ujian::find(base64_decode($id));
+        $ujianRemedial = UjianRemedial::where('id_ujian', '=', base64_decode($id))->get()->first();
 
-        return view('admin.kelola-soal.create', compact('ujian'));
+        return view('admin.kelola-soal-remed.create', compact('ujian', 'ujianRemedial'));
     }
 
     /**
@@ -48,6 +49,7 @@ class SoalController extends Controller
         ]);
 
         $ujian = Ujian::find(base64_decode($id));
+        $ujianRemedial = UjianRemedial::where('id_ujian', '=', base64_decode($id))->get()->first();
 
         if($request['tipe'] == 'PG'){
             $pilihan = $request['pilihanA']." ,  ".$request['pilihanB']." ,  ".$request['pilihanC']." ,  ".$request['pilihanD']." ,  ".$request['pilihanE'];
@@ -129,17 +131,17 @@ class SoalController extends Controller
         ]);
 
         if($soal){
-            $soalUjian = Soal::create([
-                'id_ujian'      => $ujian['id_ujian'],
-                'id_bank_soal'  => $soal['id_bank_soal'],
-                'point'         => $request['point'],
+            $soalUjian = SoalRemed::create([
+                'id_ujian_remedial' => $ujianRemedial['id_ujian_remedial'],
+                'id_bank_soal'      => $soal['id_bank_soal'],
+                'point'             => $request['point'],
             ]);
 
             if($soalUjian){
-                return redirect('/kelola-ujian/edit/'.base64_encode($ujian->id_ujian))->with('success', 'Data berhasil ditambahkan!');
+                return redirect('/kelola-remed/edit/'.base64_encode($ujian->id_ujian))->with('success', 'Data berhasil ditambahkan!');
             }
         }
-        return redirect('/kelola-ujian/edit/'.base64_encode($ujian->id_ujian))->with('error', 'Data gagal ditambahkan!');
+        return redirect('/kelola-remed/edit/'.base64_encode($ujian->id_ujian))->with('error', 'Data gagal ditambahkan!');
     }
 
     /**
@@ -161,8 +163,8 @@ class SoalController extends Controller
      */
     public function edit($id)
     {
-        $soal       = Soal::find(base64_decode($id));
-        $ujian      = Ujian::where('id_ujian', $soal->id_ujian)->get()->first();
+        $soal       = SoalRemed::find(base64_decode($id));
+        $ujian      = UjianRemedial::where('id_ujian_remedial', '=', $soal->id_ujian_remedial)->get()->first();
         $pilihan    = explode(' ,  ', $soal->bankSoal['pilihan']);
         $jawaban    = $soal->bankSoal['jawaban'];
         if($soal->bankSoal['tipe'] == 'MC'){
@@ -170,8 +172,8 @@ class SoalController extends Controller
             unset($jawaban[5]);
         }
 
-        // return $pilihan['0'];
-        return view('admin.kelola-soal.edit', compact('soal', 'pilihan', 'ujian', 'jawaban'));
+        // return $soal;
+        return view('admin.kelola-soal-remed.edit', compact('soal', 'pilihan', 'ujian', 'jawaban'));
     }
 
     /**
@@ -183,7 +185,8 @@ class SoalController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $soal = Soal::find(base64_decode($id));
+        $soal = SoalRemed::find(base64_decode($id));
+        $ujianRemedial = UjianRemedial::find($soal->id_ujian_remedial);
         $bankSoal = BankSoal::find($soal['id_bank_soal']);
 
         if($request['tipe'] == 'PG'){
@@ -265,7 +268,7 @@ class SoalController extends Controller
         $soal->point           = $request['point'];
 
         if($bankSoal->save() && $soal->save()){
-            return redirect('/kelola-ujian/edit/'.base64_encode($soal['id_ujian']))->with('success', 'Update Soal Berhasil!');
+            return redirect('/kelola-remed/edit/'.base64_encode($ujianRemedial['id_ujian']))->with('success', 'Update Soal Berhasil!');
         }
     }
 
@@ -277,69 +280,15 @@ class SoalController extends Controller
      */
     public function delete($id)
     {
-        $soal = Soal::find(base64_decode($id));
+        $soal = SoalRemed::find(base64_decode($id));
+        $ujianRemedial = UjianRemedial::find($soal->id_ujian_remedial);
 
         if($soal){
             $soal->delete();
 
-            return redirect('/kelola-ujian/edit/'.base64_encode($soal->id_ujian))->with('success', 'Data berhasil dihapus!');
+            return redirect('/kelola-remed/edit/'.base64_encode($ujianRemedial->id_ujian))->with('success', 'Data berhasil dihapus!');
         }else{
-            return redirect('/kelola-ujian/edit/'.base64_encode($soal->id_ujian))->with('error', 'Data gagal dihapus!');
+            return redirect('/kelola-remed/edit/'.base64_encode($ujianRemedial->id_ujian))->with('error', 'Data gagal dihapus!');
         }
-    }
-
-    public function daftarNilai($id){
-        // Untuk sementara
-        // return redirect()->back()->with('error', 'Fitur belum tersedia');
-
-        $nilai          = Nilai::join('siswa', 'nilai.id_siswa', '=', 'siswa.id_siswa')->where('id_ujian', base64_decode($id))->orderBy('id_kelas', 'asc')->get();
-        $jumlahNilai    = Nilai::join('siswa', 'nilai.id_siswa', '=', 'siswa.id_siswa')->join('kelas', 'siswa.id_kelas', '=', 'kelas.id_kelas')->groupBy('kelas.id_kelas')->get();
-
-        // return $jumlahNilai[1]['nama_kelas'];
-        return view('admin.kelola-nilai.daftar_nilai', compact('nilai', 'jumlahNilai'));
-    }
-
-    public function exportToExcel($id) {
-        // if(empty($ujian->soal)) {
-        //     return redirect()->back()->with('error', 'Nilai Kosong');
-        // }
-
-        $ujian = Ujian::select('id_ujian', 'judul_ujian')->where('id_ujian', base64_decode($id))->first();
-
-        \Excel::create(strtoupper('nilai_ujian '.$ujian->judul_ujian), function($excel) use($ujian) {
-            $excel->sheet('Sheet 1', function($sheet) use($ujian) {
-                // Data yang akan di Export
-                $dataNilai = Nilai::join('ujian', 'nilai.id_ujian', '=', 'ujian.id_ujian')
-                    ->join('siswa', 'nilai.id_siswa', '=', 'siswa.id_siswa')
-                    ->select('siswa.nis', 'siswa.nama', 'nilai.nilai')
-                    ->where('ujian.id_ujian', $ujian->id_ujian)
-                    ->get();
-
-                foreach($dataNilai as $nilai) {
-                    $data[] = array(
-                        $nilai->nis,
-                        $nilai->nama,
-                        $nilai->nilai,
-                    );
-                }
-
-                // Mengisi Data ke Excel
-                $sheet->fromArray($data, null, 'A1', false, false);
-
-                // Menambahkan Judul ke Excel
-                $judul = array(strtoupper($ujian->judul_ujian), '', '');
-                $sheet->prependRow(1, $judul);
-                $headings = array('NIS', 'Nama', 'Nilai');
-                $sheet->prependRow(2, $headings);
-
-                // Merge & Align Center Judul
-                $sheet->mergeCells('A1:C1');
-                $sheet->getStyle('A1')->getAlignment()->applyFromArray(
-                    array('horizontal' => 'center')
-                );
-            });
-        })->export('xlsx');
-
-        return redirect()->back()->with('success', 'Daftar Nilai berhasil di Export');
     }
 }

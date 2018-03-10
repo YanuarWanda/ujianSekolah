@@ -11,14 +11,18 @@ class UjianRemedial extends Model
 
     public $timestamps = false;
     protected $fillable = [
-        'id_ujian_remedial', 'id_ujian', 'waktu_pengerjaan', 'tanggal_pembuatan', 'catatan',
+        'id_ujian_remedial', 'id_ujian', 'waktu_pengerjaan', 'tanggal_pembuatan', 'catatan', 'tanggal_kadaluarsa'
     ];
 
+    public function ujian(){
+        return $this->belongsTo('App\Ujian', 'id_ujian');
+    }
+
     public function soalRemed() {
-        return $this->hasMany('App\Soal', 'id_ujian_remedial');
+        return $this->hasMany('App\SoalRemed', 'id_ujian_remedial');
     }
 
     public function nilaiRemedial() {
-        return $this->hasMany('App\Nilai', 'id_ujian_remedial');
+        return $this->hasMany('App\NilaiRemedial', 'id_ujian_remedial');
     }
 }

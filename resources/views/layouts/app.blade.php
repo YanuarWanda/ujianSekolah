@@ -46,6 +46,14 @@
     {{-- <link href="{{ asset('css/please-wait.css') }}" rel="stylesheet"> --}}
 
     <style type="text/css">
+        .btn-disabled{
+            background-color: #444444;
+        }
+
+        .bisaHover{
+            cursor: pointer;
+        }
+
         .perKelas{
             background-color: #273627;
 

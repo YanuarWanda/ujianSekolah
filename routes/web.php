@@ -92,6 +92,13 @@ Route::get('/kelola-ujian/edit/{id}', 'UjianController@edit');
 Route::post('/kelola-ujian/update/{id}', 'UjianController@update');
 Route::get('/kelola-ujian/delete/{id}', 'UjianController@destroy');
 
+// CRUD Ujian Remedial
+Route::get('/kelola-remed/create/{id}', 'RemedController@create');
+Route::post('/kelola-remed/create/{id}', 'RemedController@store');
+Route::get('/kelola-remed/edit/{id}', 'RemedController@edit');
+Route::post('/kelola-remed/update/{id}', 'RemedController@update');
+Route::get('/kelola-remed/delete/{id}', 'RemedController@destroy');
+
 // Export Nilai per Ujian
 Route::get('/daftar-nilai/export/{id}', 'SoalController@exportToExcel');
 
@@ -99,12 +106,23 @@ Route::get('/daftar-nilai/export/{id}', 'SoalController@exportToExcel');
 Route::post('/kelola-ujian/POST/{id}', 'UjianController@postUjian');
 Route::get('/kelola-ujian/DRAFT/{id}', 'UjianController@unpostUjian');
 
+// Post Remed
+Route::post('/kelola-remed/POST/{id}', 'UjianController@postRemed');
+Route::get('/kelola-remed/DRAFT/{id}', 'UjianController@unpostRemed');
+
 // CRUD Soal
 Route::get('/kelola-soal/create/{id}', 'SoalController@create');
 Route::post('/kelola-soal/create/{id}', 'SoalController@store');
 Route::get('/kelola-soal/edit/{id}', 'SoalController@edit');
 Route::post('/kelola-soal/update/{id}', 'SoalController@update');
 Route::get('/kelola-soal/delete/{id}', 'SoalController@delete');
+
+// CRUD Soal Remed
+Route::get('/kelola-soal-remed/create/{id}', 'SoalRemedController@create');
+Route::post('/kelola-soal-remed/create/{id}', 'SoalRemedController@store');
+Route::get('/kelola-soal-remed/edit/{id}', 'SoalRemedController@edit');
+Route::post('/kelola-soal-remed/update/{id}', 'SoalRemedController@update');
+Route::get('/kelola-soal-remed/delete/{id}', 'SoalRemedController@delete');
 
 // CRUD Jurusan
 Route::get('/kelola-jurusan', 'JurusanController@index');
