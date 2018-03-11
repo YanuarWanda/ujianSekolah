@@ -336,6 +336,75 @@ CREATE TABLE `soal_remed` (
 
 /*Data for the table `soal_remed` */
 
+/*Table structure for table `test_event` */
+
+DROP TABLE IF EXISTS `test_event`;
+
+CREATE TABLE `test_event` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=latin1;
+
+/*Data for the table `test_event` */
+
+insert  into `test_event`(`id`) values 
+(1),
+(2),
+(3),
+(4),
+(5),
+(6),
+(7),
+(8),
+(9),
+(10),
+(11),
+(12),
+(13),
+(14),
+(15),
+(16),
+(17),
+(18),
+(19),
+(20),
+(21),
+(22),
+(23),
+(24),
+(25),
+(26),
+(27),
+(28),
+(29),
+(30),
+(31),
+(32),
+(33),
+(34),
+(35),
+(36),
+(37),
+(38),
+(39),
+(40),
+(41),
+(42),
+(43),
+(44),
+(45),
+(46),
+(47),
+(48),
+(49),
+(50),
+(51),
+(52),
+(53),
+(54),
+(55),
+(56);
+
 /*Table structure for table `ujian` */
 
 DROP TABLE IF EXISTS `ujian`;
@@ -362,7 +431,7 @@ CREATE TABLE `ujian` (
 /*Data for the table `ujian` */
 
 insert  into `ujian`(`id_ujian`,`id_mapel`,`id_guru`,`judul_ujian`,`kkm`,`waktu_pengerjaan`,`tanggal_pembuatan`,`tanggal_post`,`tanggal_kadaluarsa`,`status`,`catatan`) values 
-(2,1,NULL,'Konsep OOP',0,'01:00:00','2018-03-06 07:14:58','2018-03-06 07:14:58','2018-03-14','Draft','Untuk ulangan harian.');
+(2,1,NULL,'Konsep OOP',0,'01:00:00','2018-03-06 07:14:58','2018-03-06 07:14:58','2018-03-11','posted','Untuk ulangan harian.');
 
 /*Table structure for table `ujian_remedial` */
 
@@ -529,6 +598,19 @@ DELIMITER $$
     END */$$
 
 
+DELIMITER ;
+
+/*!50106 set global event_scheduler = 1*/;
+
+/* Event structure for event `UNPOST_UJIAN_SAAT_TANGGAL_KADALUARSA` */
+
+/*!50106 DROP EVENT IF EXISTS `UNPOST_UJIAN_SAAT_TANGGAL_KADALUARSA`*/;
+
+DELIMITER $$
+
+/*!50106 CREATE DEFINER=`root`@`localhost` EVENT `UNPOST_UJIAN_SAAT_TANGGAL_KADALUARSA` ON SCHEDULE EVERY 1 DAY STARTS '2018-03-11 10:20:01' ON COMPLETION NOT PRESERVE ENABLE DO BEGIN
+	UPDATE ujian SET STATUS = IF(ujian.`tanggal_kadaluarsa` = CURDATE(), 'Draft', 'posted');
+	END */$$
 DELIMITER ;
 
 /*Table structure for table `view_ujian` */
