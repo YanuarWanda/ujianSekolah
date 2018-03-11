@@ -92,6 +92,10 @@ Route::get('/kelola-ujian/edit/{id}', 'UjianController@edit');
 Route::post('/kelola-ujian/update/{id}', 'UjianController@update');
 Route::get('/kelola-ujian/delete/{id}', 'UjianController@destroy');
 
+// Tambah soal dari bank soal
+Route::get('/kelola-ujian/edit/{id}/tambah-soal-bank', 'UjianController@tambahSoalDariBankView')->name('tambah-soal-bank');
+Route::post('/kelola-ujian/edit/{id}/tambah-soal-bank', 'SoalController@tambahSoalDariBank')->name('tambah-soal-bank');
+
 // CRUD Ujian Remedial
 Route::get('/kelola-remed/create/{id}', 'RemedController@create');
 Route::post('/kelola-remed/create/{id}', 'RemedController@store');

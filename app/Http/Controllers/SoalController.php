@@ -342,4 +342,20 @@ class SoalController extends Controller
 
         return redirect()->back()->with('success', 'Daftar Nilai berhasil di Export');
     }
+
+    // Menambahkan soal ujian dari bank
+    public function tambahSoalDariBank(Request $request, $id_ujian) { 
+        $this->validate($request ,[
+            'point' => 'required',
+        ]);
+        
+        $soal = new Soal;
+        $soal->id_ujian = $id_ujian;
+        $soal->id_bank_soal = $request['id_bank_soal'];
+        $soal->point = $request['point'];
+
+        $soal->save();
+
+        return back()->with('success', 'Soal ditambahkan');
+    }
 }

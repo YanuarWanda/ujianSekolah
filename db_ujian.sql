@@ -30,12 +30,14 @@ CREATE TABLE `bank_soal` (
   PRIMARY KEY (`id_bank_soal`),
   KEY `id_daftar_bidang` (`id_daftar_bidang`),
   CONSTRAINT `bank_soal_ibfk_1` FOREIGN KEY (`id_daftar_bidang`) REFERENCES `daftar_bidang_keahlian` (`id_daftar_bidang`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 /*Data for the table `bank_soal` */
 
 insert  into `bank_soal`(`id_bank_soal`,`tipe`,`isi_soal`,`pilihan`,`jawaban`,`id_daftar_bidang`) values 
-(1,'BS','<p>OOP singkatan dari Object Oriented Programming</p>','Benar ,  Salah','Benar',NULL);
+(1,'BS','<p>OOP singkatan dari Object Oriented Programming</p>','Benar ,  Salah','Benar',1),
+(2,'BS','jajaja','Benar ,  Salah','Benar',1),
+(3,'BS','jajajafklasdkflasjdflkasdfjldsjflaks','Benar ,  Salah','Benar',1);
 
 /*Table structure for table `bidang_keahlian` */
 
@@ -184,11 +186,6 @@ CREATE TABLE `kelas_ujian` (
 
 /*Data for the table `kelas_ujian` */
 
-insert  into `kelas_ujian`(`id_kelas_ujian`,`id_ujian`,`id_kelas`) values 
-(4,2,1),
-(5,2,2),
-(6,2,3);
-
 /*Table structure for table `mapel` */
 
 DROP TABLE IF EXISTS `mapel`;
@@ -314,7 +311,7 @@ CREATE TABLE `soal` (
   KEY `id_bank_soal` (`id_bank_soal`),
   CONSTRAINT `soal_ibfk_1` FOREIGN KEY (`id_ujian`) REFERENCES `ujian` (`id_ujian`),
   CONSTRAINT `soal_ibfk_2` FOREIGN KEY (`id_bank_soal`) REFERENCES `bank_soal` (`id_bank_soal`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 /*Data for the table `soal` */
 
@@ -338,6 +335,74 @@ CREATE TABLE `soal_remed` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 /*Data for the table `soal_remed` */
+
+/*Table structure for table `test_event` */
+
+DROP TABLE IF EXISTS `test_event`;
+
+CREATE TABLE `test_event` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=latin1;
+
+/*Data for the table `test_event` */
+
+insert  into `test_event`(`id`) values 
+(2),
+(3),
+(4),
+(5),
+(6),
+(7),
+(8),
+(9),
+(10),
+(11),
+(12),
+(13),
+(14),
+(15),
+(16),
+(17),
+(18),
+(19),
+(20),
+(21),
+(22),
+(23),
+(24),
+(25),
+(26),
+(27),
+(28),
+(29),
+(30),
+(31),
+(32),
+(33),
+(34),
+(35),
+(36),
+(37),
+(38),
+(39),
+(40),
+(41),
+(42),
+(43),
+(44),
+(45),
+(46),
+(47),
+(48),
+(49),
+(50),
+(51),
+(52),
+(53),
+(54),
+(55),
+(56);
 
 /*Table structure for table `ujian` */
 
@@ -365,7 +430,7 @@ CREATE TABLE `ujian` (
 /*Data for the table `ujian` */
 
 insert  into `ujian`(`id_ujian`,`id_mapel`,`id_guru`,`judul_ujian`,`kkm`,`waktu_pengerjaan`,`tanggal_pembuatan`,`tanggal_post`,`tanggal_kadaluarsa`,`status`,`catatan`) values 
-(2,1,NULL,'Konsep OOP',0,'01:00:00','2018-03-06 07:14:58','2018-03-06 07:14:58','2018-03-14','posted','Untuk ulangan harian.');
+(2,1,NULL,'Konsep OOP',0,'01:00:00','2018-03-06 07:14:58','2018-03-06 07:14:58','2018-03-11','posted','Untuk ulangan harian.');
 
 /*Table structure for table `ujian_remedial` */
 
@@ -478,6 +543,25 @@ DELIMITER ;
 
 DELIMITER $$
 
+/*!50003 DROP TRIGGER*//*!50032 IF EXISTS */ /*!50003 `before_insert_table_siswa` */$$
+
+/*!50003 CREATE */ /*!50017 DEFINER = 'root'@'localhost' */ /*!50003 TRIGGER `before_insert_table_siswa` BEFORE INSERT ON `siswa` FOR EACH ROW BEGIN
+	IF MONTH(CURDATE()) < 6
+	  THEN SET new.tahun_ajaran = CONCAT((YEAR(CURDATE()) - 1), '/', YEAR(CURDATE()));
+	  
+	  ELSEIF MONTH(CURDATE()) >= 6
+	  THEN SET new.tahun_ajaran = CONCAT((YEAR(CURDATE())), '/', YEAR(CURDATE()) + 1);
+	  
+	END IF;
+    END */$$
+
+
+DELIMITER ;
+
+/* Trigger structure for table `siswa` */
+
+DELIMITER $$
+
 /*!50003 DROP TRIGGER*//*!50032 IF EXISTS */ /*!50003 `hapus_nilai_pas_hapus_siswa` */$$
 
 /*!50003 CREATE */ /*!50017 DEFINER = 'root'@'localhost' */ /*!50003 TRIGGER `hapus_nilai_pas_hapus_siswa` BEFORE DELETE ON `siswa` FOR EACH ROW BEGIN
@@ -513,6 +597,19 @@ DELIMITER $$
     END */$$
 
 
+DELIMITER ;
+
+/*!50106 set global event_scheduler = 1*/;
+
+/* Event structure for event `UNPOST_UJIAN_SAAT_TANGGAL_KADALUARSA` */
+
+/*!50106 DROP EVENT IF EXISTS `UNPOST_UJIAN_SAAT_TANGGAL_KADALUARSA`*/;
+
+DELIMITER $$
+
+/*!50106 CREATE DEFINER=`root`@`localhost` EVENT `UNPOST_UJIAN_SAAT_TANGGAL_KADALUARSA` ON SCHEDULE EVERY 1 DAY STARTS '2018-03-11 10:20:01' ON COMPLETION NOT PRESERVE ENABLE DO BEGIN
+	UPDATE ujian SET STATUS = IF(ujian.`tanggal_kadaluarsa` = CURDATE(), 'Draft', 'posted');
+	END */$$
 DELIMITER ;
 
 /*Table structure for table `view_ujian` */
