@@ -348,7 +348,6 @@ CREATE TABLE `test_event` (
 /*Data for the table `test_event` */
 
 insert  into `test_event`(`id`) values 
-(1),
 (2),
 (3),
 (4),
