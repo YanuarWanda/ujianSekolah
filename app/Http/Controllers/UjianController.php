@@ -401,8 +401,8 @@ class UjianController extends Controller
                 $jawabanSiswa->save();
             }
 
-            if($nilaiKetampanan > $ujianRemedial->kkm){
-                $nilaiKetampanan = $ujianRemedial->kkm;
+            if($nilaiKetampanan > $ujian->kkm){
+                $nilaiKetampanan = $ujian->kkm;
             }
 
             $nilai = new NilaiRemedial;
