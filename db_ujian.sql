@@ -478,6 +478,25 @@ DELIMITER ;
 
 DELIMITER $$
 
+/*!50003 DROP TRIGGER*//*!50032 IF EXISTS */ /*!50003 `before_insert_table_siswa` */$$
+
+/*!50003 CREATE */ /*!50017 DEFINER = 'root'@'localhost' */ /*!50003 TRIGGER `before_insert_table_siswa` BEFORE INSERT ON `siswa` FOR EACH ROW BEGIN
+	IF MONTH(CURDATE()) < 6
+	  THEN SET new.tahun_ajaran = CONCAT((YEAR(CURDATE()) - 1), '/', YEAR(CURDATE()));
+	  
+	  ELSEIF MONTH(CURDATE()) >= 6
+	  THEN SET new.tahun_ajaran = CONCAT((YEAR(CURDATE())), '/', YEAR(CURDATE()) + 1);
+	  
+	END IF;
+    END */$$
+
+
+DELIMITER ;
+
+/* Trigger structure for table `siswa` */
+
+DELIMITER $$
+
 /*!50003 DROP TRIGGER*//*!50032 IF EXISTS */ /*!50003 `hapus_nilai_pas_hapus_siswa` */$$
 
 /*!50003 CREATE */ /*!50017 DEFINER = 'root'@'localhost' */ /*!50003 TRIGGER `hapus_nilai_pas_hapus_siswa` BEFORE DELETE ON `siswa` FOR EACH ROW BEGIN
