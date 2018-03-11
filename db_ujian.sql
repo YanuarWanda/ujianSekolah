@@ -30,12 +30,14 @@ CREATE TABLE `bank_soal` (
   PRIMARY KEY (`id_bank_soal`),
   KEY `id_daftar_bidang` (`id_daftar_bidang`),
   CONSTRAINT `bank_soal_ibfk_1` FOREIGN KEY (`id_daftar_bidang`) REFERENCES `daftar_bidang_keahlian` (`id_daftar_bidang`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 /*Data for the table `bank_soal` */
 
 insert  into `bank_soal`(`id_bank_soal`,`tipe`,`isi_soal`,`pilihan`,`jawaban`,`id_daftar_bidang`) values 
-(1,'BS','<p>OOP singkatan dari Object Oriented Programming</p>','Benar ,  Salah','Benar',NULL);
+(1,'BS','<p>OOP singkatan dari Object Oriented Programming</p>','Benar ,  Salah','Benar',1),
+(2,'BS','jajaja','Benar ,  Salah','Benar',1),
+(3,'BS','jajajafklasdkflasjdflkasdfjldsjflaks','Benar ,  Salah','Benar',1);
 
 /*Table structure for table `bidang_keahlian` */
 
@@ -184,11 +186,6 @@ CREATE TABLE `kelas_ujian` (
 
 /*Data for the table `kelas_ujian` */
 
-insert  into `kelas_ujian`(`id_kelas_ujian`,`id_ujian`,`id_kelas`) values 
-(4,2,1),
-(5,2,2),
-(6,2,3);
-
 /*Table structure for table `mapel` */
 
 DROP TABLE IF EXISTS `mapel`;
@@ -314,7 +311,7 @@ CREATE TABLE `soal` (
   KEY `id_bank_soal` (`id_bank_soal`),
   CONSTRAINT `soal_ibfk_1` FOREIGN KEY (`id_ujian`) REFERENCES `ujian` (`id_ujian`),
   CONSTRAINT `soal_ibfk_2` FOREIGN KEY (`id_bank_soal`) REFERENCES `bank_soal` (`id_bank_soal`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 /*Data for the table `soal` */
 
@@ -365,7 +362,7 @@ CREATE TABLE `ujian` (
 /*Data for the table `ujian` */
 
 insert  into `ujian`(`id_ujian`,`id_mapel`,`id_guru`,`judul_ujian`,`kkm`,`waktu_pengerjaan`,`tanggal_pembuatan`,`tanggal_post`,`tanggal_kadaluarsa`,`status`,`catatan`) values 
-(2,1,NULL,'Konsep OOP',0,'01:00:00','2018-03-06 07:14:58','2018-03-06 07:14:58','2018-03-14','posted','Untuk ulangan harian.');
+(2,1,NULL,'Konsep OOP',0,'01:00:00','2018-03-06 07:14:58','2018-03-06 07:14:58','2018-03-14','Draft','Untuk ulangan harian.');
 
 /*Table structure for table `ujian_remedial` */
 

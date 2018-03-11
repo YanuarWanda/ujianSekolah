@@ -8,6 +8,7 @@ use App\Ujian;
 use App\Guru;
 use App\Mapel;
 use App\Soal;
+use App\BankSoal;
 use App\Kelas;
 use App\KelasUjian;
 use App\Nilai;
@@ -15,6 +16,7 @@ use App\JawabanSiswa;
 use App\UjianRemedial;
 use App\SoalRemed;
 use App\BidangKeahlian;
+use App\DaftarBidangKeahlian;
 use App\JawabanSiswaRemed;
 use App\NilaiRemedial;
 use DB;
@@ -440,5 +442,18 @@ class UjianController extends Controller
         }else{
             return redirect('/home')->with('error', 'Maaf, terjadi kesalahan.');
         }
+    }
+
+    public function tambahSoalDariBankView($id)
+    {
+        $ujian = Ujian::find($id);
+        $soalYangSudahAda = Soal::select('id_bank_soal')->get();
+        $soal = BankSoal::where('id_daftar_bidang', $ujian->mapel->id_daftar_bidang)
+            ->whereNotIn('id_bank_soal', $soalYangSudahAda)
+            ->get();
+        $bidangKeahlian = DaftarBidangKeahlian::where('id_daftar_bidang', $ujian->mapel->id_daftar_bidang)
+            ->first()['bidang_keahlian'];
+
+        return view('admin.kelola-ujian.tambah-soal-dari-bank', compact('ujian', 'soal', 'bidangKeahlian'));
     }
 }
