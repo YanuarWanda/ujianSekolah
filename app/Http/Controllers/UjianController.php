@@ -244,9 +244,9 @@ class UjianController extends Controller
         if(count($ujianRemedial->soalRemed) == 0){
             return redirect()->back()->with('error', 'Silakan tambah soal remed terlebih dahulu.');
         }
-
+        // return $request['tanggalKadaluarsaRemed'];
         $ujianRemedial->status = 'posted';
-        $ujianRemedial->tanggal_kadaluarsa = $request['tanggalKadaluarsa'];
+        $ujianRemedial->tanggal_kadaluarsa = $request['tanggalKadaluarsaRemed'];
 
         if($ujianRemedial->save()){
            return redirect('/kelola-ujian')->with('success', 'Data berhasil di post!');
@@ -289,7 +289,7 @@ class UjianController extends Controller
     }
 
     public function unpostRemed($id){
-        $ujianRemedial = UjianRemedial::where('id_ujian', '=', base64_decode($id));
+        $ujianRemedial = UjianRemedial::where('id_ujian', '=', base64_decode($id))->get()->first();
 
         $ujianRemedial->status              = "Belum Selesai";
         $ujianRemedial->tanggal_kadaluarsa  = NULL;
@@ -316,46 +316,46 @@ class UjianController extends Controller
     }
 
     public function kerjakanSoal($id) {
-        $ujian              = Ujian::find(base64_decode($id));
-        $ujianRemedial      = UjianRemedial::find(base64_decode($id));
+        $ujian      = Ujian::find(base64_decode($id));
+        
+        $soalFull   = Soal::where('id_ujian', $ujian->id_ujian)->get();
 
-        if($ujianRemedial){
-            $soalFull      = SoalRemed::where('id_ujian_remedial', $ujianRemedial->id_ujian_remedial)->get();
-
-            foreach($soalFull as $s){
-                $pilihan[]      = explode(' ,  ', $s->bankSoal['pilihan']);
-                $soal[]         = explode(' ,  ', $s->bankSoal['isi_soal']);
-            }
-
-            $str_time = $ujianRemedial->waktu_pengerjaan;
-        }elseif($ujian){
-            $soalFull           = Soal::where('id_ujian', $ujian->id_ujian)->get();
-
-            foreach($soalFull as $s){
-                $pilihan[]    = explode(' ,  ', $s->bankSoal['pilihan']);
-                $soal[]       = explode(' ,  ', $s->bankSoal['isi_soal']);
-            }
-
-            $str_time = $ujian->waktu_pengerjaan;
+        foreach($soalFull as $s){
+            $pilihan[]    = explode(' ,  ', $s->bankSoal['pilihan']);
+            $soal[]       = explode(' ,  ', $s->bankSoal['isi_soal']);
         }
+
+        $str_time = $ujian->waktu_pengerjaan;
+        
+        sscanf($str_time, "%d:%d:%d", $hours, $minutes, $seconds);
+        $sisa_waktu = isset($seconds) ? $hours * 3600 + $minutes * 60 + $seconds : $hours * 60 + $minutes;
+
+        return view('siswa.kerjakan-soal', compact('ujian', 'soal', 'soalFull', 'sisa_waktu', 'pilihan'));
+    }
+
+    public function kerjakanRemed($id){
+        $ujian  = UjianRemedial::where('id_ujian_remedial', base64_decode($id))->where('status', 'posted')->get()->first();
+        // return base64_decode($id);
+        $soalFull       = SoalRemed::where('id_ujian_remedial', $ujian->id_ujian_remedial)->get();
+
+        foreach($soalFull as $s){
+            $pilihan[]  = explode(' ,  ', $s->bankSoal['pilihan']);
+            $soal[]     = explode(' ,  ', $s->bankSoal['isi_soal']);
+        }
+
+        $str_time = $ujian->waktu_pengerjaan;
 
         sscanf($str_time, "%d:%d:%d", $hours, $minutes, $seconds);
         $sisa_waktu = isset($seconds) ? $hours * 3600 + $minutes * 60 + $seconds : $hours * 60 + $minutes;
 
-        return view('siswa.kerjakan-soal', compact('ujian', 'ujianRemedial', 'soal', 'soalFull', 'sisa_waktu', 'pilihan'));
+        return view('siswa.kerjakan-soal', compact('ujian', 'soalFull', 'pilihan', 'soal', 'sisa_waktu'));
     }
 
-    public function submitSoal(Request $data, $id){
-        $ujian          = Ujian::find(base64_decode($id));
-        $ujianRemedial  = UjianRemedial::where('id_ujian', '=', base64_decode($id))->get()->first();
+    public function submitRemed(Request $data, $id){
+        $ujianRemedial  = UjianRemedial::find(base64_decode($id));
 
         $jumlahBenar = 0;$jumlahPoint = 0;$jumlahPointBenar = 0;
-
-        if($ujianRemedial){
-            $soal = SoalRemed::where('id_ujian_remedial', '=', $ujianRemedial->id_ujian_remedial)->get();
-        }elseif($ujian){
-            $soal   = Soal::where('id_ujian', $ujian->id_ujian)->get();
-        }
+        $soal = SoalRemed::where('id_ujian_remedial', '=', $ujianRemedial->id_ujian_remedial)->get();
 
         foreach($soal as $s => $isiS){
             $jawaban_benar[] = $isiS->bankSoal->jawaban;
@@ -394,48 +394,104 @@ class UjianController extends Controller
         $jumlahSalah    = count($soal) - $jumlahBenar;
         $nilaiKetampanan= round(($jumlahPointBenar / $jumlahPoint)* 100);
 
-        if($ujianRemedial){
-            foreach($soal as $s => $sia){
-                $jawabanSiswa = new JawabanSiswaRemed;
-                $jawabanSiswa->id_soal_remedial     = $sia->id_soal_remedial;
-                $jawabanSiswa->id_siswa             = session()->get('id_siswa');
-                $jawabanSiswa->jawaban_siswa  = $jawaban[$s];
-                $jawabanSiswa->save();
-            }
-
-            if($nilaiKetampanan > $ujian->kkm){
-                $nilaiKetampanan = $ujian->kkm;
-            }
-
-            $nilai = new NilaiRemedial;
-            $nilai->id_ujian_remedial   = $ujianRemedial->id_ujian_remedial;
-            $nilai->id_siswa            = session()->get('id_siswa');
-            $nilai->jawaban_benar       = $jumlahBenar;
-            $nilai->jawaban_salah       = $jumlahSalah;
-            $nilai->nilai_remedial      = $nilaiKetampanan;
-        }elseif($ujian){
-            foreach($soal as $s => $sia){
-                $jawabanSiswa = new JawabanSiswa;
-                $jawabanSiswa->id_soal          = $sia->id_soal;
-                $jawabanSiswa->id_siswa         = session()->get('id_siswa');
-                $jawabanSiswa->jawaban_siswa    = $jawaban[$s];
-                $jawabanSiswa->save();
-            }
-
-            if($nilaiKetampanan < $ujian->kkm){
-                $statusPengerjaan = 'Harus Remedial';
-            }else{
-                $statusPengerjaan = 'Sudah Mengerjakan';
-            }
-
-            $nilai = new Nilai;
-            $nilai->id_ujian            = $ujian->id_ujian;
-            $nilai->id_siswa            = session()->get('id_siswa');
-            $nilai->jawaban_benar       = $jumlahBenar;
-            $nilai->jawaban_salah       = $jumlahSalah;
-            $nilai->nilai               = $nilaiKetampanan;
-            $nilai->status_pengerjaan   = $statusPengerjaan;
+        foreach($soal as $s => $sia){
+            $jawabanSiswa = new JawabanSiswaRemed;
+            $jawabanSiswa->id_soal_remedial     = $sia->id_soal_remedial;
+            $jawabanSiswa->id_siswa             = session()->get('id_siswa');
+            $jawabanSiswa->jawaban_siswa  = $jawaban[$s];
+            $jawabanSiswa->save();
         }
+
+        if($nilaiKetampanan > $ujianRemedial->ujian->kkm){
+            $nilaiKetampanan = $ujianRemedial->ujian->kkm;
+        }
+
+        $nilai = new NilaiRemedial;
+        $nilai->id_ujian_remedial   = $ujianRemedial->id_ujian_remedial;
+        $nilai->id_siswa            = session()->get('id_siswa');
+        $nilai->jawaban_benar       = $jumlahBenar;
+        $nilai->jawaban_salah       = $jumlahSalah;
+        $nilai->nilai_remedial      = $nilaiKetampanan;
+        
+        // return $nilai;
+
+        if($nilai->save()){
+            return redirect('/home')->with('success', 'Selamat, anda telah selesai mengerjakan soal.');
+        }else{
+            return redirect('/home')->with('error', 'Maaf, terjadi kesalahan.');
+        }
+    }
+
+    public function submitSoal(Request $data, $id){
+        $ujian          = Ujian::find(base64_decode($id));
+        
+        $jumlahBenar = 0;$jumlahPoint = 0;$jumlahPointBenar = 0;
+
+        $soal   = Soal::where('id_ujian', $ujian->id_ujian)->get();
+
+        foreach($soal as $s => $isiS){
+            $jawaban_benar[] = $isiS->bankSoal->jawaban;
+            $jawaban_benar[$s] = explode(' ,  ', $jawaban_benar[$s]);
+            if(count($jawaban_benar[$s]) == 1){
+                $jawaban_benar[$s] = $isiS->bankSoal->jawaban;
+            }else{
+                foreach($jawaban_benar[$s] as $x => $isiX){
+                    if($isiX == ''){
+                        unset($jawaban_benar[$s][$x]);
+                    }
+                }
+                $jawaban_benar[$s] = implode(' ,  ', $jawaban_benar[$s]);
+            }
+            $jumlahPoint = $jumlahPoint+$isiS->point;
+        }
+
+        for($i=0;$i<=count($soal)-1;$i++){
+            $jawaban[] = $data['jawaban_'.$i];
+
+            if(count($data['jawaban_'.$i]) == 1){
+                if(is_array($jawaban[$i]) == true){
+                    $jawaban[$i] = $jawaban[$i][0];
+                }
+                if($jawaban[$i] == $jawaban_benar[$i]){
+                    $jumlahBenar        = $jumlahBenar+1;
+                    $jumlahPointBenar   = $jumlahPointBenar+$soal[$i]->point;
+                }
+            }else{
+                $jawaban[$i] = implode(' ,  ', $jawaban[$i]);
+                if($jawaban [$i] == $jawaban_benar[$i]){
+                    $jumlahBenar = $jumlahBenar+1;
+                    $jumlahPointBenar   = $jumlahPointBenar+$soal[$i]->point;
+                }
+            }
+
+        }
+
+        $jumlahSalah    = count($soal) - $jumlahBenar;
+        $nilaiKetampanan= round(($jumlahPointBenar / $jumlahPoint)* 100);
+        // return $jawaban;
+        foreach($soal as $s => $sia){
+            $jawabanSiswa = new JawabanSiswa;
+            $jawabanSiswa->id_soal          = $sia->id_soal;
+            $jawabanSiswa->id_siswa         = session()->get('id_siswa');
+            $jawabanSiswa->jawaban_siswa    = $jawaban[$s];
+            $jawabanSiswa->save();
+        }
+
+        if($nilaiKetampanan < $ujian->kkm){
+            $statusPengerjaan = 'Harus Remedial';
+        }else{
+            $statusPengerjaan = 'Sudah Mengerjakan';
+        }
+
+        $nilai = new Nilai;
+        $nilai->id_ujian            = $ujian->id_ujian;
+        $nilai->id_siswa            = session()->get('id_siswa');
+        $nilai->jawaban_benar       = $jumlahBenar;
+        $nilai->jawaban_salah       = $jumlahSalah;
+        $nilai->nilai               = $nilaiKetampanan;
+        $nilai->status_pengerjaan   = $statusPengerjaan;
+
+        // return $jawaban_benar;
 
         if($nilai->save()){
             return redirect('/home')->with('success', 'Selamat, anda telah selesai mengerjakan soal.');

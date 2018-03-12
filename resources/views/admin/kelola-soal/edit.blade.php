@@ -145,11 +145,11 @@
                                          <span class="BS">Salah<input type="radio" name="jawaban" value="Salah" style="margin-right:1rem" @if($soal->bankSoal['tipe'] == 'BS') @if($soal->bankSoal['jawaban'] == $pilihan['1']) checked @endif @endif></span>
                                     </div>
                                     <div class="MC" @if($soal->bankSoal['tipe'] != 'MC') style="display:none" @endif>
-                                        <span class="MC">A<input type="checkbox" name="jawabanMC[]" value="A" style="margin-right:1rem" @if($soal->bankSoal['tipe'] == 'MC') @if($pilihan['0'] == $jawaban['0']) checked @endif @endif/></span>
-                                        <span class="MC">B<input type="checkbox" name="jawabanMC[]" value="B" style="margin-right:1rem" @if($soal->bankSoal['tipe'] == 'MC') @if($pilihan['1'] == $jawaban['1']) checked @endif @endif/></span>
-                                        <span class="MC">C<input type="checkbox" name="jawabanMC[]" value="C" style="margin-right:1rem" @if($soal->bankSoal['tipe'] == 'MC') @if($pilihan['2'] == $jawaban['2']) checked @endif @endif/></span>
-                                        <span class="MC">D<input type="checkbox" name="jawabanMC[]" value="D" style="margin-right:1rem" @if($soal->bankSoal['tipe'] == 'MC') @if($pilihan['3'] == $jawaban['3']) checked @endif @endif/></span>
-                                        <span class="MC">E<input type="checkbox" name="jawabanMC[]" value="E" style="margin-right:1rem" @if($soal->bankSoal['tipe'] == 'MC') @if($pilihan['4'] == $jawaban['4']) checked @endif @endif/></span>
+                                        <span class="MC">A<input type="checkbox" name="jawabanMC[]" value="A" style="margin-right:1rem" @if($soal->bankSoal['tipe'] == 'MC') @if($pilihan['0'] != '') @if($pilihan['0'] == $jawaban['0']) checked @endif @endif @endif/></span>
+                                        <span class="MC">B<input type="checkbox" name="jawabanMC[]" value="B" style="margin-right:1rem" @if($soal->bankSoal['tipe'] == 'MC') @if($pilihan['1'] != '') @if($pilihan['1'] == $jawaban['1']) checked @endif @endif @endif/></span>
+                                        <span class="MC">C<input type="checkbox" name="jawabanMC[]" value="C" style="margin-right:1rem" @if($soal->bankSoal['tipe'] == 'MC') @if($pilihan['2'] != '') @if($pilihan['2'] == $jawaban['2']) checked @endif @endif @endif/></span>
+                                        <span class="MC">D<input type="checkbox" name="jawabanMC[]" value="D" style="margin-right:1rem" @if($soal->bankSoal['tipe'] == 'MC') @if($pilihan['3'] != '') @if($pilihan['3'] == $jawaban['3']) checked @endif @endif @endif/></span>
+                                        <span class="MC">E<input type="checkbox" name="jawabanMC[]" value="E" style="margin-right:1rem" @if($soal->bankSoal['tipe'] == 'MC') @if($pilihan['4'] != '') @if($pilihan['4'] == $jawaban['4']) checked @endif @endif @endif/></span>
                                     </div>
                                 </div>
                              </div>

@@ -23,8 +23,11 @@
                 <div class="panel-heading">
                     <strong id="coba">Sisa waktu : <span style="color: orange;" id="pageTimer"></span></strong>
                 </div>
-
+                @if($ujian->id_ujian_remedial)
+                <form class="form-horizontal" id="ujian" method="POST" action="{{ url('/remed/submit', base64_encode($ujian->id_ujian_remedial))  }}">
+                @else
                 <form class="form-horizontal" id="ujian" method="POST" action="{{ url('/soal/submit', base64_encode($ujian->id_ujian)) }}">
+                @endif
                     {{ csrf_field() }}
                     @foreach($soalFull as $s => $isi)
                     <div class="panel-body" id="Soal_{{$s}}" @if($s == '0') style="display:block" @else style="display:none" @endif>
@@ -77,12 +80,20 @@
                 <div class="panel-body">
                     <div class="row">
                         <div class="col">
-                        @for($a = 1; $a<= count($ujian->soal) ;$a++)
-                        {{-- {{ count($ujian->soal) }} --}}
-                            <button style="margin: 0; margin-left: 10px; border-radius: 0px" class="btn btn-default btnPindah" value="{{ $a }}" data-panel="Soal_{{$a-1}}">
-                                 {{ $a }}
-                             </button>
-                        @endfor
+                            @if($ujian->id_ujian_remedial)
+                                @for($a = 1; $a <= count($ujian->soalRemed); $a++)
+                                    <button style="margin: 0; margin-left: 10px; border-radius: 0px" class="btn btn-default btnPindah" value="{{ $a }}" data-panel="Soal_{{$a-1}}">
+                                        {{ $a }}
+                                    </button>
+                                @endfor
+                            @else
+                                @for($a = 1; $a<= count($ujian->soal) ;$a++)
+                                {{-- {{ count($ujian->soal) }} --}}
+                                    <button style="margin: 0; margin-left: 10px; border-radius: 0px" class="btn btn-default btnPindah" value="{{ $a }}" data-panel="Soal_{{$a-1}}">
+                                         {{ $a }}
+                                     </button>
+                                @endfor
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -93,10 +104,18 @@
                 </div>
 
                 <div class="panel-body">
-                    <p>Ulangan : {{ $ujian->judul_ujian }}</p>
-                    @if($ujian->guru['nip'])
-                    <p>NIP :  {{ $ujian->guru['nip'] }}</p>
-                    <p>Nama  : {{ $ujian->guru->nama }}</p>
+                    @if($ujian->id_ujian_remedial)
+                        <p>Ulangan : {{ $ujian->ujian->judul_ujian }}</p>
+                        @if($ujian->ujian->guru['nip'])
+                            <p>NIP :  {{ $ujian->ujian->guru['nip'] }}</p>
+                            <p>Nama  : {{ $ujian->ujian->guru->nama }}</p>
+                        @endif
+                    @else
+                        <p>Ulangan : {{ $ujian->judul_ujian }}</p>
+                        @if($ujian->guru['nip'])
+                            <p>NIP : {{ $ujian->guru['nip'] }}</p>
+                            <p>Nama : {{ $ujian->guru->nama }}</p>
+                        @endif
                     @endif
                     <p>Waktu Pengerjaan : {{ $ujian->waktu_pengerjaan }}</p>
                     <p>Catatan : {{ $ujian->catatan }}</p>

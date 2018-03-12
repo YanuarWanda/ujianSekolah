@@ -289,13 +289,12 @@ class SoalController extends Controller
     }
 
     public function daftarNilai($id){
-        // Untuk sementara
-        // return redirect()->back()->with('error', 'Fitur belum tersedia');
-
         $nilai          = Nilai::join('siswa', 'nilai.id_siswa', '=', 'siswa.id_siswa')->where('id_ujian', base64_decode($id))->orderBy('id_kelas', 'asc')->get();
         $jumlahNilai    = Nilai::join('siswa', 'nilai.id_siswa', '=', 'siswa.id_siswa')->join('kelas', 'siswa.id_kelas', '=', 'kelas.id_kelas')->groupBy('kelas.id_kelas')->get();
 
-        // return $jumlahNilai[1]['nama_kelas'];
+        
+
+        // return $nilai;
         return view('admin.kelola-nilai.daftar_nilai', compact('nilai', 'jumlahNilai'));
     }
 

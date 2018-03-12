@@ -1,5 +1,14 @@
 @extends('layouts.app')
 
+@section('css')
+<style>
+.block-parent.active{
+    background-color: lightgrey;
+    border: none;
+}
+</style>
+@endsection
+
 @section('content')
     <div class="container">
         <a href="{{url('/daftar-nilai/export', Request::segment(2))}}" class="btn btn-primary btn-fixed-bottom-right z-top">Export Nilai</a>
@@ -31,14 +40,31 @@
                                                 </thead>
                                             @foreach($nilai as $ni => $isiN)
                                                 @if($isiN['id_kelas'] == $isiJumlah['id_kelas'])
-                                                    <tbody>
-                                                        <tr>
+                                                    <tbody aria-expanded="false">
+                                                        <tr class="block-fade" data-panel="Siswa_{{$ni}}">
                                                             <td><?php echo $no;$no++; ?></td>
                                                             <td>{{$isiN->nama}}</td>
                                                             <td>{{$isiN['jawaban_benar']}}</td>
                                                             <td>{{$isiN['jawaban_salah']}}</td>
                                                             <td>{{$isiN['nilai']}}</td>
                                                         </tr>
+                                                        <tr id="Siswa_{{$ni}}" class="collapse">
+                                                            <td colspan=5>
+                                                                <ul class="nav nav-tabs" role="tablist">
+                                                                    <li role="presentation" class="active"><a href="#ujian_{{$ni}}" aria-controls="ujian_{{$ni}}" role="tab" data-toggle="tab">Ujian</a></li>
+                                                                    <li role="presentation"><a href="#remed_{{$ni}}" aria-controls="remed_{{$ni}}" role="tab" data-toggle="tab">Remedial</a></li>
+                                                                </ul>
+
+                                                                <div class="tab-content">
+                                                                    <div role="tabpanel" class="tab-pane fade in active" id="ujian_{{$ni}}">
+                                                                        <h4>Ujian</h4>
+                                                                    </div>
+                                                                    <div role="tabpanel" class="tab-pane fade" id="remed_{{$ni}}">
+                                                                        <h4>Remed</h4>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                        </tr>   
                                                     </tbody>
                                                 @endif
                                                 <?php if($index < count($jumlahNilai)-1){ $index++;} ?>
@@ -55,4 +81,29 @@
             </div>
         </div>
     </div>
+@endsection
+@section('js')
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('.block-fade').on('click', function(){
+                var $index  = $(this).attr('data-panel');
+
+                if($(this).parent().attr('aria-expanded') == 'false'){
+                    $('#'+$index).fadeIn(function(){
+                        $(this).parent().siblings().attr('aria-expanded', 'false');
+                        $(this).parent().siblings().children('.collapse').fadeOut();
+                        $('.block-parent.active').removeClass('active');
+
+                        $(this).parent().attr('aria-expanded', 'true');
+                        $(this).parent().addClass('block-parent active');
+                    });
+                }else{
+                    $('#'+$index).fadeOut(function(){
+                        $(this).parent().attr('aria-expanded', 'false');
+                        $(this).parent().removeClass('active');
+                    });
+                }
+            });
+        });
+    </script>
 @endsection

@@ -101,7 +101,7 @@
                             </div>
                         @elseif(count($nilaiR) == 0)
                             <div class="panel-footer">
-                                <a href="{{ url('/soal', base64_encode($isiR->id_ujian_remedial)) }}" class="btn btn-primary">Kerjakan</a>
+                                <a href="{{ url('/remed', base64_encode($isiR->id_ujian_remedial)) }}" class="btn btn-primary">Kerjakan</a>
                             </div>
                         @else
                             @foreach($nilaiR as $nR => $isiNilaiR)
@@ -115,7 +115,7 @@
                                     <?php continue; ?>
                                     @elseif($nR == count($nilaiR)-1)
                                     <div class="panel-footer">
-                                        <a href="{{ url('/soal', base64_encode($isiR->id_ujian_remedial)) }}" class="btn btn-primary">Kerjakan</a>
+                                        <a href="{{ url('/remed', base64_encode($isiR->id_ujian_remedial)) }}" class="btn btn-primary">Kerjakan</a>
                                     </div>
                                     @endif
                                 @endif

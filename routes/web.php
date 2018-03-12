@@ -170,5 +170,7 @@ Route::post('/edit/g/{id}', 'GuruController@storeDataGuru')->name('edit-guru');
 
 // Dashboard Siswa
 Route::get('/soal/{id}', 'UjianController@kerjakanSoal');
+Route::get('/remed/{id}', 'UjianController@kerjakanRemed');
 Route::post('/soal/submit/{id}', 'UjianController@submitSoal');
+Route::post('/remed/submit/{id}', 'UjianController@submitRemed');
 Route::get('/daftar-nilai/{id}', 'SoalController@daftarNilai');
