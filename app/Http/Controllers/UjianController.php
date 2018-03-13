@@ -512,4 +512,18 @@ class UjianController extends Controller
 
         return view('admin.kelola-ujian.tambah-soal-dari-bank', compact('ujian', 'soal', 'bidangKeahlian'));
     }
+
+
+    public function tambahSoalDariBankViewRemed($id)
+    {
+        $ujian = UjianRemedial::find($id);
+        $soalYangSudahAda = SoalRemed::select('id_bank_soal')->get();
+        $soal = BankSoal::where('id_daftar_bidang', $ujian->ujian->mapel->id_daftar_bidang)
+            ->whereNotIn('id_bank_soal', $soalYangSudahAda)
+            ->get();
+        $bidangKeahlian = DaftarBidangKeahlian::where('id_daftar_bidang', $ujian->ujian->mapel->id_daftar_bidang)
+            ->first()['bidang_keahlian'];
+
+        return view('admin.kelola-ujian.tambah-soal-dari-bank', compact('ujian', 'soal', 'bidangKeahlian'));
+    }
 }

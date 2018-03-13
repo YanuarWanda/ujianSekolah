@@ -121,7 +121,7 @@
                         <a class="btn btn-primary btn-block" id="tambahSoal" style="border-radius:0px"><i class="fa fa-plus fa-1x"></i> Tambah Soal</a>
                         <div class="row menuSoal collapse" style="margin-left: 0%;margin-right: 0%">
                             <div class="col-sm-6 text-center" style="background-color:lightgray">
-                                <a href="#">Import Dari Bank Soal</a>
+                                <a href="{{ Route('tambah-soal-bank-remed', $ujian->id_ujian) }}">Import Dari Bank Soal</a>
                             </div>
                             <div class="col-sm-6 text-center" style="background-color:lightblue">
                                 <a href="{{url('/kelola-soal-remed/create', base64_encode($ujian->id_ujian))}}">Tambah Soal Sendiri</a>

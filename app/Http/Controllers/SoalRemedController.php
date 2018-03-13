@@ -291,4 +291,20 @@ class SoalRemedController extends Controller
             return redirect('/kelola-remed/edit/'.base64_encode($ujianRemedial->id_ujian))->with('error', 'Data gagal dihapus!');
         }
     }
+
+    // Menambahkan soal ujian dari bank
+    public function tambahSoalDariBank(Request $request, $id_ujian) { 
+        $this->validate($request ,[
+            'point' => 'required',
+        ]);
+        
+        $soal = new SoalRemed;
+        $soal->id_ujian_remedial = $id_ujian;
+        $soal->id_bank_soal = $request['id_bank_soal'];
+        $soal->point = $request['point'];
+
+        $soal->save();
+
+        return back()->with('success', 'Soal ditambahkan');
+    }
 }

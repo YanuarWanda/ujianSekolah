@@ -103,6 +103,10 @@ Route::get('/kelola-remed/edit/{id}', 'RemedController@edit');
 Route::post('/kelola-remed/update/{id}', 'RemedController@update');
 Route::get('/kelola-remed/delete/{id}', 'RemedController@destroy');
 
+// Tambah soal dari bank soal - REMED
+Route::get('/kelola-remed/edit/{id}/tambah-soal-bank', 'UjianController@tambahSoalDariBankViewRemed')->name('tambah-soal-bank-remed');
+Route::post('/kelola-remed/edit/{id}/tambah-soal-bank', 'SoalRemedController@tambahSoalDariBank')->name('tambah-soal-bank-remed');
+
 // Export Nilai per Ujian
 Route::get('/daftar-nilai/export/{id}', 'SoalController@exportToExcel');
 
