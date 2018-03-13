@@ -275,7 +275,7 @@ CREATE TABLE `nilai` (
   KEY `nis` (`id_siswa`),
   CONSTRAINT `nilai_ibfk_1` FOREIGN KEY (`id_ujian`) REFERENCES `ujian` (`id_ujian`),
   CONSTRAINT `nilai_ibfk_2` FOREIGN KEY (`id_siswa`) REFERENCES `siswa` (`id_siswa`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
 /*Data for the table `nilai` */
 
@@ -474,10 +474,6 @@ CREATE TABLE `users` (
 /*Data for the table `users` */
 
 insert  into `users`(`id_users`,`username`,`email`,`password`,`remember_token`,`hak_akses`,`created_at`,`updated_at`) values 
-(1,'laracry','test@example.com','$2y$10$tDcmXuHyf0qm.vlCHGhf/ufbcrC01o99T0Edz4zbPHI4sdVkUc9ja','yMMNdfEgGy3Gh03BnQaAOSBywOPMgVG1QWIz08Iyt5tGL1N3wWsVhoe09iL6','admin','2018-01-20 22:51:29','2018-01-20 22:51:33'),
-(2,'','','$2y$10$p.y5.jHM.yqm41m0sCM88.KeXuo0SxLXdOIX1NqVeBJLO6vpYb0..',NULL,'guru','2018-03-05 21:26:42','2018-03-05 21:26:42'),
-(3,'','','$2y$10$g4RUKM.GyhGORO6ZNrc3oegk8JDeqXjItSo4auVHYQcfkJ6ZPGNau',NULL,'guru','2018-03-05 21:26:42','2018-03-05 21:26:42'),
-(4,'','','$2y$10$20FR/fVRXur0b9u9MeXBd.9DYApusSqfxuqfj7G8V1wijf5XiERxq',NULL,'guru','2018-03-05 21:26:42','2018-03-05 21:26:42'),
 (5,'yesterdayoncemore','yesterday.once@gmail.com','$2y$10$7nWogqSU1MEMCH2VAiO1XedWhrc9GcdQCpjhKrRXaHOrGo58lfJei','hE3rnye2qyEec1CTx8VxRMxo26wbtRjW1ysxr1KqWlBmJJC50hzmUzPhNN6O','guru','2018-03-05 21:46:34','2018-03-05 21:46:34'),
 (6,'yanuarwanda','yanuar.wanda2@gmail.com','$2y$10$V2EqzIhM2H.p2jnCz5ncxeqZ1bXBSjDzA.5hqSC8ifFK.pL.Yx5o2','9Md9TV70aMJWFqmyXJc9Lc8l6N2ZB9Ylv715sR6RlC7bCIEkuwjjNjgyEAvI','siswa','2018-03-05 21:47:38','2018-03-05 21:47:38'),
 (7,'wsetiawan','wendy.setiawan@gmail.com','$2y$10$dRq8No6Uu8Rwh0SZehdyEODAfrnmDZQfK4hmkPMPAdX3qL3IOReRS','C47GrMriOH3ZJKT2LPRGGWdepxDqehNeuvBsJnZPk2qDWFDccXZD1H61w27T','siswa','2018-03-05 21:48:21','2018-03-05 21:48:21'),
@@ -640,12 +636,13 @@ DELIMITER $$
 
 /*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `insert_data_siswa_saat_tanggal_kadaluarsa`( id_ujian_asli int )
 BEGIN	
+SELECT COUNT(id_soal) FROM soal where id_ujian = id_ujian_asli into @jumlahSoal;
 /* Insert semua siswa yang belum mengerjakan ke table nilai dengan status harus susulan */
 insert into nilai (id_ujian, id_siswa, jawaban_benar, jawaban_salah, nilai, status_pengerjaan)
 select id_ujian_asli,
 	id_siswa,
 	0,
-	0,
+	@jumlahSoal,
 	0,
 	'Harus Susulan'
 FROM siswa JOIN kelas_ujian USING (id_kelas) WHERE id_ujian = id_ujian_asli  AND id_siswa NOT IN (SELECT id_siswa FROM nilai);
