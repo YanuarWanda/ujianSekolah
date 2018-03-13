@@ -54,10 +54,45 @@
                                                                     <li role="presentation" class="active"><a href="#ujian_{{$ni}}" aria-controls="ujian_{{$ni}}" role="tab" data-toggle="tab">Ujian</a></li>
                                                                     <li role="presentation"><a href="#remed_{{$ni}}" aria-controls="remed_{{$ni}}" role="tab" data-toggle="tab">Remedial</a></li>
                                                                 </ul>
-
                                                                 <div class="tab-content">
                                                                     <div role="tabpanel" class="tab-pane fade in active" id="ujian_{{$ni}}">
-                                                                        <h4>Ujian</h4>
+                                                                        <table class="table table-bordered">
+                                                                            <tr>
+                                                                                <th> No </th>
+                                                                                <th> Jawaban Siswa </th>
+                                                                                <th> Jawaban Benar </th>
+                                                                                <th> Hasil </th>
+                                                                            </tr>
+                                                                        <?php $ns=1; ?>
+                                                                        @foreach($soal as $s => $isiS)
+                                                                            <tr>
+                                                                                <td> <?php echo $ns;$ns++; ?> </td>
+                                                                                <td> 
+                                                                                    @foreach($jawabanUjian as $ju => $isiJU)
+                                                                                        @if($isiJU->id_siswa == $isiN->id_siswa)
+                                                                                            @if($isiJU->id_soal == $isiS->id_soal)
+                                                                                                {{ $isiJU->jawaban_siswa }}
+                                                                                            @endif
+                                                                                        @endif
+                                                                                    @endforeach    
+                                                                                </td>
+                                                                                <td> {{ $jawaban_benar[$s] }} </td>
+                                                                                <td> 
+                                                                                    @foreach($jawabanUjian as $ju => $isiJU)
+                                                                                        @if($isiJU->id_siswa == $isiN->id_siswa)
+                                                                                            @if($isiJU->id_soal == $isiS->id_soal)
+                                                                                                @if($isiJU->jawaban_siswa == $jawaban_benar[$s])
+                                                                                                    Benar
+                                                                                                @else
+                                                                                                    Salah
+                                                                                                @endif
+                                                                                            @endif
+                                                                                        @endif
+                                                                                    @endforeach    
+                                                                                </td>
+                                                                            </tr>    
+                                                                        @endforeach
+                                                                        </table>
                                                                     </div>
                                                                     <div role="tabpanel" class="tab-pane fade" id="remed_{{$ni}}">
                                                                         <h4>Remed</h4>
