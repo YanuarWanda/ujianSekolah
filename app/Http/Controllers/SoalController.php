@@ -8,6 +8,8 @@ use App\Ujian;
 use App\Soal;
 use App\Nilai;
 use App\BankSoal;
+use App\JawabanSiswa;
+use App\JawabanSiswaRemed;
 
 class SoalController extends Controller
 {
@@ -292,10 +294,28 @@ class SoalController extends Controller
         $nilai          = Nilai::join('siswa', 'nilai.id_siswa', '=', 'siswa.id_siswa')->where('id_ujian', base64_decode($id))->orderBy('id_kelas', 'asc')->get();
         $jumlahNilai    = Nilai::join('siswa', 'nilai.id_siswa', '=', 'siswa.id_siswa')->join('kelas', 'siswa.id_kelas', '=', 'kelas.id_kelas')->groupBy('kelas.id_kelas')->get();
 
-        
+        $jawabanUjian   = JawabanSiswa::join('soal', 'jawaban_siswa.id_soal', '=', 'soal.id_soal')->where('id_ujian', base64_decode($id))->get();
+        $jawabanRemed   = JawabanSiswaRemed::join('soal_remed', 'jawaban_siswa_remed.id_soal_remedial', '=', 'soal_remed.id_soal_remedial')->join('ujian_remedial', 'soal_remed.id_ujian_remedial', '=', 'ujian_remedial.id_ujian_remedial')->where('ujian_remedial.id_ujian', base64_decode($id))->get();
 
-        // return $nilai;
-        return view('admin.kelola-nilai.daftar_nilai', compact('nilai', 'jumlahNilai'));
+        $soal           = Soal::where('id_ujian', base64_decode($id))->get();
+
+        foreach($soal as $s => $isiS){
+            $jawaban_benar[] = $isiS->bankSoal->jawaban;
+            $jawaban_benar[$s] = explode(' ,  ', $jawaban_benar[$s]);
+            if(count($jawaban_benar[$s]) == 1){
+                $jawaban_benar[$s] = $isiS->bankSoal->jawaban;
+            }else{
+                foreach($jawaban_benar[$s] as $x => $isiX){
+                    if($isiX == ''){
+                        unset($jawaban_benar[$s][$x]);
+                    }
+                }
+                $jawaban_benar[$s] = implode(' ,  ', $jawaban_benar[$s]);
+            }
+        }
+
+        // return $jawaban_benar;
+        return view('admin.kelola-nilai.daftar_nilai', compact('nilai', 'jumlahNilai', 'jawabanUjian', 'jawabanRemed', 'soal', 'jawaban_benar'));
     }
 
     public function exportToExcel($id) {
