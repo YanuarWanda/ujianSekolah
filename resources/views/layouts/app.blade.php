@@ -46,6 +46,14 @@
     {{-- <link href="{{ asset('css/please-wait.css') }}" rel="stylesheet"> --}}
 
     <style type="text/css">
+        .text-green{
+            color: green;
+        }
+        
+        .text-red{
+            color: red;
+        }
+
         .btn-disabled{
             background-color: #444444;
         }

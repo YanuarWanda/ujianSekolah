@@ -10,6 +10,9 @@ use App\Nilai;
 use App\BankSoal;
 use App\JawabanSiswa;
 use App\JawabanSiswaRemed;
+use App\NilaiRemedial;
+use App\SoalRemed;
+use App\UjianRemedial;
 
 class SoalController extends Controller
 {
@@ -292,12 +295,15 @@ class SoalController extends Controller
 
     public function daftarNilai($id){
         $nilai          = Nilai::join('siswa', 'nilai.id_siswa', '=', 'siswa.id_siswa')->where('id_ujian', base64_decode($id))->orderBy('id_kelas', 'asc')->get();
+        $nilaiRemed     = NilaiRemedial::join('siswa', 'nilai_remedial.id_siswa', '=', 'siswa.id_siswa')->join('ujian_remedial', 'nilai_remedial.id_ujian_remedial', '=', 'ujian_remedial.id_ujian_remedial')->where('id_ujian', base64_decode($id))->orderBy('id_kelas', 'asc')->get();
         $jumlahNilai    = Nilai::join('siswa', 'nilai.id_siswa', '=', 'siswa.id_siswa')->join('kelas', 'siswa.id_kelas', '=', 'kelas.id_kelas')->groupBy('kelas.id_kelas')->get();
 
         $jawabanUjian   = JawabanSiswa::join('soal', 'jawaban_siswa.id_soal', '=', 'soal.id_soal')->where('id_ujian', base64_decode($id))->get();
         $jawabanRemed   = JawabanSiswaRemed::join('soal_remed', 'jawaban_siswa_remed.id_soal_remedial', '=', 'soal_remed.id_soal_remedial')->join('ujian_remedial', 'soal_remed.id_ujian_remedial', '=', 'ujian_remedial.id_ujian_remedial')->where('ujian_remedial.id_ujian', base64_decode($id))->get();
 
         $soal           = Soal::where('id_ujian', base64_decode($id))->get();
+        $ujianRemed     = UjianRemedial::where('id_ujian', base64_decode($id))->get()->first();
+        $soalRemed      = SoalRemed::where('id_ujian_remedial', $ujianRemed['id_ujian_remedial'])->get();
 
         foreach($soal as $s => $isiS){
             $jawaban_benar[] = $isiS->bankSoal->jawaban;
@@ -314,8 +320,23 @@ class SoalController extends Controller
             }
         }
 
-        // return $jawaban_benar;
-        return view('admin.kelola-nilai.daftar_nilai', compact('nilai', 'jumlahNilai', 'jawabanUjian', 'jawabanRemed', 'soal', 'jawaban_benar'));
+        foreach($soalRemed as $sr => $isiSR){
+            $jawaban_benar_remed[]       = $isiSR->bankSoal->jawaban;
+            $jawaban_benar_remed[$sr]    = explode(' ,  ', $jawaban_benar_remed[$sr]);
+            if(count($jawaban_benar_remed[$sr]) == 1){
+                $jawaban_benar_remed[$sr] = $isiSR->bankSoal->jawaban;
+            }else{
+                foreach($jawaban_benar_remed[$sr] as $x => $isiX){
+                    if($isiX == ''){
+                        unset($jawaban_benar_remed[$sr][$x]);
+                    }
+                }
+                $jawaban_benar_remed[$sr] = implode(' ,  ', $jawaban_benar_remed[$sr]);
+            }
+        }
+
+        // return $soalRemed;
+        return view('admin.kelola-nilai.daftar_nilai', compact('nilai', 'jumlahNilai', 'jawabanUjian', 'jawabanRemed', 'soal', 'jawaban_benar', 'nilaiRemed', 'soalRemed', 'jawaban_benar_remed'));
     }
 
     public function exportToExcel($id) {

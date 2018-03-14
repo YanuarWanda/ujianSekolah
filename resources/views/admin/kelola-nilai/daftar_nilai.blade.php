@@ -35,7 +35,8 @@
                                                         <th>Nama</th>
                                                         <th>Jumlah Benar</th>
                                                         <th>Jumlah Salah</th>
-                                                        <th>Nilai</th>
+                                                        <th>Nilai Ujian</th>
+                                                        <th>Nilai Remed</th>
                                                     </tr>
                                                 </thead>
                                             @foreach($nilai as $ni => $isiN)
@@ -46,10 +47,29 @@
                                                             <td>{{$isiN->nama}}</td>
                                                             <td>{{$isiN['jawaban_benar']}}</td>
                                                             <td>{{$isiN['jawaban_salah']}}</td>
-                                                            <td>{{$isiN['nilai']}}</td>
+                                                            @if($isiN['nilai'] < $isiN->ujian->kkm)
+                                                                <td class="text-red">
+                                                                    {{$isiN['nilai']}}
+                                                                </td>
+                                                            @else
+                                                                <td class="text-green">
+                                                                    {{ $isiN['nilai'] }}
+                                                                </td>
+                                                            @endif
+                                                            @foreach($nilaiRemed as $nr => $isiNR)    
+                                                                @if($isiNR['nilai_remedial'] < $isiN->ujian->kkm)
+                                                                    <td class="text-red">
+                                                                        {{ $isiNR['nilai_remedial'] }}
+                                                                    </td>
+                                                                @else
+                                                                    <td class="text-green">
+                                                                        {{ $isiNR['nilai_remedial'] }}
+                                                                    </td>
+                                                                @endif
+                                                            @endforeach
                                                         </tr>
                                                         <tr id="Siswa_{{$ni}}" class="collapse">
-                                                            <td colspan=5>
+                                                            <td colspan=6>
                                                                 <ul class="nav nav-tabs" role="tablist">
                                                                     <li role="presentation" class="active"><a href="#ujian_{{$ni}}" aria-controls="ujian_{{$ni}}" role="tab" data-toggle="tab">Ujian</a></li>
                                                                     <li role="presentation"><a href="#remed_{{$ni}}" aria-controls="remed_{{$ni}}" role="tab" data-toggle="tab">Remedial</a></li>
@@ -95,7 +115,45 @@
                                                                         </table>
                                                                     </div>
                                                                     <div role="tabpanel" class="tab-pane fade" id="remed_{{$ni}}">
-                                                                        <h4>Remed</h4>
+                                                                        <table class="table table-bordered">
+                                                                        <tr>
+                                                                            <th> No </th>
+                                                                            <th> Jawaban Siswa </th>
+                                                                            <th> Jawaban Benar </th>
+                                                                            <th> Hasil </th>
+                                                                        </tr>
+                                                                        <tr>
+                                                                        <?php $nr=1; ?>
+                                                                        @if($soalRemed)
+                                                                            @foreach($soalRemed as $sr => $isiSR)
+                                                                                <td> <?php echo $nr; ?> </td>
+                                                                                <td>
+                                                                                    @foreach($jawabanRemed as $jr => $isiJR)
+                                                                                        @if($isiJR->id_siswa == $isiN->id_siswa)
+                                                                                            @if($isiJR->id_soal_remedial == $isiSR->id_soal_remedial)
+                                                                                                {{ $isiJR->jawaban_siswa }}
+                                                                                            @endif
+                                                                                        @endif
+                                                                                    @endforeach
+                                                                                </td>
+                                                                                <td> {{ $jawaban_benar_remed[$s] }} </td>
+                                                                                <td>
+                                                                                    @foreach($jawabanRemed as $jr => $isiJR)
+                                                                                        @if($isiJR->id_siswa == $isiN->id_siswa)
+                                                                                            @if($isiJR->id_soal_remedial == $isiSR->id_soal_remedial)
+                                                                                                @if($isiJR->jawaban_siswa == $jawaban_benar_remed[$sr])
+                                                                                                    Benar
+                                                                                                @else
+                                                                                                    Salah
+                                                                                                @endif
+                                                                                            @endif
+                                                                                        @endif
+                                                                                    @endforeach
+                                                                                </td>
+                                                                            @endforeach
+                                                                        @endif
+                                                                        </tr>
+                                                                        </table>
                                                                     </div>
                                                                 </div>
                                                             </td>
