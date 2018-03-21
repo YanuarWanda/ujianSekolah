@@ -13,8 +13,19 @@
 
 Route::get('/', function () {
 	// return session()->all();
-	return redirect('/home');
-	return view('home');
+	// return redirect('/home');
+
+	$data = \Lava::DataTable();
+	$data->addStringColumn('Kelas');
+	$data->addNumberColumn('Jumlah siswa');
+
+	$data->addRow(array('XII RPL 2', 29));
+	$data->addRow(array('XII RPL 3', 29));
+
+	$chart = \Lava::DonutChart('jawabanSiswa', $data, ['title' => 'Daftar Kelas']);
+
+
+	return view('home', compact('chart'));
 });
 
 Auth::routes();
