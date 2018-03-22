@@ -43,6 +43,7 @@
                                         unset($pilihanAsli[$pa]);
                                     }
                                 }
+                                // shuffle($pilihanAsli);
                             ?>
                             <div>
                                 @if ($isi->bankSoal['tipe'] != 'MC')

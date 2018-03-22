@@ -319,6 +319,8 @@ class UjianController extends Controller
         $ujian      = Ujian::find(base64_decode($id));
         
         $soalFull   = Soal::where('id_ujian', $ujian->id_ujian)->get();
+        
+        // ->shuffle() buat acak tapi jawabannya belum nanti yah!
 
         foreach($soalFull as $s){
             $pilihan[]    = explode(' ,  ', $s->bankSoal['pilihan']);
@@ -491,7 +493,7 @@ class UjianController extends Controller
         $nilai->nilai               = $nilaiKetampanan;
         $nilai->status_pengerjaan   = $statusPengerjaan;
 
-        // return $jawaban_benar;
+        // return $jawaban;
 
         if($nilai->save()){
             return redirect('/home')->with('success', 'Selamat, anda telah selesai mengerjakan soal.');
