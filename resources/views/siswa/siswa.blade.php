@@ -85,11 +85,11 @@
                     @foreach($ujianRemed as $uR => $isiR)
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <h4>{{ $isiR->judul_ujian }} <code>{{ $isiR->nama_mapel }}</code></h4>
+                            <h4>{{ $isiR->judul_ujian }} - Remed {{ $isiR->remed_ke }}<code>{{ $isiR->nama_mapel }}</code></h4>
                         </div>
 
                         <div class="panel-body">
-                            <p>Dipost pada <span style="color: red;">{{ $isiR->tanggal_post }}</span></p>
+                            <p>Dipost pada <span style="color: red;">{{ $isiR->tanggal_pembuatan }}</span></p>
                             <p>Batas Pengerjaan <span style="color: red">{{ $isiR->tanggal_kadaluarsa }}</span></p>
                             <strong>Deskripsi</strong>
                             <p>{{ $isiR->catatan }}</p>
@@ -105,18 +105,18 @@
                             </div>
                         @else
                             @foreach($nilaiR as $nR => $isiNilaiR)
-                                @if($isiR->id_ujian == $isiNilaiR->id_ujian)
+                                @if($isiR->id_ujian_remedial == $isiNilaiR->id_ujian_remedial)
                                 <div class="panel-footer">
                                     <p>Anda Sudah Mengerjakan!</p>
                                 </div>
                                 <?php break; ?>
-                                @elseif($isiR->id_ujian != $isiNilaiR->id_ujian)
+                                @elseif($isiR->id_ujian_remedial != $isiNilaiR->id_ujian_remedial)
                                     @if($nR != count($nilaiR)-1)
-                                    <?php continue; ?>
+                                        <?php continue; ?>
                                     @elseif($nR == count($nilaiR)-1)
-                                    <div class="panel-footer">
-                                        <a href="{{ url('/remed', base64_encode($isiR->id_ujian_remedial)) }}" class="btn btn-primary">Kerjakan</a>
-                                    </div>
+                                        <div class="panel-footer">
+                                            <a href="{{ url('/remed', base64_encode($isiR->id_ujian_remedial)) }}" class="btn btn-primary">Kerjakan</a>
+                                        </div>
                                     @endif
                                 @endif
                             @endforeach

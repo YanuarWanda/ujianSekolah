@@ -26,7 +26,7 @@
                                         <button type="button" class="btn btn-primary btn-block" style="border-radius:0">{{ $isiJumlah['nama_kelas'] }}</button>
                                     </div>
 
-                                    <div class="blockKelas" id="Kelas_{{$n}}">
+                                    <div class="blockKelas" id="Kelas_{{$n}}" style="display:none">
                                         <table class="table table-bordered" id="tableNilai">
                                             <?php $index=0; ?>
                                                 <thead>
@@ -36,9 +36,12 @@
                                                         <th>Jumlah Benar</th>
                                                         <th>Jumlah Salah</th>
                                                         <th>Nilai Ujian</th>
-                                                        <th>Nilai Remed</th>
+                                                        <th>Nilai Remed 1</th>
+                                                        <th>Nilai Remed 2</th>
+                                                        <th>Nilai Remed 3</th>
                                                     </tr>
                                                 </thead>
+
                                             @foreach($nilai as $ni => $isiN)
                                                 @if($isiN['id_kelas'] == $isiJumlah['id_kelas'])
                                                     <tbody aria-expanded="false">
@@ -56,24 +59,57 @@
                                                                     {{ $isiN['nilai'] }}
                                                                 </td>
                                                             @endif
+                                                            
                                                             @foreach($nilaiRemed as $nr => $isiNR)    
-                                                                @if($isiNR['nilai_remedial'] < $isiN->ujian->kkm)
-                                                                    <td class="text-red">
-                                                                        {{ $isiNR['nilai_remedial'] }}
-                                                                    </td>
-                                                                @else
-                                                                    <td class="text-green">
-                                                                        {{ $isiNR['nilai_remedial'] }}
-                                                                    </td>
+                                                                @if($isiNR['id_siswa'] == $isiN['id_siswa'] && $isiNR['remed_ke'] == '1')
+                                                                    @if($isiNR['nilai_remedial'] < $isiN->ujian->kkm)
+                                                                        <td class="text-red">
+                                                                            {{ $isiNR['nilai_remedial'] }}
+                                                                        </td>
+                                                                        <?php break; ?>
+                                                                    @elseif($isiNR['nilai_remedial'] >= $isiN->ujian->kkm)
+                                                                        <td class="text-green">
+                                                                            {{ $isiNR['nilai_remedial'] }}
+                                                                        </td>
+                                                                        <?php break; ?>
+                                                                    @endif
+                                                                @endif
+
+                                                                @if($isiNR['id_siswa'] == $isiN['id_siswa'] && $isiNR['remed_ke'] == '2')
+                                                                    @if($isiNR['nilai_remedial'] < $isiN->ujian->kkm)
+                                                                        <td class="text-red">
+                                                                            {{ $isiNR['nilai_remedial'] }}
+                                                                        </td>
+                                                                    @elseif($isiNR['nilai_remedial'] >= $isiN->ujian->kkm)
+                                                                        <td clas="text-green">
+                                                                            {{ $isiNR['nilai_remedial'] }}
+                                                                        </td>
+                                                                    @endif
+                                                                @endif
+
+                                                                @if($isiNR['id_siswa'] == $isiN['id_siswa'] && $isiNR['remed_ke'] == '3')
+                                                                    @if($isiNR['nilai_remedial'] < $isiN->ujian->kkm)
+                                                                        <td class="text-red">
+                                                                            {{ $isiNR['nilai_remedial'] }}
+                                                                        </td>
+                                                                    @elseif($isiNR['nilai_remedial'] >= $isiN->ujian->kkm)
+                                                                        <td clas="text-green">
+                                                                            {{ $isiNR['nilai_remedial'] }}
+                                                                        </td>
+                                                                    @endif
                                                                 @endif
                                                             @endforeach
                                                         </tr>
+
                                                         <tr id="Siswa_{{$ni}}" class="collapse">
-                                                            <td colspan=6>
+                                                            <td colspan=8>
                                                                 <ul class="nav nav-tabs" role="tablist">
                                                                     <li role="presentation" class="active"><a href="#ujian_{{$ni}}" aria-controls="ujian_{{$ni}}" role="tab" data-toggle="tab">Ujian</a></li>
-                                                                    <li role="presentation"><a href="#remed_{{$ni}}" aria-controls="remed_{{$ni}}" role="tab" data-toggle="tab">Remedial</a></li>
+                                                                    <li role="presentation"><a href="#remed_{{$ni}}" aria-controls="remed_{{$ni}}" role="tab" data-toggle="tab">Remedial 1</a></li>
+                                                                    <li role="presentation"><a href="#remed2_{{$ni}}" aria-controls="remed2_{{$ni}}" role="tab" data-toggle="tab">Remedial 2</a></li>
+                                                                    <li role="presentation"><a href="#remed3_{{$ni}}" aria-controls="remed3_{{$ni}}" role="tab" data-toggle="tab">Remedial 3</a></li>
                                                                 </ul>
+
                                                                 <div class="tab-content">
                                                                     <div role="tabpanel" class="tab-pane fade in active" id="ujian_{{$ni}}">
                                                                         <table class="table table-bordered">
@@ -114,47 +150,221 @@
                                                                         @endforeach
                                                                         </table>
                                                                     </div>
-                                                                    <div role="tabpanel" class="tab-pane fade" id="remed_{{$ni}}">
-                                                                        <table class="table table-bordered">
-                                                                        <tr>
-                                                                            <th> No </th>
-                                                                            <th> Jawaban Siswa </th>
-                                                                            <th> Jawaban Benar </th>
-                                                                            <th> Hasil </th>
-                                                                        </tr>
-                                                                        <tr>
-                                                                        <?php $nr=1; ?>
-                                                                        @if($soalRemed)
-                                                                            @foreach($soalRemed as $sr => $isiSR)
-                                                                                <td> <?php echo $nr; ?> </td>
-                                                                                <td>
-                                                                                    @foreach($jawabanRemed as $jr => $isiJR)
-                                                                                        @if($isiJR->id_siswa == $isiN->id_siswa)
-                                                                                            @if($isiJR->id_soal_remedial == $isiSR->id_soal_remedial)
-                                                                                                {{ $isiJR->jawaban_siswa }}
-                                                                                            @endif
+                                                                    
+                                                                    @if(count($jumlahRemed) > 0)
+                                                                        @foreach($jumlahRemed as $jr1 => $isiJR1)
+                                                                            @if($isiN['id_siswa'] == $isiJR1['id_siswa'] && $isiJR1['remed_ke'] == 1)
+                                                                            <div role="tabpanel" class="tab-pane fade" id="remed_{{$ni}}">
+                                                                                <table class="table table-bordered">
+                                                                                    <tr>
+                                                                                        <th> No </th>
+                                                                                        <th> Jawaban Siswa </th>
+                                                                                        <th> Jawaban Benar </th>
+                                                                                        <th> Hasil </th>
+                                                                                    </tr>
+                                                                                        <?php $nr=1; ?>
+                                                                                        @if($soalRemed)
+                                                                                            @foreach($soalRemed as $sr => $isiSR)
+                                                                                            <tr>
+                                                                                                <td> <?php echo $nr;$nr++; ?> </td>
+                                                                                                <td>
+                                                                                                    @foreach($jawabanRemed as $jr => $isiJR)
+                                                                                                        @if($isiJR->id_siswa == $isiN->id_siswa)
+                                                                                                            @if($isiJR->id_soal_remedial == $isiSR->id_soal_remedial)
+                                                                                                                {{ $isiJR->jawaban_siswa }}
+                                                                                                            @endif
+                                                                                                        @endif
+                                                                                                    @endforeach
+                                                                                                </td>
+                                                                                                <td> {{ $jawaban_benar_remed[$sr] }} </td>
+                                                                                                <td>
+                                                                                                    @foreach($jawabanRemed as $jr => $isiJR)
+                                                                                                        @if($isiJR->id_siswa == $isiN->id_siswa)
+                                                                                                            @if($isiJR->id_soal_remedial == $isiSR->id_soal_remedial)
+                                                                                                                @if($isiJR->jawaban_siswa == $jawaban_benar_remed[$sr])
+                                                                                                                    Benar
+                                                                                                                @else
+                                                                                                                    Salah
+                                                                                                                @endif
+                                                                                                            @endif
+                                                                                                        @endif
+                                                                                                    @endforeach
+                                                                                                </td>
+                                                                                            </tr>
+                                                                                            @endforeach
                                                                                         @endif
-                                                                                    @endforeach
-                                                                                </td>
-                                                                                <td> {{ $jawaban_benar_remed[$s] }} </td>
-                                                                                <td>
-                                                                                    @foreach($jawabanRemed as $jr => $isiJR)
-                                                                                        @if($isiJR->id_siswa == $isiN->id_siswa)
-                                                                                            @if($isiJR->id_soal_remedial == $isiSR->id_soal_remedial)
-                                                                                                @if($isiJR->jawaban_siswa == $jawaban_benar_remed[$sr])
-                                                                                                    Benar
-                                                                                                @else
-                                                                                                    Salah
-                                                                                                @endif
+                                                                                    </table>
+                                                                                </div>
+                                                                            @elseif($jr1 == count($jumlahRemed)-1)
+                                                                                <div role="tabpanel" class="tab-pane fade" id="remed_{{$ni}}">
+                                                                                    <table class="table table-bordered">
+                                                                                        <tr>
+                                                                                            <th> No </th>
+                                                                                            <th> Jawaban Siswa </th>
+                                                                                            <th> Jawaban Benar </th>
+                                                                                            <th> Hasil </th>
+                                                                                        </tr>
+                                                                                    </table>
+                                                                                </div>        
+                                                                            @endif
+                                                                        @endforeach
+                                                                    @else
+                                                                        <div role="tabpanel" class="tab-pane fade" id="remed_{{$ni}}">
+                                                                            <table class="table table-bordered">
+                                                                                <tr>
+                                                                                    <th> No </th>
+                                                                                    <th> Jawaban Siswa </th>
+                                                                                    <th> Jawaban Benar </th>
+                                                                                    <th> Hasil </th>
+                                                                                </tr>
+                                                                            </table>
+                                                                        </div>
+                                                                    @endif
+
+                                                                    @if(count($jumlahRemed) > 0)
+                                                                        @foreach($jumlahRemed as $jr2 => $isiJR2)
+                                                                            @if($isiN['id_siswa'] == $isiJR2['id_siswa'] && $isiJR2['remed_ke'] == 2)
+                                                                                <div role="tabpanel" class="tab-pane fade" id="remed2_{{$ni}}">
+                                                                                    <table class="table table-bordered">
+                                                                                        <tr>
+                                                                                            <th>No</th>
+                                                                                            <th>Jawaban Siswa</th>
+                                                                                            <th>Jawaban Benar</th>
+                                                                                            <th>Hasil</th>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <?php $nr2 = 1; ?>
+                                                                                            @if($soalRemed)
+                                                                                                @foreach($soalRemed as $sr => $isiSR)
+                                                                                                    <td> <?php echo $nr2; ?> </td>
+                                                                                                    <td>
+                                                                                                        @foreach($jawabanRemed as $jr2x => $isiJR2X)
+                                                                                                            @if($isiJR2X->id_siswa == $isiN['id_siswa'])
+                                                                                                                @if($isiJR2X->id_soal_remedial == $isiSR->id_soal_remedial)
+                                                                                                                    {{ $isiJR2X->jawaban_siswa}}
+                                                                                                                @endif
+                                                                                                            @endif
+                                                                                                        @endforeach
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                                        $jawaban_benar_remed[$sr];
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                                        @foreach($jawabanRemed as $jr2x => $isiJR2X)
+                                                                                                            @if($isiJR2X->id_siswa == $isiN->id_siswa)
+                                                                                                                @if($isiJR2X->id_soal_remedial == $isiSR->id_soal_remedial)
+                                                                                                                    @if($isiJR2X->jawaban_siswa == $jawaban_benar_remed[$sr])
+                                                                                                                        Benar
+                                                                                                                    @else
+                                                                                                                        Salah
+                                                                                                                    @endif
+                                                                                                                @endif
+                                                                                                            @endif
+                                                                                                        @endforeach   
+                                                                                                    </td>
+                                                                                                @endforeach
                                                                                             @endif
-                                                                                        @endif
-                                                                                    @endforeach
-                                                                                </td>
-                                                                            @endforeach
-                                                                        @endif
-                                                                        </tr>
-                                                                        </table>
-                                                                    </div>
+                                                                                        </tr>
+                                                                                    </table>
+                                                                                </div>
+                                                                            @else
+                                                                                <div role="tabpanel" class="tab-pane fade" id="remed2_{{$ni}}">
+                                                                                    <table class="table table-bordered">
+                                                                                        <tr>
+                                                                                            <th> No </th>
+                                                                                            <th> Jawaban Siswa </th>
+                                                                                            <th> Jawaban Benar </th>
+                                                                                            <th> Hasil </th>
+                                                                                        </tr>
+                                                                                    </table>
+                                                                                </div>
+                                                                            @endif
+                                                                        @endforeach
+                                                                    @else
+                                                                        <div role="tabpanel" class="tab-pane fade" id="remed2_{{$ni}}">
+                                                                            <table class="table table-bordered">
+                                                                                <tr>
+                                                                                    <th> No </th>
+                                                                                    <th> Jawaban Siswa </th>
+                                                                                    <th> Jawaban Benar </th>
+                                                                                    <th> Hasil </th>
+                                                                                </tr>
+                                                                            </table>
+                                                                        </div>
+                                                                    @endif
+
+                                                                    @if(count($jumlahRemed) > 0)
+                                                                        @foreach($jumlahRemed as $jr3 => $isiJR3)
+                                                                            @if($isiN['id_siswa'] == $isiJR3['id_siswa'] && $isiJR3['remed_ke'] == 3)
+                                                                                <div role="tabpanel" class="tab-pane fade" id="remed3_{{$ni}}">
+                                                                                    <table class="table table-bordered">
+                                                                                        <tr>
+                                                                                            <th> No. </th>
+                                                                                            <th> Jawaban Siswa </th>
+                                                                                            <th> Jawaban Benar </th>
+                                                                                            <th> Hasil </th>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <?php $nr3 = 1; ?>
+                                                                                            @if($soalRemed)
+                                                                                                @foreach($soalRemed as $sr => $isiSR)
+                                                                                                    <td> <?php echo $nr3; ?> </td>
+                                                                                                    <td>
+                                                                                                        @foreach($jawabanRemed as $jr3x => $isiJR3X)
+                                                                                                            @if($isiJR3X->id_siswa == $isiN['id_siswa'])
+                                                                                                                @if($isiJR3X->id_soal_remedial == $isiSR->id_soal_remedial)
+                                                                                                                    {{ $isiJR3X->jawaban_siswa }}
+                                                                                                                @endif
+                                                                                                            @endif
+                                                                                                        @endforeach
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                                        $jawaban_benar_remed[$sr];
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                                        @foreach($jawabanRemed as $jr3x => $isiJR3X)
+                                                                                                            @if($isiJR3X->id_siswa == $isiN->id_siswa)
+                                                                                                                @if($isiJR3X->id_soal_remedial == $isiSR->id_soal_remedial)
+                                                                                                                    @if($isiJR3X->jawaban_siswa == $jawaban_benar_remed[$sr])
+                                                                                                                        Benar
+                                                                                                                    @else
+                                                                                                                        Salah
+                                                                                                                    @endif
+                                                                                                                @endif
+                                                                                                            @endif
+                                                                                                        @endforeach
+                                                                                                    </td>  
+                                                                                                @endforeach
+                                                                                            @endif
+                                                                                        </tr>
+                                                                                    </table>
+                                                                                </div>
+                                                                            @else
+                                                                                <div role="tabpanel" class="tab-pane fade" id="remed3_{{$ni}}">
+                                                                                    <table class="table table-bordered">
+                                                                                        <tr>
+                                                                                            <th> No. </th>
+                                                                                            <th> Jawaban Siswa </th>
+                                                                                            <th> Jawaban Benar </th>
+                                                                                            <th> Hasil </th>
+                                                                                        </tr>
+                                                                                    </table>
+                                                                                </div>
+                                                                            @endif
+                                                                        @endforeach
+                                                                    @else
+                                                                        <div role="tabpanel" class="tab-pane fade" id="remed3_{{$ni}}">
+                                                                            <table class="table table-bordered">
+                                                                                <tr>
+                                                                                    <th> No. </th>
+                                                                                    <th> Jawaban Siswa </th>
+                                                                                    <th> Jawaban Benar </th>
+                                                                                    <th> Hasil </th>
+                                                                                </tr>
+                                                                            </table>
+                                                                        </div>
+                                                                    @endif
+
                                                                 </div>
                                                             </td>
                                                         </tr>   

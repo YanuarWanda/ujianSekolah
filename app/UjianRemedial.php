@@ -11,7 +11,7 @@ class UjianRemedial extends Model
 
     public $timestamps = false;
     protected $fillable = [
-        'id_ujian_remedial', 'id_ujian', 'waktu_pengerjaan', 'tanggal_pembuatan', 'catatan', 'tanggal_kadaluarsa'
+        'id_ujian_remedial', 'id_ujian', 'waktu_pengerjaan', 'tanggal_pembuatan', 'catatan', 'tanggal_kadaluarsa', 'remed_ke',
     ];
 
     public function ujian(){

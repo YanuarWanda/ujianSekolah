@@ -94,7 +94,7 @@ class HomeController extends Controller
             $paginatedItems->setPath(url()->current());
             $ujian = $paginatedItems;
 
-            $ujianRemedArray    = DB::select('SELECT * FROM ujian_remedial JOIN ujian USING(id_ujian) JOIN mapel USING(id_mapel) JOIN kelas_ujian USING(id_ujian) JOIN kelas USING(id_kelas) JOIN siswa USING(id_kelas) WHERE kelas_ujian.id_kelas = 2 AND ujian_remedial.status = "posted" AND siswa.id_siswa = '.$siswa->id_siswa.' AND siswa.id_siswa IN (SELECT id_siswa FROM nilai WHERE status_pengerjaan="Harus Remedial" AND nilai.id_ujian = ujian.id_ujian) order by tanggal_post ASC');
+            $ujianRemedArray    = DB::select('SELECT ujian.judul_ujian, ujian_remedial.remed_ke, mapel.nama_mapel, ujian_remedial.tanggal_pembuatan, ujian_remedial.tanggal_kadaluarsa, ujian_remedial.catatan, ujian_remedial.id_ujian_remedial, ujian_remedial.id_ujian FROM ujian_remedial JOIN ujian USING(id_ujian) JOIN mapel USING(id_mapel) JOIN kelas_ujian USING(id_ujian) JOIN kelas USING(id_kelas) JOIN siswa USING(id_kelas) WHERE kelas_ujian.id_kelas = '.$siswa->kelas->id_kelas.' AND ujian_remedial.status = "posted" AND siswa.id_siswa = '.$siswa->id_siswa.' AND siswa.id_siswa IN (SELECT id_siswa FROM nilai WHERE status_pengerjaan="Harus Remedial" AND nilai.id_ujian = ujian.id_ujian) ORDER BY tanggal_post ASC');
             $curPageRemed       = LengthAwarePaginator::resolveCurrentPage();
             $itemColRemed       = collect($ujianRemedArray);
             $perPageRemed       = 2;
@@ -103,7 +103,7 @@ class HomeController extends Controller
             $paginatedItemsRemed->setPath(url()->current());
             $ujianRemed = $paginatedItemsRemed;
 
-            // return $ujianRemedArray;
+            // return $nilaiR;
 
             return view('siswa.siswa', compact('siswa', 'ujian', 'ujianArray', 'nilai', 'ujianRemed', 'ujianRemedArray', 'nilaiR'));
         }

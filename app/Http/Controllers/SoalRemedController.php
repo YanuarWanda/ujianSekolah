@@ -28,9 +28,9 @@ class SoalRemedController extends Controller
      */
     public function create($id)
     {
-        $ujian = Ujian::find(base64_decode($id));
-        $ujianRemedial = UjianRemedial::where('id_ujian', '=', base64_decode($id))->get()->first();
-
+        $ujianRemedial = UjianRemedial::find(base64_decode($id));
+        $ujian = Ujian::where('id_ujian', $ujianRemedial->id_ujian)->get()->first();
+        // return $ujian;
         return view('admin.kelola-soal-remed.create', compact('ujian', 'ujianRemedial'));
     }
 
@@ -48,9 +48,10 @@ class SoalRemedController extends Controller
             'tipe'      => 'required'
         ]);
 
-        $ujian = Ujian::find(base64_decode($id));
-        $ujianRemedial = UjianRemedial::where('id_ujian', '=', base64_decode($id))->get()->first();
-
+        $ujianRemedial = UjianRemedial::find(base64_decode($id));
+        // return $ujianRemedial;
+        $ujian = Ujian::where('id_ujian', $ujianRemedial->id_ujian)->get()->first();
+        
         if($request['tipe'] == 'PG'){
             $pilihan = $request['pilihanA']." ,  ".$request['pilihanB']." ,  ".$request['pilihanC']." ,  ".$request['pilihanD']." ,  ".$request['pilihanE'];
 
@@ -138,10 +139,10 @@ class SoalRemedController extends Controller
             ]);
 
             if($soalUjian){
-                return redirect('/kelola-remed/edit/'.base64_encode($ujian->id_ujian))->with('success', 'Data berhasil ditambahkan!');
+                return redirect('/kelola-remed/edit/'.base64_encode($ujianRemedial->id_ujian_remedial))->with('success', 'Data berhasil ditambahkan!');
             }
         }
-        return redirect('/kelola-remed/edit/'.base64_encode($ujian->id_ujian))->with('error', 'Data gagal ditambahkan!');
+        return redirect('/kelola-remed/edit/'.base64_encode($ujianRemedial->id_ujian_remedial))->with('error', 'Data gagal ditambahkan!');
     }
 
     /**

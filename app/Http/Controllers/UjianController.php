@@ -53,9 +53,9 @@ class UjianController extends Controller
             $ujian = Ujian::where('id_guru', session()->get('id_guru'))->get();
         }
 
-        $sRemed = DB::select('SELECT * FROM ujian WHERE ujian.id_ujian NOT IN (SELECT id_ujian FROM ujian_remedial) AND ujian.id_ujian IN (SELECT id_ujian FROM nilai WHERE status_pengerjaan = "Harus Remedial") AND curdate() > ujian.tanggal_kadaluarsa;');
+        $sRemed = DB::select('SELECT * FROM ujian LEFT JOIN ujian_remedial USING(id_ujian) WHERE ujian.id_ujian IN (SELECT id_ujian FROM nilai WHERE status_pengerjaan = "Harus Remedial") AND curdate() > ujian.tanggal_kadaluarsa;');
         $ujianRemedial = UjianRemedial::all();
-        // return $ujianRemedial;
+        // return $sRemed;
         return view('admin.kelola-ujian.dataView', compact('ujian', 'kelas', 'sRemed', 'ujianRemedial'));
     }
 
@@ -239,8 +239,8 @@ class UjianController extends Controller
     }
 
     public function postRemed(Request $request, $id){
-        $ujianRemedial = UjianRemedial::where('id_ujian', '=', base64_decode($id))->get()->first();
-
+        $ujianRemedial = UjianRemedial::find(base64_decode($id));
+        // return $ujianRemedial;
         if(count($ujianRemedial->soalRemed) == 0){
             return redirect()->back()->with('error', 'Silakan tambah soal remed terlebih dahulu.');
         }
@@ -289,7 +289,7 @@ class UjianController extends Controller
     }
 
     public function unpostRemed($id){
-        $ujianRemedial = UjianRemedial::where('id_ujian', '=', base64_decode($id))->get()->first();
+        $ujianRemedial = UjianRemedial::find(base64_decode($id));
 
         $ujianRemedial->status              = "Belum Selesai";
         $ujianRemedial->tanggal_kadaluarsa  = NULL;
@@ -503,7 +503,7 @@ class UjianController extends Controller
     public function tambahSoalDariBankView($id)
     {
         $ujian = Ujian::find($id);
-        $soalYangSudahAda = Soal::select('id_bank_soal')->get();
+        $soalYangSudahAda = Soal::select('id_bank_soal')->where('id_ujian', $id)->get();
         $soal = BankSoal::where('id_daftar_bidang', $ujian->mapel->id_daftar_bidang)
             ->whereNotIn('id_bank_soal', $soalYangSudahAda)
             ->get();
@@ -517,7 +517,8 @@ class UjianController extends Controller
     public function tambahSoalDariBankViewRemed($id)
     {
         $ujian = UjianRemedial::find($id);
-        $soalYangSudahAda = SoalRemed::select('id_bank_soal')->get();
+        // return $ujian;
+        $soalYangSudahAda = SoalRemed::select('id_bank_soal')->where('id_ujian_remedial', $id)->get();
         $soal = BankSoal::where('id_daftar_bidang', $ujian->ujian->mapel->id_daftar_bidang)
             ->whereNotIn('id_bank_soal', $soalYangSudahAda)
             ->get();

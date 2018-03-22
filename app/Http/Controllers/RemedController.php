@@ -52,7 +52,23 @@ class RemedController extends Controller
     public function store(Request $request, $id)
     {
         $ujian = Ujian::find(base64_decode($id));
+        $ujianRemedial = UjianRemedial::where('id_ujian', base64_decode($id))->get();
+        $remedKe = 200;$xx = 0;
+        // return $ujianRemedial;
 
+        if(count($ujianRemedial) > 0){
+            foreach($ujianRemedial as $ur => $isiUR){
+                if($isiUR->id_ujian == base64_decode($id)){
+                    $xx++;
+                }
+                $remedKe = $xx+1;
+            }
+        }else{
+            $remedKe = 1;
+        }
+
+        // return $xx;
+        
         if($request['catatan'] == ''){
             $request['catatan'] = 'Tidak ada catatan.';
         }
@@ -61,6 +77,7 @@ class RemedController extends Controller
             'id_ujian'          => $ujian->id_ujian,
             'waktu_pengerjaan'  => gmdate("H:i:s", $request['waktu_pengerjaan']),
             'catatan'           => $request['catatan'],
+            'remed_ke'          => $remedKe,
         ]);
 
 
@@ -71,8 +88,8 @@ class RemedController extends Controller
 
     public function edit($id)
     {
-        $ujianRemedial  = UjianRemedial::where('id_ujian', '=', base64_decode($id))->get()->first();
-        $ujian          = Ujian::find(base64_decode($id));
+        $ujianRemedial  = UjianRemedial::find(base64_decode($id));
+        $ujian          = Ujian::where('id_ujian', $ujianRemedial->id_ujian)->get()->first();
         $wp             = $this->timetosec($ujianRemedial->waktu_pengerjaan);
         $soalRemed      = SoalRemed::where('id_ujian_remedial', '=', $ujianRemedial->id_ujian_remedial)->get();
 
