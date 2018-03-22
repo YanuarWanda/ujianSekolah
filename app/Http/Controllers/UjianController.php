@@ -318,10 +318,8 @@ class UjianController extends Controller
     public function kerjakanSoal($id) {
         $ujian      = Ujian::find(base64_decode($id));
         
-        $soalFull   = Soal::where('id_ujian', $ujian->id_ujian)->get();
+        $soalFull   = Soal::where('id_ujian', $ujian->id_ujian)->get()->shuffle();
         
-        // ->shuffle() buat acak tapi jawabannya belum nanti yah!
-
         foreach($soalFull as $s){
             $pilihan[]    = explode(' ,  ', $s->bankSoal['pilihan']);
             $soal[]       = explode(' ,  ', $s->bankSoal['isi_soal']);
@@ -331,14 +329,14 @@ class UjianController extends Controller
         
         sscanf($str_time, "%d:%d:%d", $hours, $minutes, $seconds);
         $sisa_waktu = isset($seconds) ? $hours * 3600 + $minutes * 60 + $seconds : $hours * 60 + $minutes;
-
+        // return $soalFull[0]->bankSoal;
         return view('siswa.kerjakan-soal', compact('ujian', 'soal', 'soalFull', 'sisa_waktu', 'pilihan'));
     }
 
     public function kerjakanRemed($id){
         $ujian  = UjianRemedial::where('id_ujian_remedial', base64_decode($id))->where('status', 'posted')->get()->first();
-        // return base64_decode($id);
-        $soalFull       = SoalRemed::where('id_ujian_remedial', $ujian->id_ujian_remedial)->get();
+        
+        $soalFull       = SoalRemed::where('id_ujian_remedial', $ujian->id_ujian_remedial)->get()->shuffle();
 
         foreach($soalFull as $s){
             $pilihan[]  = explode(' ,  ', $s->bankSoal['pilihan']);
@@ -375,26 +373,43 @@ class UjianController extends Controller
             $jumlahPoint = $jumlahPoint+$isiS->point;
         }
 
-        for($i=0;$i<=count($soal)-1;$i++){
-            $jawaban[] = $data['jawaban_'.$i];
-
-            if(count($data['jawaban_'.$i]) == 1){
-                if($jawaban[$i] == $jawaban_benar[$i]){
-                    $jumlahBenar        = $jumlahBenar+1;
-                    $jumlahPointBenar   = $jumlahPointBenar+$soal[$i]->point;
+        foreach($soal as $s => $isiS){
+            $jawaban[] = $data['jawaban_'.$isiS->id_bank_soal];
+            
+            if(count($data['jawaban_'.$isiS->id_bank_soal]) == 1){
+                if(is_array($jawaban[$s]) == true){
+                    $jawaban[$s] = $jawaban[$s][0];
+                }
+                if($jawaban[$s] == $jawaban_benar[$s]){
+                    $jumlahBenar = $jumlahBenar+1;
+                    $jumlahPointBenar = $jumlahPointBenar+$isiS->point;
                 }
             }else{
-                $jawaban[$i] = implode(' ,  ', $jawaban[$i]);
-                if($jawaban [$i] == $jawaban_benar[$i]){
+                $jawaban_benar[$s] = explode(' ,  ', $jawaban_benar[$s]);
+                $mcBenar = 0;
+                foreach($jawaban[$s] as $smc => $isiSMC){
+                    foreach($jawaban_benar[$s] as $isi => $isiIsi){
+                        if($isiSMC == $isiIsi){
+                            $mcBenar = $mcBenar+1;
+                            break;
+                        }elseif($isi == count($jawaban_benar[$s])-1){
+                            $mcBenar = $mcBenar-1;
+                        }
+                    }
+                }
+                $jawaban[$s] = implode(' ,  ', $jawaban[$s]);
+                if($mcBenar == count($jawaban_benar[$s])){
                     $jumlahBenar = $jumlahBenar+1;
-                    $jumlahPointBenar   = $jumlahPointBenar+$soal[$i]->point;
+                    $jumlahPointBenar = $jumlahPointBenar+$isiS->point;
+                    $jawaban[$s] = implode(' ,  ', $jawaban_benar[$s]);
                 }
             }
-
         }
 
         $jumlahSalah    = count($soal) - $jumlahBenar;
         $nilaiKetampanan= round(($jumlahPointBenar / $jumlahPoint)* 100);
+
+        // return $jumlahBenar;
 
         foreach($soal as $s => $sia){
             $jawabanSiswa = new JawabanSiswaRemed;
@@ -447,30 +462,63 @@ class UjianController extends Controller
             $jumlahPoint = $jumlahPoint+$isiS->point;
         }
 
-        for($i=0;$i<=count($soal)-1;$i++){
-            $jawaban[] = $data['jawaban_'.$i];
-
-            if(count($data['jawaban_'.$i]) == 1){
-                if(is_array($jawaban[$i]) == true){
-                    $jawaban[$i] = $jawaban[$i][0];
+        foreach($soal as $s => $isiS){
+            $jawaban[] = $data['jawaban_'.$isiS->id_bank_soal];
+            
+            if(count($data['jawaban_'.$isiS->id_bank_soal]) == 1){
+                if(is_array($jawaban[$s]) == true){
+                    $jawaban[$s] = $jawaban[$s][0];
                 }
-                if($jawaban[$i] == $jawaban_benar[$i]){
-                    $jumlahBenar        = $jumlahBenar+1;
-                    $jumlahPointBenar   = $jumlahPointBenar+$soal[$i]->point;
+                if($jawaban[$s] == $jawaban_benar[$s]){
+                    $jumlahBenar = $jumlahBenar+1;
+                    $jumlahPointBenar = $jumlahPointBenar+$isiS->point;
                 }
             }else{
-                $jawaban[$i] = implode(' ,  ', $jawaban[$i]);
-                if($jawaban [$i] == $jawaban_benar[$i]){
+                $jawaban_benar[$s] = explode(' ,  ', $jawaban_benar[$s]);
+                $mcBenar = 0;
+                foreach($jawaban[$s] as $smc => $isiSMC){
+                    foreach($jawaban_benar[$s] as $isi => $isiIsi){
+                        if($isiSMC == $isiIsi){
+                            $mcBenar = $mcBenar+1;
+                            break;
+                        }elseif($isi == count($jawaban_benar[$s])-1){
+                            $mcBenar = $mcBenar-1;
+                        }
+                    }
+                }
+                $jawaban[$s] = implode(' ,  ', $jawaban[$s]);
+                if($mcBenar == count($jawaban_benar[$s])){
                     $jumlahBenar = $jumlahBenar+1;
-                    $jumlahPointBenar   = $jumlahPointBenar+$soal[$i]->point;
+                    $jumlahPointBenar = $jumlahPointBenar+$isiS->point;
+                    $jawaban[$s] = implode(' ,  ', $jawaban_benar[$s]);
                 }
             }
-
         }
+
+        // Yang ini buat tanpa diacak soal dan jawaban
+        // -------------------------------------------
+        // for($i=0;$i<=count($soal)-1;$i++){
+        //     $jawaban[] = $data['jawaban_'.$i];
+        //     if(count($data['jawaban_'.$i]) == 1){
+        //         if(is_array($jawaban[$i]) == true){
+        //             $jawaban[$i] = $jawaban[$i][0];
+        //         }
+        //         if($jawaban[$i] == $jawaban_benar[$i]){
+        //             $jumlahBenar        = $jumlahBenar+1;
+        //             $jumlahPointBenar   = $jumlahPointBenar+$soal[$i]->point;
+        //         }
+        //     }else{
+        //         $jawaban[$i] = implode(' ,  ', $jawaban[$i]);
+        //         if($jawaban [$i] == $jawaban_benar[$i]){
+        //             $jumlahBenar = $jumlahBenar+1;
+        //             $jumlahPointBenar   = $jumlahPointBenar+$soal[$i]->point;
+        //         }
+        //     }
+        // }
 
         $jumlahSalah    = count($soal) - $jumlahBenar;
         $nilaiKetampanan= round(($jumlahPointBenar / $jumlahPoint)* 100);
-        // return $jawaban;
+        
         foreach($soal as $s => $sia){
             $jawabanSiswa = new JawabanSiswa;
             $jawabanSiswa->id_soal          = $sia->id_soal;
@@ -492,8 +540,6 @@ class UjianController extends Controller
         $nilai->jawaban_salah       = $jumlahSalah;
         $nilai->nilai               = $nilaiKetampanan;
         $nilai->status_pengerjaan   = $statusPengerjaan;
-
-        // return $jawaban;
 
         if($nilai->save()){
             return redirect('/home')->with('success', 'Selamat, anda telah selesai mengerjakan soal.');

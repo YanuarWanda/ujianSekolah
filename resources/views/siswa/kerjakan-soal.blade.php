@@ -43,19 +43,19 @@
                                         unset($pilihanAsli[$pa]);
                                     }
                                 }
-                                // shuffle($pilihanAsli);
+                                shuffle($pilihanAsli);
                             ?>
                             <div>
                                 @if ($isi->bankSoal['tipe'] != 'MC')
                                     @foreach($pilihanAsli as $p)
                                         <div class="radio">
-                                            <label><input type="radio" name="jawaban_{{$s}}" value="{{ $p }}">{!! $p !!}</label>
+                                            <label><input type="radio" name="jawaban_{{ $isi->id_bank_soal }}" value="{{ $p }}">{!! $p !!}</label>
                                         </div>
                                     @endforeach
                                 @else
                                     @foreach($pilihanAsli as $p)
                                         <div class="checkbox">
-                                            <label><input type="checkbox" name="jawaban_{{$s}}[]" value="{{ $p }}">{!! $p !!}</label>
+                                            <label><input type="checkbox" name="jawaban_{{ $isi->id_bank_soal }}[]" value="{{ $p }}">{!! $p !!}</label>
                                         </div>
                                     @endforeach
                                 @endif
