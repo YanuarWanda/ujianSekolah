@@ -35,7 +35,7 @@
                 <div class="panel-heading">Charts</div>
 
                 <div class="panel-body">
-                    <canvas id="canvas" height="280" width="600"></canvas>
+                    <canvas id="canvas" width="600"></canvas>
                 </div>
             </div>
         </div>
@@ -49,12 +49,16 @@ var url = "{{ route('data-nilai') }}";
 var nama = new Array();
 var Labels = new Array();
 var nilai = new Array();
+var jawaban_benar = new Array();
+var jawaban_salah = new Array();
 $(document).ready(function(){
   $.get(url, function(response){
     response.forEach(function(data){
         nama.push(data.nama);
         Labels.push(data.judul_ujian);
         nilai.push(data.nilai);
+        jawaban_benar.push(data.jawaban_benar);
+        jawaban_salah.push(data.jawaban_salah);
     });
     var ctx = document.getElementById("canvas").getContext('2d');
         var myChart = new Chart(ctx, {
@@ -62,9 +66,20 @@ $(document).ready(function(){
           data: {
               labels:nama,
               datasets: [{
-                  label: 'Nilai Ujian',
-                  data: nilai,
-                  borderWidth: 1
+                label: 'Nilai Ujian',
+                data: nilai,
+                borderWidth: 1,
+                backgroundColor: 'lightblue'
+              },{
+                label: 'Jawaban Benar',
+                data: jawaban_benar,
+                borderWidth: 1,
+                backgroundColor: 'green'
+              },{
+                label: 'Jawaban Salah',
+                data: jawaban_salah,
+                borderWidth: 1,
+                backgroundColor: 'red'
               }]
           },
           options: {

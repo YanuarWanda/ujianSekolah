@@ -145,7 +145,7 @@ class HomeController extends Controller
 
     // data untuk Chart di dashboard admin
     public function chartData() {
-        $result = Nilai::select('judul_ujian', 'nama', 'nilai')
+        $result = Nilai::select('judul_ujian', 'nama', 'nilai', 'jawaban_benar', 'jawaban_salah')
                     ->join('ujian', 'ujian.id_ujian', '=', 'nilai.id_ujian')
                     ->join('siswa', 'siswa.id_siswa', '=', 'nilai.id_siswa')
                     ->where('nilai.id_ujian', '=', '4')->get();
