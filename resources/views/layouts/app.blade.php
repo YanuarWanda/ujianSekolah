@@ -306,6 +306,9 @@
     {{-- Multi Select Picker --}}
     <script type="text/javascript" src="{{ asset('js/bootstrap-select.min.js') }}"></script>
 
+    {{-- Chart.js --}}
+    <script type="text/javascript" src="{{ asset('js/Chart.bundle.min.js') }}"></script>
+
     {{-- Toggle Select Bikin Soal --}}
     <script type="text/javascript">
         $('#tipe').on('change', function(){

@@ -177,3 +177,6 @@ Route::get('/remed/{id}', 'UjianController@kerjakanRemed');
 Route::post('/soal/submit/{id}', 'UjianController@submitSoal');
 Route::post('/remed/submit/{id}', 'UjianController@submitRemed');
 Route::get('/daftar-nilai/{id}', 'SoalController@daftarNilai');
+
+// Chart di dashboard admin
+Route::get('/data-nilai', 'HomeController@chartData')->name('data-nilai');
