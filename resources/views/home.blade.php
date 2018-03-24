@@ -14,8 +14,7 @@
                         </div>
                     @endif
 
-
-                    {!! \Lava::render('DonutChart', 'jawabanSiswa', 'chart-table') !!}
+                    You're logged in
                 </div>
             </div>
         </div>
