@@ -243,6 +243,10 @@ class UjianController extends Controller
     }
 
     public function postRemed(Request $request, $id){
+        $this->validate($request ,[
+            'tanggalKadaluarsaRemed' => 'required|after:yesterday',
+        ]);
+
         $ujianRemedial = UjianRemedial::find(base64_decode($id));
         // return $ujianRemedial;
         if(count($ujianRemedial->soalRemed) == 0){
