@@ -261,7 +261,7 @@ class UjianController extends Controller
     public function postUjian(Request $request, $id) {
         $this->validate($request ,[
             'kelas' => 'required',
-            'tanggalKadaluarsa' => 'required',
+            'tanggalKadaluarsa' => 'required|after:yesterday',
         ]);
 
         $ujian = Ujian::find(base64_decode($id));
