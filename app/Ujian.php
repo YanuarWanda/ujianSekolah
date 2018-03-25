@@ -12,7 +12,7 @@ class Ujian extends Model
     public $timestamps = false;
     protected $fillable = [
         'id_ujian', 'id_mapel', 'id_guru', 'judul_ujian', 'kkm', 'waktu_pengerjaan', 'tanggal_post', 'tanggal_kadaluarsa', 'status', 
-        'catatan',
+        'catatan', 'lihat_nilai'
     ];
 
     public function mapel() {

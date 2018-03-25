@@ -144,7 +144,7 @@ class SiswaController extends Controller
 
         $user->username = $request['username'];
         $user->email    = $request['email'];
-
+        
         if($user->save()){
             $siswa->nis = $request['nis'];
             $siswa->id_kelas = Kelas::where('nama_kelas', $request['kelas'])->first()->id_kelas;
@@ -214,8 +214,8 @@ class SiswaController extends Controller
             'nama' => 'required',
             'username' => 'required',
         ]);
-
-        $siswa = Siswa::find(base64_decode($id));
+        // return base64_decode($id);
+        $siswa = Siswa::where('nis', base64_decode($id))->get()->first();
         $siswa->nis = $request['nis'];
         $siswa->nama = $request['nama'];
         $siswa->id_kelas = Kelas::where('nama_kelas', $request['kelas'])->first()->id_kelas;

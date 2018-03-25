@@ -85,6 +85,7 @@
                                             @endif
                                         @endforeach
                                     @else
+                                       <?php $as=0;$az=0; ?>
                                         <div class="col-sm-4">
                                             <a class="btn btn-disabled" disabled>Add Remed</a>
                                         </div>

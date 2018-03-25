@@ -90,7 +90,7 @@
             <?php }else{ ?>
                 <img class="img-thumbnail" src="{{ asset('image/nophoto.jpg') }}" id="profile-img-tag" width="200px" />
             <?php } ?>
-            <input id="foto" type="file" name="foto" value="{{ $data->foto }}" required>
+            <input id="foto" type="file" name="foto" value="{{ $data->foto }}">
 
             @if ($errors->has('foto'))
                 <span class="help-block">

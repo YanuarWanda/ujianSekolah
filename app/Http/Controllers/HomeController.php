@@ -72,7 +72,7 @@ class HomeController extends Controller
             $nilaiR = NilaiRemedial::join('siswa', 'nilai_remedial.id_siswa', '=', 'siswa.id_siswa')->where('siswa.id_siswa', $siswa->id_siswa)->orderBy('siswa.id_siswa')->get();
 
             $ujianArray = DB::select('
-                select id_ujian, id_mapel, nama_mapel, id_guru, judul_ujian, waktu_pengerjaan, tanggal_post, tanggal_kadaluarsa, status, catatan from ujian u
+                select id_ujian, id_mapel, nama_mapel, id_guru, judul_ujian, waktu_pengerjaan, tanggal_post, tanggal_kadaluarsa, status, catatan, lihat_nilai from ujian u
                 join mapel m using (id_mapel)
                 join kelas_ujian ku using (id_ujian)
                 join kelas k using (id_kelas)
@@ -103,7 +103,7 @@ class HomeController extends Controller
             $paginatedItemsRemed->setPath(url()->current());
             $ujianRemed = $paginatedItemsRemed;
 
-            // return $nilaiR;
+            // return $ujian;
 
             return view('siswa.siswa', compact('siswa', 'ujian', 'ujianArray', 'nilai', 'ujianRemed', 'ujianRemedArray', 'nilaiR'));
         }
@@ -148,7 +148,7 @@ class HomeController extends Controller
         $result = Nilai::select('judul_ujian', 'nama', 'nilai', 'jawaban_benar', 'jawaban_salah')
                     ->join('ujian', 'ujian.id_ujian', '=', 'nilai.id_ujian')
                     ->join('siswa', 'siswa.id_siswa', '=', 'nilai.id_siswa')
-                    ->where('nilai.id_ujian', '=', '4')->get();
+                    ->where('nilai.id_ujian', '=', '1')->get();
         return response()->json($result);
     }
 }

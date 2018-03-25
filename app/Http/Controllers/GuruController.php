@@ -277,9 +277,8 @@ class GuruController extends Controller
             'username' => 'required',
         ]);
 
-        $guru = Guru::find(base64_decode($id));
+        $guru = Guru::where('nip', base64_decode($id))->get()->first();
         $guru->nip = $request['nip'];
-        $guru->bidang_keahlian = $request['bidangKeahlian'];
         $guru->nama = $request['nama'];
         $guru->alamat = $request['alamat'];
         $guru->jenis_kelamin = $request['jenisKelamin'];
@@ -293,8 +292,31 @@ class GuruController extends Controller
         $user->username = $request['username'];
 
         if($user->save() && $guru->save()) {
-            return redirect('/home')->with('success', 'Data berhasil diubah');
-        } else return redirect('/settings')->with('error', 'Data gagal diubah');
+            // Untuk sementara, cara update bidang keahlian adalah dengan menghapus yang sudah ada, lalu menambahkan kembali
+            $deleteMany = BidangKeahlian::where('id_guru', $guru->id_guru)->delete();
+
+            if($deleteMany) {
+                $bidangKeahlian = $request['bidangKeahlian'];
+
+                foreach ($bidangKeahlian as $bidang) {
+                    $bidang_keahlian = new BidangKeahlian;
+                    $bidang_keahlian->id_guru = $guru->id_guru;
+                    $daftar_bidang_keahlian =
+                        DaftarBidangKeahlian::select('id_daftar_bidang')
+                            ->where('bidang_keahlian', $bidang)
+                            ->get();
+
+                    foreach($daftar_bidang_keahlian as $daftar) {
+                        $bidang_keahlian->id_daftar_bidang = $daftar->id_daftar_bidang;
+                    }
+
+                    $bidang_keahlian->save();
+                }
+                return redirect('/home')->with('success', 'Data berhasil diubah');
+            }
+        } else {
+            return redirect('/settings')->with('error', 'Data gagal diubah');
+        }
     }
 
     public function importView() {

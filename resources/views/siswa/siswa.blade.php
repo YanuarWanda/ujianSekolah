@@ -47,32 +47,23 @@
                             <p>{{ $isi->catatan }}</p>
                         </div>
 
-                        @if(count($nilai) == count($ujianArray))
+                        @foreach($nilai as $n => $isiNilai)
+                            @if($isi->id_ujian == $isiNilai->id_ujian)
                             <div class="panel-footer">
-                                    <p>Anda Sudah Mengerjakan!</p>
+                                <p>Anda Sudah Mengerjakan!</p> @if($isi->lihat_nilai == 'Y') <p>{{ $isiNilai->jawaban_benar }}/{{ $isiNilai->jawaban_benar + $isiNilai->jawaban_salah }}</p> <p>{{ round($isiNilai->jawaban_benar / ($isiNilai->jawaban_benar + $isiNilai->jawaban_salah) * 100) }}</p>@endif
                             </div>
-                        @elseif(count($nilai) == 0)
-                            <div class="panel-footer">
-                                <a href="{{ url('/soal', base64_encode($isi->id_ujian)) }}" class="btn btn-primary">Kerjakan</a>
-                            </div>
-                        @else
-                            @foreach($nilai as $n => $isiNilai)
-                                @if($isi->id_ujian == $isiNilai->id_ujian)
+                            <?php break; ?>
+                            @elseif($isi->id_ujian != $isiNilai->id_ujian)
+                                @if($n != count($nilai)-1)
+                                <?php continue; ?>
+                                @elseif($n == count($nilai)-1)
                                 <div class="panel-footer">
-                                    <p>Anda Sudah Mengerjakan!</p>
+                                    <a href="{{ url('/soal', base64_encode($isi->id_ujian)) }}" class="btn btn-primary">Kerjakan</a>
                                 </div>
-                                <?php break; ?>
-                                @elseif($isi->id_ujian != $isiNilai->id_ujian)
-                                    @if($n != count($nilai)-1)
-                                    <?php continue; ?>
-                                    @elseif($n == count($nilai)-1)
-                                    <div class="panel-footer">
-                                        <a href="{{ url('/soal', base64_encode($isi->id_ujian)) }}" class="btn btn-primary">Kerjakan</a>
-                                    </div>
-                                    @endif
                                 @endif
-                            @endforeach
-                        @endif
+                            @endif
+                        @endforeach
+                        
                     </div>
                     @endforeach
                     <div class="pull-right">

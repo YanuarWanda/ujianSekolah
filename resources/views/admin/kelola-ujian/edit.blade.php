@@ -103,6 +103,23 @@
                                 </div>
                             </div>
 
+                            <div class="form-group{{ $errors->has('lihat_nilai') ? ' has-error' : '' }}">
+                                <label for="lihat_nilai" class="col-md-4 control-label">Siswa Lihat Nilai</label>
+
+                                <div class="col-md-6">
+                                    <select name="lihat_nilai" id="lihat_nilai" class="form-control">
+                                        <option value="Y" {{ $ujian->lihat_nilai == 'Y' ? 'selected' : '' }}>Iya</option>
+                                        <option value="N" {{ $ujian->lihat_nilai == 'N' ? 'selected' : '' }}>Tidak</option>
+                                    </select>
+                                </div>
+
+                                @if ($errors->has('lihat_nilai'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('lihat_nilai') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+
                             <div class="form-group">
                                 <div class="col-md-6 col-md-offset-4">
                                     <a href="/kelola-ujian" class="btn btn-danger">Cancel</a>

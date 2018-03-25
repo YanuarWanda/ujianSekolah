@@ -88,6 +88,7 @@ class UjianController extends Controller
     {
         $this->validate($data, [
             'kkm'   => 'required|integer',
+            'lihat_nilai' => 'required',
         ]);
 
         $id = session()->get('id_guru');
@@ -103,7 +104,8 @@ class UjianController extends Controller
            'kkm'                => $data['kkm'],
            'waktu_pengerjaan'   => gmdate("H:i:s", $data['waktu_pengerjaan']),
            // 'tanggal_kadaluarsa' => $data['batas_pengerjaan'],
-           'catatan' => $data['catatan'],
+           'catatan'            => $data['catatan'],
+           'lihat_nilai'        => $data['lihat_nilai'],
         ]);
 
         // return $ujian->id_ujian;
@@ -171,6 +173,7 @@ class UjianController extends Controller
             'waktu_pengerjaan'      => 'required',
             'catatan'               => 'required',
             'kkm'                   => 'required|integer',
+            'lihat_nilai'           => 'required',
         ]);
 
         $ujian = Ujian::find(base64_decode($id));
@@ -180,6 +183,7 @@ class UjianController extends Controller
         $ujian->kkm                 = $request['kkm'];
         $ujian->waktu_pengerjaan    = gmdate("H:i:s", $request['waktu_pengerjaan']);
         $ujian->catatan             = $request['catatan'];
+        $ujian->lihat_nilai         = $request['lihat_nilai'];
 
         $ujian->save();
 

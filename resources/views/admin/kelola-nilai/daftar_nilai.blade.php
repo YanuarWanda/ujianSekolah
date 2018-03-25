@@ -33,8 +33,6 @@
                                                     <tr>
                                                         <th>No.</th>
                                                         <th>Nama</th>
-                                                        <th>Jumlah Benar</th>
-                                                        <th>Jumlah Salah</th>
                                                         <th>Nilai Ujian</th>
                                                         <th>Nilai Remed 1</th>
                                                         <th>Nilai Remed 2</th>
@@ -48,8 +46,6 @@
                                                         <tr class="block-fade" data-panel="Siswa_{{$ni}}">
                                                             <td><?php echo $no;$no++; ?></td>
                                                             <td>{{$isiN->nama}}</td>
-                                                            <td>{{$isiN['jawaban_benar']}}</td>
-                                                            <td>{{$isiN['jawaban_salah']}}</td>
                                                             @if($isiN['nilai'] < $isiN->ujian->kkm)
                                                                 <td class="text-red">
                                                                     {{$isiN['nilai']}}
@@ -117,6 +113,7 @@
                                                                                 <th> No </th>
                                                                                 <th> Jawaban Siswa </th>
                                                                                 <th> Jawaban Benar </th>
+                                                                                <th> Point </th>
                                                                                 <th> Hasil </th>
                                                                             </tr>
                                                                         <?php $ns=1; ?>
@@ -127,20 +124,21 @@
                                                                                     @foreach($jawabanUjian as $ju => $isiJU)
                                                                                         @if($isiJU->id_siswa == $isiN->id_siswa)
                                                                                             @if($isiJU->id_soal == $isiS->id_soal)
-                                                                                                {{ $isiJU->jawaban_siswa }}
+                                                                                                {!! $isiJU->jawaban_siswa !!}
                                                                                             @endif
                                                                                         @endif
                                                                                     @endforeach    
                                                                                 </td>
-                                                                                <td> {{ $jawaban_benar[$s] }} </td>
+                                                                                <td> {!! $jawaban_benar[$s] !!} </td>
+                                                                                <td> {{ $isiS['point'] }}</td>
                                                                                 <td> 
                                                                                     @foreach($jawabanUjian as $ju => $isiJU)
                                                                                         @if($isiJU->id_siswa == $isiN->id_siswa)
                                                                                             @if($isiJU->id_soal == $isiS->id_soal)
                                                                                                 @if($isiJU->jawaban_siswa == $jawaban_benar[$s])
-                                                                                                    Benar
+                                                                                                    <span class="text-green">Benar</span>
                                                                                                 @else
-                                                                                                    Salah
+                                                                                                    <span class="text-red">Salah</span>
                                                                                                 @endif
                                                                                             @endif
                                                                                         @endif
@@ -148,6 +146,17 @@
                                                                                 </td>
                                                                             </tr>    
                                                                         @endforeach
+                                                                        </table>
+
+                                                                        <table class="table table-bordered">
+                                                                            <tr>
+                                                                                <th>Jumlah Benar</th>
+                                                                                <th>Jumlah Salah</th>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>{{ $isiN['jawaban_benar'] }}</td>
+                                                                                <td>{{ $isiN['jawaban_salah'] }}</td>
+                                                                            </tr>
                                                                         </table>
                                                                     </div>
                                                                     
@@ -160,6 +169,7 @@
                                                                                         <th> No </th>
                                                                                         <th> Jawaban Siswa </th>
                                                                                         <th> Jawaban Benar </th>
+                                                                                        <th> Point </th>
                                                                                         <th> Hasil </th>
                                                                                     </tr>
                                                                                         <?php $nr=1; ?>
@@ -171,20 +181,21 @@
                                                                                                     @foreach($jawabanRemed as $jr => $isiJR)
                                                                                                         @if($isiJR->id_siswa == $isiN->id_siswa)
                                                                                                             @if($isiJR->id_soal_remedial == $isiSR->id_soal_remedial)
-                                                                                                                {{ $isiJR->jawaban_siswa }}
+                                                                                                                {!! $isiJR->jawaban_siswa !!}
                                                                                                             @endif
                                                                                                         @endif
                                                                                                     @endforeach
                                                                                                 </td>
-                                                                                                <td> {{ $jawaban_benar_remed[$sr] }} </td>
+                                                                                                <td> {!! $jawaban_benar_remed[$sr] !!} </td>
+                                                                                                <td> {{ $isiSR->point }}</td>
                                                                                                 <td>
                                                                                                     @foreach($jawabanRemed as $jr => $isiJR)
                                                                                                         @if($isiJR->id_siswa == $isiN->id_siswa)
                                                                                                             @if($isiJR->id_soal_remedial == $isiSR->id_soal_remedial)
                                                                                                                 @if($isiJR->jawaban_siswa == $jawaban_benar_remed[$sr])
-                                                                                                                    Benar
+                                                                                                                    <span class="text-green">Benar</span>
                                                                                                                 @else
-                                                                                                                    Salah
+                                                                                                                    <span class="text-red">Salah</span>
                                                                                                                 @endif
                                                                                                             @endif
                                                                                                         @endif
@@ -194,6 +205,17 @@
                                                                                             @endforeach
                                                                                         @endif
                                                                                     </table>
+
+                                                                                    <table class="table table-bordered">
+                                                                                        <tr>
+                                                                                            <th>Jumlah Benar</th>
+                                                                                            <th>Jumlah Salah</th>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td>{{ $isiJR1->jawaban_benar }}</td>
+                                                                                            <td>{{ $isiJR1->jawaban_salah }}</td>
+                                                                                        </tr>
+                                                                                    </table>
                                                                                 </div>
                                                                             @elseif($jr1 == count($jumlahRemed)-1)
                                                                                 <div role="tabpanel" class="tab-pane fade" id="remed_{{$ni}}">
@@ -202,6 +224,7 @@
                                                                                             <th> No </th>
                                                                                             <th> Jawaban Siswa </th>
                                                                                             <th> Jawaban Benar </th>
+                                                                                            <th> Point </th>
                                                                                             <th> Hasil </th>
                                                                                         </tr>
                                                                                     </table>
@@ -215,6 +238,7 @@
                                                                                     <th> No </th>
                                                                                     <th> Jawaban Siswa </th>
                                                                                     <th> Jawaban Benar </th>
+                                                                                    <th> Point </th>
                                                                                     <th> Hasil </th>
                                                                                 </tr>
                                                                             </table>
@@ -230,6 +254,7 @@
                                                                                             <th>No</th>
                                                                                             <th>Jawaban Siswa</th>
                                                                                             <th>Jawaban Benar</th>
+                                                                                            <th>Point</th>
                                                                                             <th>Hasil</th>
                                                                                         </tr>
                                                                                         <tr>
@@ -241,22 +266,23 @@
                                                                                                         @foreach($jawabanRemed as $jr2x => $isiJR2X)
                                                                                                             @if($isiJR2X->id_siswa == $isiN['id_siswa'])
                                                                                                                 @if($isiJR2X->id_soal_remedial == $isiSR->id_soal_remedial)
-                                                                                                                    {{ $isiJR2X->jawaban_siswa}}
+                                                                                                                    {!! $isiJR2X->jawaban_siswa !!}
                                                                                                                 @endif
                                                                                                             @endif
                                                                                                         @endforeach
                                                                                                     </td>
                                                                                                     <td>
-                                                                                                        $jawaban_benar_remed[$sr];
+                                                                                                        {!! $jawaban_benar_remed[$sr] !!}
                                                                                                     </td>
+                                                                                                    <td> {{ $isiJR2->point }}</td>
                                                                                                     <td>
                                                                                                         @foreach($jawabanRemed as $jr2x => $isiJR2X)
                                                                                                             @if($isiJR2X->id_siswa == $isiN->id_siswa)
                                                                                                                 @if($isiJR2X->id_soal_remedial == $isiSR->id_soal_remedial)
                                                                                                                     @if($isiJR2X->jawaban_siswa == $jawaban_benar_remed[$sr])
-                                                                                                                        Benar
+                                                                                                                        <span class="text-green">Benar</span>
                                                                                                                     @else
-                                                                                                                        Salah
+                                                                                                                        <span class="text-red">Salah</span>
                                                                                                                     @endif
                                                                                                                 @endif
                                                                                                             @endif
@@ -264,6 +290,17 @@
                                                                                                     </td>
                                                                                                 @endforeach
                                                                                             @endif
+                                                                                        </tr>
+                                                                                    </table>
+
+                                                                                    <table class="table table-bordered">
+                                                                                        <tr>
+                                                                                            <th>Jumlah Benar</th>
+                                                                                            <th>Jumlah Salah</th>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td>{{ $isiJR2->jawaban_benar }}</td>
+                                                                                            <td>{{ $isiJR2->jawaban_salah }}</td>
                                                                                         </tr>
                                                                                     </table>
                                                                                 </div>
@@ -274,6 +311,7 @@
                                                                                             <th> No </th>
                                                                                             <th> Jawaban Siswa </th>
                                                                                             <th> Jawaban Benar </th>
+                                                                                            <th> Point </th>
                                                                                             <th> Hasil </th>
                                                                                         </tr>
                                                                                     </table>
@@ -287,6 +325,7 @@
                                                                                     <th> No </th>
                                                                                     <th> Jawaban Siswa </th>
                                                                                     <th> Jawaban Benar </th>
+                                                                                    <th> Point </th>
                                                                                     <th> Hasil </th>
                                                                                 </tr>
                                                                             </table>
@@ -302,6 +341,7 @@
                                                                                             <th> No. </th>
                                                                                             <th> Jawaban Siswa </th>
                                                                                             <th> Jawaban Benar </th>
+                                                                                            <th> Point </th>
                                                                                             <th> Hasil </th>
                                                                                         </tr>
                                                                                         <tr>
@@ -313,22 +353,25 @@
                                                                                                         @foreach($jawabanRemed as $jr3x => $isiJR3X)
                                                                                                             @if($isiJR3X->id_siswa == $isiN['id_siswa'])
                                                                                                                 @if($isiJR3X->id_soal_remedial == $isiSR->id_soal_remedial)
-                                                                                                                    {{ $isiJR3X->jawaban_siswa }}
+                                                                                                                    {!! $isiJR3X->jawaban_siswa !!}
                                                                                                                 @endif
                                                                                                             @endif
                                                                                                         @endforeach
                                                                                                     </td>
                                                                                                     <td>
-                                                                                                        $jawaban_benar_remed[$sr];
+                                                                                                        {!! $jawaban_benar_remed[$sr] !!}
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                                        {{ $isiJR3->point }}
                                                                                                     </td>
                                                                                                     <td>
                                                                                                         @foreach($jawabanRemed as $jr3x => $isiJR3X)
                                                                                                             @if($isiJR3X->id_siswa == $isiN->id_siswa)
                                                                                                                 @if($isiJR3X->id_soal_remedial == $isiSR->id_soal_remedial)
                                                                                                                     @if($isiJR3X->jawaban_siswa == $jawaban_benar_remed[$sr])
-                                                                                                                        Benar
+                                                                                                                        <span class="text-green">Benar</span>
                                                                                                                     @else
-                                                                                                                        Salah
+                                                                                                                        <span class="text-red">Salah</span>
                                                                                                                     @endif
                                                                                                                 @endif
                                                                                                             @endif
@@ -336,6 +379,17 @@
                                                                                                     </td>  
                                                                                                 @endforeach
                                                                                             @endif
+                                                                                        </tr>
+                                                                                    </table>
+
+                                                                                    <table class="table table-bordered">
+                                                                                        <tr>
+                                                                                            <th>Jumlah Benar</th>
+                                                                                            <th>Jumlah Salah</th>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td>{{ $isiJR3->jawaban_benar }}</td>
+                                                                                            <td>{{ $isiJR3->jawaban_salah }}</td>
                                                                                         </tr>
                                                                                     </table>
                                                                                 </div>
@@ -346,6 +400,7 @@
                                                                                             <th> No. </th>
                                                                                             <th> Jawaban Siswa </th>
                                                                                             <th> Jawaban Benar </th>
+                                                                                            <th> Point </th>
                                                                                             <th> Hasil </th>
                                                                                         </tr>
                                                                                     </table>
@@ -359,6 +414,7 @@
                                                                                     <th> No. </th>
                                                                                     <th> Jawaban Siswa </th>
                                                                                     <th> Jawaban Benar </th>
+                                                                                    <th> Point </th>
                                                                                     <th> Hasil </th>
                                                                                 </tr>
                                                                             </table>

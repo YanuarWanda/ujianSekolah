@@ -344,7 +344,7 @@ class SoalController extends Controller
             }
         }
 
-        // return $jumlahRemed;
+        // return $jawabanUjian;
         return view('admin.kelola-nilai.daftar_nilai', compact('nilai', 'jumlahNilai', 'jawabanUjian', 'jawabanRemed', 'soal', 'jawaban_benar', 'nilaiRemed', 'soalRemed', 'jawaban_benar_remed', 'jumlahRemed'));
     }
 

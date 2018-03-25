@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'ULAH'),
 
     /*
     |--------------------------------------------------------------------------
@@ -180,7 +180,7 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         // Chart
-        Khill\Lavacharts\Laravel\LavachartsServiceProvider::class,
+        // Khill\Lavacharts\Laravel\LavachartsServiceProvider::class,
 
     ],
 
