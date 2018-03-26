@@ -69,7 +69,6 @@
 <script>
 
 $(document).ready(function(){
-  $('.chart').hide();
 
   var url = "{{ route('data-nilai') }}";
   var label;
@@ -117,8 +116,6 @@ $(document).ready(function(){
       });
       // console.log('judul-ujian-'+i);
       $('#judul-ujian-'+(i+1)).text(label);
-
-      $()
     }
 
   });
