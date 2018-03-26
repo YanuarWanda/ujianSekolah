@@ -46,11 +46,11 @@
                             <strong>Deskripsi</strong>
                             <p>{{ $isi->catatan }}</p>
                         </div>
-
                         @foreach($nilai as $n => $isiNilai)
                             @if($isi->id_ujian == $isiNilai->id_ujian)
                             <div class="panel-footer">
-                                <p>Anda Sudah Mengerjakan!</p> @if($isi->lihat_nilai == 'Y') <p>{{ $isiNilai->jawaban_benar }}/{{ $isiNilai->jawaban_benar + $isiNilai->jawaban_salah }}</p> <p>{{ round($isiNilai->jawaban_benar / ($isiNilai->jawaban_benar + $isiNilai->jawaban_salah) * 100) }}</p>@endif
+                                <p>Anda Sudah Mengerjakan!</p> @if($isi->lihat_nilai == 'Y') <p>Jawbaan Benar {{ $isiNilai->jawaban_benar }}/{{ $isiNilai->jawaban_benar + $isiNilai->jawaban_salah }}</p> <p>Nilai {{ round($isiNilai->jawaban_benar / ($isiNilai->jawaban_benar + $isiNilai->jawaban_salah) * 100) }}</p>@endif
+
                             </div>
                             <?php break; ?>
                             @elseif($isi->id_ujian != $isiNilai->id_ujian)

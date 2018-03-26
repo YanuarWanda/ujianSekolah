@@ -145,10 +145,49 @@ class HomeController extends Controller
 
     // data untuk Chart di dashboard admin
     public function chartData() {
-        $result = Nilai::select('judul_ujian', 'nama', 'nilai', 'jawaban_benar', 'jawaban_salah')
-                    ->join('ujian', 'ujian.id_ujian', '=', 'nilai.id_ujian')
-                    ->join('siswa', 'siswa.id_siswa', '=', 'nilai.id_siswa')
-                    ->where('nilai.id_ujian', '=', '1')->get();
-        return response()->json($result);
+        // $result = Nilai::select('judul_ujian', 'nama', 'nilai', 'jawaban_benar', 'jawaban_salah')
+        //             ->join('ujian', 'ujian.id_ujian', '=', 'nilai.id_ujian')
+        //             ->join('siswa', 'siswa.id_siswa', '=', 'nilai.id_siswa')
+        //             ->where('nilai.id_ujian', '=', '1')->get();
+        
+        // Mengambil nilai satu ujian, dari semua kelas yang ujian.
+        // $result = Nilai::select('nama_kelas', 'nilai')
+        //             ->join('siswa', 'nilai.id_siswa', '=', 'siswa.id_siswa')
+        //             ->join('kelas', 'siswa.id_kelas', 'kelas.id_kelas')
+        //             ->where('nilai.id_ujian', '=', '1')
+        //             ->whereIn('siswa.id_kelas', function($query) {
+        //                 $query->select('id_kelas')
+        //                 ->from('kelas_ujian')
+        //                 ->where('id_ujian', '1');
+        //             })
+        //             ->get();
+
+
+        // Array untuk menampung collections
+
+
+        // Mengambil 3 ujian terbaru
+        $idUjian = Ujian::orderBy('tanggal_kadaluarsa', 'desc')->limit(3)->get(['id_ujian']);
+
+        foreach ($idUjian as $key => $value) {
+            $ujian = Nilai::select('judul_ujian', 'nama_kelas')
+                    ->selectRaw('avg(nilai) as nilai_rata_rata') // query seperti avg dll harus menggunakan DB::raw() atau selectRaw()
+                    ->join('ujian', 'nilai.id_ujian', '=', 'ujian.id_ujian')
+                    ->join('siswa', 'nilai.id_siswa', '=', 'siswa.id_siswa')
+                    ->join('kelas', 'siswa.id_kelas', 'kelas.id_kelas')
+                    ->where('nilai.id_ujian', $value['id_ujian'])
+                    ->whereIn('siswa.id_kelas', function($query) use ($value) {
+                        $query->select('id_kelas')
+                        ->from('kelas_ujian')
+                        ->where('id_ujian', '=', $value['id_ujian']);
+                    })
+                    ->groupBy('kelas.id_kelas')
+                    ->get();
+            // return $ujian;
+            $arrayCollection[$key] = $ujian;
+        }
+
+        // dd($arrayCollection);
+        return response()->json($arrayCollection);
     }
 }
