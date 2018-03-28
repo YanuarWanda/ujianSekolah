@@ -198,4 +198,28 @@ class HomeController extends Controller
 
         return response()->json($data);
     }
+
+    public function chartGuru() {
+        $id = Guru::where('id_users', Auth::user()->id_users)->first(['id_guru']);
+        // return $id_guru;
+        $id_guru = $id['id_guru'];
+        $query = DB::select("SELECT
+                  u.judul_ujian, AVG(n.nilai) AS 'rata_rata'
+                FROM
+                  nilai n
+                  JOIN ujian u USING (id_ujian)
+                WHERE id_mapel IN
+                  (SELECT
+                    id_mapel
+                  FROM
+                    mapel
+                  WHERE id_daftar_bidang =
+                    (SELECT
+                      id_daftar_bidang
+                    FROM
+                      bidang_keahlian
+                    WHERE id_guru = $id_guru))
+                GROUP BY id_ujian");
+        return response()->json($query);
+    }
 }

@@ -182,3 +182,4 @@ Route::get('/daftar-nilai/{id}', 'SoalController@daftarNilai');
 // Chart di dashboard admin
 Route::get('/data-nilai', 'HomeController@chartData')->name('data-nilai');
 Route::get('/pie-chart', 'HomeController@pieChart')->name('pie-chart');
+Route::get('/chart-guru', 'HomeController@chartGuru')->name('chart-guru');
