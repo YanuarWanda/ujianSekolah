@@ -15,6 +15,14 @@
         <div class="row">
             <div class="col-sm-12">
                 <div class="panel panel-default">
+                    <div class="panel-heading">Chart Nilai Ujian per Kelas</div>
+                    <div class="panel-body">
+                        <canvas id="chartPerKelas" width="600">
+                        
+                        </canvas>
+                    </div>
+                </div>
+                <div class="panel panel-default">
                     <div class="panel-heading">Data Nilai</div>
 
                     <div class="panel-body">
@@ -463,6 +471,38 @@
                     });
                 }
             });
+
+            var $dataChart = {!! json_encode($chartPerKelas) !!};
+            var $daftar_kelas = [];var $label;var $daftar_nilai = [];
+            $dataChart.forEach(function(realData){
+                $daftar_kelas.push(realData.kelas);
+                $label = realData.judul;
+                $daftar_nilai.push(realData.rataNilai);
+            });
+            var ctx = document.getElementById('chartPerKelas').getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels:$daftar_kelas,
+                    datasets: [{
+                        label: 'Rata - Rata Nilai',
+                        data: $daftar_nilai,
+                        borderWidth: 1,
+                        backgroundColor: 'lightblue'
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero:true
+                            }
+                        }]
+                    }
+                }
+                
+            });
+               
         });
     </script>
-@endsection
+@stop

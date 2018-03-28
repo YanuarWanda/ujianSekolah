@@ -186,7 +186,7 @@ class HomeController extends Controller
             // return $ujian;
             $arrayCollection[$key] = $ujian;
         }
-
+        
         // dd($arrayCollection);
         return response()->json($arrayCollection);
     }
