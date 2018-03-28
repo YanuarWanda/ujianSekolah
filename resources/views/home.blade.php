@@ -69,7 +69,7 @@
       height: 100%;
       margin-left: -250px;
       overflow-y: auto;
-      background: #000;
+      background: #1ABC9C;
       -webkit-transition: all 0.5s ease;
       -moz-transition: all 0.5s ease;
       -o-transition: all 0.5s ease;
@@ -111,13 +111,15 @@
     .sidebar-nav li a {
       display: block;
       text-decoration: none;
-      color: #999999;
+      color: #ECF0F1;
     }
 
     .sidebar-nav li a:hover {
       text-decoration: none;
-      color: #fff;
-      background: rgba(255, 255, 255, 0.2);
+      color: #2EEC31;
+      /*background: rgba(255, 255, 255, 0.2);*/
+      /*background: rgba(46, 204, 113, 1.0);*/
+      background: rgba(52, 152, 219, 1.0);
     }
 
     .sidebar-nav li a:active, .sidebar-nav li a:focus {
@@ -131,11 +133,11 @@
     }
 
     .sidebar-nav>.sidebar-brand a {
-      color: #999999;
+      color: #ECF0F1;
     }
 
     .sidebar-nav>.sidebar-brand a:hover {
-      color: #fff;
+      color: #3498DB;
       background: none;
     }
 
@@ -164,7 +166,14 @@
 
     .nav .breadcrumb {
         margin: 0 7px;
+        /*background-color: #2EEC31;*/
     }
+
+    .nav .breadcrumb a {
+        color: #2EEC31;
+        text-decoration: none;
+    }
+
     @media (min-width: 768px) {
         .nav .breadcrumb {
             float: left;
@@ -177,9 +186,28 @@
         padding-top:40px;
     }
 
+    /* Scroll Up */
+    #scroll-up {
+      position: fixed;
+      bottom: 35px;
+      right: 35px;
+      z-index: 9999999;
+      display: none;
+      padding: 7px;
+      background-color: #2EEC31;
+      width: 41px;
+    }
+
     </style>
 </head>
 <body>
+
+  <a href="#" class=" scroll-up">
+  <div id="scroll-up">
+    <center><span class="fa fa-chevron-up"></span></center>
+  </div>
+  </a>
+
     {{-- Content --}}
 
     <div id="wrapper">
@@ -195,23 +223,27 @@
                 <li>
                     <a href="#">Dashboard</a>
                 </li>
+                <hr>
+                <li><small>Menu Guru</small></li>
                 <li>
-                    <a href="#">Shortcuts</a>
+                    <a href="#">Guru</a>
                 </li>
                 <li>
-                    <a href="#">Overview</a>
+                    <a href="#">Bidang Keahlian</a>
                 </li>
                 <li>
-                    <a href="#">Events</a>
+                    <a href="#">Ujian</a>
+                </li>
+                <hr>
+                <li><small>Menu Siswa</small></li>
+                <li>
+                    <a href="#">Siswa</a>
                 </li>
                 <li>
-                    <a href="#">About</a>
+                    <a href="#">Kelas</a>
                 </li>
                 <li>
-                    <a href="#">Services</a>
-                </li>
-                <li>
-                    <a href="#">Contact</a>
+                    <a href="#">Jurusan</a>
                 </li>
             </ul>
         </div>
@@ -226,16 +258,18 @@
               <div class="container-fluid">
                 <div id="navbar">
                   <ul class="nav navbar-nav">
+                    <li><a href="#menu-toggle" id="menu-toggle"><span class="fa fa-list" style="font-size: 17px;"></span></a></li>
                     <li id="brand"><a href="#"><span class="fa fa-graduation-cap"></span> U-LAH</a></li>
-                    <li><a href="#menu-toggle" class="" id="menu-toggle"><span class="fa fa-list"></span> Menu</a></li>
 
                     <li><ul class="breadcrumb list-inline">
-                        <li class="active">Home</li>
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">About</a></li>
+                        <li class="active">US</li>
                     </ul></li>
                   </ul>
                   <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
-                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">UserName <span class="caret"></span></a>
                       <ul class="dropdown-menu">
                         <li><a href="#">Settings</a></li>
                         <li><a href="#">Logout</a></li>
@@ -247,17 +281,22 @@
             </nav>
                 
             <div class="content">
-                <h1>HEHEHE</h1>
-                @for($a = 1; $a<15;$a++)
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-                proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                @endfor
-            </div>
+                {{-- Chart --}}
+                <div class="panel panel-default">
+                    <div class="panel-heading">Contoh STATISTIK</div>
 
+                    <div class="panel-body">
+                        <div class="row">
+                          <div class="col-md-6">
+                            <canvas id="ujian1"></canvas>
+                          </div>
+                          <div class="col-md-6">
+                            <canvas id="ujian2"></canvas>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+                {{-- Chart --}}
             </div>
         </div>
         <!-- /#page-content-wrapper -->
@@ -306,8 +345,103 @@
     // Toggle Menu
     $("#menu-toggle").click(function(e) {
         e.preventDefault();
+
+        // Ubah Icon
+        var icon = $("#menu-toggle span");
+        if(icon.hasClass("fa-list")) {
+          icon.removeClass("fa-list").addClass("fa-arrow-left");
+        }else{
+          icon.removeClass("fa-arrow-left").addClass("fa-list");
+        }
+
+        // Toggle menu
         $("#wrapper").toggleClass("toggled");
     });
+
+    // Scroll Up
+    $(document).ready(function() {
+      var fixed = false;
+      $(document).scroll(function() {
+        if($(this).scrollTop() > 251) {
+          if(!fixed) {
+            fixed = true;
+            $('#scroll-up').show('fast', function() {
+              $('#scroll-up').css({
+                position: 'fixed', 
+                display: 'block'
+              });
+            });
+          }
+        }else { 
+          if(fixed) {
+            fixed = false;
+            $('#scroll-up').hide('fast', function() {
+              $('#scroll-up').css({
+                display: 'none'
+              });
+            });
+          }
+        }
+      });
+
+      $('#scroll-up').on('click', function() {
+        $('html, body').animate({ scrollTop : 0 }, 755);
+      });
+    });
+    </script>
+
+    {{-- Chart --}}
+    <script type="text/javascript">
+      $(document).ready(function(){
+        var url = "{{ route('data-nilai') }}";
+        var label;
+        var daftarChart = ['ujian1', 'ujian2', 'ujian3'];
+        // console.log(daftarChart);
+        $.get(url, function(response){
+          // console.log(response);
+          // response.forEach(function(data){
+            for(var i=0, len = response.length; i<len;i++) {
+            // Chart 1
+            var nama_kelas = [];
+            
+            var nilai = [];
+
+            // console.log(data);
+
+            response[i].forEach(function(realData){
+              // console.log(realData);
+              nama_kelas.push(realData.nama_kelas);
+              label = realData.judul_ujian;
+              nilai.push(realData.nilai_rata_rata);
+            });
+
+            var ctx = document.getElementById(daftarChart[i]).getContext('2d');
+            var myChart = new Chart(ctx, {
+              type: 'bar',
+              data: {
+                  labels:nama_kelas,
+                  datasets: [{
+                    label: label,
+                    data: nilai,
+                    borderWidth: 1,
+                    backgroundColor: 'lightblue'
+                  }]
+              },
+              options: {
+                  scales: {
+                      yAxes: [{
+                          ticks: {
+                              beginAtZero:true
+                          }
+                      }]
+                  }
+              }
+            });
+            // console.log('judul-ujian-'+i);
+          }
+
+        });
+      });
     </script>
 </body>
 </html>

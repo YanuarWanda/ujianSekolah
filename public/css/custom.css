@@ -1,0 +1,37 @@
+.text-green{
+    color: green;
+}
+
+.text-red{
+    color: red;
+}
+
+.btn-disabled{
+    background-color: #444444;
+}
+
+.bisaHover{
+    cursor: pointer;
+}
+
+.perKelas{
+    background-color: #273627;
+
+}
+
+.close-btn{
+    color: red;
+    position: absolute;
+    top: 10px;
+    right: 30px;
+}
+
+.btn-fixed-bottom-right{
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+}
+
+.z-top{
+   z-index: 4;
+}
