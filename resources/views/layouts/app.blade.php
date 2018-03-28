@@ -45,11 +45,10 @@
     {{-- PleaseWait.js Preloader  --}}
     {{-- <link href="{{ asset('css/please-wait.css') }}" rel="stylesheet"> --}}
 
-    <style type="text/css">
-        
-
-    </style>
-
+    {{-- Custom --}}
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/loading.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/custom.css')}}">
+    
     @yield('css')
 </head>
 <body>
@@ -62,64 +61,110 @@
           <div class="rect5"></div>
         </div>
     </div>
-    <div id="app">
-        <nav class="navbar navbar-default navbar-static-top">
-            <div class="container">
-                <div class="navbar-header">
+    
+    <a href="#" class=" scroll-up">
+    <div id="scroll-up">
+      <center><span class="fa fa-chevron-up"></span></center>
+    </div>
+    </a>
 
-                    <!-- Collapsed Hamburger -->
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse" aria-expanded="false">
-                        <span class="sr-only">Toggle Navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
+    {{-- Content --}}
 
-                    <!-- Branding Image -->
-                    <a class="navbar-brand" href="{{ url('/') }}">
-                        <span><img src="{{asset('image/Facepalm_30px.png')}}" alt="brand">
-                        {{ config('app.name', 'Laravel') }}</span>
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-brand">
+                    <a href="#">
+                        <span class="fa fa-graduation-cap"></span> U-LAH
                     </a>
-                </div>
+                </li>
+                <li>
+                    <a href="#">Dashboard</a>
+                </li>
+                <hr>
+                <li><small>Menu Guru</small></li>
+                <li>
+                    <a href="#">Guru</a>
+                </li>
+                <li>
+                    <a href="#">Bidang Keahlian</a>
+                </li>
+                <li>
+                    <a href="#">Ujian</a>
+                </li>
+                <hr>
+                <li><small>Menu Siswa</small></li>
+                <li>
+                    <a href="#">Siswa</a>
+                </li>
+                <li>
+                    <a href="#">Kelas</a>
+                </li>
+                <li>
+                    <a href="#">Jurusan</a>
+                </li>
+            </ul>
+        </div>
+        <!-- /#sidebar-wrapper -->
 
-                <div class="collapse navbar-collapse" id="app-navbar-collapse">
-                    <!-- Right Side Of Navbar -->
-                    <ul class="nav navbar-nav navbar-right">
-                        <!-- Authentication Links -->
-                        @guest
-                            <li><a href="{{ route('login') }}">Login</a></li>
-                            <li><a href="{{ route('register') }}">Register</a></li>
-                        @else
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
-                                    {{ Auth::user()->username }} <span class="caret"></span>
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+            
+            <!-- Fixed navbar -->
+            <nav class="navbar navbar-default">
+              <div class="container-fluid">
+                <div id="navbar">
+                  <ul class="nav navbar-nav">
+                    <li><a href="#menu-toggle" id="menu-toggle"><span class="fa fa-list" style="font-size: 17px;"></span></a></li>
+                    <li id="brand"><a href="#"><span class="fa fa-graduation-cap"></span> U-LAH</a></li>
+
+                    <li><ul class="breadcrumb list-inline">
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">About</a></li>
+                        <li class="active">US</li>
+                    </ul></li>
+                  </ul>
+                  <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
+                            {{ Auth::user()->username }} <span class="caret"></span>
+                        </a>
+
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="{{ route('settings') }}">Settings</a>
+                            </li>
+                            <li>
+                                <a href="{{ route('logout') }}"
+                                    onclick="event.preventDefault();
+                                             document.getElementById('logout-form').submit();">
+                                    Logout
                                 </a>
 
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <a href="{{ route('settings') }}">Settings</a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ route('logout') }}"
-                                            onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                            Logout
-                                        </a>
-
-                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                            {{ csrf_field() }}
-                                        </form>
-                                    </li>
-                                </ul>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                    {{ csrf_field() }}
+                                </form>
                             </li>
-                        @endguest
-                    </ul>
-                </div>
+                        </ul>
+                    </li>
+                  </ul>
+                </div><!--/.nav-collapse -->
+              </div>
+            </nav>
+                
+            <div class="content">
+                @yield('content')
             </div>
-        </nav>
+        </div>
+        <!-- /#page-content-wrapper -->
 
-        @yield('content')
     </div>
+    <!-- /#wrapper -->
+    
+    {{-- Content --}}
 
     {{-- JQuery --}}
     <script src="{{ asset('js/jquery-3.3.1.min.js') }}"></script>
@@ -201,6 +246,224 @@
 
     {{-- Chart.js --}}
     <script type="text/javascript" src="{{ asset('js/Chart.bundle.min.js') }}"></script>
+
+    <script>
+    // static-to-fix navbar
+    $(document).ready(function () {
+
+        var brand = $('#brand');
+        brand.hide();
+
+        var menu = $('.navbar');
+        var origOffsetY = menu.offset().top;
+
+        function scroll() {
+            if ($(window).scrollTop() >= origOffsetY) {
+                $('.navbar').addClass('navbar-fixed-top');
+                brand.show();
+                $('.content').addClass('menu-padding');
+            } else {
+                $('.navbar').removeClass('navbar-fixed-top');
+                brand.hide();
+                $('.content').removeClass('menu-padding');
+            }
+
+
+        }
+
+        document.onscroll = scroll;
+
+    });
+
+    // Toggle Menu
+    $("#menu-toggle").click(function(e) {
+        e.preventDefault();
+
+        // Ubah Icon
+        var icon = $("#menu-toggle span");
+        if(icon.hasClass("fa-list")) {
+          icon.removeClass("fa-list").addClass("fa-arrow-left");
+        }else{
+          icon.removeClass("fa-arrow-left").addClass("fa-list");
+        }
+
+        // Toggle menu
+        $("#wrapper").toggleClass("toggled");
+    });
+
+    // Scroll Up
+    $(document).ready(function() {
+      var fixed = false;
+      $(document).scroll(function() {
+        if($(this).scrollTop() > 251) {
+          if(!fixed) {
+            fixed = true;
+            $('#scroll-up').show('fast', function() {
+              $('#scroll-up').css({
+                position: 'fixed', 
+                display: 'block'
+              });
+            });
+          }
+        }else { 
+          if(fixed) {
+            fixed = false;
+            $('#scroll-up').hide('fast', function() {
+              $('#scroll-up').css({
+                display: 'none'
+              });
+            });
+          }
+        }
+      });
+
+      $('#scroll-up').on('click', function() {
+        $('html, body').animate({ scrollTop : 0 }, 755);
+      });
+    });
+    </script>
+
+    {{-- Chart --}}
+    <script type="text/javascript">
+      $(document).ready(function(){
+        var url = "{{ route('data-nilai') }}";
+        var label;
+        var daftarChart = ['ujian1', 'ujian2', 'ujian3'];
+        // console.log(daftarChart);
+        $.get(url, function(response){
+          // console.log(response);
+          // response.forEach(function(data){
+            for(var i=0, len = response.length; i<len;i++) {
+            // Chart 1
+            var nama_kelas = [];
+            
+            var nilai = [];
+
+            // console.log(data);
+
+            response[i].forEach(function(realData){
+              // console.log(realData);
+              nama_kelas.push(realData.nama_kelas);
+              label = realData.judul_ujian;
+              nilai.push(realData.nilai_rata_rata);
+            });
+
+            var ctx = document.getElementById(daftarChart[i]).getContext('2d');
+            var myChart = new Chart(ctx, {
+              type: 'bar',
+              data: {
+                  labels:nama_kelas,
+                  datasets: [{
+                    label: label,
+                    data: nilai,
+                    borderWidth: 1,
+                    backgroundColor: '#3498DB'
+                  }]
+              },
+              options: {
+                  scales: {
+                      yAxes: [{
+                          ticks: {
+                              beginAtZero:true
+                          }
+                      }]
+                  }
+              }
+            });
+            // console.log('judul-ujian-'+i);
+          }
+
+        });
+      });
+
+      $(document).ready(function() {
+        var url = "{{route('pie-chart')}}";
+        $.get(url, function(response){
+
+          var hak_akses = [];
+          var jumlah_data = [];
+
+          console.log(response);
+          response.forEach(function(data){
+            hak_akses.push(data.hak_akses);
+            jumlah_data.push(data.jumlah_data);
+          });
+
+          var canvas = document.getElementById('pie').getContext('2d');
+          var chart = new Chart(canvas, {
+            type: 'pie',
+            data: {
+              labels: hak_akses,
+              datasets: [{
+                // label: ,
+                data: jumlah_data,
+                backgroundColor: ['red', 'green', 'yellow']
+              }]
+            }
+          });
+
+        });
+
+      });
+
+      $(document).ready(function() {
+        var response =  [
+          {'status': 'draft',   'jumlah': 15 },
+          {'status': 'posted',  'jumlah': 27 }
+        ];
+
+        var status = [];
+        var jumlah = [];
+
+        response.forEach(function(data){
+          status.push(data.status);
+          jumlah.push(data.jumlah);
+        });
+
+        var canvas = document.getElementById('pie-2').getContext('2d');
+        var chart = new Chart(canvas, {
+          type: 'pie',
+          data: {
+            labels: status,
+            datasets: [{
+              // label: ,
+              data: jumlah,
+              backgroundColor: ['red', 'green']
+            }]
+          }
+        });
+
+      });
+
+      $(document).ready(function() {
+        var response =  [
+          {'status': 'L',   'jumlah': 18 },
+          {'status': 'P',  'jumlah': 11 }
+        ];
+
+        var status = [];
+        var jumlah = [];
+
+        response.forEach(function(data){
+          status.push(data.status);
+          jumlah.push(data.jumlah);
+        });
+
+        var canvas = document.getElementById('pie-3').getContext('2d');
+        var chart = new Chart(canvas, {
+          type: 'pie',
+          data: {
+            labels: status,
+            datasets: [{
+              // label: ,
+              data: jumlah,
+              backgroundColor: ['purple', 'orange']
+            }]
+          }
+        });
+
+      });
+    </script>
 
     {{-- Toggle Select Bikin Soal --}}
     <script type="text/javascript">

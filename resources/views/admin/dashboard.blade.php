@@ -1,68 +1,38 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row">
+{{-- Chart --}}
+<div class="panel panel-default">
+    <div class="panel-heading">Contoh GRAFIK</div>
+
+    <div class="panel-body row">
         <div class="col-md-4">
-            <div class="panel panel-default">
-                <div class="panel-heading">Dashboard</div>
-
-                <div class="panel-body">
-                    <a href="/kelola-guru" class="btn btn-primary">Kelola Guru</a>
-                    <br><br>
-                    <a href="/kelola-siswa" class="btn btn-success">Kelola Siswa</a>
-                    <br><br>
-                    <a href="/kelola-ujian" class="btn btn-danger">Kelola Ujian</a>
-                    <br><br>
-                    <a href="/kelola-jurusan" class="btn btn-info">Kelola Jurusan</a>
-                    <br><br>
-                    <a href="/kelola-kelas" class="btn btn-warning">Kelola Kelas</a>
-                    <br><br>
-                    <a href="/kelola-bidang" class="btn btn-primary">Kelola Bidang Keahlian</a>
-                    <br><br>
-                    <a href="/kelola-mapel" class="btn btn-success">Kelola Mata Pelajaran</a>
-                    <br><br>
-                    <a href="/kelola-guru/import" class="btn btn-default">Import data Guru</a>
-                    <br><br>
-                    <a href="/kelola-siswa/import" class="btn btn-default">Import data Siswa</a>
-                </div>
-            </div>
+          <canvas id="pie"></canvas>
         </div>
+        <div class="col-md-4">
+          <canvas id="pie-2"></canvas>
+        </div>
+        <div class="col-md-4">
+          <canvas id="pie-3"></canvas>
+        </div>
+    </div>
+</div>
 
-        {{-- Chart --}}
-        <div class="row col-md-8">
-          <center><h4>Nilai rata-rata tiga ujian terbaru</h4></center>
+<div class="panel panel-default">
+    <div class="panel-heading">Contoh GRAFIK</div>
 
-          <div class="col-md-12 chart">
-              <div class="panel panel-danger">
-                  <div class="panel-heading">Nilai rata-rata <p id="judul-ujian-1"></p></div>
-
-                  <div class="panel-body">
-                      <canvas id="ujian1" height="117" width="600"></canvas>
-                  </div>
-              </div>
+    <div class="panel-body">
+        <div class="row">
+          <div class="col-md-6">
+            <canvas id="ujian1"></canvas>
           </div>
-          <div class="col-md-6 chart">
-              <div class="panel panel-primary">
-                  <div class="panel-heading">Nilai rata-rata <p id="judul-ujian-2"></p></div>
-
-                  <div class="panel-body">
-                      <canvas id="ujian2" width="600"></canvas>
-                  </div>
-              </div>
-          </div>
-          <div class="col-md-6 chart">
-              <div class="panel panel-success">
-                  <div class="panel-heading">Nilai rata-rata <p id="judul-ujian-3"></p></div>
-
-                  <div class="panel-body">
-                      <canvas id="ujian3" width="600"></canvas>
-                  </div>
-              </div>
+          <div class="col-md-6">
+            <canvas id="ujian2"></canvas>
           </div>
         </div>
     </div>
 </div>
+{{-- Chart --}}
 @endsection
 
 @section('js')

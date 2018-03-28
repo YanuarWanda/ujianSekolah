@@ -190,4 +190,12 @@ class HomeController extends Controller
         // dd($arrayCollection);
         return response()->json($arrayCollection);
     }
+
+    public function pieChart() {
+        $data = User::select('hak_akses')->selectRaw('count(id_users) as jumlah_data')
+                    ->groupBy('hak_akses')
+                    ->get();
+
+        return response()->json($data);
+    }
 }
