@@ -119,6 +119,7 @@
                                                                         <table class="table table-bordered">
                                                                             <tr>
                                                                                 <th> No </th>
+                                                                                <th> Soal </th>
                                                                                 <th> Jawaban Siswa </th>
                                                                                 <th> Jawaban Benar </th>
                                                                                 <th> Point </th>
@@ -128,6 +129,9 @@
                                                                         @foreach($soal as $s => $isiS)
                                                                             <tr>
                                                                                 <td> <?php echo $ns;$ns++; ?> </td>
+                                                                                <td>
+                                                                                    {!! $isiS->bankSoal->isi_soal !!}
+                                                                                </td>
                                                                                 <td> 
                                                                                     @foreach($jawabanUjian as $ju => $isiJU)
                                                                                         @if($isiJU->id_siswa == $isiN->id_siswa)
@@ -175,6 +179,7 @@
                                                                                 <table class="table table-bordered">
                                                                                     <tr>
                                                                                         <th> No </th>
+                                                                                        <th> Soal </th>
                                                                                         <th> Jawaban Siswa </th>
                                                                                         <th> Jawaban Benar </th>
                                                                                         <th> Point </th>
@@ -185,6 +190,9 @@
                                                                                             @foreach($soalRemed as $sr => $isiSR)
                                                                                             <tr>
                                                                                                 <td> <?php echo $nr;$nr++; ?> </td>
+                                                                                                <td>
+                                                                                                    {!! $isiSR->bankSoal->isi_soal !!}
+                                                                                                </td>
                                                                                                 <td>
                                                                                                     @foreach($jawabanRemed as $jr => $isiJR)
                                                                                                         @if($isiJR->id_siswa == $isiN->id_siswa)
@@ -230,6 +238,7 @@
                                                                                     <table class="table table-bordered">
                                                                                         <tr>
                                                                                             <th> No </th>
+                                                                                            <th> Soal </th>
                                                                                             <th> Jawaban Siswa </th>
                                                                                             <th> Jawaban Benar </th>
                                                                                             <th> Point </th>
@@ -244,6 +253,7 @@
                                                                             <table class="table table-bordered">
                                                                                 <tr>
                                                                                     <th> No </th>
+                                                                                    <th> Soal </th>
                                                                                     <th> Jawaban Siswa </th>
                                                                                     <th> Jawaban Benar </th>
                                                                                     <th> Point </th>
@@ -260,6 +270,7 @@
                                                                                     <table class="table table-bordered">
                                                                                         <tr>
                                                                                             <th>No</th>
+                                                                                            <th>Soal</th>
                                                                                             <th>Jawaban Siswa</th>
                                                                                             <th>Jawaban Benar</th>
                                                                                             <th>Point</th>
@@ -270,6 +281,7 @@
                                                                                             @if($soalRemed)
                                                                                                 @foreach($soalRemed as $sr => $isiSR)
                                                                                                     <td> <?php echo $nr2; ?> </td>
+                                                                                                    <td> {!! $isiSR->bankSoal->isi_soal !!} </td>
                                                                                                     <td>
                                                                                                         @foreach($jawabanRemed as $jr2x => $isiJR2X)
                                                                                                             @if($isiJR2X->id_siswa == $isiN['id_siswa'])
@@ -317,6 +329,7 @@
                                                                                     <table class="table table-bordered">
                                                                                         <tr>
                                                                                             <th> No </th>
+                                                                                            <th> Soal </th>
                                                                                             <th> Jawaban Siswa </th>
                                                                                             <th> Jawaban Benar </th>
                                                                                             <th> Point </th>
@@ -331,6 +344,7 @@
                                                                             <table class="table table-bordered">
                                                                                 <tr>
                                                                                     <th> No </th>
+                                                                                    <th> Soal </th>
                                                                                     <th> Jawaban Siswa </th>
                                                                                     <th> Jawaban Benar </th>
                                                                                     <th> Point </th>
@@ -347,6 +361,7 @@
                                                                                     <table class="table table-bordered">
                                                                                         <tr>
                                                                                             <th> No. </th>
+                                                                                            <th> Soal </th>
                                                                                             <th> Jawaban Siswa </th>
                                                                                             <th> Jawaban Benar </th>
                                                                                             <th> Point </th>
@@ -357,6 +372,7 @@
                                                                                             @if($soalRemed)
                                                                                                 @foreach($soalRemed as $sr => $isiSR)
                                                                                                     <td> <?php echo $nr3; ?> </td>
+                                                                                                    <td> {!! $isiSR->bankSoal->isi_soal !!} </td>
                                                                                                     <td>
                                                                                                         @foreach($jawabanRemed as $jr3x => $isiJR3X)
                                                                                                             @if($isiJR3X->id_siswa == $isiN['id_siswa'])
@@ -406,6 +422,7 @@
                                                                                     <table class="table table-bordered">
                                                                                         <tr>
                                                                                             <th> No. </th>
+                                                                                            <th> Soal </th>
                                                                                             <th> Jawaban Siswa </th>
                                                                                             <th> Jawaban Benar </th>
                                                                                             <th> Point </th>
@@ -420,6 +437,7 @@
                                                                             <table class="table table-bordered">
                                                                                 <tr>
                                                                                     <th> No. </th>
+                                                                                    <th> Soal </th>
                                                                                     <th> Jawaban Siswa </th>
                                                                                     <th> Jawaban Benar </th>
                                                                                     <th> Point </th>
