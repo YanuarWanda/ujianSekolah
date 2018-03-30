@@ -405,8 +405,6 @@
                 window.location.replace(url);
             });
         });
-
-        // $('.editor').summernote();
     </script>
 
     @yield('js')

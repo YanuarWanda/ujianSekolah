@@ -8,7 +8,6 @@
                 <div class="panel-heading">Data Guru</div>
 
                 <div class="panel-body">
-                    <canvas id="chartGuru></canvas>
 
                     <div class="table-responsive">
                         @if(count($guru) > 0)

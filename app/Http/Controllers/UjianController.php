@@ -327,7 +327,10 @@ class UjianController extends Controller
         $ujian      = Ujian::find(base64_decode($id));
         
         $soalFull   = Soal::where('id_ujian', $ujian->id_ujian)->get()->shuffle();
-        
+        $soalPG     = Soal::join('bank_soal', 'soal.id_bank_soal', '=', 'bank_soal.id_bank_soal')->where('id_ujian', $ujian->id_ujian)->where('bank_soal.tipe', 'PG')->orWhere('bank_soal.tipe', 'BS')->get();
+        $soalMC     = Soal::join('bank_soal', 'soal.id_bank_soal', '=', 'bank_soal.id_bank_soal')->where('id_ujian', $ujian->id_ujian)->where('bank_soal.tipe', 'MC')->get();
+        // return $soalMC;
+
         foreach($soalFull as $s){
             $pilihan[]    = explode(' ,  ', $s->bankSoal['pilihan']);
             $soal[]       = explode(' ,  ', $s->bankSoal['isi_soal']);
@@ -338,13 +341,15 @@ class UjianController extends Controller
         sscanf($str_time, "%d:%d:%d", $hours, $minutes, $seconds);
         $sisa_waktu = isset($seconds) ? $hours * 3600 + $minutes * 60 + $seconds : $hours * 60 + $minutes;
         // return $soalFull[0]->bankSoal;
-        return view('siswa.kerjakan-soal', compact('ujian', 'soal', 'soalFull', 'sisa_waktu', 'pilihan'));
+        return view('siswa.kerjakan-soal', compact('ujian', 'soal', 'soalFull', 'sisa_waktu', 'pilihan', 'soalMC', 'soalPG'));
     }
 
     public function kerjakanRemed($id){
         $ujian  = UjianRemedial::where('id_ujian_remedial', base64_decode($id))->where('status', 'posted')->get()->first();
         
         $soalFull       = SoalRemed::where('id_ujian_remedial', $ujian->id_ujian_remedial)->get()->shuffle();
+        $soalPG         = SoalRemed::join('bank_soal', 'soal_remed.id_bank_soal', '=', 'bank_soal.id_bank_soal')->where('id_ujian_remedial', $ujian->id_ujian_remedial)->where('bank_soal.tipe', 'PG')->orWhere('bank_soal.tipe', 'BS')->get();
+        $soalMC         = SoalRemed::join('bank_soal', 'soal_remed.id_bank_soal', '=', 'bank_soal.id_bank_soal')->where('id_ujian_remedial', $ujian->id_ujian_remedial)->where('bank_soal.tipe', 'MC')->get();       
 
         foreach($soalFull as $s){
             $pilihan[]  = explode(' ,  ', $s->bankSoal['pilihan']);
@@ -356,7 +361,7 @@ class UjianController extends Controller
         sscanf($str_time, "%d:%d:%d", $hours, $minutes, $seconds);
         $sisa_waktu = isset($seconds) ? $hours * 3600 + $minutes * 60 + $seconds : $hours * 60 + $minutes;
 
-        return view('siswa.kerjakan-soal', compact('ujian', 'soalFull', 'pilihan', 'soal', 'sisa_waktu'));
+        return view('siswa.kerjakan-soal', compact('ujian', 'soalFull', 'pilihan', 'soal', 'sisa_waktu', 'soalPG', 'soalMC'));
     }
 
     public function submitRemed(Request $data, $id){
@@ -526,7 +531,7 @@ class UjianController extends Controller
 
         $jumlahSalah    = count($soal) - $jumlahBenar;
         $nilaiKetampanan= round(($jumlahPointBenar / $jumlahPoint)* 100);
-        
+       
         foreach($soal as $s => $sia){
             $jawabanSiswa = new JawabanSiswa;
             $jawabanSiswa->id_soal          = $sia->id_soal;
