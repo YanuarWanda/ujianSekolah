@@ -1,0 +1,253 @@
+#app {
+    visibility: hidden;
+}
+
+.loading {
+    width: 60px;
+    height: 60px;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 60px;
+    margin: auto;
+    margin-top: 235px;
+    z-index: 99999999999999999;
+    background : transparent;
+}
+
+.spinner {
+  margin: 100px auto;
+  width: 50px;
+  height: 40px;
+  text-align: center;
+  font-size: 10px;
+}
+
+.spinner > div {
+  background-color: #333;
+  height: 100%;
+  width: 6px;
+  display: inline-block;
+
+  -webkit-animation: sk-stretchdelay 1.2s infinite ease-in-out;
+  animation: sk-stretchdelay 1.2s infinite ease-in-out;
+}
+
+.spinner .rect2 {
+  -webkit-animation-delay: -1.1s;
+  animation-delay: -1.1s;
+}
+
+.spinner .rect3 {
+  -webkit-animation-delay: -1.0s;
+  animation-delay: -1.0s;
+}
+
+.spinner .rect4 {
+  -webkit-animation-delay: -0.9s;
+  animation-delay: -0.9s;
+}
+
+.spinner .rect5 {
+  -webkit-animation-delay: -0.8s;
+  animation-delay: -0.8s;
+}
+
+@-webkit-keyframes sk-stretchdelay {
+  0%, 40%, 100% { -webkit-transform: scaleY(0.4) }
+  20% { -webkit-transform: scaleY(1.0) }
+}
+
+@keyframes sk-stretchdelay {
+    0%, 40%, 100% {
+        transform: scaleY(0.4);
+        -webkit-transform: scaleY(0.4);
+    }  20% {
+        transform: scaleY(1.0);
+        -webkit-transform: scaleY(1.0);
+    }
+}
+body {
+  overflow-x: hidden;
+}
+
+/* ori */
+.text-green{
+    color: green;
+}
+
+.text-red{
+    color: red;
+}
+
+.btn-disabled{
+    background-color: #444444;
+}
+
+.bisaHover{
+    cursor: pointer;
+}
+
+.perKelas{
+    background-color: #273627;
+
+}
+
+.close-btn{
+    color: red;
+    position: absolute;
+    top: 10px;
+    right: 30px;
+}
+
+/* tampilan 2 */
+
+#wrapper {
+  padding-left: 0;
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+
+#wrapper.toggled {
+  padding-left: 250px;
+}
+
+#sidebar-wrapper {
+  z-index: 1000;
+  position: fixed;
+  left: 250px;
+  width: 0;
+  height: 100%;
+  margin-left: -250px;
+  overflow-y: auto;
+  background: #1ABC9C;
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+
+#wrapper.toggled #sidebar-wrapper {
+  width: 250px;
+}
+
+#page-content-wrapper {
+  width: 100%;
+  position: absolute;
+  padding: 15px;
+}
+
+#wrapper.toggled #page-content-wrapper {
+  position: absolute;
+  margin-right: -250px;
+}
+
+
+/* Sidebar Styles */
+
+.sidebar-nav {
+  position: absolute;
+  top: 0;
+  width: 250px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sidebar-nav li {
+  text-indent: 20px;
+  line-height: 40px;
+}
+
+.sidebar-nav li a {
+  display: block;
+  text-decoration: none;
+  color: #ECF0F1;
+}
+
+.sidebar-nav li a:hover {
+  text-decoration: none;
+  color: #2EEC31;
+  /*background: rgba(255, 255, 255, 0.2);*/
+  /*background: rgba(46, 204, 113, 1.0);*/
+  background: rgba(52, 152, 219, 1.0);
+}
+
+.sidebar-nav li a:active, .sidebar-nav li a:focus {
+  text-decoration: none;
+}
+
+.sidebar-nav>.sidebar-brand {
+  height: 65px;
+  font-size: 18px;
+  line-height: 60px;
+}
+
+.sidebar-nav>.sidebar-brand a {
+  color: #ECF0F1;
+}
+
+.sidebar-nav>.sidebar-brand a:hover {
+  color: #3498DB;
+  background: none;
+}
+
+@media(min-width:768px) {
+  #wrapper {
+    padding-left: 0;
+  }
+  #wrapper.toggled {
+    padding-left: 250px;
+  }
+  #sidebar-wrapper {
+    width: 0;
+  }
+  #wrapper.toggled #sidebar-wrapper {
+    width: 250px;
+  }
+  #page-content-wrapper {
+    padding: 20px;
+    position: relative;
+  }
+  #wrapper.toggled #page-content-wrapper {
+    position: relative;
+    margin-right: 0;
+  }
+}
+
+.nav .breadcrumb {
+    margin: 0 7px;
+    /*background-color: #2EEC31;*/
+}
+
+.nav .breadcrumb a {
+    color: #2EEC31;
+    text-decoration: none;
+}
+
+@media (min-width: 768px) {
+    .nav .breadcrumb {
+        float: left;
+        margin: 7px 10px;
+    }
+}
+
+/* Fixed nav, but free content below it */
+.menu-padding {
+    padding-top:40px;
+}
+
+/* Scroll Up */
+#scroll-up {
+  position: fixed;
+  bottom: 35px;
+  right: 35px;
+  z-index: 9999999;
+  display: none;
+  padding: 7px;
+  background-color: #2EEC31;
+  width: 41px;
+}

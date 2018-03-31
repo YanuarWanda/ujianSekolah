@@ -68,7 +68,7 @@
           confirmButtonColor: '#3085d6',
           cancelButtonColor: '#d33',
         }).then((data) => {
-            window.location = '{{ route('export-siswa') }}';
+            window.location = '{{ route('siswa.export') }}';
         })
     });
 </script>

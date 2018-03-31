@@ -81,29 +81,32 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#">Dashboard</a>
+                    <a href="{{ route('home') }}">Dashboard</a>
                 </li>
                 <hr>
                 <li><small>Menu Guru</small></li>
                 <li>
-                    <a href="#">Guru</a>
+                    <a href="{{ route('guru') }}">Guru</a>
                 </li>
                 <li>
-                    <a href="#">Bidang Keahlian</a>
+                    <a href="{{ route('bidang') }}">Bidang Keahlian</a>
                 </li>
                 <li>
-                    <a href="#">Ujian</a>
+                    <a href="{{ route('mapel') }}">Mata Pelajaran</a>
+                </li>
+                <li>
+                    <a href="{{ route('ujian') }}">Ujian</a>
                 </li>
                 <hr>
                 <li><small>Menu Siswa</small></li>
                 <li>
-                    <a href="#">Siswa</a>
+                    <a href="{{ route('siswa') }}">Siswa</a>
                 </li>
                 <li>
-                    <a href="#">Kelas</a>
+                    <a href="{{ route('kelas') }}">Kelas</a>
                 </li>
                 <li>
-                    <a href="#">Jurusan</a>
+                    <a href="{{ route('jurusan') }}">Jurusan</a>
                 </li>
             </ul>
         </div>
@@ -121,11 +124,13 @@
                     <li><a href="#menu-toggle" id="menu-toggle"><span class="fa fa-list" style="font-size: 17px;"></span></a></li>
                     <li id="brand"><a href="#"><span class="fa fa-graduation-cap"></span> U-LAH</a></li>
 
-                    <li><ul class="breadcrumb list-inline">
+                    {{-- <li><ul class="breadcrumb list-inline">
                         <li><a href="#">Home</a></li>
                         <li><a href="#">About</a></li>
                         <li class="active">US</li>
-                    </ul></li>
+                    </ul></li> --}}
+
+                    {{ Breadcrumbs::render() }}
                   </ul>
                   <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
@@ -323,148 +328,7 @@
     });
     </script>
 
-    {{-- Chart --}}
-    <script type="text/javascript">
-      $(document).ready(function(){
-        var url = "{{ route('data-nilai') }}";
-        var label;
-        var daftarChart = ['ujian1', 'ujian2', 'ujian3'];
-        // console.log(daftarChart);
-        $.get(url, function(response){
-          // console.log(response);
-          // response.forEach(function(data){
-            for(var i=0, len = response.length; i<len;i++) {
-            // Chart 1
-            var nama_kelas = [];
-            
-            var nilai = [];
-
-            // console.log(data);
-
-            response[i].forEach(function(realData){
-              // console.log(realData);
-              nama_kelas.push(realData.nama_kelas);
-              label = realData.judul_ujian;
-              nilai.push(realData.nilai_rata_rata);
-            });
-
-            var ctx = document.getElementById(daftarChart[i]).getContext('2d');
-            var myChart = new Chart(ctx, {
-              type: 'bar',
-              data: {
-                  labels:nama_kelas,
-                  datasets: [{
-                    label: label,
-                    data: nilai,
-                    borderWidth: 1,
-                    backgroundColor: '#3498DB'
-                  }]
-              },
-              options: {
-                  scales: {
-                      yAxes: [{
-                          ticks: {
-                              beginAtZero:true
-                          }
-                      }]
-                  }
-              }
-            });
-            // console.log('judul-ujian-'+i);
-          }
-
-        });
-      });
-
-      $(document).ready(function() {
-        var url = "{{route('pie-chart')}}";
-        $.get(url, function(response){
-
-          var hak_akses = [];
-          var jumlah_data = [];
-
-          console.log(response);
-          response.forEach(function(data){
-            hak_akses.push(data.hak_akses);
-            jumlah_data.push(data.jumlah_data);
-          });
-
-          var canvas = document.getElementById('pie').getContext('2d');
-          var chart = new Chart(canvas, {
-            type: 'pie',
-            data: {
-              labels: hak_akses,
-              datasets: [{
-                // label: ,
-                data: jumlah_data,
-                backgroundColor: ['red', 'green', 'yellow']
-              }]
-            }
-          });
-
-        });
-
-      });
-
-      $(document).ready(function() {
-        var response =  [
-          {'status': 'draft',   'jumlah': 15 },
-          {'status': 'posted',  'jumlah': 27 }
-        ];
-
-        var status = [];
-        var jumlah = [];
-
-        response.forEach(function(data){
-          status.push(data.status);
-          jumlah.push(data.jumlah);
-        });
-
-        var canvas = document.getElementById('pie-2').getContext('2d');
-        var chart = new Chart(canvas, {
-          type: 'pie',
-          data: {
-            labels: status,
-            datasets: [{
-              // label: ,
-              data: jumlah,
-              backgroundColor: ['red', 'green']
-            }]
-          }
-        });
-
-      });
-
-      $(document).ready(function() {
-        var response =  [
-          {'status': 'L',   'jumlah': 18 },
-          {'status': 'P',  'jumlah': 11 }
-        ];
-
-        var status = [];
-        var jumlah = [];
-
-        response.forEach(function(data){
-          status.push(data.status);
-          jumlah.push(data.jumlah);
-        });
-
-        var canvas = document.getElementById('pie-3').getContext('2d');
-        var chart = new Chart(canvas, {
-          type: 'pie',
-          data: {
-            labels: status,
-            datasets: [{
-              // label: ,
-              data: jumlah,
-              backgroundColor: ['purple', 'orange']
-            }]
-          }
-        });
-
-      });
-    </script>
-
+    
     {{-- Toggle Select Bikin Soal --}}
     <script type="text/javascript">
         $('#tipe').on('change', function(){

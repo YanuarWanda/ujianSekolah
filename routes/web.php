@@ -44,57 +44,60 @@ Route::post('logout', function (){
 
 
 // CRUD Guru
-Route::get('kelola-guru', 'GuruController@index');
+Route::get('kelola-guru', 'GuruController@index')->name('guru');
 Route::get('daftar-guru', 'GuruController@create')->name('daftar-guru');
 Route::post('daftar-guru', 'GuruController@store');
-
-Route::get('/kelola-guru/show/{id}', 'GuruController@show');
-Route::get('/kelola-guru/edit/{id}', 'GuruController@edit');
+Route::get('/kelola-guru/show/{id}', 'GuruController@show')->name('guru.show');
+Route::get('/kelola-guru/edit/{id}', 'GuruController@edit')->name('guru.edit');
 Route::post('/kelola-guru/update/{id}', 'GuruController@update');
 Route::post('/kelola-guru/updatePassword/{id}', 'GuruController@updatePassword');
 Route::get('/kelola-guru/delete/{id}', 'GuruController@destroy');
-
-// Import Guru
-Route::get('/kelola-guru/import', 'GuruController@importView');
+Route::get('/kelola-guru/import', 'GuruController@importView')->name('guru.import');
 Route::post('/kelola-guru/import', 'GuruController@importToDatabase');
-
-// Export Guru
-// Route::get('/kelola-guru/export', 'GuruController@exportView')->name('export-guru');
 Route::get('/kelola-guru/export', 'GuruController@exportToExcel')->name('export-guru');
 
+
+
 // CRUD Siswa
-Route::get('kelola-siswa', 'SiswaController@index');
-Route::get('/kelola-siswa/create', 'SiswaController@create');
-Route::post('/kelola-siswa/create', 'SiswaController@store');
-Route::get('/kelola-siswa/show/{id}', 'SiswaController@show');
-Route::get('/kelola-siswa/edit/{id}', 'SiswaController@edit');
-Route::post('/kelola-siswa/update/{id}', 'SiswaController@update');
-Route::post('/kelola-siswa/updateAkun/{id}', 'SiswaController@updateAkun');
-Route::get('/kelola-siswa/delete/{id}', 'SiswaController@destroy');
+Route::get('kelola-siswa', 'SiswaController@index')->name('siswa');
+Route::name('siswa.')->group(function() {
+	Route::get('/kelola-siswa/create', 'SiswaController@create')->name('create');
+	Route::post('/kelola-siswa/create', 'SiswaController@store');
+	Route::get('/kelola-siswa/show/{id}', 'SiswaController@show')->name('show');
+	Route::get('/kelola-siswa/edit/{id}', 'SiswaController@edit')->name('edit');
+	Route::post('/kelola-siswa/update/{id}', 'SiswaController@update');
+	Route::post('/kelola-siswa/updateAkun/{id}', 'SiswaController@updateAkun');
+	Route::get('/kelola-siswa/delete/{id}', 'SiswaController@destroy');
 
-// Import Siswa
-Route::get('/kelola-siswa/import', 'SiswaController@importView');
-Route::post('/kelola-siswa/import', 'SiswaController@importToDatabase');
+	// Import Siswa
+	Route::get('/kelola-siswa/import', 'SiswaController@importView')->name('import');
+	Route::post('/kelola-siswa/import', 'SiswaController@importToDatabase');
 
-// Export Siswa
-// Route::get('/kelola-siswa/export', 'SiswaController@exportView');
-Route::get('/kelola-siswa/export', 'SiswaController@exportToExcel')->name('export-siswa');
+	// Export Siswa
+	// Route::get('/kelola-siswa/export', 'SiswaController@exportView');
+	Route::get('/kelola-siswa/export', 'SiswaController@exportToExcel')->name('export');
 
-// Siswa naik kelas
-Route::get('/kelola-siswa/naik-kelas', 'SiswaController@naikKelasView');
-Route::post('/kelola-siswa/naik-kelas', 'SiswaController@naikKelas');
+	// Siswa naik kelas
+	Route::get('/kelola-siswa/naik-kelas', 'SiswaController@naikKelasView')->name('naik-kelas');
+	Route::post('/kelola-siswa/naik-kelas', 'SiswaController@naikKelas');
+});
 
 // CRUD ujian
-Route::get('kelola-ujian', 'UjianController@index');
-Route::get('/kelola-ujian/create', 'UjianController@create');
-Route::post('/kelola-ujian/create', 'UjianController@store');
-Route::get('/kelola-ujian/edit/{id}', 'UjianController@edit');
-Route::post('/kelola-ujian/update/{id}', 'UjianController@update');
-Route::get('/kelola-ujian/delete/{id}', 'UjianController@destroy');
+Route::get('kelola-ujian', 'UjianController@index')->name('ujian');
+Route::name('ujian.')->group(function() {
+	Route::get('/kelola-ujian/create', 'UjianController@create')->name('create');
+	Route::post('/kelola-ujian/create', 'UjianController@store');
+	Route::get('/kelola-ujian/edit/{id}', 'UjianController@edit')->name('edit');
+	Route::post('/kelola-ujian/update/{id}', 'UjianController@update');
+	Route::get('/kelola-ujian/delete/{id}', 'UjianController@destroy');
+});
 
 // Tambah soal dari bank soal
 Route::get('/kelola-ujian/edit/{id}/tambah-soal-bank', 'UjianController@tambahSoalDariBankView')->name('tambah-soal-bank');
 Route::post('/kelola-ujian/edit/{id}/tambah-soal-bank', 'SoalController@tambahSoalDariBank')->name('tambah-soal-bank');
+
+
+
 
 // CRUD Ujian Remedial
 Route::get('/kelola-remed/create/{id}', 'RemedController@create');
@@ -133,36 +136,44 @@ Route::post('/kelola-soal-remed/update/{id}', 'SoalRemedController@update');
 Route::get('/kelola-soal-remed/delete/{id}', 'SoalRemedController@delete');
 
 // CRUD Jurusan
-Route::get('/kelola-jurusan', 'JurusanController@index');
-Route::get('/kelola-jurusan/create', 'JurusanController@create');
-Route::post('/kelola-jurusan/create', 'JurusanController@store');
-Route::get('/kelola-jurusan/edit/{id}', 'JurusanController@edit');
-Route::post('/kelola-jurusan/update/{id}', 'JurusanController@update');
-Route::get('/kelola-jurusan/delete/{id}', 'JurusanController@destroy');
+Route::get('/kelola-jurusan', 'JurusanController@index')->name('jurusan');
+Route::name('jurusan.')->group(function() {
+	Route::get('/kelola-jurusan/create', 'JurusanController@create')->name('create');
+	Route::post('/kelola-jurusan/create', 'JurusanController@store');
+	Route::get('/kelola-jurusan/edit/{id}', 'JurusanController@edit')->name('edit');
+	Route::post('/kelola-jurusan/update/{id}', 'JurusanController@update');
+	Route::get('/kelola-jurusan/delete/{id}', 'JurusanController@destroy');
+});
 
 // CRUD Kelas
-Route::get('/kelola-kelas', 'KelasController@index');
-Route::get('/kelola-kelas/create', 'KelasController@create');
-Route::post('/kelola-kelas/create', 'KelasController@store');
-Route::get('/kelola-kelas/edit/{id}', 'KelasController@edit');
-Route::post('/kelola-kelas/update/{id}', 'KelasController@update');
-Route::get('/kelola-kelas/delete/{id}', 'KelasController@destroy');
+Route::get('/kelola-kelas', 'KelasController@index')->name('kelas');
+Route::name('kelas.')->group(function() {
+	Route::get('/kelola-kelas/create', 'KelasController@create')->name('create');
+	Route::post('/kelola-kelas/create', 'KelasController@store');
+	Route::get('/kelola-kelas/edit/{id}', 'KelasController@edit')->name('edit');
+	Route::post('/kelola-kelas/update/{id}', 'KelasController@update');
+	Route::get('/kelola-kelas/delete/{id}', 'KelasController@destroy');
+});
 
 // CRUD Bidang Keahlian
-Route::get('/kelola-bidang', 'DaftarBidangKeahlianController@index');
-Route::get('/kelola-bidang/create', 'DaftarBidangKeahlianController@create');
-Route::post('/kelola-bidang/create', 'DaftarBidangKeahlianController@store');
-Route::get('/kelola-bidang/edit/{id}', 'DaftarBidangKeahlianController@edit');
-Route::post('/kelola-bidang/update/{id}', 'DaftarBidangKeahlianController@update');
-Route::get('/kelola-bidang/delete/{id}', 'DaftarBidangKeahlianController@destroy');
+Route::get('/kelola-bidang', 'DaftarBidangKeahlianController@index')->name('bidang');
+Route::name('bidang.')->group(function () {
+	Route::get('/kelola-bidang/create', 'DaftarBidangKeahlianController@create')->name('create');
+	Route::post('/kelola-bidang/create', 'DaftarBidangKeahlianController@store');
+	Route::get('/kelola-bidang/edit/{id}', 'DaftarBidangKeahlianController@edit')->name('edit');
+	Route::post('/kelola-bidang/update/{id}', 'DaftarBidangKeahlianController@update');
+	Route::get('/kelola-bidang/delete/{id}', 'DaftarBidangKeahlianController@destroy');
+});
 
 // CRUD Mapel
-Route::get('/kelola-mapel', 'MapelController@index');
-Route::get('/kelola-mapel/create', 'MapelController@create');
-Route::post('/kelola-mapel/create', 'MapelController@store');
-Route::get('/kelola-mapel/edit/{id}', 'MapelController@edit');
-Route::post('/kelola-mapel/update/{id}', 'MapelController@update');
-Route::get('/kelola-mapel/delete/{id}', 'MapelController@destroy');
+Route::get('/kelola-mapel', 'MapelController@index')->name('mapel');
+Route::name('mapel.')->group(function() {
+	Route::get('/kelola-mapel/create', 'MapelController@create')->name('create');
+	Route::post('/kelola-mapel/create', 'MapelController@store');
+	Route::get('/kelola-mapel/edit/{id}', 'MapelController@edit')->name('edit');
+	Route::post('/kelola-mapel/update/{id}', 'MapelController@update');
+	Route::get('/kelola-mapel/delete/{id}', 'MapelController@destroy');
+});
 
 // Settings user
 Route::get('/settings', 'HomeController@settings')->name('settings');

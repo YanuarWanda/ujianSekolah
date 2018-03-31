@@ -5,22 +5,6 @@
 <div class="panel panel-default">
     <div class="panel-heading">Contoh GRAFIK</div>
 
-    <div class="panel-body row">
-        <div class="col-md-4">
-          <canvas id="pie"></canvas>
-        </div>
-        <div class="col-md-4">
-          <canvas id="pie-2"></canvas>
-        </div>
-        <div class="col-md-4">
-          <canvas id="pie-3"></canvas>
-        </div>
-    </div>
-</div>
-
-<div class="panel panel-default">
-    <div class="panel-heading">Contoh GRAFIK</div>
-
     <div class="panel-body">
         <div class="row">
           <div class="col-md-6">
@@ -38,11 +22,12 @@
 @section('js')
 <script>
 
-$(document).ready(function(){
+// $(document).ready(function(){
 
   var url = "{{ route('data-nilai') }}";
   var label;
   var daftarChart = ['ujian1', 'ujian2', 'ujian3'];
+
   // console.log(daftarChart);
   $.get(url, function(response){
     // console.log(response);
@@ -89,6 +74,6 @@ $(document).ready(function(){
     }
 
   });
-});
+// });
 </script>
 @stop
