@@ -297,23 +297,15 @@ class SoalController extends Controller
         $nilai          = Nilai::join('siswa', 'nilai.id_siswa', '=', 'siswa.id_siswa')->where('id_ujian', base64_decode($id))->orderBy('id_kelas', 'asc')->get();
         $nilaiRemed     = NilaiRemedial::join('siswa', 'nilai_remedial.id_siswa', '=', 'siswa.id_siswa')->join('ujian_remedial', 'nilai_remedial.id_ujian_remedial', '=', 'ujian_remedial.id_ujian_remedial')->where('id_ujian', base64_decode($id))->orderBy('id_kelas', 'asc')->get();
         $jumlahNilai    = Nilai::join('siswa', 'nilai.id_siswa', '=', 'siswa.id_siswa')->join('kelas', 'siswa.id_kelas', '=', 'kelas.id_kelas')->join('kelas_ujian', 'kelas.id_kelas', '=', 'kelas_ujian.id_kelas')->join('ujian', 'nilai.id_ujian', '=', 'ujian.id_ujian')->where('ujian.id_ujian', base64_decode($id))->groupBy('kelas.id_kelas')->get();
-        // $jumlahRemed1    = NilaiRemedial::join('siswa', 'nilai_remedial.id_siswa', '=', 'siswa.id_siswa')->join('kelas', 'siswa.id_kelas', '=', 'kelas.id_kelas')->join('ujian_remedial', 'nilai_remedial.id_ujian_remedial', '=', 'ujian_remedial.id_ujian_remedial')->where('ujian_remedial.id_ujian', base64_decode($id))->where('ujian_remedial.remed_ke', '1')->get();
-        // $jumlahRemed2    = NilaiRemedial::join('siswa', 'nilai_remedial.id_siswa', '=', 'siswa.id_siswa')->join('kelas', 'siswa.id_kelas', '=', 'kelas.id_kelas')->join('ujian_remedial', 'nilai_remedial.id_ujian_remedial', '=', 'ujian_remedial.id_ujian_remedial')->where('ujian_remedial.id_ujian', base64_decode($id))->where('ujian_remedial.remed_ke', '2')->get();
-        // $jumlahRemed3    = NilaiRemedial::join('siswa', 'nilai_remedial.id_siswa', '=', 'siswa.id_siswa')->join('kelas', 'siswa.id_kelas', '=', 'kelas.id_kelas')->join('ujian_remedial', 'nilai_remedial.id_ujian_remedial', '=', 'ujian_remedial.id_ujian_remedial')->where('ujian_remedial.id_ujian', base64_decode($id))->where('ujian_remedial.remed_ke', '3')->get();
-
         $jumlahRemed    = NilaiRemedial::join('siswa', 'nilai_remedial.id_siswa', '=', 'siswa.id_siswa')->join('kelas', 'siswa.id_kelas', '=', 'kelas.id_kelas')->join('ujian_remedial', 'nilai_remedial.id_ujian_remedial', '=', 'ujian_remedial.id_ujian_remedial')->where('ujian_remedial.id_ujian', base64_decode($id))->get();
-      
         $jawabanUjian   = JawabanSiswa::join('soal', 'jawaban_siswa.id_soal', '=', 'soal.id_soal')->where('id_ujian', base64_decode($id))->get();
-        // $jawabanRemed1   = JawabanSiswaRemed::join('soal_remed', 'jawaban_siswa_remed.id_soal_remedial', '=', 'soal_remed.id_soal_remedial')->join('ujian_remedial', 'soal_remed.id_ujian_remedial', '=', 'ujian_remedial.id_ujian_remedial')->where('ujian_remedial.id_ujian', base64_decode($id))->where('ujian_remedial.remed_ke', '1')->get();
-        // $jawabanRemed2   = JawabanSiswaRemed::join('soal_remed', 'jawaban_siswa_remed.id_soal_remedial', '=', 'soal_remed.id_soal_remedial')->join('ujian_remedial', 'soal_remed.id_ujian_remedial', '=', 'ujian_remedial.id_ujian_remedial')->where('ujian_remedial.id_ujian', base64_decode($id))->where('ujian_remedial.remed_ke', '2')->get();
-        // $jawabanRemed3   = JawabanSiswaRemed::join('soal_remed', 'jawaban_siswa_remed.id_soal_remedial', '=', 'soal_remed.id_soal_remedial')->join('ujian_remedial', 'soal_remed.id_ujian_remedial', '=', 'ujian_remedial.id_ujian_remedial')->where('ujian_remedial.id_ujian', base64_decode($id))->where('ujian_remedial.remed_ke', '3')->get();
-
         $jawabanRemed   = JawabanSiswaRemed::join('soal_remed', 'jawaban_siswa_remed.id_soal_remedial', '=', 'soal_remed.id_soal_remedial')->join('ujian_remedial', 'soal_remed.id_ujian_remedial', '=', 'ujian_remedial.id_ujian_remedial')->where('ujian_remedial.id_ujian', base64_decode($id))->get();
-
         $soal           = Soal::where('id_ujian', base64_decode($id))->get();
         $ujianRemed     = UjianRemedial::where('id_ujian', base64_decode($id))->get()->first();
         $soalRemed      = SoalRemed::where('id_ujian_remedial', $ujianRemed['id_ujian_remedial'])->get();
-
+        $chartPerKelas  = Nilai::select('ujian.judul_ujian as judul', 'kelas.nama_kelas as kelas')->selectRaw('avg(nilai) as rataNilai')->join('siswa', 'nilai.id_siswa', '=', 'siswa.id_siswa')->join('ujian', 'nilai.id_ujian', '=', 'ujian.id_ujian')->join('kelas', 'siswa.id_kelas', '=', 'kelas.id_kelas')->where('nilai.id_ujian', base64_decode($id))->groupBy('kelas.id_kelas')->get();
+        // $chartPerKelas  = response()->json($chartPerKelas);
+        // return $chartPerKelas[0];
         foreach($soal as $s => $isiS){
             $jawaban_benar[] = $isiS->bankSoal->jawaban;
             $jawaban_benar[$s] = explode(' ,  ', $jawaban_benar[$s]);
@@ -345,7 +337,7 @@ class SoalController extends Controller
         }
 
         // return $jawabanUjian;
-        return view('admin.kelola-nilai.daftar_nilai', compact('nilai', 'jumlahNilai', 'jawabanUjian', 'jawabanRemed', 'soal', 'jawaban_benar', 'nilaiRemed', 'soalRemed', 'jawaban_benar_remed', 'jumlahRemed'));
+        return view('admin.kelola-nilai.daftar_nilai', compact('nilai', 'jumlahNilai', 'jawabanUjian', 'jawabanRemed', 'soal', 'jawaban_benar', 'nilaiRemed', 'soalRemed', 'jawaban_benar_remed', 'jumlahRemed', 'chartPerKelas'));
     }
 
     public function exportToExcel($id) {
@@ -364,12 +356,34 @@ class SoalController extends Controller
                     ->where('ujian.id_ujian', $ujian->id_ujian)
                     ->get();
 
-                foreach($dataNilai as $nilai) {
+                $dataRemed = \DB::select("SELECT
+                      s.nis,
+                      nr.nilai_remedial
+                    FROM
+                      nilai_remedial nr
+                      JOIN siswa s USING (id_siswa)
+                      JOIN ujian_remedial ur USING (id_ujian_remedial)
+                      JOIN ujian u USING (id_ujian)
+                      WHERE id_ujian = $ujian->id_ujian");
+
+                // dd($dataRemed[0]->nis);
+
+                foreach($dataNilai as $key => $nilai) {
                     $data[] = array(
                         $nilai->nis,
                         $nilai->nama,
-                        $nilai->nilai,
+                        $nilai->nilai
                     );
+
+                    foreach($dataRemed as $remed) {
+                        if($remed->nis == $nilai->nis) {
+                            $data[$key][] = $remed->nilai_remedial;    
+                        }else {
+                            $data[$key][] = 0;
+                        }
+                        
+                    }
+
                 }
 
                 // Mengisi Data ke Excel
@@ -378,7 +392,7 @@ class SoalController extends Controller
                 // Menambahkan Judul ke Excel
                 $judul = array(strtoupper($ujian->judul_ujian), '', '');
                 $sheet->prependRow(1, $judul);
-                $headings = array('NIS', 'Nama', 'Nilai');
+                $headings = array('NIS', 'Nama', 'Nilai', 'Remed 1', 'Remed 2', 'Remed 3');
                 $sheet->prependRow(2, $headings);
 
                 // Merge & Align Center Judul

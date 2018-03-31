@@ -4,15 +4,39 @@
 {{-- Chart --}}
 <div class="panel panel-default">
     <div class="panel-heading">Contoh GRAFIK</div>
-
     <div class="panel-body">
-        <div class="row">
-          <div class="col-md-6">
-            <canvas id="ujian1"></canvas>
-          </div>
-          <div class="col-md-6">
-            <canvas id="ujian2"></canvas>
-          </div>
+        {{-- Chart --}}
+        <div class="col-md-8">    
+            <center><h4>Grafik Nilai Rata-Rata per Ujian</h4></center>
+            <div class="row">
+                <div class="col-md-12 chart">
+                    <div class="panel panel-danger">
+                        <div class="panel-heading">Nilai rata-rata <p id="judul-ujian-1"></p></div>
+
+                        <div class="panel-body">
+                            <canvas id="ujian1" height="117" width="600"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 chart">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">Nilai rata-rata <p id="judul-ujian-2"></p></div>
+
+                        <div class="panel-body">
+                            <canvas id="ujian2" width="600"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 chart">
+                    <div class="panel panel-success">
+                        <div class="panel-heading">Nilai rata-rata <p id="judul-ujian-3"></p></div>
+
+                        <div class="panel-body">
+                            <canvas id="ujian3" width="600"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

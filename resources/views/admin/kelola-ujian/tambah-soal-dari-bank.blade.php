@@ -28,8 +28,8 @@
                                     <tr>
                                         <td class="id_bank_soal">{{ $key+1 }}</td>
                                         <td>{{ $isiSoal->tipe }}</td>
-                                        <td>{{ $isiSoal->isi_soal }}</td>
-                                        <td>{{ $isiSoal->jawaban }}</td>
+                                        <td>{!! $isiSoal->isi_soal !!}</td>
+                                        <td>{!! $isiSoal->jawaban !!}</td>
                                         <td>
                                             <a class="btn btn-primary" 
                                                 {{-- href="{{ Route('tambah-soal', $isiSoal->id_bank_soal) }}" --}}

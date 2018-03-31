@@ -1,6 +1,14 @@
 @extends('layouts.app')
 
 @section('css')
+<script>
+window.onbeforeunload = function(e) {
+    var dialogText = 'Yakin nih?';
+    e.returnValue = dialogText;
+    return dialogText;
+}
+
+</script>
 <style type="text/css">
     .detail p {
         padding-bottom: 9px;
@@ -24,9 +32,9 @@
                     <strong id="coba">Sisa waktu : <span style="color: orange;" id="pageTimer"></span></strong>
                 </div>
                 @if($ujian->id_ujian_remedial)
-                <form class="form-horizontal" id="ujian" method="POST" action="{{ url('/remed/submit', base64_encode($ujian->id_ujian_remedial))  }}">
+                <form class="form-horizontal" id="ujian" method="POST" action="{{ url('/remed/submit', base64_encode($ujian->id_ujian_remedial))  }}" onsubmit="resetStorage();">
                 @else
-                <form class="form-horizontal" id="ujian" method="POST" action="{{ url('/soal/submit', base64_encode($ujian->id_ujian)) }}">
+                <form class="form-horizontal" id="ujian" method="POST" action="{{ url('/soal/submit', base64_encode($ujian->id_ujian)) }}" onsubmit="resetStorage();">
                 @endif
                     {{ csrf_field() }}
                     @foreach($soalFull as $s => $isi)
@@ -49,13 +57,13 @@
                                 @if ($isi->bankSoal['tipe'] != 'MC')
                                     @foreach($pilihanAsli as $p)
                                         <div class="radio">
-                                            <label><input type="radio" name="jawaban_{{ $isi->id_bank_soal }}" value="{{ $p }}">{!! $p !!}</label>
+                                            <label><input type="radio" class="jawaban_{{ $isi->id_bank_soal }}" name="jawaban_{{ $isi->id_bank_soal }}" value="{{ $p }}" onclick="simpanJawaban('jawaban_'+{{ Auth::user()->id_users }}+'_'+{{ $isi->id_ujian }}+'_'+{{ $isi->id_bank_soal }}, '{{ $p }}' )" autocomplete="off">{!! $p !!}</label>
                                         </div>
                                     @endforeach
                                 @else
                                     @foreach($pilihanAsli as $p)
                                         <div class="checkbox">
-                                            <label><input type="checkbox" name="jawaban_{{ $isi->id_bank_soal }}[]" value="{{ $p }}">{!! $p !!}</label>
+                                            <label><input type="checkbox" class="jawaban_{{ $isi->id_bank_soal }}" name="jawaban_{{ $isi->id_bank_soal }}[]" value="{{ $p }}" onclick="simpanJawabanMC('jawaban_'+{{ Auth::user()->id_users }}+'_'+{{ $isi->id_ujian }}+'_'+{{ $isi->id_bank_soal }}, '{{ $p }}' )" autocomplete="off">{!! $p !!}</label>
                                         </div>
                                     @endforeach
                                 @endif
@@ -129,8 +137,6 @@
 
 @section('js')
 <script type="text/javascript">
-var count = {{ $sisa_waktu }}; // 3600s
-// console.log(count);
 var counter = setInterval(timer, 1000); //1000 will  run it every 1 second
 
 function timer() {
@@ -148,7 +154,7 @@ function timer() {
 
     document.getElementById("pageTimer").innerHTML = hours + " Jam " + minutes + " Menit " + seconds + " Detik ";
     var sisa_waktu = hours + ":" + minutes + ":" + seconds;
-    console.log(sisa_waktu);
+    // console.log(sisa_waktu);
 
     if(sisa_waktu == '0:0:0') {
         swal('', 'Waktu Pengerjaan Habis !', 'warning').then((selesai) => {
@@ -158,5 +164,76 @@ function timer() {
         });
     }
 }
+
+var $soalPNG = {!! $soalPG !!};
+var $soalMNC = {!! $soalMC !!};
+var $idUser  = {{ Auth::user()->id_users }};
+var $idUjian = {{ $ujian->id_ujian }};
+
+$(window).on('beforeunload', function(){
+    localStorage.setItem('waktu_'+{{ $ujian->id_ujian }}, count);
+});
+
+$(window).on('load', function(){
+    // localStorage.clear();
+    var waktu = localStorage.getItem('waktu_'+{{ $ujian->id_ujian }});
+    if(waktu > 0){
+        count = waktu;
+    }else{
+        count = {{ $sisa_waktu }};
+    }
+
+    $soalPNG.forEach(function(realData){
+        $('.jawaban_'+realData.id_bank_soal).each(function(){
+            if($(this).val() == localStorage.getItem('jawaban_'+$idUser+'_'+$idUjian+'_'+realData.id_bank_soal)){
+                $(this).attr('checked', 'checked');
+            }
+        });
+    });
+
+    $soalMNC.forEach(function(realData){
+        $('.jawaban_'+realData.id_bank_soal).each(function(){
+            var $isiDiPotong = localStorage.getItem('jawaban_'+$idUser+'_'+$idUjian+'_'+realData.id_bank_soal).split(', ');
+            console.log($isiDiPotong);
+            for(var z=0;z<$isiDiPotong.length;z++){
+                if($(this).val() == $isiDiPotong[z]){
+                    $(this).attr('checked', 'checked');
+                }
+            }
+        });
+    });
+});
+
+function simpanJawaban(name, value){
+    localStorage.setItem(name, value);
+}
+
+function simpanJawabanMC(name, value){
+    var $isi;
+    if(localStorage.getItem(name) != null){
+        $isi = localStorage.getItem(name).split(', ');
+        for(var i=0;i<$isi.length;i++){
+            if($isi[i] == value){
+                // console.log("Sebelum di splice : "+$isi);
+                $isi.splice(i, 1);
+                // console.log("Sesudah di ssplice : "+$isi);
+                $isiJ = $isi.join(', ');
+                // console.log("Pas di join : "+$isiJ);
+                localStorage.setItem(name, $isiJ);
+                break;
+            }else if(i === $isi.length-1 && $isi[i] != value){
+                localStorage.setItem(name, localStorage.getItem(name)+', '+value);
+            }
+            // console.log("Hasil : "+localStorage.getItem(name));
+        }
+    }else{
+        localStorage.setItem(name, value);
+    }
+}
+
+function resetStorage(){
+    localStorage.clear();
+}
+
 </script>
 @endsection
