@@ -46,7 +46,7 @@ class UjianController extends Controller
 
     public function index()
     {
-        $kelas = Kelas::all();
+        $kelas = Kelas::where('nama_kelas', 'NOT LIKE', '%ALUMNI%')->get();
         if(Auth::user()->hak_akses == 'admin'){
             $ujian = Ujian::All();
         }else if(Auth::user()->hak_akses == 'guru'){
