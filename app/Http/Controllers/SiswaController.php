@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 use App\Siswa;
 use App\User;
@@ -10,6 +11,7 @@ use App\Kelas;
 use Storage;
 use Excel;
 use DB;
+
 class SiswaController extends Controller
 {
     public function __construct()
@@ -61,6 +63,8 @@ class SiswaController extends Controller
     {
         $this->validate($data, [
             'nis' => 'required|numeric|digits:10|unique:siswa',
+            'nama' => 'required',
+            'kelas' => 'required',
             'username' => 'required|string|max:20|unique:users',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
@@ -89,9 +93,7 @@ class SiswaController extends Controller
                 'nama' => $data['nama'],
                 'alamat' => $data['alamat'],
                 'jenis_kelamin' => $data['jenisKelamin'],
-                // 'email' => $data['email'], // Dipindah ke table users
-                // 'jurusan' => $data['jurusan'], // Dipindah ke table jurusan, dengan relasi ke table kelas
-                'foto' => $nameFotoToStore, // Untuk sementara dikosongkan
+                'foto' => $nameFotoToStore, 
             ]);
 
             return redirect('/kelola-siswa')->with('success', 'Pendaftaran Berhasil');
@@ -121,7 +123,7 @@ class SiswaController extends Controller
     {
         $data = Siswa::find(base64_decode($id));
         $kelas = Kelas::All();
-        // return $data;
+        
         return view('admin.kelola-siswa.edit', compact('data', 'kelas'));
     }
 
@@ -134,14 +136,17 @@ class SiswaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request, [
-            'username' => 'required',
-            'email'    => 'required',
-        ]);
-
-        $siswa = Siswa::find(base64_decode($id));
+        $siswa = Siswa::where('nis', base64_decode($id))->get()->first();
         $user  = User::find($siswa->id_users);
 
+        $this->validate($request, [
+            'nis'           => ['required', 'numeric', 'digits:10', Rule::unique('siswa')->ignore($siswa->nis, 'nis')],
+            'nama'          => ['required'],
+            'username'      => ['required', 'string', 'max:20', Rule::unique('users')->ignore($user->username, 'username'), ],
+            'email'         => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($user->email, 'email')],
+            'jenisKelamin'  => ['required'],
+        ]);
+        
         $user->username = $request['username'];
         $user->email    = $request['email'];
         
@@ -150,7 +155,6 @@ class SiswaController extends Controller
             $siswa->id_kelas = Kelas::where('nama_kelas', $request['kelas'])->first()->id_kelas;
             $siswa->nama = $request['nama'];
             $siswa->alamat = $request['alamat'];
-            // $siswa->jurusan = $request['jurusan']; // Dipindah ke tablenya sendiri, dengan relasi melalui table kelas
             $siswa->jenis_kelamin = $request['jenisKelamin'];
 
             if($request->file('foto')){
@@ -209,13 +213,17 @@ class SiswaController extends Controller
 
     // Mengupdate data user, dari menu settings
     public function storeDataSiswa(Request $request, $id) {
+        $siswa  = Siswa::where('nis', base64_decode($id))->get()->first();
+        $user   = User::find($siswa->id_users);
+
         $this->validate($request, [
-            'nis' => 'required',
-            'nama' => 'required',
-            'username' => 'required',
+            'nis'           => ['required', 'numeric', 'digits:10', Rule::unique('siswa')->ignore($siswa->nis, 'nis')],
+            'nama'          => ['required'],
+            'username'      => ['required', 'string', 'max:20', Rule::unique('users')->ignore($user->username, 'username'), ],
+            'email'         => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($user->email, 'email')],
+            'jenisKelamin'  => ['required'],
         ]);
-        // return base64_decode($id);
-        $siswa = Siswa::where('nis', base64_decode($id))->get()->first();
+
         $siswa->nis = $request['nis'];
         $siswa->nama = $request['nama'];
         $siswa->id_kelas = Kelas::where('nama_kelas', $request['kelas'])->first()->id_kelas;
@@ -337,11 +345,11 @@ class SiswaController extends Controller
             $siswa = Siswa::where('id_kelas', $idk)->get();
         }
 
-        $kelas = Kelas::where('nama_kelas', 'NOT LIKE', '%ALUMNI%')->get();
+        $kelas = Kelas::all();
         return view('admin.kelola-siswa.naik-kelas', compact('siswa', 'kelas', 'idk'));
     }
 
-    Public function naikKelas(Request $request) {
+    public function naikKelas(Request $request) {
         if(isset($_POST)) {
             foreach($request['id_siswa'] as $id_siswa) {
                 $siswa = Siswa::find($id_siswa);
