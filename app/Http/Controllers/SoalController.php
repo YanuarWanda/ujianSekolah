@@ -356,12 +356,34 @@ class SoalController extends Controller
                     ->where('ujian.id_ujian', $ujian->id_ujian)
                     ->get();
 
-                foreach($dataNilai as $nilai) {
+                $dataRemed = \DB::select("SELECT
+                      s.nis,
+                      nr.nilai_remedial
+                    FROM
+                      nilai_remedial nr
+                      JOIN siswa s USING (id_siswa)
+                      JOIN ujian_remedial ur USING (id_ujian_remedial)
+                      JOIN ujian u USING (id_ujian)
+                      WHERE id_ujian = $ujian->id_ujian");
+
+                // dd($dataRemed[0]->nis);
+
+                foreach($dataNilai as $key => $nilai) {
                     $data[] = array(
                         $nilai->nis,
                         $nilai->nama,
-                        $nilai->nilai,
+                        $nilai->nilai
                     );
+
+                    foreach($dataRemed as $remed) {
+                        if($remed->nis == $nilai->nis) {
+                            $data[$key][] = $remed->nilai_remedial;    
+                        }else {
+                            $data[$key][] = 0;
+                        }
+                        
+                    }
+
                 }
 
                 // Mengisi Data ke Excel
@@ -370,7 +392,7 @@ class SoalController extends Controller
                 // Menambahkan Judul ke Excel
                 $judul = array(strtoupper($ujian->judul_ujian), '', '');
                 $sheet->prependRow(1, $judul);
-                $headings = array('NIS', 'Nama', 'Nilai');
+                $headings = array('NIS', 'Nama', 'Nilai', 'Remed 1', 'Remed 2', 'Remed 3');
                 $sheet->prependRow(2, $headings);
 
                 // Merge & Align Center Judul
