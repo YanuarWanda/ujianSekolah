@@ -22,6 +22,15 @@
                     <p>Jenis Kelamin : @if($siswa->jenis_kelamin == 'L') Laki-laki @else Perempuan @endif</p>
                 </div>
             </div>
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h5 class="text-center">Ability</h5>
+                </div>
+
+                <div class="panel-body">
+                    <canvas id="grafikAbility" width="600px"></canvas>
+                </div>
+            </div>
         </div>
         <div class="col-md-8">
 
@@ -127,4 +136,32 @@
 
     </div>
 </div>
+@endsection
+@section('js')
+<script>
+    var $skill = {!! $ability !!};
+    var $mapel = [];var $nilai =[];
+    $skill.forEach(function(realData){
+        $mapel.push(realData.mapel);
+        $nilai.push(realData.nilai);
+    });
+
+    console.log($mapel);
+    console.log($nilai);
+
+    var dataBuatChart = {
+        labels: $mapel,
+        datasets: [{
+            label: 'Nilai',
+            backgroundColor: 'rgba(128, 128, 128, 0.5)',
+            data: $nilai
+        }]  
+    };
+    var dataCanvasnya = document.getElementById('grafikAbility').getContext('2d');
+
+    var chartnya = new Chart(dataCanvasnya, {
+        type: 'radar',
+        data: dataBuatChart
+    });
+</script>
 @endsection

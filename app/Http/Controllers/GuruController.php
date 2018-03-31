@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 use App\Guru;
 use App\User;
@@ -66,9 +67,12 @@ class GuruController extends Controller
     {
         $rules = $this->validate($request, [
             'nip' => 'required|numeric|digits_between:19,21|unique:guru',
+            'nama' => 'required',
             'username' => 'required|string|max:20|unique:users',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
+            'bidangKeahlian' => 'required',
+            'jenisKelamin' => 'required',
         ]);
 
         $user = new User;
@@ -76,7 +80,6 @@ class GuruController extends Controller
         $user->email = $request['email'];
         $user->password = bcrypt($request['password']);
         $user->hak_akses = 'guru';
-
 
         if($user->save()) {
             $guru = new Guru;
@@ -141,7 +144,7 @@ class GuruController extends Controller
         $data = Guru::find(base64_decode($id));
         $daftarBK = DaftarBidangKeahlian::all();
         $bidang = BidangKeahlian::join('guru', 'bidang_keahlian.id_guru', '=', 'guru.id_guru')->join('daftar_bidang_keahlian', 'bidang_keahlian.id_daftar_bidang', '=', 'daftar_bidang_keahlian.id_daftar_bidang')->where('bidang_keahlian.id_guru', $data->id_guru)->get();
-        // return $bidang;
+        
         return view('admin.kelola-guru.edit', compact('data', 'daftarBK', 'bidang'));
     }
 
@@ -154,22 +157,20 @@ class GuruController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request, [
-            'username' => 'required',
-            'email' => 'required',
-
-            // 'password' => 'required|string|min:6|confirmed',
-        ]);
-
-        // $guru = Guru::where('nip', base64_decode($id))->get()->first();
         $guru = Guru::find(base64_decode($id));
         $user = User::find($guru->id_users);
 
+        $this->validate($request, [
+            'nip'               => ['required', 'numeric', 'digits_between:19,21', Rule::unique('guru')->ignore($guru->nip, 'nip')],
+            'nama'              => ['required'],
+            'username'          => ['required', 'string', 'max:20', Rule::unique('users')->ignore($user->username, 'username')],
+            'email'             => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($user->email, 'email')],
+            'bidangKeahlian'    => ['required'],
+            'jenisKelamin'      => ['required'],
+        ]);
+
         $user->username = $request['username'];
         $user->email = $request['email'];
-
-        // $user->password = bcrypt($request['password']);
-        // $user->hak_akses = 'guru';
 
         if($user->save()) {
             $guru->nip = $request['nip'];
@@ -187,11 +188,33 @@ class GuruController extends Controller
                 $guru->foto = $nameFotoToStore;
             }
 
+            $bkGuru = BidangKeahlian::where('id_guru', $guru->id_guru)->get();
+            
             if($guru->save()) {
-            // Untuk sementara, cara update bidang keahlian adalah dengan menghapus yang sudah ada, lalu menambahkan kembali
-                $deleteMany = BidangKeahlian::where('id_guru', $guru->id_guru)->delete();
+                if(count($bkGuru) > 0){
+                    // Untuk sementara, cara update bidang keahlian adalah dengan menghapus yang sudah ada, lalu menambahkan kembali
+                    $deleteMany = BidangKeahlian::where('id_guru', $guru->id_guru)->delete();
 
-                if($deleteMany) {
+                    if($deleteMany) {
+                        $bidangKeahlian = $request['bidangKeahlian'];
+
+                        foreach ($bidangKeahlian as $bidang) {
+                            $bidang_keahlian = new BidangKeahlian;
+                            $bidang_keahlian->id_guru = $guru->id_guru;
+                            $daftar_bidang_keahlian =
+                                DaftarBidangKeahlian::select('id_daftar_bidang')
+                                    ->where('bidang_keahlian', $bidang)
+                                    ->get();
+
+                            foreach($daftar_bidang_keahlian as $daftar) {
+                                $bidang_keahlian->id_daftar_bidang = $daftar->id_daftar_bidang;
+                            }
+
+                            $bidang_keahlian->save();
+                        }
+                        return redirect('/kelola-guru')->with('success', 'Data berhasil diubah.');
+                    }
+                }else{
                     $bidangKeahlian = $request['bidangKeahlian'];
 
                     foreach ($bidangKeahlian as $bidang) {
@@ -271,13 +294,18 @@ class GuruController extends Controller
     }
 
     public function storeDataGuru(Request $request, $id) {
+        $guru = Guru::where('nip', base64_decode($id))->get()->first();
+        $user = Users::find($guru->id_users);
+
         $this->validate($request, [
-            'nip' => 'required',
-            'nama' => 'required',
-            'username' => 'required',
+            'nip'               => ['required', 'numeric', 'digits_between:19,21', Rule::unique('guru')->ignore($guru->nip, 'nip')],
+            'nama'              => ['required'],
+            'username'          => ['required', 'string', 'max:20', Rule::unique('users')->ignore($user->username, 'username')],
+            'email'             => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($user->email, 'email')],
+            'bidangKeahlian'    => ['required'],
+            'jenisKelamin'      => ['required'],
         ]);
 
-        $guru = Guru::where('nip', base64_decode($id))->get()->first();
         $guru->nip = $request['nip'];
         $guru->nama = $request['nama'];
         $guru->alamat = $request['alamat'];
@@ -291,11 +319,33 @@ class GuruController extends Controller
         $user = User::find($guru->id_users);
         $user->username = $request['username'];
 
-        if($user->save() && $guru->save()) {
-            // Untuk sementara, cara update bidang keahlian adalah dengan menghapus yang sudah ada, lalu menambahkan kembali
-            $deleteMany = BidangKeahlian::where('id_guru', $guru->id_guru)->delete();
+        $bkGuru = BidangKeahlian::where('id_guru', $guru->id_guru);
 
-            if($deleteMany) {
+        if($user->save() && $guru->save()) {
+            if(count($bkGuru) > 0){
+                // Untuk sementara, cara update bidang keahlian adalah dengan menghapus yang sudah ada, lalu menambahkan kembali
+                $deleteMany = BidangKeahlian::where('id_guru', $guru->id_guru)->delete();
+
+                if($deleteMany) {
+                    $bidangKeahlian = $request['bidangKeahlian'];
+
+                    foreach ($bidangKeahlian as $bidang) {
+                        $bidang_keahlian = new BidangKeahlian;
+                        $bidang_keahlian->id_guru = $guru->id_guru;
+                        $daftar_bidang_keahlian =
+                            DaftarBidangKeahlian::select('id_daftar_bidang')
+                                ->where('bidang_keahlian', $bidang)
+                                ->get();
+
+                        foreach($daftar_bidang_keahlian as $daftar) {
+                            $bidang_keahlian->id_daftar_bidang = $daftar->id_daftar_bidang;
+                        }
+
+                        $bidang_keahlian->save();
+                    }
+                    return redirect('/home')->with('success', 'Data berhasil diubah');
+                }
+            }else{
                 $bidangKeahlian = $request['bidangKeahlian'];
 
                 foreach ($bidangKeahlian as $bidang) {
@@ -312,7 +362,7 @@ class GuruController extends Controller
 
                     $bidang_keahlian->save();
                 }
-                return redirect('/home')->with('success', 'Data berhasil diubah');
+                    return redirect('/home')->with('success', 'Data berhasil diubah');
             }
         } else {
             return redirect('/settings')->with('error', 'Data gagal diubah');

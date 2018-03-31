@@ -156,11 +156,11 @@
                                     @foreach($soal as $s => $isiSoal)
                                         <tr>
                                             <td><?php echo $no;$no++; ?></td>
-                                            <td>{{ $isiSoal->bankSoal['isi_soal'] }}</td>
+                                            <td>{!! $isiSoal->bankSoal['isi_soal'] !!}</td>
                                             @if( $jawabanAsli )
-                                                <td>{{ $isiSoal->bankSoal['jawaban'] }}
+                                                <td>{!! $isiSoal->bankSoal['jawaban'] !!}
                                             @else
-                                                <td>{{ $jawabanAsli[$s] }}</td>
+                                                <td>{!! $jawabanAsli[$s] !!}</td>
                                             @endif
                                             <td>{{ $isiSoal->bankSoal['tipe']}}</td>
                                             <td>

@@ -49,7 +49,7 @@
                                     <label for="bidangKeahlian" class="col-md-4 control-label">Bidang Keahlian</label>
 
                                     <div class="col-md-6">
-                                        <select name="bidangKeahlian[]" id="bidangKeahlian" class="form-control selectpicker show-menu-arrow" title="Silahkan pilih keahlian.." data-live-search="true" multiple data-selected-text-format="count" data-size="5" multiple>
+                                        <select name="bidangKeahlian[]" id="bidangKeahlian" class="form-control selectpicker show-menu-arrow" title="Silahkan pilih keahlian.." data-live-search="true" multiple data-selected-text-format="count" data-size="5" multiple required>
                                             @foreach($daftarBK as $d)
                                                 <option
                                                     @foreach($bidang as $b)
