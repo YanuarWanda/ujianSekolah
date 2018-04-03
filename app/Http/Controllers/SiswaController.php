@@ -345,7 +345,7 @@ class SiswaController extends Controller
             $siswa = Siswa::where('id_kelas', $idk)->get();
         }
 
-        $kelas = Kelas::all();
+        $kelas = Kelas::where('nama_kelas', 'NOT LIKE', '%ALUMNI%')->get();
         return view('admin.kelola-siswa.naik-kelas', compact('siswa', 'kelas', 'idk'));
     }
 

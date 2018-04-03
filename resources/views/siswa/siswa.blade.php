@@ -46,14 +46,17 @@
                     @foreach($ujian as $u => $isi)
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <h4>{{ $isi->judul_ujian }} <code>{{ $isi->nama_mapel }}</code></h4>
+                            <h4>{{ $isi->judul_ujian }}</h4>
+                            <code>{{ $isi->nama_mapel }}</code>
                         </div>
 
                         <div class="panel-body">
-                            <p>Dipost pada <span style="color: red;">{{ $isi->tanggal_post }}</span></p>
-                            <p>Batas Pengerjaan <span style="color: red">{{ $isi->tanggal_kadaluarsa }}</span></p>
+                            <h5>Dipost pada <span style="color: red;">{{ $isi->tanggal_post }}</span></h5>
+                            <hr>
+                            <h5>Batas Pengerjaan <span style="color: red">{{ $isi->tanggal_kadaluarsa }}</span></h5>
+                            <hr>
                             <strong>Deskripsi</strong>
-                            <p>{{ $isi->catatan }}</p>
+                            <h5>{{ $isi->catatan }}</h5>
                         </div>
                         @if(count($nilai) < 1)
                             <div class="panel-footer">
@@ -93,8 +96,10 @@
                         </div>
 
                         <div class="panel-body">
-                            <p>Dipost pada <span style="color: red;">{{ $isiR->tanggal_pembuatan }}</span></p>
+                            <p>Dipost pada<span style="color: red;">{{ $isiR->tanggal_pembuatan }}</span></p>
+                            <hr>
                             <p>Batas Pengerjaan <span style="color: red">{{ $isiR->tanggal_kadaluarsa }}</span></p>
+                            <hr>
                             <strong>Deskripsi</strong>
                             <p>{{ $isiR->catatan }}</p>
                         </div>

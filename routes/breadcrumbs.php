@@ -7,10 +7,23 @@ use App\Siswa;
 use App\Ujian;
 use App\Kelas;
 use App\Jurusan;
+use App\Nilai;
 
 // Home
 Breadcrumbs::register('home', function ($breadcrumbs) {
     $breadcrumbs->push('Home', route('home'));
+});
+
+// Settings
+Breadcrumbs::register('settings', function ($breadcrumbs) {
+	$breadcrumbs->parent('home');
+    $breadcrumbs->push('Setting', route('settings'));
+});
+
+// Login
+Breadcrumbs::register('login', function ($breadcrumbs) {
+	$breadcrumbs->parent('home');
+    $breadcrumbs->push('Login', route('login'));
 });
 
 // Home > Guru
@@ -195,4 +208,20 @@ Breadcrumbs::register('jurusan.edit', function($breadcrumbs, $id) {
 	$breadcrumbs->parent('jurusan');
 	$breadcrumbs->push($jurusan->nama_jurusan);
 	$breadcrumbs->push('Edit', route('jurusan.edit', $jurusan));
+});
+
+// Home > [Ujian] > Kerjakan
+Breadcrumbs::register('soal.kerjakan', function($breadcrumbs, $id) {
+	$ujian = Ujian::findOrFail(base64_decode($id));
+	$breadcrumbs->parent('home');
+	$breadcrumbs->push($ujian->judul_ujian);
+	$breadcrumbs->push('Kerjakan', route('soal.kerjakan', $ujian));
+});
+
+// Home > Nilai > Show
+Breadcrumbs::register('nilai', function($breadcrumbs, $id) {
+	$ujian = Ujian::findOrFail(base64_decode($id));
+	$breadcrumbs->parent('home');
+	$breadcrumbs->push($ujian->judul_ujian);
+	$breadcrumbs->push('Daftar Nilai', route('nilai', $ujian));
 });

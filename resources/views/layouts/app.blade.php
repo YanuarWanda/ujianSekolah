@@ -68,6 +68,115 @@
     </div>
     </a>
 
+@if(Auth::check())
+    @if(Auth::user()->hak_akses == 'siswa')
+    <div class="container-fluid">
+            
+        <!-- Fixed navbar -->
+        <nav class="navbar navbar-default">
+          <div class="container-fluid">
+            <div id="navbar">
+              <ul class="nav navbar-nav">
+                {{-- <li><a href="#menu-toggle" id="menu-toggle"><span class="fa fa-list" style="font-size: 17px;"></span></a></li> --}}
+                <li><a><span class="fa fa-graduation-cap"></span> U-LAH</a></li>
+
+                {{-- <li><ul class="breadcrumb list-inline">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">About</a></li>
+                    <li class="active">US</li>
+                </ul></li> --}}
+
+                {{ Breadcrumbs::render() }}
+              </ul>
+              <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
+                        {{ Auth::user()->username }} <span class="caret"></span>
+                    </a>
+
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="{{ route('settings') }}">Settings</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('logout') }}"
+                                onclick="event.preventDefault();
+                                         document.getElementById('logout-form').submit();">
+                                Logout
+                            </a>
+
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                {{ csrf_field() }}
+                            </form>
+                        </li>
+                    </ul>
+                </li>
+              </ul>
+            </div><!--/.nav-collapse -->
+          </div>
+        </nav>
+            
+        <div class="content">
+            @yield('content')
+        </div>
+    </div>
+
+    {{-- End Siswa --}}
+
+    @elseif(Auth::user()->hak_akses == 'guru')
+    <div class="container-fluid">
+            
+        <!-- Fixed navbar -->
+        <nav class="navbar navbar-default">
+          <div class="container-fluid">
+            <div id="navbar">
+              <ul class="nav navbar-nav">
+                <li><a href="#menu-toggle" id="menu-toggle"><span class="fa fa-list" style="font-size: 17px;"></span></a></li>
+                <li><a href="#"><span class="fa fa-graduation-cap"></span> U-LAH</a></li>
+
+                {{-- <li><ul class="breadcrumb list-inline">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">About</a></li>
+                    <li class="active">US</li>
+                </ul></li> --}}
+
+                {{ Breadcrumbs::render() }}
+              </ul>
+              <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
+                        {{ Auth::user()->username }} <span class="caret"></span>
+                    </a>
+
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="{{ route('settings') }}">Settings</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('logout') }}"
+                                onclick="event.preventDefault();
+                                         document.getElementById('logout-form').submit();">
+                                Logout
+                            </a>
+
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                {{ csrf_field() }}
+                            </form>
+                        </li>
+                    </ul>
+                </li>
+              </ul>
+            </div><!--/.nav-collapse -->
+          </div>
+        </nav>
+            
+        <div class="content">
+            @yield('content')
+        </div>
+    </div>
+    {{-- End Guru --}}
+
+    @else
     {{-- Content --}}
 
     <div id="wrapper">
@@ -170,11 +279,18 @@
     <!-- /#wrapper -->
     
     {{-- Content --}}
+    @endif
+@else
+    <div class="container">
+        @yield('content')
+    </div>
+@endif
 
     {{-- JQuery --}}
-    <script src="{{ asset('js/jquery-3.3.1.min.js') }}"></script>
+    <script src="{{ asset('js/app.js') }}"></script>
+    {{-- <script src="{{ asset('js/jquery-3.3.1.min.js') }}"></script> --}}
 
-    <script src="{{ asset('js/bootstrap-3.3.5.js') }}"></script>
+    {{-- <script src="{{ asset('js/bootstrap-3.3.5.js') }}"></script> --}}
     {{-- <script src="{{ asset('js/summernote-0.8.9.js') }}"></script> --}}
 
     {{-- Fallback (Local) --}}

@@ -13,8 +13,8 @@
 
 Route::get('/', function () {
 	// return session()->all();
-	// return redirect('/home');
-	return view('home');
+	// return view('home');
+	return redirect('/home');
 });
 
 Auth::routes();
@@ -184,11 +184,11 @@ Route::post('/edit/s/{id}', 'SiswaController@storeDataSiswa')->name('edit-siswa'
 Route::post('/edit/g/{id}', 'GuruController@storeDataGuru')->name('edit-guru');
 
 // Dashboard Siswa
-Route::get('/soal/{id}', 'UjianController@kerjakanSoal');
-Route::get('/remed/{id}', 'UjianController@kerjakanRemed');
+Route::get('/soal/{id}', 'UjianController@kerjakanSoal')->name('soal.kerjakan');
+Route::get('/remed/{id}', 'UjianController@kerjakanRemed')->name('remed.kerjakan');
 Route::post('/soal/submit/{id}', 'UjianController@submitSoal');
 Route::post('/remed/submit/{id}', 'UjianController@submitRemed');
-Route::get('/daftar-nilai/{id}', 'SoalController@daftarNilai');
+Route::get('/daftar-nilai/{id}', 'SoalController@daftarNilai')->name('nilai');
 
 // Chart di dashboard admin
 Route::get('/data-nilai', 'HomeController@chartData')->name('data-nilai');

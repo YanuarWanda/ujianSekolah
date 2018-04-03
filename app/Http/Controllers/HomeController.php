@@ -49,7 +49,36 @@ class HomeController extends Controller
                 'username' => Auth::user()->username,
             );
             \Log::info('Mengakses home', $user);
-            return view('admin.dashboard');
+
+
+            $chart = User::select('hak_akses')->selectRaw('count(hak_akses) as jumlah')->groupBy('hak_akses')->get();
+            $chart2 = Siswa::select('nama_kelas')->selectRaw( 'count(id_siswa) as jumlah')
+                        ->join('kelas', 'siswa.id_kelas', 'kelas.id_kelas')
+                        ->where('nama_kelas', 'NOT LIKE', '%ALUMNI%')
+                        ->groupBy('nama_kelas')
+                        ->get();
+
+            $chart3 = Ujian::select('tanggal_pembuatan')->selectRaw('count(id_ujian) as jumlah')
+                        ->groupBy('tanggal_pembuatan')
+                        ->get();
+
+            $dataChart3 = DB::select("SELECT
+                              COUNT(id_ujian) AS jumlah_ujian,
+                              (SELECT COUNT(id_ujian) FROM ujian WHERE STATUS = 'posted') AS ujian_posted,
+                              (SELECT
+                                tanggal_pembuatan
+                              FROM
+                                ujian
+                              ORDER BY tanggal_pembuatan DESC
+                              LIMIT 1) AS ujian_terbaru
+                            FROM
+                              ujian");
+
+            $total_ujian = $dataChart3[0]->jumlah_ujian;
+            $ujian_posted = $dataChart3[0]->ujian_posted;
+            $ujian_terbaru = $dataChart3[0]->ujian_terbaru;
+            return view('admin.dashboard', compact('chart', 'chart2', 'chart3', 'total_ujian', 'ujian_terbaru', 'ujian_posted'));
+                        // return $ujian_tertua;
         } else if(Auth::user()->hak_akses == 'guru') {
             $guru = Guru::where('id_users', Auth::user()->id_users)->get()->first();
             $user = array(
@@ -189,7 +218,8 @@ class HomeController extends Controller
         }
         
         // dd($arrayCollection);
-        return response()->json($arrayCollection);
+        // return response()->json($arrayCollection);
+        return $arrayCollection;
     }
 
     public function chartGuru() {
