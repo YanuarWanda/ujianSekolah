@@ -380,11 +380,11 @@
 
         function scroll() {
             if ($(window).scrollTop() >= origOffsetY) {
-                $('.navbar').addClass('navbar-fixed-top');
+                menu.addClass('navbar-fixed-top');
                 brand.show();
                 $('.content').addClass('menu-padding');
             } else {
-                $('.navbar').removeClass('navbar-fixed-top');
+                menu.removeClass('navbar-fixed-top');
                 brand.hide();
                 $('.content').removeClass('menu-padding');
             }

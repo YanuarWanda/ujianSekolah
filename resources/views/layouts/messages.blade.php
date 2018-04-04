@@ -2,7 +2,8 @@
     @foreach($errors->all() as $error)
         <script type="text/javascript">
             $(document).ready(function() {
-                swal('Errors', '{{ $error }}', 'error');
+                // swal('Errors', '{{ $error }}', 'error');
+                toastr.error('{{ $error }}');
             });
         </script>    
     @endforeach
