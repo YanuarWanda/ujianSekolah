@@ -8,23 +8,50 @@
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
+
 }
 
-.warnaBiru {
+/*.warnaBiru {
     color: #58bff6;
-}
+}*/
 
 .ubahWarna {
     font-family:'HelveticaNeue','Times New Roman', sans-serif;
     color: #58bff6;
 }
 
-/*div.panel,.panel-heading{
-    border-radius: 50px;
-}*/
+div.panel{
+    /*border-radius: 50px;*/
+    opacity: 0.95;
+}
 
 input#username,#password{
-    border-radius: 50px;
+    border-radius: 19px;
+}
+
+input[type="submit"].login{
+    float:right;
+    width: 112px;
+    height: 37px;
+    -moz-border-radius: 19px;
+    -webkit-border-radius: 19px;
+    border-radius: 19px;
+    -moz-background-clip: padding;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    background-color: #55b1df;
+    border:1px solid #55b1df;
+    border:none;
+    color: #fff;
+    font-weight: bold;
+}
+
+input[type="submit"].login:hover{
+    background-color: #fff; border:1px solid #55b1df; color:#55b1df; cursor:pointer;
+}
+
+input[type="submit"].login:focus{
+    outline: none;
 }
 
 </style>
@@ -35,7 +62,7 @@ input#username,#password{
     <div class="row">
         <div class="col-md-6 col-md-offset-6">
             <div class="panel panel-success">
-                <div class="panel-heading">Login</div>
+                <div class="panel-heading"><center><h4>Login</h4></center></div>
 
                 <div class="panel-body">
                     <form class="form-horizontal" method="POST" action="{{ route('login') }}">
@@ -71,9 +98,7 @@ input#username,#password{
 
                         <div class="form-group">
                             <div class="col-md-8 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary">
-                                    Login
-                                </button>
+                                 <input type="submit" class="login pull-left" value="Log In"> 
 
                                 <a class="btn btn-link" href="{{ route('password.request') }}">
                                     Forgot Your Password?
@@ -93,7 +118,7 @@ input#username,#password{
 $(document).ready(function(){
     $('input').focus(function() {
         var label = $('label[for="' + $(this).attr('id') + '"]');
-        label.addClass('warnaBiru');
+        label.addClass('ubahWarna');
         var input = $('input[id="' +$(this).attr('id') + '"]');
         input.addClass('ubahWarna');
 

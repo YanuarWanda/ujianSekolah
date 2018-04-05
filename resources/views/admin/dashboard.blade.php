@@ -5,9 +5,7 @@
 @endsection
 
 @section('content')
-<div class="container">
-    <div class="row">
-        <!-- <div class="col-md-4">
+<div class="col-md-3">
             <div class="panel panel-default">
                 <div class="panel-heading">Dashboard</div>
 
@@ -23,10 +21,12 @@
                     <a href="/kelola-siswa/import" class="btn btn-default btn-block">Import data Siswa</a>
                 </div>
             </div>
-        </div> -->
+        </div>
+<div class="container">
+    <div class="row">
 
         {{-- Chart --}}
-        <div class="col-md-8">    
+        <div class="col-md-7">    
             <center><h4>Grafik Nilai Rata-Rata per Ujian</h4></center>
             <div class="row">
                 <div class="col-md-12 chart">
