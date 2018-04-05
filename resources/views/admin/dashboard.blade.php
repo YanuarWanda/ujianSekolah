@@ -17,6 +17,7 @@
                     <a href="/kelola-mapel" class="btn btn-success btn-block">Kelola Mata Pelajaran</a>
                     <a href="/kelola-guru/import" class="btn btn-default btn-block">Import data Guru</a>
                     <a href="/kelola-siswa/import" class="btn btn-default btn-block">Import data Siswa</a>
+                    <a href="/kelola-bank-soal" class="btn btn-success btn-block">Kelola Bank Soal</a>
                 </div>
             </div>
         </div>
