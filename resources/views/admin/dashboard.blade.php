@@ -1,9 +1,13 @@
 @extends('layouts.app')
 
+@section('css')
+    
+@endsection
+
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-md-4">
+        <!-- <div class="col-md-4">
             <div class="panel panel-default">
                 <div class="panel-heading">Dashboard</div>
 
@@ -19,7 +23,7 @@
                     <a href="/kelola-siswa/import" class="btn btn-default btn-block">Import data Siswa</a>
                 </div>
             </div>
-        </div>
+        </div> -->
 
         {{-- Chart --}}
         <div class="col-md-8">    
@@ -59,59 +63,59 @@
 @endsection
 
 @section('js')
-<script>
+  <script>
 
-$(document).ready(function(){
+  $(document).ready(function(){
 
-  var url = "{{ route('data-nilai') }}";
-  var label;
-  var daftarChart = ['ujian1', 'ujian2', 'ujian3'];
-  // console.log(daftarChart);
-  $.get(url, function(response){
-    // console.log(response);
-    // response.forEach(function(data){
-      for(var i=0, len = response.length; i<len;i++) {
-      // Chart 1
-      var nama_kelas = [];
-      
-      var nilai = [];
+    var url = "{{ route('data-nilai') }}";
+    var label;
+    var daftarChart = ['ujian1', 'ujian2', 'ujian3'];
+    // console.log(daftarChart);
+    $.get(url, function(response){
+      // console.log(response);
+      // response.forEach(function(data){
+        for(var i=0, len = response.length; i<len;i++) {
+        // Chart 1
+        var nama_kelas = [];
+        
+        var nilai = [];
 
-      // console.log(data);
+        // console.log(data);
 
-      response[i].forEach(function(realData){
-        // console.log(realData);
-        nama_kelas.push(realData.nama_kelas);
-        label = realData.judul_ujian;
-        nilai.push(realData.nilai_rata_rata);
-      });
+        response[i].forEach(function(realData){
+          // console.log(realData);
+          nama_kelas.push(realData.nama_kelas);
+          label = realData.judul_ujian;
+          nilai.push(realData.nilai_rata_rata);
+        });
 
-      var ctx = document.getElementById(daftarChart[i]).getContext('2d');
-      var myChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels:nama_kelas,
-            datasets: [{
-              label: label,
-              data: nilai,
-              borderWidth: 1,
-              backgroundColor: 'lightblue'
-            }]
-        },
-        options: {
-            scales: {
-                yAxes: [{
-                    ticks: {
-                        beginAtZero:true
-                    }
-                }]
-            }
-        }
-      });
-      // console.log('judul-ujian-'+i);
-      $('#judul-ujian-'+(i+1)).text(label);
-    }
+        var ctx = document.getElementById(daftarChart[i]).getContext('2d');
+        var myChart = new Chart(ctx, {
+          type: 'bar',
+          data: {
+              labels:nama_kelas,
+              datasets: [{
+                label: label,
+                data: nilai,
+                borderWidth: 1,
+                backgroundColor: 'lightblue'
+              }]
+          },
+          options: {
+              scales: {
+                  yAxes: [{
+                      ticks: {
+                          beginAtZero:true
+                      }
+                  }]
+              }
+          }
+        });
+        // console.log('judul-ujian-'+i);
+        $('#judul-ujian-'+(i+1)).text(label);
+      }
 
+    });
   });
-});
-</script>
+  </script>
 @stop
