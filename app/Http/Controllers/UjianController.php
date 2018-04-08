@@ -48,9 +48,9 @@ class UjianController extends Controller
     {
         $kelas = Kelas::where('nama_kelas', 'NOT LIKE', '%ALUMNI%')->get();
         if(Auth::user()->hak_akses == 'admin'){
-            $ujian = Ujian::All();
+            $ujian = Ujian::paginate(4);
         }else if(Auth::user()->hak_akses == 'guru'){
-            $ujian = Ujian::where('id_guru', session()->get('id_guru'))->get();
+            $ujian = Ujian::where('id_guru', session()->get('id_guru'))->paginate(4);
         }
 
         $sRemed = DB::select('SELECT * FROM ujian LEFT JOIN ujian_remedial USING(id_ujian) WHERE ujian.id_ujian IN (SELECT id_ujian FROM nilai WHERE status_pengerjaan = "Harus Remedial") AND curdate() > ujian.tanggal_kadaluarsa;');

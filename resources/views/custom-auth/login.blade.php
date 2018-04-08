@@ -35,8 +35,8 @@
                     </div>
 
                     <div>
-                        <a href="{{ route('password.request') }}" class="txt1">
-                            Forgot Password?
+                        <a href="{{ route('register') }}" class="txt1">
+                            Register ?
                         </a>
                     </div>
                 </div>

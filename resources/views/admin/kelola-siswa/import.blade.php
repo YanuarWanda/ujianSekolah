@@ -8,6 +8,10 @@
                 <div class="panel-heading">Import data Siswa</div>
 
                 <div class="panel-body">
+                    <span class="help-block">
+                        Untuk menambahkan data siswa dari file excel, silahkan upload.
+                    </span>
+                    
                     <form action="{{ url('/kelola-siswa/import') }}" method="POST" enctype="multipart/form-data">
                         {{ csrf_field() }}
                         <div class="form-group{{ $errors->has('fileExcel') ? ' has-error' : '' }}">

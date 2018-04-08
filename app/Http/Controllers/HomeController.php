@@ -58,8 +58,9 @@ class HomeController extends Controller
                         ->groupBy('nama_kelas')
                         ->get();
 
-            $chart3 = Ujian::select('tanggal_pembuatan')->selectRaw('count(id_ujian) as jumlah')
-                        ->groupBy('tanggal_pembuatan')
+            $chart3 = Ujian::selectRaw('date(tanggal_pembuatan) as tanggal_pembuatan')->selectRaw('count(id_ujian) as jumlah')
+                        ->selectRaw('date(tanggal_pembuatan) as tgl_per_bulan')
+                        ->groupBy('tgl_per_bulan')
                         ->get();
 
             $dataChart3 = DB::select("SELECT
@@ -110,33 +111,35 @@ class HomeController extends Controller
                 and status = :status
                 order by tanggal_post asc
                 ', ['id_kelas' => $siswa->id_kelas, 'status' => 'posted']);
-            // Get current page form url e.x. &page=1
-            $currentPage = LengthAwarePaginator::resolveCurrentPage();
-            // Create a new Laravel collection from the array data
-            $itemCollection = collect($ujianArray);
-            // Define how many items we want to be visible in each page
-            $perPage = 2;
-            // Slice the collection to get the items to display in current page
-            $currentPageItems = $itemCollection->slice(($currentPage * $perPage) - $perPage, $perPage)->all();
-            // Create our paginator and pass it to the view
-            $paginatedItems= new LengthAwarePaginator($currentPageItems , count($itemCollection), $perPage);
-            // set url path for generted links
-            $paginatedItems->setPath(url()->current());
-            $ujian = $paginatedItems;
+
+            // $ujian = $paginatedItems;
+            $ujian = $this->paginateArray($ujianArray, 2);
 
             $ujianRemedArray    = DB::select('SELECT ujian.judul_ujian, ujian_remedial.remed_ke, mapel.nama_mapel, ujian_remedial.tanggal_pembuatan, ujian_remedial.tanggal_kadaluarsa, ujian_remedial.catatan, ujian_remedial.id_ujian_remedial, ujian_remedial.id_ujian FROM ujian_remedial JOIN ujian USING(id_ujian) JOIN mapel USING(id_mapel) JOIN kelas_ujian USING(id_ujian) JOIN kelas USING(id_kelas) JOIN siswa USING(id_kelas) WHERE kelas_ujian.id_kelas = '.$siswa->kelas->id_kelas.' AND ujian_remedial.status = "posted" AND siswa.id_siswa = '.$siswa->id_siswa.' AND siswa.id_siswa IN (SELECT id_siswa FROM nilai WHERE status_pengerjaan="Harus Remedial" AND nilai.id_ujian = ujian.id_ujian) ORDER BY tanggal_post ASC');
-            $curPageRemed       = LengthAwarePaginator::resolveCurrentPage();
-            $itemColRemed       = collect($ujianRemedArray);
-            $perPageRemed       = 2;
-            $currentPageRemed   = $itemColRemed->slice(($curPageRemed * $perPageRemed) - $perPageRemed, $perPageRemed)->all();
-            $paginatedItemsRemed= new LengthAwarePaginator($currentPageRemed, count($itemColRemed), $perPageRemed);
-            $paginatedItemsRemed->setPath(url()->current());
-            $ujianRemed = $paginatedItemsRemed;
+            
+            $ujianRemed = $this->paginateArray($ujianRemedArray, 2);
 
             // return $ujian;
 
             return view('siswa.siswa', compact('siswa', 'ujian', 'ujianArray', 'nilai', 'ujianRemed', 'ujianRemedArray', 'nilaiR', 'ability'));
         }
+    }
+
+    public function paginateArray(Array $collection, $page) {
+        // Get current page form url e.x. &page=1
+        $currentPage = LengthAwarePaginator::resolveCurrentPage();
+        // Create a new Laravel collection from the array data
+        $itemCollection = collect($collection);
+        // Define how many items we want to be visible in each page
+        $perPage = $page;
+        // Slice the collection to get the items to display in current page
+        $currentPageItems = $itemCollection->slice(($currentPage * $perPage) - $perPage, $perPage)->all();
+        // Create our paginator and pass it to the view
+        $paginatedItems= new LengthAwarePaginator($currentPageItems , count($itemCollection), $perPage);
+        // set url path for generted links
+        $paginatedItems->setPath(url()->current());
+
+        return $paginatedItems;
     }
 
     public function settings() {

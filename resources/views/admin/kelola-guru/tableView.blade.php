@@ -46,6 +46,7 @@
                 <div class="panel-footer pull-right">
                     <button id="export" class="btn btn-success">Export Data Guru</button>
                     <a href="{{ route('daftar-guru') }}" class="btn btn-success">Daftarkan Guru</a>
+                    <a href="{{ route('guru.import') }}" class="btn btn-success">Import Data</a>
                 </div>
             </div>
         </div>

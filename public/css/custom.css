@@ -173,11 +173,29 @@ body {
 /* Scroll Up */
 #scroll-up {
   position: fixed;
-  bottom: 35px;
-  right: 35px;
+  bottom: 55px;
+  right: 55px;
   z-index: 9999999;
   display: none;
   padding: 7px;
-  background-color: #2EEC31;
   width: 41px;
+
+  border: 2px solid #aa66cc !important;
+  background-color: transparent !important;
+  color: #aa66cc !important;
+}
+
+#scroll-up:hover, #scroll-up:focus {
+  /*border-color: #aa66cc !important;*/
+  /*background-color: transparent !important;*/
+  background-color: #aa66cc !important;
+  color: white !important;
+}
+
+/* Button fixed bottom */
+.btn-fixed-bottom {
+    position: fixed;
+    bottom: 35px;
+    /*left: 35px;*/
+    z-index: 9999999;
 }

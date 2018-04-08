@@ -46,8 +46,9 @@
     {{-- <link href="{{ asset('css/please-wait.css') }}" rel="stylesheet"> --}}
 
     {{-- Custom --}}
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/loading.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/custom.css')}}">
+    {{-- <link rel="stylesheet" type="text/css" href="{{ asset('css/loading.css')}}"> --}}
+    {{-- <link rel="stylesheet" type="text/css" href="{{ asset('css/custom.css')}}"> --}}
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/all.css')}}">
     
     @yield('css')
 </head>
@@ -316,6 +317,7 @@
             $("#tableGuru").DataTable(); // Menambahkan pencarian ke table guru di menu kelola-guru (admin)
             $("#tableSiswa").DataTable(); // Menambahkan pencarian ke table siswa di menu kelola-siswa (admin)
             $("#tableSoal").DataTable(); // Menambahkan pencarian ke table soal di menu edit-ujian (admin)
+            $('#tableDaftarBidangKeahlian').DataTable();
         });
 
         // Preview gambar dari file chooser.
@@ -497,7 +499,8 @@
             $('#'+$index).slideToggle(1000);
         });
 
-        $('.remove').on('click', function(){
+        $('.remove').on('click', function(e){
+            e.preventDefault();
             var url = $(this).attr('href');
             swal({
                 title: 'Hapus data?',
@@ -506,7 +509,7 @@
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Okelah, hapus aja!'
+                confirmButtonText: 'Tetap hapus'
             }).then((result) =>{
                 window.location.replace(url);
             });
@@ -521,7 +524,7 @@
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Okelah, hapus aja!'
+                confirmButtonText: 'Tetap hapus'
             }).then((result) =>{
                 window.location.replace(url);
             });
@@ -536,7 +539,7 @@
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Okelah, hapus aja!'
+                confirmButtonText: 'Tetap hapus'
             }).then((result) =>{
                 window.location.replace(url);
             });

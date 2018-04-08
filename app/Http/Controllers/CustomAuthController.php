@@ -33,7 +33,7 @@ class CustomAuthController extends Controller
 
     // Menampilkan Form registrasi siswa
     public function studentRegisterForm() {
-        $kelas = Kelas::All();
+        $kelas = Kelas::where('nama_kelas', 'NOT LIKE', '%ALUMNI%')->get(['id_kelas', 'nama_kelas']);
         return view('custom-auth.register', compact('kelas')); // Menampilkan form + data kelas dari DB
     }
 
@@ -56,6 +56,13 @@ class CustomAuthController extends Controller
             }else{
                 $nameFotoToStore = 'nophoto.jpg';
             }
+
+            // if($data->kelas == '') {
+            //     return redirect()->back()->with('error', 'Kelas harus dipilih');
+            // } else {
+            //     $id_kelas = Kelas::where('nama_kelas', $data['kelas'])->first()->id_kelas;
+            // }
+
 
             $siswa = Siswa::create([
                 'nis' => $data['nis'],

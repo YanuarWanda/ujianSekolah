@@ -10,7 +10,7 @@
                 <div class="panel-body">
                     <div class="table-responsive">
                         @if(count($siswa) > 0)
-                        <table class="table table-bordered" id="tableSiswa">
+                        <table class="table table-bordered" id="tableSiswa" data-page-length='4'>
                             <thead>
                                 <tr>
                                     <th>No.</th>
@@ -47,6 +47,7 @@
                 @if(Auth::user()->hak_akses == 'admin')
                 <div class="panel-footer pull-right">
                     <button id="export" class="btn btn-success">Export Data Siswa</button>
+                    <a href="{{ route('siswa.import') }}" class="btn btn-success">Import Data  Siswa</a>
                     <a href="{{ url('/kelola-siswa/create') }}" class="btn btn-success">Daftarkan siswa</a>
                     <a href="{{ url('/kelola-siswa/naik-kelas') }}" class="btn btn-success">Kenaikan Kelas</a>
                 </div>

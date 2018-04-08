@@ -19,7 +19,7 @@ body {
 <div class="container row">
     <div class="col-md-12">
         <div class="jumbotron">
-            <h2>Registrasi Siswa</h2>
+            <h3><span class="fa fa-user-plus"></span> Registrasi Siswa</h3>
         </div>
     </div>
     <div class="col-md-4">
@@ -132,16 +132,21 @@ body {
                     <legend>Kelas</legend>
 
                     <div class="form-group{{ $errors->has('kelas') ? ' has-error' : '' }}">
-                        {{-- <label for="kelas" class="control-label">Kelas</label> --}}
-                        <select name="kelas" id="kelas" class="form-control">
-                            <option disabled selected>Pilih Kelas</option>
-                            <option>XII RPL 1</option>
+                        <label for="kelas" class="control-label">Pilih kelas</label>
+                        <select name="kelas" id="kelas" class="form-control selectpicker" data-live-search="true"
+                            data-size="7">
+                            {{-- <option>XII RPL 1</option>
                             <option>XII RPL 2</option>
                             <option>XII RPL 3</option>
                             <option>XII MM 1</option>
                             <option>XII MM 2</option>
-                            <option>XII TKJ</option>
+                            <option>XII TKJ</option> --}}
+                            @foreach($kelas as $k)
+                            <option value="{{ $k->id_kelas }}">{{$k->nama_kelas}}</option>
+                            @endforeach
                         </select>
+
+                        <span class="help-block" style="color: red;">*Silahkan pilih kelas yang sudah disediakan</span>
 
                         @if ($errors->has('kelas'))
                             <span class="help-block">
@@ -158,6 +163,10 @@ body {
                         Submit
                     </button>
                 </div>
+            </div>
+
+            <div class="col-md-12">
+                <a href="{{ route('login') }}" class="pull-right"><span class="fa fa-arrow-left"></span> kembali ke login</a>
             </div>
         </div>
     </div>
