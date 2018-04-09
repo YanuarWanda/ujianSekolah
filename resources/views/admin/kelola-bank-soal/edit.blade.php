@@ -8,7 +8,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="panel panel-primary">
-                    <div class="panel-heading">Form Tambah Soal</div>
+                    <div class="panel-heading">Edit Bank Soal</div>
                     <div class="panel-body">
                         <form class="form-horizontal" method="POST" action="{{url('/kelola-bank-soal/create')}}">
                             {{csrf_field()}}
@@ -37,7 +37,7 @@
                                  <div class="col-md-9">
                                      <select name="bidangKeahlian" id="bidangKeahlian" class="form-control selectpicker" data-live-search="true" data-size="5">
                                          @foreach($bidangKeahlian as $bidang)
-                                         <option value="{{$bidang->id_daftar_bidang}}">{{$bidang->bidang_keahlian}}</option>
+                                         <option value="{{$bidang->id_daftar_bidang}}" {{ $soal->id_daftar_bidang == $bidang->id_daftar_bidang ? 'selected' : '' }} >{{$bidang->bidang_keahlian}}</option>
                                          @endforeach
                                      </select>
 
@@ -54,9 +54,9 @@
 
                                  <div class="col-md-9">
                                      <select name="tipe" id="tipe" class="form-control">
-                                         <option value="PG">Pilihan Ganda</option>
-                                         <option value="BS">Benar / Salah</option>
-                                         <option value="MC">Multichoice</option>
+                                         <option value="PG" <?php if($soal->tipe){if($soal->tipe == 'PG'){ ?> selected <?php }} ?>>Pilihan Ganda</option>
+                                         <option value="BS" <?php if($soal->tipe){if($soal->tipe == 'BS'){ ?> selected <?php }} ?>>Benar / Salah</option>
+                                         <option value="MC" <?php if($soal->tipe){if($soal->tipe == 'MC'){ ?> selected <?php }} ?>>Multichoice</option>
                                      </select>
 
                                      @if ($errors->has('tipe'))
@@ -72,7 +72,7 @@
                                  <label for="soal" class="col-md-2 control-label">Soal</label>
 
                                  <div class="col-md-9">
-                                     <textarea name="soal" id="soal" class="form-control editor" rows="10" cols="120">{!! old('soal') !!}</textarea>
+                                     <textarea name="soal" id="soal" class="form-control editor" rows="10" cols="120">{!! $soal->isi_soal or old('soal') !!}</textarea>
 
                                      @if ($errors->has('soal'))
                                          <span class="help-block">

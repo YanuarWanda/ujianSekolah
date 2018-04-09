@@ -35,7 +35,7 @@
                                             
                                              <a href="{{ url('kelola-bank-soal/edit', $isibanksoal->id_bank_soal) }}" class="btn btn-primary" id="editsoal"><i class="fa fa-edit" style="margin-right: 5px;"></i> Edit banksoal</a>
 
-                                             <a href="{{ url('kelola-bank-soal/delete', $isibanksoal->id_bank_soal) }}" class="btn btn-success" id="deletesoal"><i class="fa fa-trash"></i> Delete banksoal</a> 
+                                             <a href="{{ url('kelola-bank-soal/delete', $isibanksoal->id_bank_soal) }}" class="btn btn-success remove" id="deletesoal"><i class="fa fa-trash"></i> Delete banksoal</a> 
                                         </td>
                                     </tr>
                                 @endforeach
