@@ -6,19 +6,18 @@
         <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                  <span class="panel-title pull-left">Data Guru</span>
-                  {{-- <div class="btn-group pull-right">
-                    <a href="#" class="btn btn-default btn-sm">## Lock</a>
-                    <a href="#" class="btn btn-default btn-sm">## Delete</a>
-                    <a href="#" class="btn btn-default btn-sm">## Move</a>
-                  </div> --}}
+                  <span class="panel-title">Data Guru | <button id="export" class="btn-sm btn-success">Export Data Guru</button></span>
+                  <div class="pull-right">
+                    <a href="{{ route('daftar-guru') }}" class="btn-sm btn-success">Daftarkan Guru</a>
+                    <a href="{{ route('guru.import') }}" class="btn-sm btn-success">Import Data Guru</a>
+                  </div>
                 </div>
 
                 <div class="panel-body">
 
                     <div class="table-responsive">
                         @if(count($guru) > 0)
-                        <table class="table table-bordered" id="tableGuru" data-page-length='7'>
+                        <table class="table table-bordered" id="tableGuru" data-page-length='6'>
                             <thead>
                                 <tr>
                                     <th>No.</th>

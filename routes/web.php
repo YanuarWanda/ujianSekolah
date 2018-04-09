@@ -14,10 +14,7 @@
 Route::get('/', function () {
 	// return session()->all();
 	// return view('home');
-	// return redirect('/home');
-
-	$token = 'asek';
-	return view('auth.passwords.reset', compact('token'));
+	return redirect('/home');
 });
 
 Auth::routes();
@@ -88,6 +85,7 @@ Route::name('siswa.')->group(function() {
 // CRUD ujian
 Route::get('kelola-ujian', 'UjianController@index')->name('ujian');
 Route::name('ujian.')->group(function() {
+	Route::post('kelola-ujian', 'UjianController@search')->name('search');
 	Route::get('/kelola-ujian/create', 'UjianController@create')->name('create');
 	Route::post('/kelola-ujian/create', 'UjianController@store');
 	Route::get('/kelola-ujian/edit/{id}', 'UjianController@edit')->name('edit');

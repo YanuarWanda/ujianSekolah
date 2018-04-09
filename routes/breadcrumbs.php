@@ -148,6 +148,12 @@ Breadcrumbs::register('ujian', function($breadcrumbs) {
 	$breadcrumbs->push('Ujian', route('ujian'));
 });
 
+// Home > Ujian > Search
+Breadcrumbs::register('ujian.search', function($breadcrumbs) {
+	$breadcrumbs->parent('ujian');
+	$breadcrumbs->push('Search', route('ujian.search'));
+});
+
 // Home > Ujian > Create
 Breadcrumbs::register('ujian.create', function($breadcrumbs) {
 	$breadcrumbs->parent('ujian');

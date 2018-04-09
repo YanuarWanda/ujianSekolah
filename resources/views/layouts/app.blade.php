@@ -314,10 +314,14 @@
     <script src="{{ asset('vendor/datatables/dataTables.bootstrap4.js') }}"></script>
     <script>
         $(document).ready(function() {
-            $("#tableGuru").DataTable(); // Menambahkan pencarian ke table guru di menu kelola-guru (admin)
-            $("#tableSiswa").DataTable(); // Menambahkan pencarian ke table siswa di menu kelola-siswa (admin)
-            $("#tableSoal").DataTable(); // Menambahkan pencarian ke table soal di menu edit-ujian (admin)
-            $('#tableDaftarBidangKeahlian').DataTable();
+            // $("#tableGuru").DataTable(); // Menambahkan pencarian ke table guru di menu kelola-guru (admin)
+            // $("#tableSiswa").DataTable(); // Menambahkan pencarian ke table siswa di menu kelola-siswa (admin)
+            // $("#tableSoal").DataTable(); // Menambahkan pencarian ke table soal di menu edit-ujian (admin)
+            // $('#tableDaftarBidangKeahlian').DataTable();
+
+            $("[id^=table]").DataTable({ // Mengambil semua table dengan id berawalan 'table'
+                "lengthMenu": [[6, 15, -1], [6, 15, "All"]]
+            });
         });
 
         // Preview gambar dari file chooser.

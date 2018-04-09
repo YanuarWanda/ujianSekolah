@@ -10,7 +10,7 @@
                 <div class="panel-body">
                     <div class="table-responsive">
                         @if(count($daftar_bidang_keahlian) > 0)
-                        <table class="table table-bordered" id="tableSiswa" data-page-length='5'>
+                        <table class="table table-bordered" id="tableSiswa" data-page-length='6'>
                             <thead>
                                 <tr>
                                     <th>No.</th>

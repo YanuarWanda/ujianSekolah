@@ -8,7 +8,25 @@
         @endif
 
         <div class="row">
+            <div class="container-fluid pull-left">
+            @if(isset($_POST['search_query']))
+                <h4>Ujian berjudul <code>{{$_POST['search_query']}}</code></h4>
+            @endif
+            </div>
+            <div class="container-fluid pull-right row">
+                <form method="post" action="{{ route('ujian') }}">
+                    {{ csrf_field() }}
+                <div class="col-md-8 form-group">
+                    <input type="text" name="search_query" placeholder="Cari Ujian.." class="form-control">
+                </div>
+                <div class="col-md-4">
+                    <button type="submit" class="btn btn-primary btn-block"><span class="fa fa-search"></span></button>
+                </div>
+                </form>
+            </div>
+
             @if(count($ujian) > 0)
+
             @foreach($ujian as $u => $isi)
             <div class="col-sm-12 col-md-12">
                 <div class="panel-group" id="accordion">
@@ -324,7 +342,7 @@
 
             @endforeach
 
-            <div class="container-fluid">
+            <div class="pull-right">
                 {{ $ujian->links() }}
             </div>
 
