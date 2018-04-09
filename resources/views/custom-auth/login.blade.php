@@ -11,7 +11,7 @@
             <form class="form-horizontal login100-form flex-sb flex-w" method="POST" action="{{ route('login') }}">
                 {{ csrf_field() }}
                 <span class="login100-form-title p-b-51">
-                    Login
+                    U-LAH
                 </span>
 
                 
@@ -33,18 +33,25 @@
                             Show Password
                         </label>
                     </div>
-
-                    <div>
-                        <a href="{{ route('register') }}" class="txt1">
-                            Register ?
-                        </a>
-                    </div>
                 </div>
 
-                <div class="container-login100-form-btn m-t-17">
+                <div class="container-login100-form-btn m-t-17 p-b-15">
                     <button class="login100-form-btn" type="submit">
                         Login
                     </button>
+                </div>
+                <div class="flex-sb-m w-full p-t-3 p-b-24">
+                    <div>
+                        <a href="{{ route('register') }}" class="txt1">
+                            Forgot Password ?
+                        </a>
+                    </div>
+
+                    <div>
+                        <a href="{{ route('register') }}" class="txt1">
+                            Register
+                        </a>
+                    </div>
                 </div>
 
             </form>

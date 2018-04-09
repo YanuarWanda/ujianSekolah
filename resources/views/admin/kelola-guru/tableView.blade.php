@@ -5,13 +5,20 @@
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-default">
-                <div class="panel-heading">Data Guru</div>
+                <div class="panel-heading">
+                  <span class="panel-title pull-left">Data Guru</span>
+                  {{-- <div class="btn-group pull-right">
+                    <a href="#" class="btn btn-default btn-sm">## Lock</a>
+                    <a href="#" class="btn btn-default btn-sm">## Delete</a>
+                    <a href="#" class="btn btn-default btn-sm">## Move</a>
+                  </div> --}}
+                </div>
 
                 <div class="panel-body">
 
                     <div class="table-responsive">
                         @if(count($guru) > 0)
-                        <table class="table table-bordered" id="tableGuru">
+                        <table class="table table-bordered" id="tableGuru" data-page-length='7'>
                             <thead>
                                 <tr>
                                     <th>No.</th>
@@ -42,11 +49,6 @@
                             <strong><p>Data tidak tersedia.</p></strong>
                         @endif
                     </div>
-                </div>
-                <div class="panel-footer pull-right">
-                    <button id="export" class="btn btn-success">Export Data Guru</button>
-                    <a href="{{ route('daftar-guru') }}" class="btn btn-success">Daftarkan Guru</a>
-                    <a href="{{ route('guru.import') }}" class="btn btn-success">Import Data</a>
                 </div>
             </div>
         </div>

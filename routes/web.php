@@ -14,7 +14,10 @@
 Route::get('/', function () {
 	// return session()->all();
 	// return view('home');
-	return redirect('/home');
+	// return redirect('/home');
+
+	$token = 'asek';
+	return view('auth.passwords.reset', compact('token'));
 });
 
 Auth::routes();
