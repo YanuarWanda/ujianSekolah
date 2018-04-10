@@ -284,6 +284,8 @@
 
 @section('js')
 <script type="text/javascript">
+    $('#kelola').addClass('active open');
+    $('#ujian').addClass('active');
     function form_submit() {
         document.getElementById("post-data").submit();
     }

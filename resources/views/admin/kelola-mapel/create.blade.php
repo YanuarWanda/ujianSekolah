@@ -54,3 +54,10 @@
     </div>
 </div>
 @endsection
+
+@section('js')
+<script type="text/javascript">
+    $('#kelola').addClass('active open');
+  $('#mapel').addClass('active');
+</script>
+@endsection

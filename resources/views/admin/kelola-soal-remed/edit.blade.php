@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-10">
                 <div class="panel panel-primary">
                     <div class="panel-heading">Form Ubah Soal Remed| {{ $ujian->judul_ujian }}</div>
                     <div class="panel-body">
@@ -171,6 +171,8 @@
 @endsection
 @section('js')
     <script type="text/javascript">
+    $('#kelola').addClass('active open');
+    $('#ujian').addClass('active');
         $(document).ready(function(){
            // $('.editor').summernote({
            //     tabsize: 2,

@@ -4,122 +4,130 @@
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-primary">
-                <div class="panel-heading">Pendaftaran Siswa</div>
+        <div class="col-md-12">
+            <div class="row">
+                    
+                        <form class="form-horizontal" method="POST" action="{{ route('register') }}" accept-charset="UTF-8" enctype="multipart/form-data">
+                            {{ csrf_field() }}
+                    <div class="col-md-6">
+                    <div class="panel panel-primary">
+                    <div class="panel-heading">Biodata Siswa</div>
+                    <div class="panel-body">
+                            <div class="form-group{{ $errors->has('nis') ? ' has-error' : '' }}">
+                                <label for="nis" class="col-md-4 control-label">Nomor Induk Siswa</label>
 
-                <div class="panel-body">
-                    <form class="form-horizontal" method="POST" action="{{ route('register') }}" accept-charset="UTF-8" enctype="multipart/form-data">
-                        {{ csrf_field() }}
+                                <div class="col-md-6">
+                                    <input id="nis" type="text" class="form-control" name="nis" value="{{ old('nis') }}" required autofocus>
 
-                        <div class="form-group{{ $errors->has('nis') ? ' has-error' : '' }}">
-                            <label for="nis" class="col-md-4 control-label">Nomor Induk Siswa</label>
-
-                            <div class="col-md-6">
-                                <input id="nis" type="text" class="form-control" name="nis" value="{{ old('nis') }}" required autofocus>
-
-                                @if ($errors->has('nis'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('nis') }}</strong>
-                                    </span>
-                                @endif
+                                    @if ($errors->has('nis'))
+                                        <span class="help-block">
+                                            <strong>{{ $errors->first('nis') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
                             </div>
+
+                            <div class="form-group{{ $errors->has('nama') ? ' has-error' : '' }}">
+                                <label for="nama" class="col-md-4 control-label">Nama</label>
+
+                                <div class="col-md-6">
+                                    <input id="nama" type="text" class="form-control" name="nama" value="{{ old('nama') }}" required>
+
+                                    @if ($errors->has('nama'))
+                                        <span class="help-block">
+                                            <strong>{{ $errors->first('nama') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="form-group{{ $errors->has('kelas') ? ' has-error' : '' }}">
+                                <label for="kelas" class="col-md-4 control-label">Kelas</label>
+
+                                <div class="col-md-6">
+                                    <select name="kelas" id="kelas" class="form-control">
+                                        @foreach($kelas as $k)
+                                            <option @if(old('kelas') == $k->nama_kelas) {{ 'selected' }} @endif>{{ $k->nama_kelas }}</option>
+                                        @endforeach
+                                    </select>
+
+                                    @if ($errors->has('kelas'))
+                                        <span class="help-block">
+                                            <strong>{{ $errors->first('kelas') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="form-group{{ $errors->has('alamat') ? ' has-error' : '' }}">
+                                <label for="alamat" class="col-md-4 control-label">Alamat</label>
+
+                                <div class="col-md-6">
+                                    <textarea name="alamat" id="alamat" class="form-control" required>{{ old('alamat') }}</textarea>
+
+                                    @if ($errors->has('alamat'))
+                                        <span class="help-block">
+                                            <strong>{{ $errors->first('alamat') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <!-- Dipindahkan ke tablenya sendiri, denga relasi ke siswa melalui table kelas -->
+                            <!-- <div class="form-group{{ $errors->has('jurusan') ? ' has-error' : '' }}">
+                                <label for="jurusan" class="col-md-4 control-label">Jurusan</label>
+
+                                <div class="col-md-6">
+                                    <input id="jurusan" type="text" class="form-control" name="jurusan" value="{{ old('jurusan') }}" required>
+
+                                    @if ($errors->has('jurusan'))
+                                        <span class="help-block">
+                                            <strong>{{ $errors->first('jurusan') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div> -->
+
+                            <div class="form-group{{ $errors->has('jenisKelamin') ? ' has-error' : '' }}">
+                                <label for="jenisKelamin" class="col-md-4 control-label">Jenis Kelamin</label>
+
+                                <div class="col-md-6">
+                                    <select name="jenisKelamin" id="jenisKelamin" class="form-control">
+                                        <option value='L' {{ old('jenisKelamin') == 'L' ? 'selected' : '' }} >Laki-laki</option>
+                                        <option value='P' {{ old('jenisKelamin') == 'P' ? 'selected' : '' }} >Perempuan</option>
+                                    </select>
+
+                                    @if ($errors->has('jenisKelamin'))
+                                        <span class="help-block">
+                                            <strong>{{ $errors->first('jenisKelamin') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <!-- Untuk Foto, sementara dikomentar. Menunggu keputusan lebih lanjut, -->
+                            <!-- Upload Foto saat register, atau nanti pas edit data. -->
+                            <!-- <div class="form-group{{ $errors->has('foto') ? ' has-error' : '' }}">
+                                <label for="foto" class="col-md-4 control-label">Foto</label>
+
+                                <div class="col-md-6">
+                                    <img class="img-thumbnail" src="{{ asset('image/nophoto.jpg') }}" id="profile-img-tag" width="250px"/>
+                                    <input id="foto" type="file" name="foto" value="{{ old('foto') }}">
+
+                                    @if ($errors->has('foto'))
+                                        <span class="help-block">
+                                            <strong>{{ $errors->first('foto') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div> -->
+                            </div>    
                         </div>
-
-                        <div class="form-group{{ $errors->has('nama') ? ' has-error' : '' }}">
-                            <label for="nama" class="col-md-4 control-label">Nama</label>
-
-                            <div class="col-md-6">
-                                <input id="nama" type="text" class="form-control" name="nama" value="{{ old('nama') }}" required>
-
-                                @if ($errors->has('nama'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('nama') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('kelas') ? ' has-error' : '' }}">
-                            <label for="kelas" class="col-md-4 control-label">Kelas</label>
-
-                            <div class="col-md-6">
-                                <select name="kelas" id="kelas" class="form-control">
-                                    @foreach($kelas as $k)
-                                        <option @if(old('kelas') == $k->nama_kelas) {{ 'selected' }} @endif>{{ $k->nama_kelas }}</option>
-                                    @endforeach
-                                </select>
-
-                                @if ($errors->has('kelas'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('kelas') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('alamat') ? ' has-error' : '' }}">
-                            <label for="alamat" class="col-md-4 control-label">Alamat</label>
-
-                            <div class="col-md-6">
-                                <textarea name="alamat" id="alamat" class="form-control" required>{{ old('alamat') }}</textarea>
-
-                                @if ($errors->has('alamat'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('alamat') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <!-- Dipindahkan ke tablenya sendiri, denga relasi ke siswa melalui table kelas -->
-                        <!-- <div class="form-group{{ $errors->has('jurusan') ? ' has-error' : '' }}">
-                            <label for="jurusan" class="col-md-4 control-label">Jurusan</label>
-
-                            <div class="col-md-6">
-                                <input id="jurusan" type="text" class="form-control" name="jurusan" value="{{ old('jurusan') }}" required>
-
-                                @if ($errors->has('jurusan'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('jurusan') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div> -->
-
-                        <div class="form-group{{ $errors->has('jenisKelamin') ? ' has-error' : '' }}">
-                            <label for="jenisKelamin" class="col-md-4 control-label">Jenis Kelamin</label>
-
-                            <div class="col-md-6">
-                                <select name="jenisKelamin" id="jenisKelamin" class="form-control">
-                                    <option value='L' {{ old('jenisKelamin') == 'L' ? 'selected' : '' }} >Laki-laki</option>
-                                    <option value='P' {{ old('jenisKelamin') == 'P' ? 'selected' : '' }} >Perempuan</option>
-                                </select>
-
-                                @if ($errors->has('jenisKelamin'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('jenisKelamin') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <!-- Untuk Foto, sementara dikomentar. Menunggu keputusan lebih lanjut, -->
-                        <!-- Upload Foto saat register, atau nanti pas edit data. -->
-                        <div class="form-group{{ $errors->has('foto') ? ' has-error' : '' }}">
-                            <label for="foto" class="col-md-4 control-label">Foto</label>
-
-                            <div class="col-md-6">
-                                <img class="img-thumbnail" src="{{ asset('image/nophoto.jpg') }}" id="profile-img-tag" width="250px"/>
-                                <input id="foto" type="file" name="foto" value="{{ old('foto') }}">
-
-                                @if ($errors->has('foto'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('foto') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
+                    </div>
+                    <div class="col-md-6">
+                    <div class="panel panel-primary">
+                    <div class="panel-heading">Akun Siswa</div>
+                    <div class="panel-body">
 
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
                             <label for="email" class="col-md-4 control-label">E-Mail</label>
@@ -179,10 +187,18 @@
                                 </button>
                             </div>
                         </div>
-                    </form>
-                </div>
+                    </div>
+                    </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
 </div>
+@endsection
+
+@section('js')
+<script type="text/javascript">
+    $('.sidebar').hide();
+</script>
 @endsection

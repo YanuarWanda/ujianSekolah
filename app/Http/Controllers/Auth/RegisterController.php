@@ -96,7 +96,7 @@ class RegisterController extends Controller
                 'jenis_kelamin' => $data['jenisKelamin'],
                 'email' => $data['email'],
                 'jurusan' => $data['jurusan'],
-                'foto' => "nophoto.jpg",
+                'foto' => "nophoto.jpg"
             ]);
         }
 

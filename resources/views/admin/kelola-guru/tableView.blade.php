@@ -1,9 +1,14 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-12">
+<div class="container fluid">
+  <a href="{{ route('daftar-guru') }}" class="btn btn-primary btn-fixed-bottom-right z-top"><i class="fa fa-plus" aria-hidden="false"> Daftarkan guru</i></a>
+    <!-- <div class="row"> -->
+        <div class="col-md-11">
+          <div class="pull-right">
+                <button id="export" class="btn btn-success">Export Data Guru</button>
+                <!-- <a href="{{ route('daftar-guru') }}" class="btn btn-success">Daftarkan Guru</a> -->
+          </div>
             <div class="panel panel-default">
                 <div class="panel-heading">Data Guru</div>
 
@@ -43,18 +48,17 @@
                         @endif
                     </div>
                 </div>
-                <div class="panel-footer pull-right">
-                    <button id="export" class="btn btn-success">Export Data Guru</button>
-                    <a href="{{ route('daftar-guru') }}" class="btn btn-success">Daftarkan Guru</a>
-                </div>
             </div>
         </div>
-    </div>
+    <!-- </div> -->
 </div>
 @endsection
 
 @section('js')
 <script type="text/javascript">
+  $('#kelola').addClass('active open');
+  $('#guru').addClass('active');
+  // $('#tabel_guru').addClass('active');
 $(document).ready(function(){
 
   var url = "{{ route('chart-guru') }}";

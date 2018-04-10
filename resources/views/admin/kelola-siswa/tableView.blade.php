@@ -1,9 +1,17 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div class="container fluid">
+    <a href="{{url('/kelola-siswa/create')}}" class="btn btn-primary btn-fixed-bottom-right z-top"><i class="fa fa-plus" aria-hidden="false"> Daftarkan siswa</i></a>
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-10 ">
+            @if(Auth::user()->hak_akses == 'admin')
+                <div class="pull-right">
+                    <button id="export" class="btn btn-success">Export Data Siswa</button>
+                    <!-- <a href="{{ url('/kelola-siswa/create') }}" class="btn btn-success">Daftarkan siswa</a> -->
+                    <a href="{{ url('/kelola-siswa/naik-kelas') }}" class="btn btn-success">Kenaikan Kelas</a>
+                </div>
+                @endif
             <div class="panel panel-default">
                 <div class="panel-heading">Data siswa</div>
 
@@ -44,13 +52,6 @@
                         @endif
                     </div>
                 </div>
-                @if(Auth::user()->hak_akses == 'admin')
-                <div class="panel-footer pull-right">
-                    <button id="export" class="btn btn-success">Export Data Siswa</button>
-                    <a href="{{ url('/kelola-siswa/create') }}" class="btn btn-success">Daftarkan siswa</a>
-                    <a href="{{ url('/kelola-siswa/naik-kelas') }}" class="btn btn-success">Kenaikan Kelas</a>
-                </div>
-                @endif
             </div>
         </div>
     </div>
@@ -59,6 +60,9 @@
 
 @section('js')
 <script type="text/javascript">
+    $('#kelola').addClass('active open');
+    $('#siswa').addClass('active');
+
     $('#export').click(function() {
         swal({
           title: 'Export Data ?',

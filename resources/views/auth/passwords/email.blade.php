@@ -13,32 +13,33 @@ body{
 
 input[type="submit"].login{
     float:right;
-    height: 37px;
-    -moz-border-radius: 19px;
-    -webkit-border-radius: 19px;
-    border-radius: 19px;
-    -moz-background-clip: padding;
-    -webkit-background-clip: padding-box;
-    background-clip: padding-box;
-    background-color: #55b1df;
-    border:1px solid #55b1df;
-    border:none;
-    color: #fff;
-    font-weight: bold;
+    height: 37px !important;
+    -moz-border-radius: 19px !important;
+    -webkit-border-radius: 19px !important;
+    border-radius: 19px !important;
+    -moz-background-clip: padding !important;
+    -webkit-background-clip: padding-box !important;
+    background-clip: padding-box !important;
+    background-color: #55b1df !important;
+    border:1px solid #55b1df !important;
+    border:none !important;
+    color: #fff !important;
+    font-weight: bold !important;
 }
 
 input[type="submit"].login:hover{
-    background-color: #fff; border:1px solid #55b1df; color:#55b1df; cursor:pointer;
+    background-color: #fff !important; border:1px solid #55b1df !important; color:#55b1df !important; cursor:pointer !important;
 }
 
 input#email:focus{
-    border-radius: 19px;
-    border-color: #58bff6;
-    color: #58bff6;
+    border-radius: 19px !important;
+    border-color: #58bff6 !important;
+    color: #58bff6 !important;
+    padding-left: 20px !important;
 }
 
 input#email{
-    border-radius: 19px;
+    border-radius: 19px !important;
 }
 
 /*label[for="email"]{
@@ -101,6 +102,7 @@ input#email{
 
 @section('js')
 <script type="text/javascript">
+    $('.sidebar').hide();
     $(document).ready(function(){
     $('input').focus(function() {
         var label = $('label[for="' + $(this).attr('id') + '"]');

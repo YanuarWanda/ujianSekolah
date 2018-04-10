@@ -213,3 +213,10 @@
     </div>
 </div>
 @endsection
+
+@section('js')
+<script type="text/javascript">
+    $('#kelola').addClass('active open');
+  $('#siswa').addClass('active');
+</script>
+@endsection

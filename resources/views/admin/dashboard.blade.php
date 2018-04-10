@@ -5,10 +5,9 @@
 @endsection
 
 @section('content')
-<div class="col-md-3">
+<!-- <div class="col-md-4">
             <div class="panel panel-default">
                 <div class="panel-heading">Dashboard</div>
-
                 <div class="panel-body">
                     <a href="/kelola-guru" class="btn btn-primary btn-block">Kelola Guru</a>
                     <a href="/kelola-siswa" class="btn btn-success btn-block">Kelola Siswa</a>
@@ -21,12 +20,13 @@
                     <a href="/kelola-siswa/import" class="btn btn-default btn-block">Import data Siswa</a>
                 </div>
             </div>
-        </div>
+        </div> -->
+
 <div class="container">
     <div class="row">
 
         {{-- Chart --}}
-        <div class="col-md-7">    
+        <div class="col-md-10">    
             <center><h4>Grafik Nilai Rata-Rata per Ujian</h4></center>
             <div class="row">
                 <div class="col-md-12 chart">
@@ -52,7 +52,7 @@
                         <div class="panel-heading">Nilai rata-rata <p id="judul-ujian-3"></p></div>
 
                         <div class="panel-body">
-                            <canvas id="ujian3" width="600"></canvas>
+                            <canvas id="ujian3" width="300"></canvas>
                         </div>
                     </div>
                 </div>
@@ -64,7 +64,7 @@
 
 @section('js')
   <script>
-
+  $('#home').addClass('active');
   $(document).ready(function(){
 
     var url = "{{ route('data-nilai') }}";

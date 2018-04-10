@@ -16,42 +16,44 @@
 }*/
 
 .ubahWarna {
-    font-family:'HelveticaNeue','Times New Roman', sans-serif;
-    color: #58bff6;
+    font-family:'HelveticaNeue','Times New Roman', sans-serif !important;
+    color: #58bff6 !important;
+    border-color: #58bff6 !important;
 }
 
 div.panel{
     /*border-radius: 50px;*/
-    opacity: 0.95;
+    opacity: 0.95 !important;
 }
 
 input#username,#password{
-    border-radius: 19px;
+    border-radius: 19px !important;
+    padding-left: 20px !important;
 }
 
 input[type="submit"].login{
-    float:right;
-    width: 112px;
-    height: 37px;
-    -moz-border-radius: 19px;
-    -webkit-border-radius: 19px;
-    border-radius: 19px;
-    -moz-background-clip: padding;
-    -webkit-background-clip: padding-box;
-    background-clip: padding-box;
-    background-color: #55b1df;
-    border:1px solid #55b1df;
-    border:none;
-    color: #fff;
-    font-weight: bold;
+    float:left !important;
+    width: 112px !important;
+    height: 37px !important;
+    -moz-border-radius: 19px !important;
+    -webkit-border-radius: 19px !important;
+    border-radius: 19px !important;
+    -moz-background-clip: padding !important;
+    -webkit-background-clip: padding-box !important;
+    background-clip: padding-box !important;
+    background-color: #55b1df !important;
+    border:1px solid #55b1df !important;
+    border:none !important;
+    color: #fff !important;
+    font-weight: bold !important;
 }
 
 input[type="submit"].login:hover{
-    background-color: #fff; border:1px solid #55b1df; color:#55b1df; cursor:pointer;
+    background-color: #fff !important; border:1px solid #55b1df !important; color:#55b1df !important; cursor:pointer !important;
 }
 
 input[type="submit"].login:focus{
-    outline: none;
+    outline: none !important;
 }
 
 </style>
@@ -98,8 +100,8 @@ input[type="submit"].login:focus{
 
                         <div class="form-group">
                             <div class="col-md-8 col-md-offset-4">
-                                 <input type="submit" class="login pull-left" value="Log In"> 
-
+                                 <input type="submit" class="login" value="Log In"> 
+                                 
                                 <a class="btn btn-link" href="{{ route('password.request') }}">
                                     Forgot Your Password?
                                 </a>
@@ -115,6 +117,9 @@ input[type="submit"].login:focus{
 
 @section('js')
 <script type="text/javascript">
+// $('window').on('load', function(){
+    $('.sidebar').hide();
+// });
 $(document).ready(function(){
     $('input').focus(function() {
         var label = $('label[for="' + $(this).attr('id') + '"]');
@@ -124,7 +129,7 @@ $(document).ready(function(){
 
         $(this).focusout(function() {
             var label = $('label[for="' + $(this).attr('id') + '"]');
-            label.removeClass('warnaBiru');     
+            label.removeClass('ubahWarna');     
             var input = $('input[id="' +$(this).attr('id') + '"]');
             input.removeClass('ubahWarna');       
         });

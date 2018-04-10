@@ -51,11 +51,11 @@ class CustomAuthController extends Controller
 
         if($user) {
             // Mengisi table siswa jika table user di isi
-            if($data->file('foto')){
-                $nameFotoToStore = $this->ambil($data->file('foto'));
-            }else{
-                $nameFotoToStore = 'nophoto.jpg';
-            }
+            // if($data->file('foto')){
+            //     $nameFotoToStore = $this->ambil($data->file('foto'));
+            // }else{
+            //     $nameFotoToStore = 'nophoto.jpg';
+            // }
 
             $siswa = Siswa::create([
                 'nis' => $data['nis'],
@@ -67,7 +67,7 @@ class CustomAuthController extends Controller
                 // 'email' => $data['email'], // Dipindah ke table users
                 // 'jurusan' => $data['jurusan'], // Dipindah ke table jurusan, dengan relasi ke siswa melalui table kelas
                 //'foto' => "nophoto.jpg", // Untuk sementara dikosongkan
-                'foto' => $nameFotoToStore
+                'foto' => "nophoto.jpg"
             ]);
 
             \Log::info('Pendaftaran berhasil', [$siswa->nama]);
@@ -83,7 +83,7 @@ class CustomAuthController extends Controller
             'username' => 'required|string|max:20|unique:users',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
-            'jeniskelamin' => 'required',    
+            'jenisKelamin' => 'required',    
         ]);
     }
 

@@ -40,3 +40,9 @@
     </div>
 </div>
 @endsection
+@section('js')
+<script type="text/javascript">
+    $('#kelola').addClass('active open');
+  $('#bidang').addClass('active');
+</script>
+@endsection

@@ -60,3 +60,10 @@
     </div>
 </div>
 @endsection
+
+@section('js')
+<script type="text/javascript">
+    $('#kelola').addClass('active open');
+  $('#kelas').addClass('active');
+</script>
+@endsection

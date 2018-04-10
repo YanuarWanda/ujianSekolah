@@ -13,7 +13,7 @@
     <div class="container">
         <a href="{{url('/daftar-nilai/export', Request::segment(2))}}" class="btn btn-primary btn-fixed-bottom-right z-top">Export Nilai</a>
         <div class="row">
-            <div class="col-sm-12">
+            <div class="col-sm-10">
                 <div class="panel panel-default">
                     <div class="panel-heading">Chart Nilai Ujian per Kelas</div>
                     <div class="panel-body">
@@ -469,6 +469,8 @@
 @endsection
 @section('js')
     <script type="text/javascript">
+    $('#kelola').addClass('active open');
+  $('#ujian').addClass('active');
         $(document).ready(function(){
             $('.block-fade').on('click', function(){
                 var $index  = $(this).attr('data-panel');

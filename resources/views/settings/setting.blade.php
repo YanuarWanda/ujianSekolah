@@ -5,9 +5,10 @@
 @endsection
 
 @section('content')
+<p style="margin-top: 150px"></p>
 <div class="container">
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-10 col-md-offset-1">
             <div class="panel panel-default">
                 <div class="panel-heading">Settings Menu</div>
 
@@ -92,5 +93,8 @@
 @endsection
 
 @section('js')
+<script type="text/javascript">
+    $('.sidebar').hide();
+</script>
 <script type="text/javascript" src="{{ asset('js/bootstrap-select.min.js') }}"></script>
 @endsection

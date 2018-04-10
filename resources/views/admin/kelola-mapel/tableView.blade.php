@@ -2,8 +2,9 @@
 
 @section('content')
 <div class="container">
+    <a href="{{url('/kelola-mapel/create')}}" class="btn btn-primary btn-fixed-bottom-right z-top"><i class="fa fa-plus" aria-hidden="false"> Daftarkan mapel</i></a>
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-10">
             <div class="panel panel-default">
                 <div class="panel-heading">Data Mata Pelajaran</div>
 
@@ -41,11 +42,18 @@
                         @endif
                     </div>
                 </div>
-                <div class="panel-footer pull-right">
+                <!-- <div class="panel-footer pull-right">
                     <a href="{{ url('/kelola-mapel/create') }}" class="btn btn-success">Daftarkan Mata Pelajaran</a>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
 </div>
+@endsection
+
+@section('js')
+<script type="text/javascript">
+    $('#kelola').addClass('active open');
+  $('#mapel').addClass('active');
+</script>
 @endsection

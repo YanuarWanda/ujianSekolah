@@ -22,7 +22,7 @@
                     <p>Jenis Kelamin : @if($siswa->jenis_kelamin == 'L') Laki-laki @else Perempuan @endif</p>
                 </div>
             </div>
-            <div class="panel panel-success">
+            <!-- <div class="panel panel-success">
                 <div class="panel-heading">
                     <h5 class="text-center">Ability</h5>
                 </div>
@@ -30,17 +30,20 @@
                 <div class="panel-body">
                     <canvas id="grafikAbility" width="600px"></canvas>
                 </div>
-            </div>
+            </div> -->
         </div>
         <div class="col-md-8">
 
-            <ul class="nav nav-tabs" role="tablist">
-                <li role="presentation" class="active"><a href="#ujian" aria-controls="ujian" role="tab" data-toggle="tab">Ujian</a></li>
-                <li role="presentation"><a href="#remed" aria-controls="remed" role="tab" data-toggle="tab">Remedial</a></li>
+            <!-- <ul class="nav nav-tabs" role="tablist"> -->
+            <ul class="nav nav-tabs">
+                <!-- <li role="presentation" class="active"><a href="#ujian" aria-controls="ujian" role="tab" data-toggle="tab">Ujian</a></li>
+                <li role="presentation"><a href="#remed" aria-controls="remed" role="tab" data-toggle="tab">Remedial</a></li> -->
+                <li><a href="#ulangan" data-toggle="tab">Ujian</a></li>
+                <li class="active"><a href="#remed" data-toggle="tab">Remedial</a></li>
             </ul>
 
             <div class="tab-content">
-                <div role="tabpanel" class="tab-pane fade in active" id="ujian">
+                <div class="tab-pane fade" id="ulangan">
                     <h1 style="margin-top: 25px; text-align: center;">Daftar Ujian</h1>
                     <?php $index=0; ?>
                     @foreach($ujian as $u => $isi)
@@ -83,7 +86,7 @@
                         {{ $ujian->links() }}
                     </div>
                 </div>
-                <div role="tabpanel" class="tab-pane fade" id="remed">
+                <div class="tab-pane fade in active" id="remed">
                     <h1 style="margin-top: 25px; text-align: center;">Daftar Ujian Remedial</h1>
                     <?php $indexRemed=0; ?>
                     @foreach($ujianRemed as $uR => $isiR)
@@ -139,6 +142,7 @@
 @endsection
 @section('js')
 <script>
+    $('.sidebar').hide();
     var $skill = {!! $ability !!};
     var $mapel = [];var $nilai =[];
     $skill.forEach(function(realData){

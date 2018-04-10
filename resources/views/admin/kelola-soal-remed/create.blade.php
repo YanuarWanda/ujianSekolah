@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
-    {{-- <script src="https://cloud.tinymce.com/stable/tinymce.min.js"></script>
-    <script>tinyMCE.init({ mode:'specific_textareas', editor_selector:'editor' });</script> --}}
+    <!-- {{-- <script src="https://cloud.tinymce.com/stable/tinymce.min.js"></script>
+    <script>tinyMCE.init({ mode:'specific_textareas', editor_selector:'editor' });</script> --}} -->
 
     <div class="container">
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-10">
                 <div class="panel panel-primary">
                     <div class="panel-heading">Form Tambah Soal Remed| {{ $ujian->judul_ujian }}</div>
                     <div class="panel-body">
@@ -167,6 +167,8 @@
 
 @section('js')
     <script type="text/javascript">
+    $('#kelola').addClass('active open');
+    $('#ujian').addClass('active');
         $(document).ready(function(){
            CKEDITOR.replace( 'soal',{
                 filebrowserBrowseUrl: "{{ asset('vendor/ckfinder/ckfinder.html?Type=Files') }}",

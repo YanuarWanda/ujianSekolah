@@ -80,3 +80,10 @@
         </div>
     </div>
 @endsection
+
+@section('js')
+<script type="text/javascript">
+    $('#kelola').addClass('active open');
+  $('#ujian').addClass('active');
+</script>
+@endsection

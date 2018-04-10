@@ -33,3 +33,10 @@
     </div>
 </div>
 @endsection
+
+@section('js')
+<script type="text/javascript">
+    $('#import').addClass('active open');
+  $('#import_guru').addClass('active');
+</script>
+@endsection

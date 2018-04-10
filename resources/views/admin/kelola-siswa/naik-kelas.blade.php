@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-11">
             <div class="panel panel-default">
                 <div class="panel-heading">Data siswa</div>
 
@@ -68,6 +68,10 @@
 
 @section('js')
 <script type="text/javascript">
+
+    $('#kelola').addClass('active open');
+    $('#siswa').addClass('active');
+
     $.ajaxSetup({
       headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

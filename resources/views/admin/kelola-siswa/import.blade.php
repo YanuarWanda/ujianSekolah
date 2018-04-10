@@ -33,3 +33,9 @@
     </div>
 </div>
 @endsection
+@section('js')
+<script type="text/javascript">
+    $('#import').addClass('active open');
+  $('#import_siswa').addClass('active');
+</script>
+@endsection

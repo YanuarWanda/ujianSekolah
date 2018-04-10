@@ -52,3 +52,9 @@
     </div>
 </div>
 @endsection
+@section('js')
+<script type="text/javascript">
+    $('#kelola').addClass('active open');
+  $('#guru').addClass('active');
+</script>
+@endsection
