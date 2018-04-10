@@ -170,7 +170,7 @@
         </div>
     </div>
     <div id="app">
-        <nav class="navbar navbar-default navbar-static-top">
+        <nav class="navbar navbar-default navbar-static-top" style="background-color: purple ">
             <div class="container">
                 <div class="navbar-header">
 
@@ -184,7 +184,7 @@
 
                     <!-- Branding Image -->
                     <a class="navbar-brand" href="{{ url('/') }}">
-                        <span><img src="{{asset('image/Facepalm_30px.png')}}" alt="brand">
+                        <span style="color: white"><img src="{{asset('image/Facepalm_30px.png')}}" alt="brand">
                         {{ config('app.name', 'Laravel') }}</span>
                     </a>
                 </div>
@@ -194,22 +194,22 @@
                     <ul class="nav navbar-nav navbar-right">
                         <!-- Authentication Links -->
                         @guest
-                            <li><a href="{{ route('login') }}">Login</a></li>
-                            <li><a href="{{ route('register') }}">Register</a></li>
+                            <li><a href="{{ route('login') }}" style="color: white">Login</a></li>
+                            <li><a href="{{ route('register') }}" style="color: white">Register</a></li>
                         @else
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
+                                <a href="#" style="color: white" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
                                     {{ Auth::user()->username }} <span class="caret"></span>
                                 </a>
 
-                                <ul class="dropdown-menu">
+                                <ul class="dropdown-menu" style="background-color: purple">
                                     <li>
-                                        <a href="{{ route('settings') }}">Settings</a>
+                                        <a href="{{ route('settings') }}" style="color: white">Settings</a>
                                     </li>
                                     <li>
                                         <a href="{{ route('logout') }}"
                                             onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
+                                                     document.getElementById('logout-form').submit();" style="color: white">
                                             Logout
                                         </a>
 

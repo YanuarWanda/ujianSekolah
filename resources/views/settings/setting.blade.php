@@ -7,11 +7,11 @@
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-8 col-md-offset-2">  
             <div class="panel panel-default">
-                <div class="panel-heading">Settings Menu</div>
+                <div class="panel-heading" style="color: purple">Settings Menu</div>
 
-                <div class="panel-body">
+                <div class="panel-body" style="background-color: purple">
                     <ul class="nav nav-tabs">
                         <li class="active"><a data-toggle="tab" href="#ubahPassword">Ubah Password</a></li>
 
@@ -27,7 +27,7 @@
 
                             {{-- Password lama --}}
                             <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                                <label for="password" class="col-md-4 control-label">Password Baru</label>
+                                <label for="password" class="col-md-4 control-label" style="color: white">Password Baru</label>
 
                                 <div class="col-md-6">
                                     <input id="password" type="password" class="form-control" name="password" required>
@@ -57,7 +57,7 @@
 
                             {{-- Konfirmasi Password baru --}}
                             <div class="form-group">
-                                <label for="password-confirm" class="col-md-4 control-label">Confirm Password</label>
+                                <label for="password-confirm" class="col-md-4 control-label" style="color: white">Confirm Password</label>
 
                                 <div class="col-md-6">
                                     <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>

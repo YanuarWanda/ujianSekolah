@@ -4,16 +4,16 @@
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-primary">
-                <div class="panel-heading">Pendaftaran Siswa</div>
+        <div class="col-md-7 col-md-offset-2">
+            <div class="panel panel-default">
+                <div class="panel-heading" style="color: purple">Pendaftaran Siswa</div>
 
-                <div class="panel-body">
+                <div class="panel-body" style="background-color: purple">
                     <form class="form-horizontal" method="POST" action="{{ route('register') }}" accept-charset="UTF-8" enctype="multipart/form-data">
                         {{ csrf_field() }}
 
                         <div class="form-group{{ $errors->has('nis') ? ' has-error' : '' }}">
-                            <label for="nis" class="col-md-4 control-label">Nomor Induk Siswa</label>
+                            <label for="nis" class="col-md-4 control-label" style="color: white">Nomor Induk Siswa</label>
 
                             <div class="col-md-6">
                                 <input id="nis" type="text" class="form-control" name="nis" value="{{ old('nis') }}" required autofocus>
@@ -27,7 +27,7 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('nama') ? ' has-error' : '' }}">
-                            <label for="nama" class="col-md-4 control-label">Nama</label>
+                            <label for="nama" class="col-md-4 control-label" style="color: white">Nama</label>
 
                             <div class="col-md-6">
                                 <input id="nama" type="text" class="form-control" name="nama" value="{{ old('nama') }}" required>
@@ -41,7 +41,7 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('kelas') ? ' has-error' : '' }}">
-                            <label for="kelas" class="col-md-4 control-label">Kelas</label>
+                            <label for="kelas" class="col-md-4 control-label" style="color: white">Kelas</label>
 
                             <div class="col-md-6">
                                 <select name="kelas" id="kelas" class="form-control">
@@ -59,7 +59,7 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('alamat') ? ' has-error' : '' }}">
-                            <label for="alamat" class="col-md-4 control-label">Alamat</label>
+                            <label for="alamat" class="col-md-4 control-label" style="color: white">Alamat</label>
 
                             <div class="col-md-6">
                                 <textarea name="alamat" id="alamat" class="form-control" required>{{ old('alamat') }}</textarea>
@@ -88,7 +88,7 @@
                         </div> -->
 
                         <div class="form-group{{ $errors->has('jenisKelamin') ? ' has-error' : '' }}">
-                            <label for="jenisKelamin" class="col-md-4 control-label">Jenis Kelamin</label>
+                            <label for="jenisKelamin" class="col-md-4 control-label" style="color: white">Jenis Kelamin</label>
 
                             <div class="col-md-6">
                                 <select name="jenisKelamin" id="jenisKelamin" class="form-control">
@@ -107,7 +107,7 @@
                         <!-- Untuk Foto, sementara dikomentar. Menunggu keputusan lebih lanjut, -->
                         <!-- Upload Foto saat register, atau nanti pas edit data. -->
                         <div class="form-group{{ $errors->has('foto') ? ' has-error' : '' }}">
-                            <label for="foto" class="col-md-4 control-label">Foto</label>
+                            <label for="foto" class="col-md-4 control-label" style="color: white">Foto</label>
 
                             <div class="col-md-6">
                                 <img class="img-thumbnail" src="{{ asset('image/nophoto.jpg') }}" id="profile-img-tag" width="250px"/>
@@ -122,7 +122,7 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label for="email" class="col-md-4 control-label">E-Mail</label>
+                            <label for="email" class="col-md-4 control-label" style="color: white">E-Mail</label>
 
                             <div class="col-md-6">
                                 <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required>
@@ -136,7 +136,7 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('username') ? ' has-error' : '' }}">
-                            <label for="username" class="col-md-4 control-label">Username</label>
+                            <label for="username" class="col-md-4 control-label" style="color: white">Username</label>
 
                             <div class="col-md-6">
                                 <input id="username" type="text" class="form-control" name="username" value="{{ old('username') }}" required>
@@ -150,7 +150,7 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                            <label for="password" class="col-md-4 control-label">Password</label>
+                            <label for="password" class="col-md-4 control-label" style="color: white">Password</label>
 
                             <div class="col-md-6">
                                 <input id="password" type="password" class="form-control" name="password" required>
@@ -164,7 +164,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="password-confirm" class="col-md-4 control-label">Confirm Password</label>
+                            <label for="password-confirm" class="col-md-4 control-label" style="color: white">Confirm Password</label>
 
                             <div class="col-md-6">
                                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
@@ -173,8 +173,8 @@
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
-                                <a href="/kelola-siswa" class="btn btn-danger">Cancel</a>
-                                <button type="submit" class="btn btn-primary">
+                                <a href="/kelola-siswa" class="btn btn-default" style="color: red">Cancel</a>
+                                <button type="submit" class="btn btn-default" style="color: blue">
                                     Register
                                 </button>
                             </div>
