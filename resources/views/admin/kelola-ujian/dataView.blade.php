@@ -347,6 +347,7 @@
             </div>
 
             @else
+            <hr>
             <p>Data not available.</p>
             @endif
         </div>

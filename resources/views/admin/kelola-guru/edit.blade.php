@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div class="">
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
+        <div class="col-md-12">
             <div class="panel panel-primary">
                 <div class="panel-heading">{{ $data->nip }} | {{ $data->nama }}</div>
 
@@ -17,31 +17,97 @@
                             <form class="form-horizontal" method="POST" action="{{url('/kelola-guru/update', base64_encode($data->id_guru) )}}" enctype="multipart/form-data">
                                 {{ csrf_field() }}
 
-                                <div class="form-group{{ $errors->has('nip') ? ' has-error' : '' }}">
-                                    <label for="nip" class="col-md-4 control-label">Nomor Induk Pegawai</label>
+                                <!-- Untuk Foto, sementara dikomentar. Menunggu keputusan lebih lanjut, -->
+                                <!-- Upload Foto saat register, atau nanti pas edit data. -->
+                                <div class="col-md-6{{ $errors->has('foto') ? ' has-error' : '' }}">
 
-                                    <div class="col-md-6">
-                                        <input id="nip" type="text" class="form-control" name="nip" value="{{ $data->nip }}" required autofocus>
+                                    <div class="col-md-12">
+                                        <?php if($data->foto != 'nophoto.jpg'){?>
+                                            <img class="img-thumbnail" src="{{asset('storage/foto-profil/'.$data->foto)}}" id="profile-img-tag" width="200px" />
+                                        <?php }else{ ?>
+                                            <img class="img-thumbnail" src="{{asset('image/nophoto.jpg')}}" id="profile-img-tag" width="200px" />
+                                        <?php } ?>
+                                        <input id="foto" type="file" name="foto" value="{{ $data->foto }}">
 
-                                        @if ($errors->has('nip'))
+                                        @if ($errors->has('foto'))
                                             <span class="help-block">
-                                                <strong>{{ $errors->first('nip') }}</strong>
+                                                <strong>{{ $errors->first('foto') }}</strong>
                                             </span>
                                         @endif
                                     </div>
                                 </div>
 
-                                <div class="form-group{{ $errors->has('nama') ? ' has-error' : '' }}">
-                                    <label for="nama" class="col-md-4 control-label">Nama</label>
+                                <div class="col-md-6">
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">
+                                            <legend>Biodata</legend>      
+                                            <div class="table-responsive">
+                                            <table class="table table-striped">
+                                                <tr>
+                                                  <div class="{{ $errors->has('nip') ? ' has-error' : '' }}">
+                                                    <td colspan=2>
+                                                        <p>Nomor Induk Pegawai</p>
+                                                        <input id="nip" type="text" class="form-control" name="nip" value="{{ $data->nip }}" required autofocus>
 
-                                    <div class="col-md-6">
-                                        <input id="nama" type="text" class="form-control" name="nama" value="{{ $data->nama }}" required>
+                                                        @if ($errors->has('nip'))
+                                                            <span class="help-block">
+                                                                <strong>{{ $errors->first('nip') }}</strong>
+                                                            </span>
+                                                        @endif
+                                                    </td>
+                                                  </div>
+                                                </tr>
+                                                <tr>
+                                                  <div class="{{ $errors->has('nama') ? ' has-error' : '' }}">
+                                                    <td colspan=2>
+                                                        <p>Nama</p>
+                                                        <input id="nama" type="text" class="form-control" name="nama" value="{{ $data->nama }}" required>
 
-                                        @if ($errors->has('nama'))
-                                            <span class="help-block">
-                                                <strong>{{ $errors->first('nama') }}</strong>
-                                            </span>
-                                        @endif
+                                                        @if ($errors->has('nama'))
+                                                            <span class="help-block">
+                                                                <strong>{{ $errors->first('nama') }}</strong>
+                                                            </span>
+                                                        @endif
+                                                    </td>
+                                                  </div>
+                                                </tr>
+                                                <tr>
+                                                  <div class="{{ $errors->has('jenisKelamin') ? ' has-error' : '' }}">
+                                                    <td colspan=2>
+                                                        <p>Jenis Kelamin</p>
+                                                        <select name="jenisKelamin" id="jenisKelamin" class="form-control">
+                                                            <option value='L' {{ $data->jenis_kelamin == 'L' ? 'selected' : '' }} >Laki-laki</option>
+                                                            <option value='P' {{ $data->jenis_kelamin == 'P' ? 'selected' : '' }} >Perempuan</option>
+                                                        </select>
+
+                                                        @if ($errors->has('jenisKelamin'))
+                                                            <span class="help-block">
+                                                                <strong>{{ $errors->first('jenisKelamin') }}</strong>
+                                                            </span>
+                                                        @endif
+                                                    </td>
+                                                  </div>
+                                                </tr>
+                                            </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">
+                                          <div class="{{ $errors->has('alamat') ? ' has-error' : '' }}">
+                                            <p>Alamat</p>
+                                                <textarea name="alamat" id="alamat" class="" required>{{ $data->alamat }}</textarea>
+
+                                                @if ($errors->has('alamat'))
+                                                    <span class="help-block">
+                                                        <strong>{{ $errors->first('alamat') }}</strong>
+                                                    </span>
+                                                @endif
+                                          </div>
+                                        </div>
                                     </div>
                                 </div>
 

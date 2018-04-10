@@ -10,11 +10,19 @@ height: 105px;
 
 @section('content')
 <div class="container-fluid row">
+    <div class="col-md-2">
+        <div class="foto-profil">
+            @if($data->foto == 'nophoto.jpg')
+                <img src="{{asset('image/nophoto.jpg')}}"/>
+            @else
+                <img src="{{asset('storage/foto-profil/'.$data->foto)}}"/>
+            @endif
+        </div>
+    </div>
     <div class="col-md-6">
         <div class="panel panel-default">
             <div class="panel-body">
-                <legend>Biodata</legend>
-                
+                <legend>Biodata</legend>      
                 <div class="table-responsive">
                 <table class="table table-striped">
                     <tr>
@@ -44,20 +52,6 @@ height: 105px;
             <div class="panel-body">
                 <legend>Alamat</legend>
                 <textarea class="form-control" rows="6" readonly>{{ $data->alamat }}</textarea>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-md-3">
-        <div class="panel panel-default">
-            <div class="panel-body">
-                <div class="foto-profil">
-                    @if($data->foto == 'nophoto.jpg')
-                        <img src="{{asset('image/nophoto.jpg')}}"/>
-                    @else
-                        <img src="{{asset('storage/foto-profil/'.$data->foto)}}"/>
-                    @endif
-                </div>
             </div>
         </div>
     </div>
@@ -112,7 +106,6 @@ height: 105px;
     <div class="col-md-3">
         <div class="panel panel-default">
             <div class="panel-body">
-                <legend>Aksi</legend>
                 <a href="{{url('/kelola-guru/edit', base64_encode($data->id_guru))}}" 
                     class="btn btn-warning btn-block"><span class="fa fa-edit"></span> Edit</a>
                 <a href="{{url('/kelola-guru/delete', base64_encode($data->id_guru))}}"

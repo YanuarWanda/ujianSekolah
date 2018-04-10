@@ -194,7 +194,7 @@
                     <a href="{{ route('home') }}">Dashboard</a>
                 </li>
                 <hr>
-                <li><small>Menu Guru</small></li>
+                <li><small style="color: white;">Menu Guru</small></li>
                 <li>
                     <a href="{{ route('guru') }}">Guru</a>
                 </li>
@@ -208,7 +208,7 @@
                     <a href="{{ route('ujian') }}">Ujian</a>
                 </li>
                 <hr>
-                <li><small>Menu Siswa</small></li>
+                <li><small style="color: white;">Menu Siswa</small></li>
                 <li>
                     <a href="{{ route('siswa') }}">Siswa</a>
                 </li>
