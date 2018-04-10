@@ -200,5 +200,6 @@
 @section('js')
 <script type="text/javascript">
     $('.sidebar').hide();
+    $('#register').addClass('open');
 </script>
 @endsection

@@ -56,6 +56,7 @@ input[type="submit"].login:focus{
     outline: none !important;
 }
 
+
 </style>
 @endsection
 
@@ -120,6 +121,7 @@ input[type="submit"].login:focus{
 // $('window').on('load', function(){
     $('.sidebar').hide();
 // });
+    $('#login').addClass('open');
 $(document).ready(function(){
     $('input').focus(function() {
         var label = $('label[for="' + $(this).attr('id') + '"]');
