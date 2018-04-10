@@ -45,7 +45,6 @@ class BankSoalController extends Controller
         $this->validate($request, [
             'soal'     	=> 'required',
             'tipe'      	=> 'required',
-            'jawaban'      		=> 'required'
         ]);
 
         if($request['tipe'] == 'PG'){
@@ -128,12 +127,11 @@ class BankSoalController extends Controller
         ]);
 
         return redirect('/kelola-bank-soal')->with('success', 'Penambahan Data Soal Berhasil');
-
     }
 
     public function edit($id)
     {
-        $soal       = BankSoal::find($id);
+        $soal       = BankSoal::find(base64_decode($id));
         // return $soal;
         $pilihan    = explode(' ,  ', $soal['pilihan']);
         $jawaban    = $soal->jawaban;
@@ -145,8 +143,91 @@ class BankSoalController extends Controller
         $mapel = Mapel::all();
         $bidangKeahlian = DaftarBidangKeahlian::all();
 
-        // return $pilihan['0'];
+        // return $soal->id_bank_soal;
         return view('admin.kelola-bank-soal.edit', compact('soal', 'pilihan', 'jawaban', 'bidangKeahlian', 'mapel'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $bankSoal = BankSoal::find(base64_decode($id));
+
+        if($request['tipe'] == 'PG'){
+            $pilihan = $request['pilihanA']." ,  ".$request['pilihanB']." ,  ".$request['pilihanC']." ,  ".$request['pilihanD']." ,  ".$request['pilihanE'];
+
+            if($request['jawaban'] == 'A'){
+                $jawaban = $request['pilihanA'];
+            }else if($request['jawaban'] == 'B'){
+                $jawaban = $request['pilihanB'];
+            }else if($request['jawaban'] == 'C'){
+                $jawaban = $request['pilihanC'];
+            }else if($request['jawaban'] == 'D'){
+                $jawaban = $request['pilihanD'];
+            }else if($request['jawaban'] == 'E'){
+                $jawaban = $request['pilihanE'];
+            }
+        }else if($request['tipe'] == 'BS'){
+            $pilihan = 'Benar ,  Salah';
+
+            if($request['jawaban'] == 'Benar'){
+                $jawaban = "Benar";
+            }else if($request['jawaban'] == 'Salah'){
+                $jawaban = "Salah";
+            }
+        }else if($request['tipe'] == 'MC'){
+            $pilihan = $request['pilihanA']." ,  ".$request['pilihanB']." ,  ".$request['pilihanC']." ,  ".$request['pilihanD']." ,  ".$request['pilihanE'];
+
+            $jawaban = '';
+            foreach($request['jawabanMC'] as $j => $jajang){
+                if($jajang == 'A'){
+                    $jawabanA = $request['pilihanA']." ,  ";break;
+                }else{
+                    $jawabanA = ''.' ,  ';
+                }
+            }
+
+            foreach($request['jawabanMC'] as $j => $jajang){
+                if($jajang == 'B'){
+                    $jawabanB = $request['pilihanB']." ,  ";break;
+                }else{
+                    $jawabanB = ''.' ,  ';
+                }
+            }
+
+            foreach($request['jawabanMC'] as $j => $jajang){
+                if($jajang == 'C'){
+                    $jawabanC = $request['pilihanC']." ,  ";break;
+                }else{
+                    $jawabanC = ''.' ,  ';
+                }
+            }
+
+            foreach($request['jawabanMC'] as $j => $jajang){
+                if($jajang == 'D'){
+                    $jawabanD = $request['pilihanD']." ,  ";break;
+                }else{
+                    $jawabanD = ''.' ,  ';
+                }
+            }
+
+            foreach($request['jawabanMC'] as $j => $jajang){
+                if($jajang == 'E'){
+                    $jawabanE = $request['pilihanE'];break;
+                }else{
+                    $jawabanE = '';
+                }
+            }
+
+            $jawaban = $jawabanA.$jawabanB.$jawabanC.$jawabanD.$jawabanE;
+        }
+
+        $bankSoal->tipe        = $request['tipe'];
+        $bankSoal->isi_soal    = $request['soal'];
+        $bankSoal->pilihan     = $pilihan;
+        $bankSoal->jawaban     = $jawaban;
+
+        if($bankSoal->save()){
+            return redirect('/kelola-bank-soal')->with('success', 'Update Soal Berhasil!');
+        }
     }
 
     public function delete($id) {
