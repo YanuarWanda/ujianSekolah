@@ -40,6 +40,7 @@ input#email:focus{
 
 input#email{
     border-radius: 19px !important;
+    padding-left: 20px !important;
 }
 
 /*label[for="email"]{

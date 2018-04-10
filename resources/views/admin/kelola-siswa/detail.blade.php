@@ -50,7 +50,7 @@
                     </table>
 
                     <a href="/kelola-siswa" class="btn btn-info">Back</a>
-                    @if(Auth::user()->hak_akses == 'admin')<a href="{{url('/kelola-siswa/edit', base64_encode($data->nis))}}" class="btn btn-primary">Edit</a>@endif
+                    @if(Auth::user()->hak_akses == 'admin')<a href="{{url('/kelola-siswa/edit', base64_encode($data->id_siswa))}}" class="btn btn-primary">Edit</a>@endif
                 </div>
             </div>
         </div>
