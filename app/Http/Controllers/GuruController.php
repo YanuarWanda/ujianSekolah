@@ -295,7 +295,7 @@ class GuruController extends Controller
 
     public function storeDataGuru(Request $request, $id) {
         $guru = Guru::where('nip', base64_decode($id))->get()->first();
-        $user = Users::find($guru->id_users);
+        $user = User::find($guru->id_users);
 
         $this->validate($request, [
             'nip'               => ['required', 'numeric', 'digits_between:19,21', Rule::unique('guru')->ignore($guru->nip, 'nip')],

@@ -94,7 +94,7 @@
 
 @section('js')
 <script type="text/javascript">
-    $('.sidebar').hide();
+    // $('.sidebar').hide();
 </script>
 <script type="text/javascript" src="{{ asset('js/bootstrap-select.min.js') }}"></script>
 @endsection

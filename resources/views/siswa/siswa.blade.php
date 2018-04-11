@@ -16,9 +16,9 @@
                         <?php }else{ ?>
                             <img src="{{asset('image/nophoto.jpg')}}" width="250px"/>
                         <?php } ?>
-                    </p>
-                    <p>NIS : {{ $siswa->nis }}</p>
-                    <p>Alamat : {{ $siswa->alamat }}</p>
+                    </p><hr>
+                    <p>NIS : {{ $siswa->nis }}</p><hr>
+                    <p>Alamat : {{ $siswa->alamat }}</p><hr>
                     <p>Jenis Kelamin : @if($siswa->jenis_kelamin == 'L') Laki-laki @else Perempuan @endif</p>
                 </div>
             </div>
@@ -38,18 +38,18 @@
             <ul class="nav nav-tabs">
                 <!-- <li role="presentation" class="active"><a href="#ujian" aria-controls="ujian" role="tab" data-toggle="tab">Ujian</a></li>
                 <li role="presentation"><a href="#remed" aria-controls="remed" role="tab" data-toggle="tab">Remedial</a></li> -->
-                <li><a href="#ulangan" data-toggle="tab">Ujian</a></li>
-                <li class="active"><a href="#remed" data-toggle="tab">Remedial</a></li>
+                <li class="active"><a href="#ulangan" data-toggle="tab">Ujian</a></li>
+                <li><a href="#remed" data-toggle="tab">Remedial</a></li>
             </ul>
 
             <div class="tab-content">
-                <div class="tab-pane fade" id="ulangan">
+                <div class="tab-pane fade in active" id="ulangan">
                     <h1 style="margin-top: 25px; text-align: center;">Daftar Ujian</h1>
                     <?php $index=0; ?>
                     @foreach($ujian as $u => $isi)
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <h4>{{ $isi->judul_ujian }} <code>{{ $isi->nama_mapel }}</code></h4>
+                            <h4>{{ $isi->judul_ujian }} <code class="pull-right">{{ $isi->nama_mapel }}</code></h4>
                         </div>
 
                         <div class="panel-body">
@@ -86,7 +86,7 @@
                         {{ $ujian->links() }}
                     </div>
                 </div>
-                <div class="tab-pane fade in active" id="remed">
+                <div class="tab-pane fade" id="remed">
                     <h1 style="margin-top: 25px; text-align: center;">Daftar Ujian Remedial</h1>
                     <?php $indexRemed=0; ?>
                     @foreach($ujianRemed as $uR => $isiR)
@@ -142,7 +142,7 @@
 @endsection
 @section('js')
 <script>
-    $('.sidebar').hide();
+    // $('.sidebar').hide();
     var $skill = {!! $ability !!};
     var $mapel = [];var $nilai =[];
     $skill.forEach(function(realData){

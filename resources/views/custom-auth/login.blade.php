@@ -119,7 +119,7 @@ input[type="submit"].login:focus{
 @section('js')
 <script type="text/javascript">
 // $('window').on('load', function(){
-    $('.sidebar').hide();
+ //   $('.sidebar').hide();
 // });
     $('#login').addClass('open');
 $(document).ready(function(){

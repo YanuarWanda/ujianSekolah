@@ -8,8 +8,8 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Favicon -->
-    <link rel="shortcut icon" href="{{asset('image/tercyduk.png')}}" type="image/x-icon">
-    <link rel="icon" href="{{asset('image/tercyduk.png')}}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{asset('image/ulahv2.png')}}" type="image/x-icon">
+    <link rel="icon" href="{{asset('image/ulahv2.png')}}" type="image/x-icon">
 
     <title>{{ config('app.name', 'U-LAH') }}</title>
 
@@ -183,116 +183,7 @@
     </div>
 
     <div id="app">
-         <div id="sidebar" class="sidebar responsive transisi">
-            <div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
-              <i id="sidebar-toggle-icon" class="ace-icon fa fa-angle-double-left" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
-            </div>
-            <ul class="nav nav-list">
-                <li class="" id="home">
-                    <a href="/home">
-                    <i class="menu-icon fa fa-home"></i>
-                        <span class="menu-text"> Beranda </span>
-                    </a>
-                <b class="arrow"></b>
-                </li>
-                <li class="" id="kelola">
-                    <a href="#" class="dropdown-toggle">
-                        <i class="menu-icon fa fa-list"></i>
-                            <span class="menu-text"> Kelola </span>
-                                <b class="arrow fa fa-angle-down"></b>
-                    </a>
-                    <ul class="submenu">
-                        <li class="" id="guru">
-                            <a href="/kelola-guru">
-                                <i class="menu-icon fa fa-caret-right"></i>
-                                Data Guru
-                            </a>
-
-                            <b class="arrow"></b>
-                        </li>
-                        <!-- <li class="" id="guru">
-                                <a href="#" class="dropdown-toggle">
-                                    <i class="menu-icon fa fa-caret-right"></i>
-                                    Data Guru
-                                    <b class="arrow fa fa-angle-down"></b>
-                                </a>
-
-                                <b class="arrow"></b>
-
-                                <ul class="submenu">
-                                    <li class="" id="tabel_guru">
-                                        <a href="/kelola-guru">
-                                            <i class="menu-icon fa fa-caret-right"></i>
-                                            Tabel Data Guru
-                                        </a>
-                                        <b class="arrow"></b>
-                                    </li>
-                                </ul>
-                        </li> -->
-                        <li class="" id="siswa">
-                            <a href="/kelola-siswa">
-                                <i class="menu-icon fa fa-caret-right"></i>
-                                Data Siswa
-                            </a>
-                        </li>
-                        <li class="" id="ujian">
-                            <a href="/kelola-ujian">
-                                <i class="menu-icon fa fa-caret-right"></i>
-                                Data Ujian
-                            </a>
-                        </li>
-                        <li class="" id="jurusan">
-                            <a href="/kelola-jurusan">
-                                <i class="menu-icon fa fa-caret-right"></i>
-                                Data Jurusan
-                            </a>
-                        </li>
-                        <li class="" id="kelas">
-                            <a href="/kelola-kelas">
-                                <i class="menu-icon fa fa-caret-right"></i>
-                                Data Kelas
-                            </a>
-                        </li>
-                        <li class="" id="bidang">
-                            <a href="/kelola-bidang">
-                                <i class="menu-icon fa fa-caret-right"></i>
-                                Data Bidang Keahlian
-                            </a>
-                        </li>
-                        <li class="" id="mapel">
-                            <a href="/kelola-mapel">
-                                <i class="menu-icon fa fa-caret-right"></i>
-                                Data Mata Pelajaran
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="" id="import">
-                        <a href="#" class="dropdown-toggle">
-                            <i class="menu-icon fa fa-upload"></i>
-                            <span class="menu-text"> Import </span>
-
-                            <b class="arrow fa fa-angle-down"></b>
-                        </a>
-                        <ul class="submenu">
-                            <li class="" id="import_guru">
-                                <a href="/kelola-guru/import">
-                                    <i class="menu-icon fa fa-caret-right"></i>
-                                    Data Guru
-                                </a>
-
-                                <b class="arrow"></b>
-                            </li>
-                            <li class="" id="import_siswa">
-                                <a href="/kelola-siswa/import">
-                                    <i class="menu-icon fa fa-caret-right"></i>
-                                    Data Siswa
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-          </div>
+        @guest
         <nav class="navbar navbar-default navbar-fixed-top">
             <div class="container">
                 <div class="navbar-header">
@@ -307,7 +198,7 @@
 
                     <!-- Branding Image -->
                     <a class="navbar-brand" href="{{ url('/') }}">
-                        <span><img src="{{asset('image/Facepalm_30px.png')}}" alt="brand">
+                        <span><img src="{{asset('image/ulahv2.png')}}" alt="brand">
                         {{ config('app.name', 'Laravel') }}</span>
                     </a>
                 </div>
@@ -316,37 +207,284 @@
                     <!-- Right Side Of Navbar -->
                     <ul class="nav navbar-nav navbar-right">
                         <!-- Authentication Links -->
-                        @guest
-                            <li id="login" class=""><a href="{{ route('login') }}">Login</a></li>
-                            <li id="register" class=""><a href="{{ route('register') }}">Register</a></li>
-                        @else
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
-                                    {{ Auth::user()->username }} <span class="caret"></span>
-                                </a>
-
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <a href="{{ route('settings') }}">Setting</a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ route('logout') }}"
-                                            onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                            Logout
-                                        </a>
-
-                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                            {{ csrf_field() }}
-                                        </form>
-                                    </li>
-                                </ul>
-                            </li>
-                        @endguest
+                        <li id="login" class=""><a href="{{ route('login') }}">Login</a></li>
+                        <li id="register" class=""><a href="{{ route('register') }}">Register</a></li>
                     </ul>
                 </div>
             </div>
         </nav>
+        @else
+            @if(Auth::user()->hak_akses == 'admin')
+             <!-- Sidebar -->
+                 <div id="sidebar" class="sidebar responsive transisi">
+                    <div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
+                      <i id="sidebar-toggle-icon" class="ace-icon fa fa-angle-double-left" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
+                    </div>
+                    <ul class="nav nav-list">
+                        <li class="" id="home">
+                            <a href="/home">
+                            <i class="menu-icon fa fa-home"></i>
+                                <span class="menu-text"> Beranda </span>
+                            </a>
+                        <b class="arrow"></b>
+                        </li>
+                        <li class="" id="kelola">
+                            <a href="#" class="dropdown-toggle">
+                                <i class="menu-icon fa fa-list"></i>
+                                    <span class="menu-text"> Kelola </span>
+                                        <b class="arrow fa fa-angle-down"></b>
+                            </a>
+                            <ul class="submenu">
+                                <li class="" id="guru">
+                                    <a href="/kelola-guru">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Data Guru
+                                    </a>
+
+                                    <b class="arrow"></b>
+                                </li>
+                                <!-- <li class="" id="guru">
+                                        <a href="#" class="dropdown-toggle">
+                                            <i class="menu-icon fa fa-caret-right"></i>
+                                            Data Guru
+                                            <b class="arrow fa fa-angle-down"></b>
+                                        </a>
+
+                                        <b class="arrow"></b>
+
+                                        <ul class="submenu">
+                                            <li class="" id="tabel_guru">
+                                                <a href="/kelola-guru">
+                                                    <i class="menu-icon fa fa-caret-right"></i>
+                                                    Tabel Data Guru
+                                                </a>
+                                                <b class="arrow"></b>
+                                            </li>
+                                        </ul>
+                                </li> -->
+                                <li class="" id="siswa">
+                                    <a href="/kelola-siswa">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Data Siswa
+                                    </a>
+                                </li>
+                                <li class="" id="ujian">
+                                    <a href="/kelola-ujian">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Data Ujian
+                                    </a>
+                                </li>
+                                <li class="" id="jurusan">
+                                    <a href="/kelola-jurusan">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Data Jurusan
+                                    </a>
+                                </li>
+                                <li class="" id="kelas">
+                                    <a href="/kelola-kelas">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Data Kelas
+                                    </a>
+                                </li>
+                                <li class="" id="bidang">
+                                    <a href="/kelola-bidang">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Data Bidang Keahlian
+                                    </a>
+                                </li>
+                                <li class="" id="mapel">
+                                    <a href="/kelola-mapel">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Data Mata Pelajaran
+                                    </a>
+                                </li>
+                                <li class="" id="bank_soal">
+                                    <a href="/kelola-bank-soal">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Data Bank Soal
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="" id="import">
+                                <a href="#" class="dropdown-toggle">
+                                    <i class="menu-icon fa fa-upload"></i>
+                                    <span class="menu-text"> Import </span>
+
+                                    <b class="arrow fa fa-angle-down"></b>
+                                </a>
+                                <ul class="submenu">
+                                    <li class="" id="import_guru">
+                                        <a href="/kelola-guru/import">
+                                            <i class="menu-icon fa fa-caret-right"></i>
+                                            Data Guru
+                                        </a>
+
+                                        <b class="arrow"></b>
+                                    </li>
+                                    <li class="" id="import_siswa">
+                                        <a href="/kelola-siswa/import">
+                                            <i class="menu-icon fa fa-caret-right"></i>
+                                            Data Siswa
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                  </div>
+
+                <!-- Navbar -->
+                <nav class="navbar navbar-default navbar-fixed-top">
+                    <div class="container">
+                        <div class="navbar-header">
+
+                            <!-- Collapsed Hamburger -->
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse" aria-expanded="false">
+                                <span class="sr-only">Toggle Navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+
+                            <!-- Branding Image -->
+                            <a class="navbar-brand" href="{{ url('/') }}">
+                                <span><img src="{{asset('image/ulahv3.png')}}" alt="brand">
+                                {{ config('app.name', 'Laravel') }}</span>
+                            </a>
+                        </div>
+
+                        <div class="collapse navbar-collapse" id="app-navbar-collapse">
+                            <!-- Right Side Of Navbar -->
+                            <ul class="nav navbar-nav navbar-right">
+                                <!-- Authentication Links -->
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
+                                        {{ Auth::user()->username }} <span class="caret"></span>
+                                    </a>
+
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a href="{{ route('settings') }}">Setting</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ route('logout') }}"
+                                                onclick="event.preventDefault();
+                                                         document.getElementById('logout-form').submit();">
+                                                Logout
+                                            </a>
+
+                                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                                {{ csrf_field() }}
+                                            </form>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            @elseif(Auth::user()->hak_akses == 'guru')
+                <nav class="navbar navbar-default navbar-fixed-top">
+                    <div class="container">
+                        <div class="navbar-header">
+
+                            <!-- Collapsed Hamburger -->
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse" aria-expanded="false">
+                                <span class="sr-only">Toggle Navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+
+                            <!-- Branding Image -->
+                            <a class="navbar-brand" href="{{ url('/') }}">
+                                <span><img src="{{asset('image/ulahv3.png')}}" alt="brand">
+                                {{ config('app.name', 'Laravel') }}</span>
+                            </a>
+                        </div>
+
+                        <div class="collapse navbar-collapse" id="app-navbar-collapse">
+                            <!-- Right Side Of Navbar -->
+                            <ul class="nav navbar-nav navbar-right">
+                                <!-- Authentication Links -->
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
+                                        {{ Auth::user()->username }} <span class="caret"></span>
+                                    </a>
+
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a href="{{ route('settings') }}">Setting</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ route('logout') }}"
+                                                onclick="event.preventDefault();
+                                                         document.getElementById('logout-form').submit();">
+                                                Logout
+                                            </a>
+
+                                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                                {{ csrf_field() }}
+                                            </form>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            @else
+                <nav class="navbar navbar-default navbar-fixed-top">
+                    <div class="container">
+                        <div class="navbar-header">
+
+                            <!-- Collapsed Hamburger -->
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse" aria-expanded="false">
+                                <span class="sr-only">Toggle Navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+
+                            <!-- Branding Image -->
+                            <a class="navbar-brand" href="{{ url('/') }}">
+                                <span><img src="{{asset('image/ulahv3.png')}}" alt="brand">
+                                {{ config('app.name', 'Laravel') }}</span>
+                            </a>
+                        </div>
+
+                        <div class="collapse navbar-collapse" id="app-navbar-collapse">
+                            <!-- Right Side Of Navbar -->
+                            <ul class="nav navbar-nav navbar-right">
+                                <!-- Authentication Links -->
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
+                                        {{ Auth::user()->username }} <span class="caret"></span>
+                                    </a>
+
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a href="{{ route('settings') }}">Setting</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ route('logout') }}"
+                                                onclick="event.preventDefault();
+                                                         document.getElementById('logout-form').submit();">
+                                                Logout
+                                            </a>
+
+                                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                                {{ csrf_field() }}
+                                            </form>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            @endif
+        @endguest
         <p style="margin-top: 80px"></p>
         @yield('content')
     </div>

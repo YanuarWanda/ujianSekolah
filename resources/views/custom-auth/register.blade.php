@@ -199,7 +199,7 @@
 
 @section('js')
 <script type="text/javascript">
-    $('.sidebar').hide();
+    // $('.sidebar').hide();
     $('#register').addClass('open');
 </script>
 @endsection
