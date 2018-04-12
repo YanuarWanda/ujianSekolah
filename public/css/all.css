@@ -123,7 +123,7 @@ body {
   height: 100%;
   margin-left: -250px;
   overflow-y: auto;
-  background: #8e44ad;
+  background: #1ABC9C;
   -webkit-transition: all 0.5s ease;
   -moz-transition: all 0.5s ease;
   -o-transition: all 0.5s ease;
@@ -268,8 +268,4 @@ body {
     bottom: 35px;
     /*left: 35px;*/
     z-index: 9999999;
-}
-
-.btn-warning {
-  background-color: #f1c40f;
 }

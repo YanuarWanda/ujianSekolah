@@ -3,7 +3,7 @@
 @section('css')
 <script>
 window.onbeforeunload = function(e) {
-    var dialogText = 'Yakin nih?';
+    var dialogText = 'Yakin?';
     e.returnValue = dialogText;
     return dialogText;
 }

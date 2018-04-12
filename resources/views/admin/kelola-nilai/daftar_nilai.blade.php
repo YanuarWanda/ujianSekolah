@@ -15,6 +15,15 @@
         <div class="row">
             <div class="col-sm-12">
                 <div class="panel panel-default">
+                    <div class="panel-heading">Chart Nilai Ujian Semua Siswa</div>
+                    <div class="panel-body">
+                        <canvas id="chartPerSiswa" width="600">
+                        
+                        </canvas>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
                     <div class="panel-heading">Chart Nilai Ujian per Kelas</div>
                     <div class="panel-body">
                         <canvas id="chartPerKelas" width="600">
@@ -491,6 +500,7 @@
             });
 
             var $dataChart = {!! json_encode($chartPerKelas) !!};
+
             var $daftar_kelas = [];var $label;var $daftar_nilai = [];
             $dataChart.forEach(function(realData){
                 $daftar_kelas.push(realData.kelas);
@@ -519,6 +529,32 @@
                     }
                 }
                 
+            });
+
+            // Data nilai per siswa
+            var $data_siswa = {!! json_encode($daftarSiswa) !!};
+            
+            var $nama_siswa = [];var $label;var $nilai_siswa = [];
+            $data_siswa.forEach(function(realData){
+                $nama_siswa.push(realData.nama);
+                $label = 'Nilai Siswa';
+                $nilai_siswa.push(realData.nilai);
+            });
+
+            var ctx = document.getElementById('chartPerSiswa').getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels:$nama_siswa,
+                    datasets: [{
+                        label: 'Nilai Siswa',
+                        data: $nilai_siswa,
+                        borderWidth: 1,
+                        backgroundColor: 'orange',
+                        fill: false,
+                        borderColor: 'red'
+                    }]
+                }
             });
                
         });

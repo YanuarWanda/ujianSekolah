@@ -5,12 +5,25 @@
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-default">
-                <div class="panel-heading">Data siswa</div>
+                @if(Auth::user()->hak_akses == 'admin')
+                <div class="panel-heading">
+                    <span class="panel-title">Data Siswa | 
+                        <button id="export" class="btn-sm btn-success">Export ke Excel</button>
+                        |
+                        <button id="export-pdf" class="btn-sm btn-success">Export ke Pdf</button>
+                    </span>
+                    <div class="pull-right">
+                        <a href="{{ route('siswa.import') }}" class="btn-sm btn-success">Import Data  Siswa</a>
+                        <a href="{{ url('/kelola-siswa/create') }}" class="btn-sm btn-success">Daftarkan siswa</a>
+                        <a href="{{ url('/kelola-siswa/naik-kelas') }}" class="btn-sm btn-success">Kenaikan Kelas</a>
+                    </div>
+                </div>
+                @endif
 
                 <div class="panel-body">
                     <div class="table-responsive">
                         @if(count($siswa) > 0)
-                        <table class="table table-bordered" id="tableSiswa" data-page-length='4'>
+                        <table class="table table-bordered" id="tableSiswa" data-page-length='6'>
                             <thead>
                                 <tr>
                                     <th>No.</th>
@@ -44,14 +57,6 @@
                         @endif
                     </div>
                 </div>
-                @if(Auth::user()->hak_akses == 'admin')
-                <div class="panel-footer pull-right">
-                    <button id="export" class="btn btn-success">Export Data Siswa</button>
-                    <a href="{{ route('siswa.import') }}" class="btn btn-success">Import Data  Siswa</a>
-                    <a href="{{ url('/kelola-siswa/create') }}" class="btn btn-success">Daftarkan siswa</a>
-                    <a href="{{ url('/kelola-siswa/naik-kelas') }}" class="btn btn-success">Kenaikan Kelas</a>
-                </div>
-                @endif
             </div>
         </div>
     </div>
@@ -70,6 +75,19 @@
           cancelButtonColor: '#d33',
         }).then((data) => {
             window.location = '{{ route('siswa.export') }}';
+        })
+    });
+
+    $('#export-pdf').click(function() {
+        swal({
+          title: 'Export Data ?',
+          text: 'Export dalam bentuk Pdf',
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+        }).then((data) => {
+            window.location = '{{ route('siswa.export-pdf') }}';
         })
     });
 </script>

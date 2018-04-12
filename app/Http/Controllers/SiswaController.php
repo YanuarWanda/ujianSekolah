@@ -12,6 +12,8 @@ use Storage;
 use Excel;
 use DB;
 
+use Auth;
+
 class SiswaController extends Controller
 {
     public function __construct()
@@ -247,9 +249,13 @@ class SiswaController extends Controller
         return view('admin.kelola-siswa.import');
     }
 
-    public function importToDatabase(Request $request) {
+    public function importToDatabase(Request $request)
+    {
         $this->validate($request, [
             'fileExcel' => 'required',
+        ],
+        [
+            'fileExcel.required' => 'File excel harus diisi',
         ]);
 
         if($request->hasFile('fileExcel')){
@@ -258,8 +264,8 @@ class SiswaController extends Controller
             if($data->count()){
                 foreach ($data as $key => $value) {
                     $user[] = [
-                        'username'      => $value->username,
-                        'password'      => bcrypt($value->password),
+                        'username'      => strtolower(str_replace(' ', '', $value->nama)),
+                        'password'      => bcrypt($value->nis),
                         'email'         => $value->email,
                         'hak_akses'     => 'siswa',
                         'created_at'    => now(),
@@ -276,10 +282,22 @@ class SiswaController extends Controller
                     ];
                 }
 
+                // Mengambil semua nis yang ada
+                $daftar_nis = Siswa::get(['nis']);
+                
+                foreach($daftar_nis as $key => $daftar) {
+                    $nis[$key] = $daftar->nis;
+                }
+
+                // Handle NIS yang sudah ada
+                foreach($siswa as $s) {
+                    if(in_array($s['nis'], $nis) ) {
+                        return redirect()->back()->with('error', "NIS ".$s['nis']." sudah terdaftar!");
+                    }
+                }
+
                 if(!empty($user) && !empty($siswa)){
-
                     \DB::table('users')->insert($user);
-
                     $dataUser = DB::select("SELECT * FROM users WHERE users.id_users NOT IN (SELECT id_users FROM siswa) AND hak_akses = 'siswa'");
 
                     foreach ($dataUser as $key => $value) {
@@ -300,27 +318,34 @@ class SiswaController extends Controller
 
                     \DB::table('siswa')->insert($siswa);
 
-                    return redirect('/home')->with('success', 'Import data berhasil dilakukan');
+                    \Log::info(Auth::user()->username.' meng-import data siswa.');
+                    return redirect()->back()->with('success', 'Import data berhasil dilakukan');
                 }
             }
         }
     }
 
-    public function exportToExcel() {
-        Excel::create('Data Siswa', function($excel) {
-            $excel->sheet('Sheet 1', function($sheet) {
+    public function exportToExcel()
+    {
+        Excel::create('Data Siswa per '.date("Y-m-d"), function($excel) {
+            $excel->setCreator('U-LAH')->setCompany('U-LAH');
+            $excel->setDescription('Data Siswa yang di export per tanggal '.date("Y-m-d").".");
+            $excel->setSubject('Data Siswa');
+            $excel->sheet('Data Siswa', function($sheet) {
                 // Data yang akan di Export
-                $dataSiswa = Siswa::join('kelas', 'siswa.id_kelas', '=', 'kelas.id_kelas')
-                    ->select('nis', 'nama', 'kelas.nama_kelas', 'alamat', 'jenis_kelamin')
+                $dataSiswa = Siswa::join('kelas', 'siswa.id_kelas', '=', 'kelas.id_kelas')->join('users', 'siswa.id_users', '=', 'users.id_users')
+                    ->select('nis', 'nama', 'users.email', 'kelas.nama_kelas', 'alamat', 'jenis_kelamin', 'tahun_ajaran')
                     ->get();
 
                 foreach($dataSiswa as $siswa) {
                     $data[] = array(
                         $siswa->nis,
                         $siswa->nama,
+                        $siswa->email,
                         $siswa->nama_kelas,
                         $siswa->alamat,
                         $siswa->jenis_kelamin,
+                        $siswa->tahun_ajaran,
                     );
                 }
 
@@ -328,11 +353,49 @@ class SiswaController extends Controller
                 $sheet->fromArray($data, null, 'A1', false, false);
 
                 // Menambahkan Judul ke Excel
-                $headings = array('NIS', 'Nama', 'Kelas', 'Alamat', 'Jenis Kelamin');
+                $headings = array('NIS', 'Nama', 'Email', 'Kelas', 'Alamat', 'Jenis Kelamin', 'Tahun Ajaran');
                 $sheet->prependRow(1, $headings);
             });
-        })->export('xls');
+        })->export('xlsx');
 
+        \Log::info(Auth::user()->username.' meng-export data siswa');
+        return redirect()->back()->with('success', 'Data Siswa berhasil di Export');
+    }
+
+    public function exportToPdf()
+    {
+        Excel::create('Data Siswa per '.date("Y-m-d"), function($excel) {
+            $excel->setCreator('U-LAH')->setCompany('U-LAH');
+            $excel->setDescription('Data Siswa yang di export per tanggal '.date("Y-m-d").".");
+            $excel->setSubject('Data Siswa');
+            $excel->sheet('Data Siswa', function($sheet) {
+                // Data yang akan di Export
+                $dataSiswa = Siswa::join('kelas', 'siswa.id_kelas', '=', 'kelas.id_kelas')->join('users', 'siswa.id_users', '=', 'users.id_users')
+                    ->select('nis', 'nama', 'users.email', 'kelas.nama_kelas', 'alamat', 'jenis_kelamin', 'tahun_ajaran')
+                    ->get();
+
+                foreach($dataSiswa as $siswa) {
+                    $data[] = array(
+                        $siswa->nis,
+                        $siswa->nama,
+                        $siswa->email,
+                        $siswa->nama_kelas,
+                        $siswa->alamat,
+                        $siswa->jenis_kelamin,
+                        $siswa->tahun_ajaran,
+                    );
+                }
+
+                // Mengisi Data ke Excel
+                $sheet->fromArray($data, null, 'A1', false, false);
+
+                // Menambahkan Judul ke Excel
+                $headings = array('NIS', 'Nama', 'Email', 'Kelas', 'Alamat', 'Jenis Kelamin', 'Tahun Ajaran');
+                $sheet->prependRow(1, $headings);
+            });
+        })->download('pdf');
+
+        \Log::info(Auth::user()->username.' meng-export data siswa');
         return redirect()->back()->with('success', 'Data Siswa berhasil di Export');
     }
 
@@ -341,11 +404,17 @@ class SiswaController extends Controller
             $idk = $_GET['idk'];
             $siswa = Siswa::where('id_kelas', $idk)->get();
         }else{
-            $idk = 1;
-            $siswa = Siswa::where('id_kelas', $idk)->get();
+            // Mengambil ID Kelas paling depan
+            $idk = Kelas::where('nama_kelas', 'NOT LIKE', '%ALUMNI%')->orderBy('id_kelas', 'asc')->limit(1)->first()['id_kelas']; 
+
+            $siswa = Siswa::limit(1)->get();
         }
 
-        $kelas = Kelas::where('nama_kelas', 'NOT LIKE', '%ALUMNI%')->get();
+        $kelas = Kelas::where('nama_kelas', 'NOT LIKE', '%ALUMNI%')
+                    ->whereIn('id_kelas', function($query) {
+                        $query->select('id_kelas')->from('siswa');
+                    })
+                    ->get();
         return view('admin.kelola-siswa.naik-kelas', compact('siswa', 'kelas', 'idk'));
     }
 

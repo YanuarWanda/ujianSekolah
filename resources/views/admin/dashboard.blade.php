@@ -68,7 +68,7 @@ function chart1() {
 
   var canvas = document.getElementById('chart1').getContext('2d');
   var chart = new Chart(canvas, {
-    type: 'pie',
+    type: 'doughnut',
     data: {
       labels: hak_akses,
       datasets: [{

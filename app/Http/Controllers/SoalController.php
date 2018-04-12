@@ -336,8 +336,14 @@ class SoalController extends Controller
             }
         }
 
+        // Chart per Siswa
+        $daftarSiswa = Nilai::select('siswa.nama', 'nilai.nilai')
+                        ->join('ujian', 'nilai.id_ujian', 'ujian.id_ujian')
+                        ->join('siswa', 'nilai.id_siswa', 'siswa.id_siswa')
+                        ->get();
+
         // return $jawabanUjian;
-        return view('admin.kelola-nilai.daftar_nilai', compact('nilai', 'jumlahNilai', 'jawabanUjian', 'jawabanRemed', 'soal', 'jawaban_benar', 'nilaiRemed', 'soalRemed', 'jawaban_benar_remed', 'jumlahRemed', 'chartPerKelas'));
+        return view('admin.kelola-nilai.daftar_nilai', compact('nilai', 'jumlahNilai', 'jawabanUjian', 'jawabanRemed', 'soal', 'jawaban_benar', 'nilaiRemed', 'soalRemed', 'jawaban_benar_remed', 'jumlahRemed', 'chartPerKelas', 'daftarSiswa'));
     }
 
     public function exportToExcel($id) {

@@ -61,6 +61,7 @@ Route::get('/kelola-guru/export', 'GuruController@exportToExcel')->name('export-
 // CRUD Siswa
 Route::get('kelola-siswa', 'SiswaController@index')->name('siswa');
 Route::name('siswa.')->group(function() {
+	Route::post('/home', 'HomeController@searchUjian')->name('search');
 	Route::get('/kelola-siswa/create', 'SiswaController@create')->name('create');
 	Route::post('/kelola-siswa/create', 'SiswaController@store');
 	Route::get('/kelola-siswa/show/{id}', 'SiswaController@show')->name('show');
@@ -76,6 +77,7 @@ Route::name('siswa.')->group(function() {
 	// Export Siswa
 	// Route::get('/kelola-siswa/export', 'SiswaController@exportView');
 	Route::get('/kelola-siswa/export', 'SiswaController@exportToExcel')->name('export');
+	Route::get('/kelola-siswa/export/pdf', 'SiswaController@exportToPdf')->name('export-pdf');
 
 	// Siswa naik kelas
 	Route::get('/kelola-siswa/naik-kelas', 'SiswaController@naikKelasView')->name('naik-kelas');
@@ -101,7 +103,7 @@ Route::post('/kelola-ujian/edit/{id}/tambah-soal-bank', 'SoalController@tambahSo
 
 
 // CRUD Ujian Remedial
-Route::get('/kelola-remed/create/{id}', 'RemedController@create');
+Route::get('/kelola-remed/create/{id}', 'RemedController@create')->name('remed.create');
 Route::post('/kelola-remed/create/{id}', 'RemedController@store');
 Route::get('/kelola-remed/edit/{id}', 'RemedController@edit');
 Route::post('/kelola-remed/update/{id}', 'RemedController@update');
@@ -195,3 +197,13 @@ Route::get('/daftar-nilai/{id}', 'SoalController@daftarNilai')->name('nilai');
 Route::get('/data-nilai', 'HomeController@chartData')->name('data-nilai');
 Route::get('/pie-chart', 'HomeController@pieChart')->name('pie-chart');
 Route::get('/chart-guru', 'HomeController@chartGuru')->name('chart-guru');
+
+// CRUD Bank Soal
+Route::get('/kelola-bank-soal', 'BankSoalController@index')->name('bank');
+Route::name('bank.')->group(function() {
+	Route::get('/kelola-bank-soal/create', 'BankSoalController@create')->name('create');
+	Route::post('/kelola-bank-soal/create', 'BankSoalController@store');
+	Route::get('/kelola-bank-soal/edit/{id}', 'BankSoalController@edit')->name('edit');
+	Route::post('/kelola-bank-soal/update/{id}', 'BankSoalController@update');
+	Route::get('/kelola-bank-soal/delete/{id}', 'BankSoalController@delete');
+});

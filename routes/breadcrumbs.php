@@ -8,10 +8,16 @@ use App\Ujian;
 use App\Kelas;
 use App\Jurusan;
 use App\Nilai;
+use App\BankSoal;
 
 // Home
 Breadcrumbs::register('home', function ($breadcrumbs) {
     $breadcrumbs->push('Home', route('home'));
+});
+
+// Popper
+Breadcrumbs::register('test-popper', function ($breadcrumbs) {
+    $breadcrumbs->push('Popper', route('test-popper'));
 });
 
 // Settings
@@ -230,4 +236,35 @@ Breadcrumbs::register('nilai', function($breadcrumbs, $id) {
 	$breadcrumbs->parent('home');
 	$breadcrumbs->push($ujian->judul_ujian);
 	$breadcrumbs->push('Daftar Nilai', route('nilai', $ujian));
+});
+
+// Home > Bank Soal
+Breadcrumbs::register('bank', function($breadcrumbs) {
+	$breadcrumbs->parent('home');
+	$breadcrumbs->push('Bank Soal', route('bank'));
+});
+
+// Home > Bank Soal > Create
+Breadcrumbs::register('bank.create', function($breadcrumbs) {
+	$breadcrumbs->parent('bank');
+	$breadcrumbs->push('Create', route('bank.create'));
+});
+
+// Home > Bank Soal > Edit
+Breadcrumbs::register('bank.edit', function($breadcrumbs, $id) {
+	$bank = BankSoal::findOrFail(base64_decode($id));
+	$breadcrumbs->parent('bank');
+	$breadcrumbs->push('Edit', route('bank.edit', $bank));
+});
+
+// Home > Ujian > Search
+Breadcrumbs::register('siswa.search', function($breadcrumbs) {
+	$breadcrumbs->parent('home');
+	$breadcrumbs->push('Search', route('siswa.search'));
+});
+
+// Home > Remed > Create
+Breadcrumbs::register('remed.create', function($breadcrumbs) {
+	$breadcrumbs->parent('Home');
+	$breadcrumbs->push('Create', route('remed.create'));
 });

@@ -193,6 +193,9 @@
                 <li>
                     <a href="{{ route('home') }}">Dashboard</a>
                 </li>
+                <li>
+                    <a href="{{ route('bank') }}">Bank Soal</a>
+                </li>
                 <hr>
                 <li><small style="color: white;">Menu Guru</small></li>
                 <li>
@@ -382,9 +385,11 @@
         brand.hide();
 
         var menu = $('.navbar');
+
         var origOffsetY = menu.offset().top;
 
         function scroll() {
+            console.log(origOffsetY);
             if ($(window).scrollTop() >= origOffsetY) {
                 menu.addClass('navbar-fixed-top');
                 brand.show();
@@ -508,7 +513,7 @@
             var url = $(this).attr('href');
             swal({
                 title: 'Hapus data?',
-                text: 'Data yang dihapus tidak bisa dikembalikan! Data ujian guru ini juga akan ikut terhapus!',
+                text: 'Data yang dihapus tidak dapat dikembalikan!',
                 type: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -549,6 +554,8 @@
             });
         });
     </script>
+
+    <script type="text/javascript" src="{{asset('js/tippy.all.min.js')}}"></script>
 
     @yield('js')
 </body>

@@ -1,5 +1,13 @@
 @extends('layouts.app')
 
+@section('css')
+<style type="text/css">
+.judul-tippy {
+    color: #2ecc71;
+}
+</style>
+@stop
+
 @section('content')
     <div class="container-fluid">
         
@@ -75,16 +83,20 @@
                                     <div class="col-md-12 row" style="margin-bottom: 7px;">
                                         <div class="col-md-4">
                                             @if($isi->status == 'Draft')
-                                            <button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#post_{{$u}}">Post Ujian</button>
+                                            <button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#post_{{$u}}" title="<h4 class='judul-tippy'>Post Ujian</h4><h5>Kirimkan ujian kepada siswa</h5>"
+                                                data-tippy-placement="left">Post Ujian</button>
                                             @else
-                                            <a class="text-center btn btn-danger btn-block" id="unpostModal" href="{{url('/kelola-ujian/DRAFT', base64_encode($isi->id_ujian))}}">Unpost Ujian</a>
+                                            <a class="text-center btn btn-danger btn-block" id="unpostModal" href="{{url('/kelola-ujian/DRAFT', base64_encode($isi->id_ujian))}}" 
+                                                title="<h4 class='judul-tippy'>Unpost Ujian</h4><h5>Ubah status ujian menjadi selesai</h5>"
+                                                data-tippy-placement="left"                                                
+                                                >Unpost Ujian</a>
                                             @endif
                                         </div>
                                         <div class="col-md-4">
-                                            <a class="text-center btn btn-warning btn-block" href="{{url('/kelola-ujian/edit', base64_encode($isi->id_ujian))}}">Detail Ujian</a>
+                                            <a class="text-center btn btn-warning btn-block" href="{{url('/kelola-ujian/edit', base64_encode($isi->id_ujian))}}" title="<h4 class='judul-tippy'>Detail Ujian</h4><h5>Ubah data ujian, tambahkan soal ke dalam ujian</h5>" data-tippy-placement="top">Detail Ujian</a>
                                         </div>
                                         <div class="col-md-4">
-                                            <a class="text-center btn btn-primary btn-block" href="{{ url('/daftar-nilai', base64_encode($isi->id_ujian)) }}">Daftar Nilai</a>
+                                            <a class="text-center btn btn-primary btn-block" href="{{ url('/daftar-nilai', base64_encode($isi->id_ujian)) }}" title="<h4 class='judul-tippy'>Daftar Nilai</h4><h5>Lihat semua nilai untuk ujian ini</h5>" data-tippy-placement="top">Daftar Nilai</a>
                                         </div>
                                     </div>
                                     {{-- Ujian --}}
@@ -94,10 +106,10 @@
                                         @foreach($ujianRemedial as $ur => $isiUR)
                                             @if($isiUR->id_ujian == $isi->id_ujian)
                                                 <div class="col-sm-4">
-                                                    <button type="button" class="btn btn-success btn-block PostRemedBtn" data-keberapa="{{$u}}">Post Remedial</button>
+                                                    <button type="button" class="btn btn-success btn-block PostRemedBtn" data-keberapa="{{$u}}" title="<h4 class='judul-tippy'>Post Remedial</h4><h5>Kirimkan soal remedial untuk siswa dengan nilai dibawah KKM</h5>" data-tippy-placement="left">Post Remedial</button>
                                                 </div>
                                                 <div class="col-sm-4">
-                                                    <a class="text-center btn btn-warning btn-block DetailRemedBtn" data-keberapa="{{$u}}">Detail Remedial</a>
+                                                    <a class="text-center btn btn-warning btn-block DetailRemedBtn" data-keberapa="{{$u}}" title="<h4 class='judul-tippy'>Detail Remedial</h4><h5>Tampilkan data remedial ini (termasuk soal)</h5>" data-tippy-placement="bottom">Detail Remedial</a>
                                                 </div>
                                                 <?php break; ?>
                                             @elseif($ur == count($ujianRemedial)-1)
@@ -126,7 +138,7 @@
                                             @foreach($sRemed as $sr => $isiSR)
                                                 @if(date('Y-m-d') > $isi->tanggal_kadaluarsa && $as < 3)
                                                     <div class="col-sm-4 AddRemedBtn" data-keberapa="{{$u}}">
-                                                        <a class="btn btn-primary btn-block">Tambah Remedial</a>
+                                                        <a class="btn btn-primary btn-block" title="<h4 class='judul-tippy'>Tambah Remedial</h4><h5>Tambahkan soal remedial untuk soal ini</h5>" data-tippy-placement="bottom">Tambah Remedial</a>
                                                     </div>
                                                     
                                                     <?php break; ?>
@@ -435,6 +447,15 @@
                 });
             }
 
+        });
+
+
+        // Tooltip
+        tippy('[title]', {
+          delay: 99,
+          arrow: true,
+          arrowType: 'round',
+          size: 'large'
         });
     });
 </script>

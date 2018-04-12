@@ -39,6 +39,7 @@ class CustomAuthController extends Controller
 
     // Melakukan registrasi siswa
     public function registerStudent(Request $data) {
+
         $this->studentRegisterValidation($data);
 
         // Mengisi table user
@@ -50,31 +51,17 @@ class CustomAuthController extends Controller
         ]);
 
         if($user) {
-            // Mengisi table siswa jika table user di isi
-            if($data->file('foto')){
-                $nameFotoToStore = $this->ambil($data->file('foto'));
-            }else{
-                $nameFotoToStore = 'nophoto.jpg';
-            }
-
-            // if($data->kelas == '') {
-            //     return redirect()->back()->with('error', 'Kelas harus dipilih');
-            // } else {
-            //     $id_kelas = Kelas::where('nama_kelas', $data['kelas'])->first()->id_kelas;
-            // }
-
-
+            
             $siswa = Siswa::create([
                 'nis' => $data['nis'],
                 'id_users' => $user->id_users,
-                'id_kelas' => Kelas::where('nama_kelas', $data['kelas'])->first()->id_kelas,
+                'id_kelas' => Kelas::where('id_kelas', $data['kelas'])->first()->id_kelas,
                 'nama' => $data['nama'],
                 'alamat' => $data['alamat'],
                 'jenis_kelamin' => $data['jenisKelamin'],
                 // 'email' => $data['email'], // Dipindah ke table users
                 // 'jurusan' => $data['jurusan'], // Dipindah ke table jurusan, dengan relasi ke siswa melalui table kelas
-                //'foto' => "nophoto.jpg", // Untuk sementara dikosongkan
-                'foto' => $nameFotoToStore
+                'foto' => "nophoto.jpg", // Untuk sementara dikosongkan
             ]);
 
             \Log::info('Pendaftaran berhasil', [$siswa->nama]);

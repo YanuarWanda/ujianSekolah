@@ -248,4 +248,42 @@ class HomeController extends Controller
                 GROUP BY id_ujian");
         return response()->json($query);
     }
+
+    // Search Ujian di dashboard siswa
+    public function searchUjian(Request $request) {
+        if(Auth::user()->hak_akses == 'siswa' && isset($request['search_query'])) {
+            $siswa = Siswa::where('id_users', Auth::user()->id_users)->first();
+            $user = array(
+                'hak_akses' => Auth::user()->hak_akses,
+                'username'  => Auth::user()->username,
+            );
+            session(['id_siswa' => $siswa->id_siswa]);
+
+            $nilai  = Nilai::join('siswa', 'nilai.id_siswa', '=', 'siswa.id_siswa')->where('siswa.id_siswa', $siswa->id_siswa)->orderBy('siswa.id_siswa')->get();
+            $nilaiR = NilaiRemedial::join('siswa', 'nilai_remedial.id_siswa', '=', 'siswa.id_siswa')->where('siswa.id_siswa', $siswa->id_siswa)->orderBy('siswa.id_siswa')->get();
+            $ability= Nilai::select('nilai.id_siswa', 'siswa.nama as nama', 'mapel.nama_mapel as mapel')->selectRaw('avg(nilai.nilai) as nilai')->join('ujian', 'nilai.id_ujian', '=', 'ujian.id_ujian')->join('mapel', 'ujian.id_mapel', '=', 'mapel.id_mapel')->join('siswa', 'nilai.id_siswa', '=', 'siswa.id_siswa')->where('siswa.id_users', Auth::user()->id_users)->groupBy('mapel.id_mapel')->get();
+            // return $ability;
+            $ujianArray = DB::select('
+                select id_ujian, id_mapel, nama_mapel, id_guru, judul_ujian, waktu_pengerjaan, tanggal_post, tanggal_kadaluarsa, status, catatan, lihat_nilai from ujian u
+                join mapel m using (id_mapel)
+                join kelas_ujian ku using (id_ujian)
+                join kelas k using (id_kelas)
+                where ku.id_kelas = :id_kelas
+                and status = :status
+                and judul_ujian like "%'.$request['search_query'].'%"
+                order by tanggal_post asc
+                ', ['id_kelas' => $siswa->id_kelas, 'status' => 'posted'  ]);
+
+            // $ujian = $paginatedItems;
+            $ujian = $this->paginateArray($ujianArray, 2);
+
+            $ujianRemedArray    = DB::select('SELECT ujian.judul_ujian, ujian_remedial.remed_ke, mapel.nama_mapel, ujian_remedial.tanggal_pembuatan, ujian_remedial.tanggal_kadaluarsa, ujian_remedial.catatan, ujian_remedial.id_ujian_remedial, ujian_remedial.id_ujian FROM ujian_remedial JOIN ujian USING(id_ujian) JOIN mapel USING(id_mapel) JOIN kelas_ujian USING(id_ujian) JOIN kelas USING(id_kelas) JOIN siswa USING(id_kelas) WHERE kelas_ujian.id_kelas = '.$siswa->kelas->id_kelas.' AND ujian_remedial.status = "posted" AND siswa.id_siswa = '.$siswa->id_siswa.' AND siswa.id_siswa IN (SELECT id_siswa FROM nilai WHERE status_pengerjaan="Harus Remedial" AND nilai.id_ujian = ujian.id_ujian) ORDER BY tanggal_post ASC');
+            
+            $ujianRemed = $this->paginateArray($ujianRemedArray, 2);
+
+            // return $ujian;
+
+            return view('siswa.siswa', compact('siswa', 'ujian', 'ujianArray', 'nilai', 'ujianRemed', 'ujianRemedArray', 'nilaiR', 'ability'));
+        }
+    }
 }
