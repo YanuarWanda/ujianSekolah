@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Ujian;
 use App\Soal;
 use App\Nilai;
+use App\Kelas;
 use App\BankSoal;
 use App\JawabanSiswa;
 use App\JawabanSiswaRemed;
@@ -346,61 +347,113 @@ class SoalController extends Controller
         // }
 
         $ujian = Ujian::select('id_ujian', 'judul_ujian')->where('id_ujian', base64_decode($id))->first();
+        
+        \Excel::create(strtoupper('nilai_ujian '.$ujian->judul_ujian), function($excel) use($ujian){
+            $kelas = \DB::select("SELECT id_kelas,nama_kelas 
+            FROM kelas 
+            WHERE id_kelas IN 
+            (SELECT id_kelas FROM siswa WHERE id_siswa IN 
+            (SELECT id_siswa FROM nilai))");
 
-        \Excel::create(strtoupper('nilai_ujian '.$ujian->judul_ujian), function($excel) use($ujian) {
-            $excel->sheet('Sheet 1', function($sheet) use($ujian) {
+            // dd($dataRemed);
+
+            foreach ($kelas as $k) {
+                $excel->sheet($k->nama_kelas, function($sheet) use($ujian, $k) {
+                // $excel->sheet('Sheet 1', function($sheet) use($ujian) {
                 // Data yang akan di Export
                 $dataNilai = Nilai::join('ujian', 'nilai.id_ujian', '=', 'ujian.id_ujian')
                     ->join('siswa', 'nilai.id_siswa', '=', 'siswa.id_siswa')
+                    ->join('kelas', 'siswa.id_kelas', '=', 'kelas.id_kelas')
                     ->select('siswa.nis', 'siswa.nama', 'nilai.nilai')
                     ->where('ujian.id_ujian', $ujian->id_ujian)
+                    ->where('kelas.nama_kelas', $k->nama_kelas)
+                    ->orderBy('kelas.nama_kelas', 'ASC')
+                    ->orderBy('siswa.nama', 'ASC')
                     ->get();
 
-                $dataRemed = \DB::select("SELECT
-                      s.nis,
-                      nr.nilai_remedial
-                    FROM
-                      nilai_remedial nr
-                      JOIN siswa s USING (id_siswa)
-                      JOIN ujian_remedial ur USING (id_ujian_remedial)
-                      JOIN ujian u USING (id_ujian)
-                      WHERE id_ujian = $ujian->id_ujian");
-
-                // dd($dataRemed[0]->nis);
+                //dd($dataRemed[3]->nis);
 
                 foreach($dataNilai as $key => $nilai) {
                     $data[] = array(
-                        $nilai->nis,
-                        $nilai->nama,
-                        $nilai->nilai
-                    );
-
-                    foreach($dataRemed as $remed) {
-                        if($remed->nis == $nilai->nis) {
-                            $data[$key][] = $remed->nilai_remedial;    
-                        }else {
-                            $data[$key][] = 0;
-                        }
-                        
-                    }
-
+                                $nilai->nis,
+                                $nilai->nama,
+                                $nilai->nilai
+                                );
                 }
+
+            //     foreach($dataRemed as $remed => $r) {
+            //             // if($r->nis == $nilai->nis) {
+            //             //     $data_remed[$key] = $r->nilai_remedial;    
+            //             // }else {
+            //             //     $data_remed[$key] = 0;
+            //             // } 
+            //         if($r->nis == $nilai->nis) {
+            //             $data[$key][] = $r->nilai_remedial;
+            //         }else{
+            //             $data[$key][] = 0;
+            //         }
+            // }
+
 
                 // Mengisi Data ke Excel
                 $sheet->fromArray($data, null, 'A1', false, false);
 
                 // Menambahkan Judul ke Excel
-                $judul = array(strtoupper($ujian->judul_ujian), '', '');
+                $judul = array(strtoupper("Judul Ujian : ".$ujian->judul_ujian), '', '');
                 $sheet->prependRow(1, $judul);
-                $headings = array('NIS', 'Nama', 'Nilai', 'Remed 1', 'Remed 2', 'Remed 3');
+                $headings = array('NIS', 'Nama', 'Nilai');
                 $sheet->prependRow(2, $headings);
 
                 // Merge & Align Center Judul
                 $sheet->mergeCells('A1:C1');
+                //Kolom Auto Size
+                $sheet->setAutoSize(true);
                 $sheet->getStyle('A1')->getAlignment()->applyFromArray(
                     array('horizontal' => 'center')
                 );
             });
+            }
+            //Halaman Nilai Remed
+            for($no = 1; $no <= 3; $no++){
+             $excel->sheet("Remedial ke ".$no, function($sheet) use($ujian, $k, $no) {
+                $dataRemed = \DB::select("SELECT DISTINCT s.nis, s.nama, k.nama_kelas, nr.nilai_remedial 
+                FROM nilai_remedial nr
+                JOIN siswa s USING (id_siswa)
+                JOIN ujian_remedial ur USING (id_ujian_remedial)
+                JOIN nilai USING(id_ujian)
+                JOIN ujian u USING (id_ujian)
+                JOIN kelas k USING (id_kelas)
+                WHERE id_ujian = $ujian->id_ujian AND remed_ke = $no ORDER BY nama_kelas ASC, nama ASC");
+
+                $dataNilaiRemed = [];
+                
+                foreach($dataRemed as $key2 => $nilaiRemed) {
+                    $dataNilaiRemed[] = array(
+                                            $nilaiRemed->nis,
+                                            $nilaiRemed->nama,
+                                            $nilaiRemed->nama_kelas,
+                                            $nilaiRemed->nilai_remedial
+                                        );
+                }
+
+                // Mengisi Data ke Excel
+                $sheet->fromArray($dataNilaiRemed, null, 'A1', false, false);
+
+                // Menambahkan Judul ke Excel
+                $judul = array(strtoupper("Judul Ujian : ".$ujian->judul_ujian), '', '');
+                $sheet->prependRow(1, $judul);
+                $headings = array('NIS', 'Nama', 'Kelas', 'Nilai Remed');
+                $sheet->prependRow(2, $headings);
+
+                // Merge & Align Center Judul
+                $sheet->mergeCells('A1:C1');
+                //Kolom Auto Size
+                $sheet->setAutoSize(true);
+                $sheet->getStyle('A1')->getAlignment()->applyFromArray(
+                    array('horizontal' => 'center')
+                );
+             });
+            }
         })->export('xlsx');
 
         return redirect()->back()->with('success', 'Daftar Nilai berhasil di Export');

@@ -4,7 +4,7 @@
 <div class="container fluid">
     <a href="{{url('/kelola-siswa/create')}}" class="btn btn-primary btn-fixed-bottom-right z-top"><i class="fa fa-plus" aria-hidden="false"> Daftarkan siswa</i></a>
     <div class="row">
-        <div class="col-md-10 ">
+        <div class="col-md-10 col-md-offset-1">
             @if(Auth::user()->hak_akses == 'admin')
                 <div class="pull-right">
                     <button id="export" class="btn btn-success">Export Data Siswa</button>

@@ -43,12 +43,12 @@ Route::post('logout', function (){
 
 
 // CRUD Bank Soal
+Route::get('/kelola-bank-soal', 'BankSoalController@index');
 Route::get('/kelola-bank-soal/create', 'BankSoalController@create');
 Route::post('/kelola-bank-soal/create', 'BankSoalController@store');
 Route::get('/kelola-bank-soal/edit/{id}', 'BankSoalController@edit');
 Route::post('/kelola-bank-soal/update/{id}', 'BankSoalController@update');
 Route::get('/kelola-bank-soal/delete/{id}', 'BankSoalController@delete');
-Route::get('/kelola-bank-soal', 'BankSoalController@index');
 
 // CRUD Guru
 Route::get('kelola-guru', 'GuruController@index');

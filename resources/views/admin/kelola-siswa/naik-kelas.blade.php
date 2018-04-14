@@ -3,14 +3,14 @@
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-md-11">
+        <div class="col-md-10 col-md-offset-1">
             <div class="panel panel-default">
                 <div class="panel-heading">Data siswa</div>
 
                 <div class="panel-body">
                     <div class="form-group">
                         <label>Pilih Kelas</label>
-                        <select id="kelas" class="form-control">
+                        <select id="naik_kelas" class="form-control">
                             @foreach($kelas as $k)
                             <option value="{{ $k->id_kelas }}" @if($k->id_kelas == $idk) selected @endif>{{ $k->nama_kelas }}</option>
                             @endforeach
@@ -78,9 +78,8 @@
       }
     });
 
-    $('#kelas').change(function() {
-        window.location = "/kelola-siswa/naik-kelas?idk=" + $('#kelas').val() + "";
-
+    $('#naik_kelas').change(function() {
+        window.location = "/kelola-siswa/naik-kelas?idk=" + $('#naik_kelas').val() + "";
         // $.ajax({
         //     type: 'GET',
         //     url:  "url('/kelola-siswa/ambil-kelas",

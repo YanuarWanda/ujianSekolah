@@ -26,7 +26,7 @@
     <div class="row">
 
         {{-- Chart --}}
-        <div class="col-md-10">    
+        <div class="col-md-10 col-md-offset-1">    
             <center><h4>Grafik Nilai Rata-Rata per Ujian</h4></center>
             <div class="row">
                 <div class="col-md-12 chart">

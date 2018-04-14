@@ -162,6 +162,16 @@
             transition: 0.5s;
         }
 
+        #sidebar{
+            position: fixed;
+            /*width: 180px;*/
+            top: 50px;
+            height: 100%;
+            float: left;
+            /*overflow: auto;*/
+            /*position: absolute;*  /
+        }
+
         body{
             font-family:'HelveticaNeue','Times New Roman', sans-serif;
             font-size : 16px;
@@ -216,7 +226,7 @@
         @else
             @if(Auth::user()->hak_akses == 'admin')
              <!-- Sidebar -->
-                 <div id="sidebar" class="sidebar responsive transisi">
+                 <div id="sidebar" class="sidebar transisi">
                     <div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
                       <i id="sidebar-toggle-icon" class="ace-icon fa fa-angle-double-left" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
                     </div>
@@ -518,6 +528,7 @@
             $("#tableGuru").DataTable(); // Menambahkan pencarian ke table guru di menu kelola-guru (admin)
             $("#tableSiswa").DataTable(); // Menambahkan pencarian ke table siswa di menu kelola-siswa (admin)
             $("#tableSoal").DataTable(); // Menambahkan pencarian ke table soal di menu edit-ujian (admin)
+             $("#tablebanksoal").DataTable();
         });
 
         // Preview gambar dari file chooser.
@@ -641,7 +652,9 @@
             });
         });
 
-        $('.removeSiswa').on('click', function(){
+        $('.removeSiswa').on('click', function(e){
+            e.preventDefault();
+
             var url = $(this).attr('href');
             swal({
                 title: 'Hapus data?',
@@ -656,11 +669,29 @@
             });
         });
 
-        $('.removeUjian').on('click', function(){
+        $('.removeUjian').on('click', function(e){
+            e.preventDefault();
             var url = $(this).attr('href');
             swal({
                 title: 'Hapus data?',
                 text: 'Data yang dihapus tidak bisa dikembalikan! Data nilai siswa yang sudah mengikuti ujian ini juga akan ikut terhapus!',
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Okelah, hapus aja!'
+            }).then((result) =>{
+                window.location.replace(url);
+            });
+        });
+
+        $('.removeBank').on('click', function(e){
+            e.preventDefault();
+
+            var url = $(this).attr('href');
+            swal({
+                title: 'Hapus data?',
+                text: 'Data yang dihapus tidak bisa dikembalikan! Data nilai siswa ini juga akan ikut terhapus!',
                 type: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',

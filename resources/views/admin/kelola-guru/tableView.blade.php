@@ -4,7 +4,7 @@
 <div class="container fluid">
   <a href="{{ route('daftar-guru') }}" class="btn btn-primary btn-fixed-bottom-right z-top"><i class="fa fa-plus" aria-hidden="false"> Daftarkan guru</i></a>
     <!-- <div class="row"> -->
-        <div class="col-md-11">
+        <div class="col-md-10 col-md-offset-1">
           <div class="pull-right">
                 <button id="export" class="btn btn-success">Export Data Guru</button>
                 <!-- <a href="{{ route('daftar-guru') }}" class="btn btn-success">Daftarkan Guru</a> -->

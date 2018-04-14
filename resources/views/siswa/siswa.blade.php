@@ -44,7 +44,9 @@
 
             <div class="tab-content">
                 <div class="tab-pane fade in active" id="ulangan">
-                    <h1 style="margin-top: 25px; text-align: center;">Daftar Ujian</h1>
+                    @if($ujian->count() < 1)
+                    <h1 style="margin-top: 25px; text-align: center; font-family: Times New Roman">Daftar Ujian</h1>
+                    @else
                     <?php $index=0; ?>
                     @foreach($ujian as $u => $isi)
                     <div class="panel panel-default">
@@ -66,7 +68,11 @@
                             @foreach($nilai as $n => $isiNilai)
                                 @if($isi->id_ujian == $isiNilai->id_ujian)
                                 <div class="panel-footer">
-                                    <p>Anda Sudah Mengerjakan!</p> @if($isi->lihat_nilai == 'Y') <p>Jawbaan Benar {{ $isiNilai->jawaban_benar }}/{{ $isiNilai->jawaban_benar + $isiNilai->jawaban_salah }}</p> <p>Nilai {{ round($isiNilai->jawaban_benar / ($isiNilai->jawaban_benar + $isiNilai->jawaban_salah) * 100) }}</p>@endif
+                                    <p>Anda Sudah Mengerjakan!</p> 
+                                    @if($isi->lihat_nilai == 'Y') 
+                                        <p>Jawban Benar {{ $isiNilai->jawaban_benar }}/{{ $isiNilai->jawaban_benar + $isiNilai->jawaban_salah }}</p>
+                                        <p>Nilai {{ $isiNilai->nilai }}</p>
+                                    @endif
                                 </div>
                                 <?php break; ?>
                                 @elseif($isi->id_ujian != $isiNilai->id_ujian)
@@ -82,17 +88,20 @@
                         @endif
                     </div>
                     @endforeach
+                    @endif
                     <div class="pull-right">
                         {{ $ujian->links() }}
                     </div>
                 </div>
                 <div class="tab-pane fade" id="remed">
-                    <h1 style="margin-top: 25px; text-align: center;">Daftar Ujian Remedial</h1>
+                    @if($ujianRemed->count() < 1)
+                    <h1 style="margin-top: 25px; text-align: center; font-family: Times New Roman">Ujian Remedial Tidak Tersedia</h1>
+                    @else
                     <?php $indexRemed=0; ?>
                     @foreach($ujianRemed as $uR => $isiR)
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <h4>{{ $isiR->judul_ujian }} - Remed {{ $isiR->remed_ke }}<code>{{ $isiR->nama_mapel }}</code></h4>
+                            <h4>{{ $isiR->judul_ujian }} - Remed {{ $isiR->remed_ke }}<code class="pull-right">{{ $isiR->nama_mapel }}</code></h4>
                         </div>
 
                         <div class="panel-body">
@@ -130,6 +139,7 @@
                         @endif
                     </div>
                     @endforeach
+                    @endif
                     <div class="pull-right">
                         {{ $ujianRemed->links() }}
                     </div>
@@ -143,29 +153,29 @@
 @section('js')
 <script>
     // $('.sidebar').hide();
-    var $skill = {!! $ability !!};
-    var $mapel = [];var $nilai =[];
-    $skill.forEach(function(realData){
-        $mapel.push(realData.mapel);
-        $nilai.push(realData.nilai);
-    });
+    // var $skill =  $ability ; { !! nama_varibale !! }    tanpa spasi pada tanda seru
+    // var $mapel = [];var $nilai =[];
+    // $skill.forEach(function(realData){
+    //     $mapel.push(realData.mapel);
+    //     $nilai.push(realData.nilai);
+    // });
 
-    console.log($mapel);
-    console.log($nilai);
+    // console.log($mapel);
+    // console.log($nilai);
 
-    var dataBuatChart = {
-        labels: $mapel,
-        datasets: [{
-            label: 'Nilai',
-            backgroundColor: 'rgba(128, 128, 128, 0.5)',
-            data: $nilai
-        }]  
-    };
-    var dataCanvasnya = document.getElementById('grafikAbility').getContext('2d');
+    // var dataBuatChart = {
+    //     labels: $mapel,
+    //     datasets: [{
+    //         label: 'Nilai',
+    //         backgroundColor: 'rgba(128, 128, 128, 0.5)',
+    //         data: $nilai
+    //     }]  
+    // };
+    // var dataCanvasnya = document.getElementById('grafikAbility').getContext('2d');
 
-    var chartnya = new Chart(dataCanvasnya, {
-        type: 'radar',
-        data: dataBuatChart
-    });
+    // var chartnya = new Chart(dataCanvasnya, {
+    //     type: 'radar',
+    //     data: dataBuatChart
+    // });
 </script>
 @endsection

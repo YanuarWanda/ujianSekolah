@@ -1,9 +1,14 @@
 @extends('layouts.app')
+@section('css')
+<style type="text/css">
 
+</style>
+@endsection
 @section('content')
     <div class="container">
+        <a href="{{ url('kelola-bank-soal/create') }}" class="btn btn-primary btn-fixed-bottom-right z-top"><i class="fa fa-plus" aria-hidden="false"> Daftarkan guru</i></a>
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-10 col-md-offset-1">
 
                 <div class="panel panel-primary">
                     <div class="panel-heading">
@@ -15,7 +20,7 @@
                         <table class="table table-bordered" id="tablebanksoal" data-page-length='3'>
                             <thead>
                                 <tr>
-                                    <th>#</th>
+                                    <th>No</th>
                                     <th>Bidang Keahlian</th>
                                     <th>Tipe</th>
                                     <th>Soal</th>
@@ -33,11 +38,10 @@
                                         <td>{!! $isibanksoal->isi_soal !!}</td>
                                         <td>{!! $isibanksoal->pilihan !!}</td>
                                         <td>{!! $isibanksoal->jawaban !!}</td>
-                                        <td class="row">
-                                            
-                                             <a href="{{ url('kelola-bank-soal/edit', base64_encode($isibanksoal->id_bank_soal)) }}" class="btn btn-primary" id="editsoal"><i class="fa fa-edit" style="margin-right: 5px;"></i> Edit banksoal</a>
+                                        <td>
+                                            <a href="{{ url('kelola-bank-soal/edit', base64_encode($isibanksoal->id_bank_soal)) }}" class="btn btn-primary" id="editsoal" data-toggle="tooltip" title="Edit Banksoal"><i class="fa fa-edit"></i></a>
 
-                                             <a href="{{ url('kelola-bank-soal/delete', $isibanksoal->id_bank_soal) }}" class="btn btn-success remove" id="deletesoal"><i class="fa fa-trash"></i> Delete banksoal</a> 
+                                            <a href="{{ url('kelola-bank-soal/delete', $isibanksoal->id_bank_soal) }}" class="btn btn-success removeBank" id="deletesoal" data-toggle="tooltip" title="Hapus Banksoal"><i class="fa fa-trash"></i></a> 
                                         </td>
                                     </tr>
                                 @endforeach
@@ -48,9 +52,9 @@
                             <strong><p>Data tidak tersedia.</p></strong>
                         @endif
                     </div>
-                     <div class="panel-footer">
-                         <a href="{{ url('kelola-bank-soal/create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> tambah banksoal</a>
-                     </div>
+                     <!-- <div class="panel-footer">
+                         <a href="{{ url('kelola-bank-soal/create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Tambah Banksoal</a>
+                     </div> -->
                 </div>
 
                 </div>
@@ -63,5 +67,8 @@
 <script type="text/javascript">
     $('#kelola').addClass('active open');
     $('#bank_soal').addClass('active');
+    // $(document).ready(function(){
+    //     $('[data-toggle="tooltip"]').tooltip();   
+    // });
 </script>
 @endsection                                                                                         

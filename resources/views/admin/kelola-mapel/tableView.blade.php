@@ -4,7 +4,7 @@
 <div class="container">
     <a href="{{url('/kelola-mapel/create')}}" class="btn btn-primary btn-fixed-bottom-right z-top"><i class="fa fa-plus" aria-hidden="false"> Daftarkan mapel</i></a>
     <div class="row">
-        <div class="col-md-10">
+        <div class="col-md-10 col-md-offset-1">
             <div class="panel panel-default">
                 <div class="panel-heading">Data Mata Pelajaran</div>
 

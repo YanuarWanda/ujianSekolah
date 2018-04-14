@@ -6,7 +6,7 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-md-10">
+            <div class="col-md-10 col-md-offset-1">
                 <div class="panel panel-primary">
                     <div class="panel-heading">Form Tambah Soal Remed| {{ $ujian->judul_ujian }}</div>
                     <div class="panel-body">
