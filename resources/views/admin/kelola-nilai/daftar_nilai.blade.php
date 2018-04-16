@@ -341,7 +341,7 @@
                                                                                         </tr>
                                                                                     </table>
                                                                                 </div>
-                                                                            @else
+                                                                            @elseif($jr2 == count($jumlahRemed)-1)
                                                                                 <div role="tabpanel" class="tab-pane fade" id="remed2_{{$ni}}">
                                                                                     <table class="table table-bordered">
                                                                                         <tr>
@@ -434,7 +434,7 @@
                                                                                         </tr>
                                                                                     </table>
                                                                                 </div>
-                                                                            @else
+                                                                            @elseif($jr3 == count($jumlahRemed)-1)
                                                                                 <div role="tabpanel" class="tab-pane fade" id="remed3_{{$ni}}">
                                                                                     <table class="table table-bordered">
                                                                                         <tr>
