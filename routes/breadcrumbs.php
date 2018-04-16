@@ -5,19 +5,16 @@ use App\DaftarBidangKeahlian;
 use App\Mapel;
 use App\Siswa;
 use App\Ujian;
+use App\UjianRemedial;
 use App\Kelas;
 use App\Jurusan;
 use App\Nilai;
 use App\BankSoal;
+use App\Soal;
 
 // Home
 Breadcrumbs::register('home', function ($breadcrumbs) {
     $breadcrumbs->push('Home', route('home'));
-});
-
-// Popper
-Breadcrumbs::register('test-popper', function ($breadcrumbs) {
-    $breadcrumbs->push('Popper', route('test-popper'));
 });
 
 // Settings
@@ -178,8 +175,24 @@ Breadcrumbs::register('ujian.edit', function($breadcrumbs, $id) {
 Breadcrumbs::register('tambah-soal-bank', function($breadcrumbs, $id) {
 	$ujian = Ujian::findOrFail($id);
 	$breadcrumbs->parent('ujian');
-	$breadcrumbs->push($ujian->judul_ujian, route('ujian.edit', $ujian->id_ujian));
+	$breadcrumbs->push($ujian->judul_ujian, route('ujian.edit', base64_encode($ujian->id_ujian)));
 	$breadcrumbs->push('Tambah Soal dari Bank', route('tambah-soal-bank', $ujian));
+});
+
+// Home > Ujian > Tambah Soal
+Breadcrumbs::register('soal.create', function($breadcrumbs, $id) {
+	$ujian = Ujian::findOrFail(base64_decode($id));
+	$breadcrumbs->parent('ujian');
+	$breadcrumbs->push($ujian->judul_ujian, route('ujian.edit', base64_encode($ujian->id_ujian)));
+	$breadcrumbs->push('Tambah Soal', route('soal.create', $ujian));
+});
+
+Breadcrumbs::register('soal.edit', function($breadcrumbs, $id) {
+	$soal = Soal::findOrFail(base64_decode($id));
+	// $ujian = Ujian::findOrFail(base64_decode($id));
+	$breadcrumbs->parent('ujian');
+	$breadcrumbs->push($soal->ujian->judul_ujian, route('ujian.edit', base64_encode($soal->id_ujian)));
+	$breadcrumbs->push('Edit Soal', route('soal.edit', $soal));
 });
 
 // Home > Kelas
@@ -264,7 +277,45 @@ Breadcrumbs::register('siswa.search', function($breadcrumbs) {
 });
 
 // Home > Remed > Create
-Breadcrumbs::register('remed.create', function($breadcrumbs) {
-	$breadcrumbs->parent('Home');
-	$breadcrumbs->push('Create', route('remed.create'));
+Breadcrumbs::register('remed.create', function($breadcrumbs, $id) {
+	$ujian = Ujian::findOrFail(base64_decode($id));
+	$breadcrumbs->parent('ujian', $ujian->judul_ujian);
+	$breadcrumbs->push('Remedial');
+	$breadcrumbs->push('Create', route('remed.create', $ujian));
+});
+
+// Home > Remed > Edit
+Breadcrumbs::register('remed.edit', function($breadcrumbs, $id) {
+	$ujian = UjianRemedial::findOrFail(base64_decode($id));
+	$breadcrumbs->parent('ujian');
+	$breadcrumbs->push($ujian->ujian->judul_ujian);
+	$breadcrumbs->push('Remedial ke '.$ujian->remed_ke);
+	$breadcrumbs->push('Edit', route('remed.edit', (base64_encode($ujian->id_ujian))));
+});
+
+// Home > Remed > Edit > tambah bank soal
+Breadcrumbs::register('tambah-soal-bank-remed', function($breadcrumbs, $id) {
+	$remed = UjianRemedial::findOrFail($id);
+	$breadcrumbs->parent('ujian');
+	$breadcrumbs->push($remed->ujian->judul_ujian, route('remed.edit', base64_encode($remed->id_ujian_remedial)));
+	$breadcrumbs->push('Remedial ke '.$remed->remed_ke);
+	$breadcrumbs->push('Tambah Soal dari Bank', route('tambah-soal-bank-remed', $remed));
+});
+
+// Home > Remed > Edit > Tambah Soal
+Breadcrumbs::register('soal-remed.create', function($breadcrumbs, $id) {
+	$ujian = UjianRemedial::findOrFail(base64_decode($id));
+	$breadcrumbs->parent('ujian');
+	$breadcrumbs->push($ujian->ujian->judul_ujian, route('remed.edit', base64_encode($ujian->id_ujian_remedial)));
+	$breadcrumbs->push('Remedial ke '.$ujian->remed_ke);
+	$breadcrumbs->push('Tambah Soal', route('soal-remed.create', $ujian));
+});
+
+// Home > [Remed] > Kerjakan
+Breadcrumbs::register('remed.kerjakan', function($breadcrumbs, $id) {
+	$ujian = UjianRemedial::findOrFail(base64_decode($id));
+	$breadcrumbs->parent('home');
+	$breadcrumbs->push($ujian->ujian->judul_ujian);
+	$breadcrumbs->push('Remedial ke '.$ujian->remed_ke);
+	$breadcrumbs->push('Kerjakan', route('remed.kerjakan', $ujian));
 });

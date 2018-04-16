@@ -26,3 +26,12 @@
         });
     </script>
 @endif
+
+@if(session('warning'))
+    <script type="text/javascript">
+        $(document).ready(function() {
+            // swal('Error', "{{ session('error') }}", 'error');
+            toastr.warning('{{ session('warning') }}');
+        });
+    </script>
+@endif

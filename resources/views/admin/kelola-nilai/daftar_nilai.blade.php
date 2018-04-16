@@ -14,21 +14,23 @@
         <a href="{{url('/daftar-nilai/export', Request::segment(2))}}" class="btn-lg btn-success btn-fixed-bottom">Export Nilai</a>
         <div class="row">
             <div class="col-sm-12">
-                <div class="panel panel-default">
+                {{-- <div class="panel panel-default">
                     <div class="panel-heading">Chart Nilai Ujian Semua Siswa</div>
                     <div class="panel-body">
                         <canvas id="chartPerSiswa" width="600">
                         
                         </canvas>
                     </div>
-                </div>
+                </div> --}}
 
                 <div class="panel panel-default">
                     <div class="panel-heading">Chart Nilai Ujian per Kelas</div>
                     <div class="panel-body">
-                        <canvas id="chartPerKelas" width="600">
-                        
-                        </canvas>
+                        <div class="container-fluid row">
+                            <div class="col-md-6 col-md-offset-3">
+                                <canvas id="chartPerKelas"></canvas>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="panel panel-default">
@@ -87,7 +89,9 @@
                                                                         <?php break; ?>
                                                                     @endif
                                                                 @endif
+                                                            @endforeach
 
+                                                            @foreach($nilaiRemed as $nr => $isiNR)
                                                                 @if($isiNR['id_siswa'] == $isiN['id_siswa'] && $isiNR['remed_ke'] == '2')
                                                                     @if($isiNR['nilai_remedial'] < $isiN->ujian->kkm)
                                                                         <td class="text-red">
@@ -99,7 +103,9 @@
                                                                         </td>
                                                                     @endif
                                                                 @endif
+                                                            @endforeach
 
+                                                            @foreach($nilaiRemed as $nr => $isiNR)
                                                                 @if($isiNR['id_siswa'] == $isiN['id_siswa'] && $isiNR['remed_ke'] == '3')
                                                                     @if($isiNR['nilai_remedial'] < $isiN->ujian->kkm)
                                                                         <td class="text-red">
@@ -112,6 +118,8 @@
                                                                     @endif
                                                                 @endif
                                                             @endforeach
+
+
                                                         </tr>
 
                                                         <tr id="Siswa_{{$ni}}" class="collapse">

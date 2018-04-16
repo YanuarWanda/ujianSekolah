@@ -47,13 +47,14 @@ class UjianController extends Controller
     public function index()
     {
         $kelas = Kelas::where('nama_kelas', 'NOT LIKE', '%ALUMNI%')->get();
+
         if(Auth::user()->hak_akses == 'admin'){
-            $ujian = Ujian::paginate(3);
+            $ujian = Ujian::orderBy('tanggal_pembuatan', 'desc')->paginate(3);
         }else if(Auth::user()->hak_akses == 'guru'){
-            $ujian = Ujian::where('id_guru', session()->get('id_guru'))->paginate(3);
+            $ujian = Ujian::where('id_guru', session()->get('id_guru'))->orderBy('tanggal_pembuatan', 'desc')->paginate(3);
         }
 
-        $sRemed = DB::select('SELECT * FROM ujian LEFT JOIN ujian_remedial USING(id_ujian) WHERE ujian.id_ujian IN (SELECT id_ujian FROM nilai WHERE status_pengerjaan = "Harus Remedial") AND curdate() > ujian.tanggal_kadaluarsa;');
+        $sRemed = DB::select('SELECT * FROM ujian LEFT JOIN ujian_remedial USING(id_ujian) WHERE ujian.id_ujian IN (SELECT id_ujian FROM nilai WHERE status_pengerjaan = "Harus Remedial") AND curdate() >= ujian.tanggal_kadaluarsa');
         $ujianRemedial = UjianRemedial::all();
         // return $sRemed;
         return view('admin.kelola-ujian.dataView', compact('ujian', 'kelas', 'sRemed', 'ujianRemedial'));
@@ -72,6 +73,10 @@ class UjianController extends Controller
         } else {
             $guru = Guru::find(session()->get('id_guru'));
             $mapel = BidangKeahlian::join('daftar_bidang_keahlian', 'bidang_keahlian.id_daftar_bidang', '=', 'daftar_bidang_keahlian.id_daftar_bidang')->join('guru', 'bidang_keahlian.id_guru', '=', 'guru.id_guru')->join('mapel', 'bidang_keahlian.id_daftar_bidang', '=', 'mapel.id_daftar_bidang')->where('bidang_keahlian.id_guru', '=', $guru['id_guru'])->get();
+        }
+
+        if($mapel->count() < 1) {
+            return redirect(route('mapel.create'))->with('warning', 'Silahkan tambah mata pelajaran terlebih dahulu');
         }
 
         // return $mapel;
@@ -280,14 +285,33 @@ class UjianController extends Controller
         // return base64_decode($id);
         if(isset($request['kelas'])) {
             if($ujian->save()) {
-                foreach($request['kelas'] as $kelas) {
-                    $kelasUjian = new KelasUjian;
-                    $kelasUjian->id_ujian = $ujian->id_ujian;
-                    $kelasUjian->id_kelas = Kelas::select('id_kelas')->where('nama_kelas', $kelas)->get()->first()['id_kelas'];
+
+                $keadaan = [];
+
+                foreach($request['kelas'] as $key => $kelas) {
+                    $id_kelas = Kelas::select('id_kelas')->where('nama_kelas', $kelas)->get()->first()['id_kelas'];
+
+                    $ada = KelasUjian::select('id_kelas_ujian')
+                            ->where('id_ujian', $ujian->id_ujian)
+                            ->where('id_kelas', $id_kelas)
+                            ->get();
+                    
+
+
+                    if($ada->count() == 0) {
+                        $kelasUjian = new KelasUjian;
+                        $kelasUjian->id_ujian = $ujian->id_ujian;
+                        $kelasUjian->id_kelas = Kelas::select('id_kelas')->where('nama_kelas', $kelas)->get()->first()['id_kelas'];
+                        if(!$kelasUjian->save()) {
+                            $ujian->status = 'Draft';
+                            $ujian->save();
+
+                            return redirect()->back()->with('error', 'Data gagal di Post');
+                        }
+                    }
 
                     // return $kelasUjian->id_kelas->id_kelas;
 
-                    $kelasUjian->save();
                 }
                 return redirect()->back()->with('success', 'Data berhasil di Post');
             }
@@ -314,7 +338,7 @@ class UjianController extends Controller
         $ujian->status = 'Draft';
 
         if($ujian->save()) {
-            $deleteMany = KelasUjian::where('id_ujian', $ujian->id_ujian)->delete();
+            // $deleteMany = KelasUjian::where('id_ujian', $ujian->id_ujian)->delete();
 
             return redirect()->back()->with('success', 'Data disimpan di Draft');
 
@@ -568,6 +592,11 @@ class UjianController extends Controller
         $soal = BankSoal::where('id_daftar_bidang', $ujian->mapel->id_daftar_bidang)
             ->whereNotIn('id_bank_soal', $soalYangSudahAda)
             ->get();
+
+        if($soal->count() < 1) {
+            return redirect()->back()->with('warning', 'Soal bank tidak ada. Silahkan tambah soal secara manual.');
+        }
+
         $bidangKeahlian = DaftarBidangKeahlian::where('id_daftar_bidang', $ujian->mapel->id_daftar_bidang)
             ->first()['bidang_keahlian'];
 
@@ -602,7 +631,7 @@ class UjianController extends Controller
                 $ujian = Ujian::where('judul_ujian', 'LIKE', '%'.$search_query.'%')->paginate(3);
             }else if(Auth::user()->hak_akses == 'guru'){
                 $ujian = Ujian::where('id_guru', session()->get('id_guru'))
-                            ->where('judul_ujian', 'LIKE', '%"'.$search_query.'"%')->paginate(3);
+                            ->where('judul_ujian', 'LIKE', '%'.$search_query.'%')->paginate(3);
             }
 
             $sRemed = DB::select('SELECT * FROM ujian LEFT JOIN ujian_remedial USING(id_ujian) WHERE ujian.id_ujian IN (SELECT id_ujian FROM nilai WHERE status_pengerjaan = "Harus Remedial") AND curdate() > ujian.tanggal_kadaluarsa;');

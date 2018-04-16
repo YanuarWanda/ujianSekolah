@@ -13,7 +13,7 @@
                             <td>Foto</td>
                             <td>
                                 <?php if($data->foto != 'nophoto.jpg'){?>
-                                <img src="{{asset('storage/foto-profil/'.$data->foto)}}" width="250px"/>
+                                <a href="{{asset('storage/foto-profil/'.$data->foto)}}" target="_blank"><img src="{{asset('storage/foto-profil/'.$data->foto)}}" width="250px"/></a>
                                 <?php }else{ ?>
                                 <img src="{{asset('image/nophoto.jpg')}}" width="250px"/>
                                 <?php } ?>
@@ -50,7 +50,7 @@
                     </table>
 
                     <a href="/kelola-siswa" class="btn btn-info">Back</a>
-                    @if(Auth::user()->hak_akses == 'admin')<a href="{{url('/kelola-siswa/edit', base64_encode($data->nis))}}" class="btn btn-primary">Edit</a>@endif
+                    @if(Auth::user()->hak_akses == 'admin')<a href="{{url('/kelola-siswa/edit', base64_encode($data->id_siswa) )}}" class="btn btn-primary">Edit</a>@endif
                 </div>
             </div>
         </div>

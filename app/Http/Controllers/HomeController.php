@@ -100,8 +100,6 @@ class HomeController extends Controller
 
             $nilai  = Nilai::join('siswa', 'nilai.id_siswa', '=', 'siswa.id_siswa')->where('siswa.id_siswa', $siswa->id_siswa)->orderBy('siswa.id_siswa')->get();
             $nilaiR = NilaiRemedial::join('siswa', 'nilai_remedial.id_siswa', '=', 'siswa.id_siswa')->where('siswa.id_siswa', $siswa->id_siswa)->orderBy('siswa.id_siswa')->get();
-            $ability= Nilai::select('nilai.id_siswa', 'siswa.nama as nama', 'mapel.nama_mapel as mapel')->selectRaw('avg(nilai.nilai) as nilai')->join('ujian', 'nilai.id_ujian', '=', 'ujian.id_ujian')->join('mapel', 'ujian.id_mapel', '=', 'mapel.id_mapel')->join('siswa', 'nilai.id_siswa', '=', 'siswa.id_siswa')->where('siswa.id_users', Auth::user()->id_users)->groupBy('mapel.id_mapel')->get();
-            // return $ability;
             $ujianArray = DB::select('
                 select id_ujian, id_mapel, nama_mapel, id_guru, judul_ujian, waktu_pengerjaan, tanggal_post, tanggal_kadaluarsa, status, catatan, lihat_nilai from ujian u
                 join mapel m using (id_mapel)
@@ -112,6 +110,7 @@ class HomeController extends Controller
                 order by tanggal_post asc
                 ', ['id_kelas' => $siswa->id_kelas, 'status' => 'posted']);
 
+
             // $ujian = $paginatedItems;
             $ujian = $this->paginateArray($ujianArray, 2);
 
@@ -119,7 +118,7 @@ class HomeController extends Controller
             
             $ujianRemed = $this->paginateArray($ujianRemedArray, 2);
 
-            // return $ujian;
+            // return $ujianRemedArray;
 
             return view('siswa.siswa', compact('siswa', 'ujian', 'ujianArray', 'nilai', 'ujianRemed', 'ujianRemedArray', 'nilaiR', 'ability'));
         }

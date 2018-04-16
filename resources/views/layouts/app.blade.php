@@ -71,7 +71,7 @@
 
 @if(Auth::check())
     @if(Auth::user()->hak_akses == 'siswa')
-    <div class="container-fluid">
+    <div class="container-fluid app">
             
         <!-- Fixed navbar -->
         <nav class="navbar navbar-default">
@@ -125,15 +125,15 @@
     {{-- End Siswa --}}
 
     @elseif(Auth::user()->hak_akses == 'guru')
-    <div class="container-fluid">
+    <div class="container-fluid app">
             
         <!-- Fixed navbar -->
         <nav class="navbar navbar-default">
           <div class="container-fluid">
             <div id="navbar">
               <ul class="nav navbar-nav">
-                <li><a href="#menu-toggle" id="menu-toggle"><span class="fa fa-list" style="font-size: 17px;"></span></a></li>
-                <li><a href="#"><span class="fa fa-graduation-cap"></span> U-LAH</a></li>
+                {{-- <li><a href="#menu-toggle" id="menu-toggle"><span class="fa fa-list" style="font-size: 17px;"></span></a></li> --}}
+                <li><a href="/"><span class="fa fa-graduation-cap"></span> U-LAH</a></li>
 
                 {{-- <li><ul class="breadcrumb list-inline">
                     <li><a href="#">Home</a></li>
@@ -180,7 +180,7 @@
     @else
     {{-- Content --}}
 
-    <div id="wrapper">
+    <div id="wrapper" class="app">
 
         <!-- Sidebar -->
         <div id="sidebar-wrapper">
@@ -304,7 +304,7 @@
     <script type="text/javascript">
         $(window).on('load', function() {
             $(".loading").fadeOut("slow", function() {
-                $("#app").css('visibility', 'visible');
+                $(".app").css('visibility', 'visible');
             });
         });
     </script>
@@ -323,7 +323,7 @@
             // $('#tableDaftarBidangKeahlian').DataTable();
 
             $("[id^=table]").DataTable({ // Mengambil semua table dengan id berawalan 'table'
-                "lengthMenu": [[6, 15, -1], [6, 15, "All"]]
+                "lengthMenu": [[4, 6, 15, -1], [4, 6, 15, "All"]]
             });
         });
 
@@ -378,6 +378,8 @@
     <script type="text/javascript" src="{{ asset('js/Chart.bundle.min.js') }}"></script>
 
     <script>
+
+    @if(Auth::check() && Auth::user()->hak_akses == 'admin')
     // static-to-fix navbar
     $(document).ready(function () {
 
@@ -390,7 +392,7 @@
 
         function scroll() {
             console.log(origOffsetY);
-            if ($(window).scrollTop() >= origOffsetY) {
+            if ($(window).scrollTop() >= origOffsetY+71) {
                 menu.addClass('navbar-fixed-top');
                 brand.show();
                 $('.content').addClass('menu-padding');
@@ -406,6 +408,8 @@
         document.onscroll = scroll;
 
     });
+
+    @endif
 
     // Toggle Menu
     $("#menu-toggle").click(function(e) {
@@ -490,22 +494,33 @@
             var $index = $(this).attr('data-panel');
             var $nowIndex = $index.split('_', 3);
             var $nextIndex = parseInt($nowIndex['1'])+1;
-            $('#Soal_'+$nowIndex['1']).slideUp(1000, function(){
-                $('#Soal_'+$nextIndex).slideDown(1000);
+            $('#Soal_'+$nowIndex['1']).slideUp(500, function(){
+                $('#Soal_'+$nextIndex).slideDown(700);
             });
+
+            currentButton($('.btnPindah[data-panel=Soal_'+ $nextIndex +']'));
         });
 
         $('.btnPindah').on('click', function(){
             var $nowIndex = $('.panel-body:visible').attr('id');
             var $index = $(this).attr('data-panel');
-            $('#'+$nowIndex).slideUp(1000, function(){
-                $('#'+$index).slideDown(1000);
+
+            currentButton($(this));
+
+            $('#'+$nowIndex).slideUp(500, function(){
+                $('#'+$index).slideDown(700);
             });
         });
 
+        function currentButton(x) {
+            var allButton = $('.navSoal .btn').not(x);
+            allButton.removeClass('btn-primary').addClass('btn-default'); // Button sebelumnya
+            x.removeClass('btn-default').addClass('btn-primary'); // Current Button
+        }
+
         $('.block').on('click', function(){
             var $index  = $(this).attr('data-panel');
-            $('#'+$index).slideToggle(1000);
+            $('#'+$index).slideToggle(500);
         });
 
         $('.remove').on('click', function(e){

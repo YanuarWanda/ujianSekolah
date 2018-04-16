@@ -52,6 +52,11 @@ class SiswaController extends Controller
     public function create()
     {
         $kelas = Kelas::All();
+
+        if($kelas->count() < 1) {
+            return redirect()->back()->with('warning', 'Kelas tidak ada. Silahkan tambah kelas terlebih dahulu.');
+        }
+
         return view('admin.kelola-siswa.create', compact('kelas'));
     }
 
@@ -125,7 +130,6 @@ class SiswaController extends Controller
     {
         $data = Siswa::find(base64_decode($id));
         $kelas = Kelas::All();
-        
         return view('admin.kelola-siswa.edit', compact('data', 'kelas'));
     }
 
@@ -405,9 +409,19 @@ class SiswaController extends Controller
             $siswa = Siswa::where('id_kelas', $idk)->get();
         }else{
             // Mengambil ID Kelas paling depan
-            $idk = Kelas::where('nama_kelas', 'NOT LIKE', '%ALUMNI%')->orderBy('id_kelas', 'asc')->limit(1)->first()['id_kelas']; 
+            $idk = Kelas::where('nama_kelas', 'NOT LIKE', '%ALUMNI%')
+                    ->whereIn('id_kelas', function($query) {
+                        $query->select('id_kelas')->from('siswa');
+                    })
+                    ->orderBy('id_kelas', 'asc')->limit(1)->first()['id_kelas']; 
 
-            $siswa = Siswa::limit(1)->get();
+            // return $idk;
+
+            $siswa = Siswa::where('id_kelas', $idk)->get();
+        }
+
+        if($siswa->count() < 1) {
+            return redirect()->back()->with('warning', 'Tidak ada siswa yang terdaftar, silahkan tambah terlebih dahulu.');
         }
 
         $kelas = Kelas::where('nama_kelas', 'NOT LIKE', '%ALUMNI%')

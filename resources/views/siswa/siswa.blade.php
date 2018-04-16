@@ -63,6 +63,7 @@
                 <div role="tabpanel" class="tab-pane fade in active" id="ujian">
                     <br>
 
+                    @if($ujian->count() > 0)
                     <div class="row">
                         <form method="post" action="{{ route('siswa.search') }}">
                             {{ csrf_field() }}
@@ -107,7 +108,7 @@
                             @foreach($nilai as $n => $isiNilai)
                                 @if($isi->id_ujian == $isiNilai->id_ujian)
                                 <div class="panel-footer">
-                                    <p>Anda Sudah Mengerjakan!</p> @if($isi->lihat_nilai == 'Y') <p>Jawbaan Benar {{ $isiNilai->jawaban_benar }}/{{ $isiNilai->jawaban_benar + $isiNilai->jawaban_salah }}</p> <p>Nilai {{ round($isiNilai->jawaban_benar / ($isiNilai->jawaban_benar + $isiNilai->jawaban_salah) * 100) }}</p>@endif
+                                    <p>Anda Sudah Mengerjakan!</p> @if($isi->lihat_nilai == 'Y') <p>Jawaban Benar {{ $isiNilai->jawaban_benar }}/{{ $isiNilai->jawaban_benar + $isiNilai->jawaban_salah }}</p> <p>Nilai {{ $isiNilai->nilai }}</p>@endif
                                 </div>
                                 <?php break; ?>
                                 @elseif($isi->id_ujian != $isiNilai->id_ujian)
@@ -123,6 +124,13 @@
                         @endif
                     </div>
                     @endforeach
+
+                    @else
+
+                    <h3>Tidak ada ujian.</h3>
+
+                    @endif
+
                     <div class="pull-right">
                         {{ $ujian->links() }}
                     </div>
@@ -149,11 +157,11 @@
                     @foreach($ujianRemed as $uR => $isiR)
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <h4>{{ $isiR->judul_ujian }} - Remed {{ $isiR->remed_ke }}<code>{{ $isiR->nama_mapel }}</code></h4>
+                            <h4>{{ $isiR->judul_ujian }} - Remedial {{ $isiR->remed_ke }} <span class="label label-danger">{{ $isiR->nama_mapel }}</span class="label label-danger"></h4>
                         </div>
 
                         <div class="panel-body">
-                            <p>Dipost pada<span style="color: red;">{{ $isiR->tanggal_pembuatan }}</span></p>
+                            <p>Dipost pada <span style="color: red;">{{ $isiR->tanggal_pembuatan }}</span></p>
                             <hr>
                             <p>Batas Pengerjaan <span style="color: red">{{ $isiR->tanggal_kadaluarsa }}</span></p>
                             <hr>

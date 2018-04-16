@@ -56,12 +56,12 @@
                                 <div class="table-responsive">
                                     <table class="table table-bordered">
                                         <tr>
-                                            <td>Waktu Pengerjaan</td>
+                                            <td title="<h4 class='judul-tippy'>Waktu Pengerjaan</h4><h5>Total waktu yang disediakan untuk mengerjakan soal ini.</h5>">Waktu Pengerjaan</td>
                                             <td>{{$isi->waktu_pengerjaan}}</td>
                                         </tr>
                                         <tr>
-                                            <td>Batas Pengerjaan</td>
-                                            <td>{{$isi->tanggal_kadaluarsa}}</td>
+                                            <td title="<h4 class='judul-tippy'>Batas Pengerjaan</h4><h5>Sampai tanggal berapa siswa dapat mengerjakan soal yang sedang dipost.</h5>">Batas Pengerjaan</td>
+                                            <td>{{ ($isi->tanggal_kadaluarsa=='0000-00-00') ? 'Belum Ditentukan' : $isi->tanggal_kadaluarsa }}</td>
                                         </tr>
                                         <tr>
                                             <td>Status</td>
@@ -136,7 +136,7 @@
                                             @endforeach
 
                                             @foreach($sRemed as $sr => $isiSR)
-                                                @if(date('Y-m-d') > $isi->tanggal_kadaluarsa && $as < 3)
+                                                @if(date('Y-m-d') >= $isi->tanggal_kadaluarsa && $as < 3)
                                                     <div class="col-sm-4 AddRemedBtn" data-keberapa="{{$u}}">
                                                         <a class="btn btn-primary btn-block" title="<h4 class='judul-tippy'>Tambah Remedial</h4><h5>Tambahkan soal remedial untuk soal ini</h5>" data-tippy-placement="bottom">Tambah Remedial</a>
                                                     </div>
@@ -166,7 +166,7 @@
                                                     <a class="btn btn-success" data-toggle="modal" data-target="#post_remed_{{$u}}_{{$isiUR->remed_ke}}">Remedial 1</a>
                                                     <?php break; ?>
                                                 @elseif($isiUR->remed_ke == 1 && $isiUR->status == 'posted')
-                                                    <a class="text-center btn btn-danger" id="unpostModal" href="{{url('/kelola-remed/DRAFT', base64_encode($isiUR->id_ujian_remedial))}}">Remedial 1</a>
+                                                    <a class="text-center btn btn-danger" id="unpostModal" href="{{url('/kelola-remed/DRAFT', base64_encode($isiUR->id_ujian_remedial))}}">Unpost Remedial 1</a>
                                                     <?php break; ?>
                                                 @elseif($ur == count($ujianRemedial)-1)
                                                     <a class="text-center btn btn-disabled" disabled>Post Remedial</a>
@@ -182,7 +182,7 @@
                                                     <a class="btn btn-success" data-toggle="modal" data-target="#post_remed_{{$u}}_{{$isiUR->remed_ke}}">Remedial 2</a>
                                                     <?php break; ?>
                                                 @elseif($isiUR->remed_ke == 2 && $isiUR->status == 'posted')
-                                                    <a class="btn btn-danger" id="unpostModal" href="{{url('/kelola-remed/DRAFT', base64_encode($isiUR->id_ujian_remedial))}}">Remedial 2</a>
+                                                    <a class="btn btn-danger" id="unpostModal" href="{{url('/kelola-remed/DRAFT', base64_encode($isiUR->id_ujian_remedial))}}">Unpost Remedial 2</a>
                                                     <?php break; ?>
                                                 @elseif($ur == count($ujianRemedial)-1)
                                                     <a class="btn btn-disabled" disabled>Remedial 2</a>
@@ -198,7 +198,7 @@
                                                     <a class="btn btn-success" data-toggle="modal" data-target="#post_remed_{{$u}}_{{$isiUR->remed_ke}}">Remedial 3</a>
                                                     <?php break; ?>''
                                                 @elseif($isiUR->remed_ke == 3 && $isiUR->status == 'posted')
-                                                    <a class="btn btn-danger" id="unpostModal" href="{{url('/kelola-remed/DRAFT', base64_encode($isiUR->id_ujian_remedial))}}">Remedial 3/a>
+                                                    <a class="btn btn-danger" id="unpostModal" href="{{url('/kelola-remed/DRAFT', base64_encode($isiUR->id_ujian_remedial))}}">Unpost Remedial 3/a>
                                                     <?php break; ?>
                                                 @elseif($ur == count($ujianRemedial)-1)
                                                     <a class="btn btn-disabled" disabled>Remedial 3</a>
@@ -360,7 +360,7 @@
 
             @else
             <hr>
-            <p>Data not available.</p>
+            <p>Data not available. <a href="{{ route('ujian') }}">Kembali</a></p>
             @endif
         </div>
     </div>

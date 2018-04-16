@@ -305,7 +305,7 @@ class SoalController extends Controller
         $soalRemed      = SoalRemed::where('id_ujian_remedial', $ujianRemed['id_ujian_remedial'])->get();
         $chartPerKelas  = Nilai::select('ujian.judul_ujian as judul', 'kelas.nama_kelas as kelas')->selectRaw('avg(nilai) as rataNilai')->join('siswa', 'nilai.id_siswa', '=', 'siswa.id_siswa')->join('ujian', 'nilai.id_ujian', '=', 'ujian.id_ujian')->join('kelas', 'siswa.id_kelas', '=', 'kelas.id_kelas')->where('nilai.id_ujian', base64_decode($id))->groupBy('kelas.id_kelas')->get();
         // $chartPerKelas  = response()->json($chartPerKelas);
-        // return $chartPerKelas[0];
+        // return $nilai;
         foreach($soal as $s => $isiS){
             $jawaban_benar[] = $isiS->bankSoal->jawaban;
             $jawaban_benar[$s] = explode(' ,  ', $jawaban_benar[$s]);
@@ -346,20 +346,23 @@ class SoalController extends Controller
         return view('admin.kelola-nilai.daftar_nilai', compact('nilai', 'jumlahNilai', 'jawabanUjian', 'jawabanRemed', 'soal', 'jawaban_benar', 'nilaiRemed', 'soalRemed', 'jawaban_benar_remed', 'jumlahRemed', 'chartPerKelas', 'daftarSiswa'));
     }
 
+
     public function exportToExcel($id) {
         // if(empty($ujian->soal)) {
         //     return redirect()->back()->with('error', 'Nilai Kosong');
         // }
 
-        $ujian = Ujian::select('id_ujian', 'judul_ujian')->where('id_ujian', base64_decode($id))->first();
+        $ujian = Ujian::select('id_ujian', 'judul_ujian', 'id_guru', 'kkm')->where('id_ujian', base64_decode($id))->first();
 
         \Excel::create(strtoupper('nilai_ujian '.$ujian->judul_ujian), function($excel) use($ujian) {
             $excel->sheet('Sheet 1', function($sheet) use($ujian) {
                 // Data yang akan di Export
                 $dataNilai = Nilai::join('ujian', 'nilai.id_ujian', '=', 'ujian.id_ujian')
                     ->join('siswa', 'nilai.id_siswa', '=', 'siswa.id_siswa')
-                    ->select('siswa.nis', 'siswa.nama', 'nilai.nilai')
+                    ->join('kelas', 'siswa.id_kelas', 'kelas.id_kelas')
+                    ->select('siswa.nis', 'siswa.nama', 'nilai.nilai', 'kelas.nama_kelas')
                     ->where('ujian.id_ujian', $ujian->id_ujian)
+                    ->orderBy('siswa.nama')
                     ->get();
 
                 $dataRemed = \DB::select("SELECT
@@ -375,17 +378,20 @@ class SoalController extends Controller
                 // dd($dataRemed[0]->nis);
 
                 foreach($dataNilai as $key => $nilai) {
+
                     $data[] = array(
                         $nilai->nis,
                         $nilai->nama,
-                        $nilai->nilai
+                        $nilai->nama_kelas,
+                        $ujian->kkm,
+                        ''.$nilai->nilai.'' // Mengubah value 0 menjadi string
                     );
 
                     foreach($dataRemed as $remed) {
                         if($remed->nis == $nilai->nis) {
-                            $data[$key][] = $remed->nilai_remedial;    
+                            $data[$key][] = ''.$remed->nilai_remedial.'';
                         }else {
-                            $data[$key][] = 0;
+                            $data[$key][] = '0';
                         }
                         
                     }
@@ -396,16 +402,21 @@ class SoalController extends Controller
                 $sheet->fromArray($data, null, 'A1', false, false);
 
                 // Menambahkan Judul ke Excel
-                $judul = array(strtoupper($ujian->judul_ujian), '', '');
+                $judul = array('Judul Ujian : ', strtoupper($ujian->judul_ujian), '', '', '', '', '', '');
                 $sheet->prependRow(1, $judul);
-                $headings = array('NIS', 'Nama', 'Nilai', 'Remed 1', 'Remed 2', 'Remed 3');
-                $sheet->prependRow(2, $headings);
+                $sheet->prependRow(2, array('Oleh', $ujian->guru->nama, '','', '', '', '', ''));
+                $sheet->prependRow(3, array('', '', '', '', '', '', '', ''));
+
+                $headings = array('NIS', 'Nama', 'Kelas', 'KKM', 'Nilai', 'Remedial 1', 'Remedial 2', 'Remedial 3');
+                $sheet->prependRow(4, $headings);
+
+                $sheet->setAutoSize(true);
 
                 // Merge & Align Center Judul
-                $sheet->mergeCells('A1:C1');
-                $sheet->getStyle('A1')->getAlignment()->applyFromArray(
-                    array('horizontal' => 'center')
-                );
+                // $sheet->mergeCells('A1:C1');
+                // $sheet->getStyle('A1')->getAlignment()->applyFromArray(
+                //     array('horizontal' => 'center')
+                // );
             });
         })->export('xlsx');
 

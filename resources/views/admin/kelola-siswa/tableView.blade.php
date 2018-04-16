@@ -79,16 +79,17 @@
     });
 
     $('#export-pdf').click(function() {
-        swal({
-          title: 'Export Data ?',
-          text: 'Export dalam bentuk Pdf',
-          type: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
-        }).then((data) => {
-            window.location = '{{ route('siswa.export-pdf') }}';
-        })
+        swal('Error', 'Maaf, fitur belum tersedia.', 'error');
+        // swal({
+        //   title: 'Export Data ?',
+        //   text: 'Export dalam bentuk Pdf',
+        //   type: 'warning',
+        //   showCancelButton: true,
+        //   confirmButtonColor: '#3085d6',
+        //   cancelButtonColor: '#d33',
+        // }).then((data) => {
+        //     window.location = '{{ route('siswa.export-pdf') }}';
+        // })
     });
 </script>
 @endsection

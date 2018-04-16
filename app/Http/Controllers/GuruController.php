@@ -54,6 +54,11 @@ class GuruController extends Controller
     public function create()
     {
         $daftarBK = DaftarBidangKeahlian::all();
+
+        if($daftarBK->count() < 1) {
+            return redirect(route('bidang.create'))->with('warning', 'Silahkan tambahkan bidang keahlian terlebih dahulu');
+        }
+
         // return $daftarBK;
         return view('admin.kelola-guru.create', compact('daftarBK'));
     }
@@ -67,7 +72,7 @@ class GuruController extends Controller
     public function store(Request $request)
     {
         $rules = $this->validate($request, [
-            'nip' => 'required|numeric|digits_between:19,21|unique:guru',
+            'nip' => 'required|numeric|digits_between:18,21|unique:guru',
             'nama' => 'required',
             'username' => 'required|string|max:20|unique:users',
             'email' => 'required|string|email|max:255|unique:users',
@@ -162,7 +167,7 @@ class GuruController extends Controller
         $user = User::find($guru->id_users);
 
         $this->validate($request, [
-            'nip'               => ['required', 'numeric', 'digits_between:19,21', Rule::unique('guru')->ignore($guru->nip, 'nip')],
+            'nip'               => ['required', 'numeric', 'digits_between:18,21', Rule::unique('guru')->ignore($guru->nip, 'nip')],
             'nama'              => ['required'],
             'username'          => ['required', 'string', 'max:20', Rule::unique('users')->ignore($user->username, 'username')],
             'email'             => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($user->email, 'email')],

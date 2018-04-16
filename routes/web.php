@@ -103,11 +103,13 @@ Route::post('/kelola-ujian/edit/{id}/tambah-soal-bank', 'SoalController@tambahSo
 
 
 // CRUD Ujian Remedial
-Route::get('/kelola-remed/create/{id}', 'RemedController@create')->name('remed.create');
-Route::post('/kelola-remed/create/{id}', 'RemedController@store');
-Route::get('/kelola-remed/edit/{id}', 'RemedController@edit');
-Route::post('/kelola-remed/update/{id}', 'RemedController@update');
-Route::get('/kelola-remed/delete/{id}', 'RemedController@destroy');
+Route::name('remed.')->group(function() {
+	Route::get('/kelola-remed/create/{id}', 'RemedController@create')->name('create');
+	Route::post('/kelola-remed/create/{id}', 'RemedController@store');
+	Route::get('/kelola-remed/edit/{id}', 'RemedController@edit')->name('edit');
+	Route::post('/kelola-remed/update/{id}', 'RemedController@update');
+	Route::get('/kelola-remed/delete/{id}', 'RemedController@destroy');
+});
 
 // Tambah soal dari bank soal - REMED
 Route::get('/kelola-remed/edit/{id}/tambah-soal-bank', 'UjianController@tambahSoalDariBankViewRemed')->name('tambah-soal-bank-remed');
@@ -125,16 +127,16 @@ Route::post('/kelola-remed/POST/{id}', 'UjianController@postRemed');
 Route::get('/kelola-remed/DRAFT/{id}', 'UjianController@unpostRemed');
 
 // CRUD Soal
-Route::get('/kelola-soal/create/{id}', 'SoalController@create');
+Route::get('/kelola-soal/create/{id}', 'SoalController@create')->name('soal.create');
 Route::post('/kelola-soal/create/{id}', 'SoalController@store');
-Route::get('/kelola-soal/edit/{id}', 'SoalController@edit');
+Route::get('/kelola-soal/edit/{id}', 'SoalController@edit')->name('soal.edit');
 Route::post('/kelola-soal/update/{id}', 'SoalController@update');
 Route::get('/kelola-soal/delete/{id}', 'SoalController@delete');
 
 // CRUD Soal Remed
-Route::get('/kelola-soal-remed/create/{id}', 'SoalRemedController@create');
+Route::get('/kelola-soal-remed/create/{id}', 'SoalRemedController@create')->name('soal-remed.create');
 Route::post('/kelola-soal-remed/create/{id}', 'SoalRemedController@store');
-Route::get('/kelola-soal-remed/edit/{id}', 'SoalRemedController@edit');
+Route::get('/kelola-soal-remed/edit/{id}', 'SoalRemedController@edit')->name('soal-remed.edit');
 Route::post('/kelola-soal-remed/update/{id}', 'SoalRemedController@update');
 Route::get('/kelola-soal-remed/delete/{id}', 'SoalRemedController@delete');
 
