@@ -1,17 +1,23 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div class="container-fluid">
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-default">
-                <div class="panel-heading">Data Guru</div>
+                <div class="panel-heading">
+                  <span class="panel-title">Data Guru | <button id="export" class="btn-sm btn-success">Export Data Guru</button></span>
+                  <div class="pull-right">
+                    <a href="{{ route('daftar-guru') }}" class="btn-sm btn-success">Daftarkan Guru</a>
+                    <a href="{{ route('guru.import') }}" class="btn-sm btn-success">Import Data Guru</a>
+                  </div>
+                </div>
 
                 <div class="panel-body">
 
                     <div class="table-responsive">
                         @if(count($guru) > 0)
-                        <table class="table table-bordered" id="tableGuru">
+                        <table class="table table-bordered" id="tableGuru" data-page-length='6'>
                             <thead>
                                 <tr>
                                     <th>No.</th>
@@ -42,10 +48,6 @@
                             <strong><p>Data tidak tersedia.</p></strong>
                         @endif
                     </div>
-                </div>
-                <div class="panel-footer pull-right">
-                    <button id="export" class="btn btn-success">Export Data Guru</button>
-                    <a href="{{ route('daftar-guru') }}" class="btn btn-success">Daftarkan Guru</a>
                 </div>
             </div>
         </div>

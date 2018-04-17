@@ -29,7 +29,7 @@
                                             <td>{{$s->jurusan->nama_jurusan}}</td>
                                             <td>
                                                 @if(Auth::user()->hak_akses == 'admin')<a href="{{url('/kelola-kelas/edit', base64_encode($s->id_kelas))}}" class="btn btn-primary"><i class="fa fa-edit" aria-hidden="true"></i></a>@endif
-                                                @if(Auth::user()->hak_akses == 'admin')<a href="{{url('/kelola-kelas/delete', base64_encode($s->id_kelas))}}" class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></a>@endif
+                                                @if(Auth::user()->hak_akses == 'admin')<a href="{{url('/kelola-kelas/delete', base64_encode($s->id_kelas))}}" class="btn btn-danger remove"><i class="fa fa-trash" aria-hidden="true"></i></a>@endif
                                             </td>
                                         </tr>
                                     @endforeach

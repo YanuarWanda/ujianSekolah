@@ -7,6 +7,9 @@ window._ = require('lodash');
  * code may be modified to fit the specific needs of your application.
  */
 
+window.toastr = require('toastr');
+
+
 try {
     window.$ = window.jQuery = require('jquery');
 

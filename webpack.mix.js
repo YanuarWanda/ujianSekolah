@@ -13,3 +13,13 @@ let mix = require('laravel-mix');
 
 mix.js('resources/assets/js/app.js', 'public/js')
    .sass('resources/assets/sass/app.scss', 'public/css');
+
+// Semua custom css
+mix.styles([
+	'public/css/loading.css',
+	'public/css/custom.css'
+], 'public/css/all.css');
+
+
+// Fix sementara error npm run
+mix.disableNotifications();

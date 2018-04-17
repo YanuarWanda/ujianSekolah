@@ -10,6 +10,7 @@ use App\User;
 use App\DaftarBidangKeahlian;
 use App\BidangKeahlian;
 use DB;
+use Auth;
 
 use App\Jurusan;
 
@@ -53,6 +54,11 @@ class GuruController extends Controller
     public function create()
     {
         $daftarBK = DaftarBidangKeahlian::all();
+
+        if($daftarBK->count() < 1) {
+            return redirect(route('bidang.create'))->with('warning', 'Silahkan tambahkan bidang keahlian terlebih dahulu');
+        }
+
         // return $daftarBK;
         return view('admin.kelola-guru.create', compact('daftarBK'));
     }
@@ -66,7 +72,7 @@ class GuruController extends Controller
     public function store(Request $request)
     {
         $rules = $this->validate($request, [
-            'nip' => 'required|numeric|digits_between:19,21|unique:guru',
+            'nip' => 'required|numeric|digits_between:18,21|unique:guru',
             'nama' => 'required',
             'username' => 'required|string|max:20|unique:users',
             'email' => 'required|string|email|max:255|unique:users',
@@ -161,7 +167,7 @@ class GuruController extends Controller
         $user = User::find($guru->id_users);
 
         $this->validate($request, [
-            'nip'               => ['required', 'numeric', 'digits_between:19,21', Rule::unique('guru')->ignore($guru->nip, 'nip')],
+            'nip'               => ['required', 'numeric', 'digits_between:18,21', Rule::unique('guru')->ignore($guru->nip, 'nip')],
             'nama'              => ['required'],
             'username'          => ['required', 'string', 'max:20', Rule::unique('users')->ignore($user->username, 'username')],
             'email'             => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($user->email, 'email')],
@@ -373,9 +379,109 @@ class GuruController extends Controller
         return view('admin.kelola-guru.import');
     }
 
-    public function importToDatabase(Request $request) {
-        $this->validate($request, [
+    // public function importToDatabase(Request $request){
+
+    //     $this->validate($request,
+    //     [
+    //         'fileExcel' => 'required',
+    //     ],
+    //     [
+    //         'fileExcel.required' => 'File harus diisi',
+    //     ]);
+
+    //     if($request->hasFile('fileExcel')){
+    //         $path = $request->file('fileExcel')->getRealPath();
+    //         $data = \Excel::load($path)->get();
+    //         if($data->count()){
+    //             foreach ($data as $key => $value) {
+    //                 $user[] = [
+    //                     'username'      => strtolower(str_replace(' ', '', $value->nama)),
+    //                     'password'      => bcrypt($value->nip),
+    //                     'email'         => $value->email,
+    //                     'hak_akses'     => 'guru',
+    //                     'created_at'    => now(),
+    //                     'updated_at'    => now(),
+    //                 ];
+
+    //                 $guru[] = [
+    //                     'nip'           => $value->nip,
+    //                     'nama'          => $value->nama,
+    //                     'alamat'        => $value->alamat,
+    //                     'jenis_kelamin' => $value->jenis_kelamin,
+    //                     'foto'          => 'nophoto.jpg',
+    //                 ];
+
+    //                 $bk = explode(', ', $value->bidang_keahlian);
+    //             }
+
+    //             // return $bk;
+
+    //             // Mengambil semua nip yang ada
+    //             $daftar_nip = Guru::get(['nip']);
+                
+    //             foreach($daftar_nip as $key => $daftar) {
+    //                 $nip[$key] = $daftar->nip;
+    //             }
+
+    //             // Handle NIP yang sudah ada
+    //             // return $guru[0]['nip'];
+
+    //             foreach($guru as $g) {
+    //                 if(in_array($g['nip'], $nip) ) {
+    //                     return redirect()->back()->with('error', "NIP ".$g['nip']." sudah terdaftar!");
+    //                 }
+    //             }
+
+    //             if(!empty($user) && !empty($guru)){
+    //                 \DB::table('users')->insert($user);
+    //                 $dataUser = DB::select("SELECT * FROM users WHERE users.id_users NOT IN (SELECT id_users FROM guru) AND hak_akses = 'guru'");
+                    
+    //                 foreach ($dataUser as $key => $value) {
+    //                     $guru[$key]['id_users'] = $value->id_users;
+    //                 }
+
+    //                 if(count($guru) > $data->count()) {
+    //                     $dataCount = $data->count(); // Jumlah data asli
+    //                     $emptyCount = count($guru); // Jumlah data keseluruhan (plus empty row)
+
+    //                     for($x = $dataCount; $x <= $emptyCount; $x++) {
+    //                         unset($guru[$x]); // Menghapus row kosong
+    //                     }
+    //                 }
+
+    //                 \DB::table('guru')->insert($guru);
+
+    //                 $lastGuru = Guru::orderBy('id_guru', 'desc')->limit(1)->get()->first();
+
+    //                 foreach($bk as $bks => $bksv){
+    //                     $buatDB = DaftarBidangKeahlian::where('bidang_keahlian', $bksv)->get()->first() ?? null;
+
+
+
+    //                     $buatBK[] = [
+    //                         'id_guru' => $lastGuru->id_guru,
+    //                         'id_daftar_bidang' => $buatDB->id_daftar_bidang,
+    //                     ];
+    //                 }
+
+    //                 // \DB::table('bidang_keahlian')->insert($buatBK);
+
+    //                 // \Log::info(Auth::user()->username.' meng-import data guru');
+    //                 // return redirect()->back()->with('success', 'Import data berhasil dilakukan');
+
+    //                 dd($buatBK);
+    //             }
+    //         }
+    //     }   
+    // }
+    public function importToDatabase(Request $request){
+
+        $this->validate($request,
+        [
             'fileExcel' => 'required',
+        ],
+        [
+            'fileExcel.required' => 'File harus diisi',
         ]);
 
         if($request->hasFile('fileExcel')){
@@ -384,8 +490,8 @@ class GuruController extends Controller
             if($data->count()){
                 foreach ($data as $key => $value) {
                     $user[] = [
-                        'username'      => $value->username,
-                        'password'      => bcrypt($value->password),
+                        'username'      => strtolower(str_replace(' ', '', $value->nama)),
+                        'password'      => bcrypt($value->nip),
                         'email'         => $value->email,
                         'hak_akses'     => 'guru',
                         'created_at'    => now(),
@@ -399,15 +505,32 @@ class GuruController extends Controller
                         'jenis_kelamin' => $value->jenis_kelamin,
                         'foto'          => 'nophoto.jpg',
                     ];
+
+                    $bk = explode(', ', $value->bidang_keahlian);
+                }
+
+                // return $bk;
+
+                // Mengambil semua nip yang ada
+                $daftar_nip = Guru::get(['nip']);
+                
+                foreach($daftar_nip as $key => $daftar) {
+                    $nip[$key] = $daftar->nip;
+                }
+
+                // Handle NIP yang sudah ada
+                // return $guru[0]['nip'];
+
+                foreach($guru as $g) {
+                    if(in_array($g['nip'], $nip) ) {
+                        return redirect()->back()->with('error', "NIP ".$g['nip']." sudah terdaftar!");
+                    }
                 }
 
                 if(!empty($user) && !empty($guru)){
                     \DB::table('users')->insert($user);
-
                     $dataUser = DB::select("SELECT * FROM users WHERE users.id_users NOT IN (SELECT id_users FROM guru) AND hak_akses = 'guru'");
-
-                    // dd($data);
-
+                    
                     foreach ($dataUser as $key => $value) {
                         $guru[$key]['id_users'] = $value->id_users;
                     }
@@ -416,49 +539,83 @@ class GuruController extends Controller
                         $dataCount = $data->count(); // Jumlah data asli
                         $emptyCount = count($guru); // Jumlah data keseluruhan (plus empty row)
 
-                        // return $dataCount;
                         for($x = $dataCount; $x <= $emptyCount; $x++) {
                             unset($guru[$x]); // Menghapus row kosong
                         }
-
-                        // dd($guru);
                     }
 
                     \DB::table('guru')->insert($guru);
-                    // dd($guru);
-                    // dd('Insert Record successfully.');
 
-                    return redirect('/home')->with('success', 'Import data berhasil dilakukan');
+                    $lastGuru = Guru::orderBy('id_guru', 'desc')->limit(1)->get()->first();
+
+                    foreach($bk as $bks => $bksv){
+                        $buatDB = DaftarBidangKeahlian::where('bidang_keahlian', $bksv)->get()->first() ?? null;
+
+
+
+                        $buatBK[] = [
+                            'id_guru' => $lastGuru->id_guru,
+                            'id_daftar_bidang' => $buatDB->id_daftar_bidang,
+                        ];
+                    }
+
+                    // \DB::table('bidang_keahlian')->insert($buatBK);
+
+                    // \Log::info(Auth::user()->username.' meng-import data guru');
+                    // return redirect()->back()->with('success', 'Import data berhasil dilakukan');
+
+                    dd($buatBK);
                 }
             }
-        }
+        }   
     }
 
-    public function exportToExcel() {
-        Excel::create('Data Guru', function($excel) {
-            $excel->sheet('Sheet 1', function($sheet) {
+    public function exportToExcel(){
+        Excel::create('Data Guru per '.date("Y-m-d"), function($excel) {
+            $excel->setCreator('U-LAH')->setCompany('U-LAH');
+            $excel->setDescription('Data Guru yang di export per tanggal '.date("Y-m-d").".");
+            $excel->setSubject('Data Guru');
+            $excel->sheet('Data Guru', function($sheet) {
+                $bidangKeahlian = BidangKeahlian::join('daftar_bidang_keahlian', 'bidang_keahlian.id_daftar_bidang', '=', 'daftar_bidang_keahlian.id_daftar_bidang')->join('guru', 'bidang_keahlian.id_guru', '=', 'guru.id_guru')->join('users', 'guru.id_users', '=', 'users.id_users')->get();
+                foreach($bidangKeahlian as $bk => $bkValue){
+                    $data[$bk]['id_guru'] = $bkValue->id_guru;
+                    $data[$bk]['nip'] = $bkValue->nip;
+                    $data[$bk]['nama'] = $bkValue->nama;
+                    $data[$bk]['email'] = $bkValue->email;
+                    $data[$bk]['alamat'] = $bkValue->alamat;
+                    $data[$bk]['jenis_kelamin'] = $bkValue->jenis_kelamin;
+                    $data[$bk]['bidang_keahlian'] = $bkValue->bidang_keahlian;
+        
+                    foreach($data as $d => $dValue){
+                        if($bkValue->id_guru == $dValue['id_guru'] && $bkValue->bidang_keahlian != $dValue['bidang_keahlian']){
+                            unset($data[$d]);
+                            $data[$bk]['bidang_keahlian'] = $dValue['bidang_keahlian'].', '.$bkValue->bidang_keahlian;
+                        }
+                    }
+                }
+         
                 // Data yang akan di Export
-                $dataGuru = Guru::select('nip', 'nama', 'alamat', 'jenis_kelamin')->get();
-
-                foreach($dataGuru as $guru) {
-                    $data[] = array(
-                        $guru->nip,
-                        $guru->nama,
-                        $guru->alamat,
-                        $guru->jenis_kelamin,
+                foreach($data as $d) {
+                    $dataFix[] = array(
+                        $d['nip'],
+                        $d['nama'],
+                        $d['email'],
+                        $d['alamat'],
+                        $d['jenis_kelamin'],
+                        $d['bidang_keahlian'],
                     );
                 }
-
+         
                 // Mengisi Data ke Excel
-                $sheet->fromArray($data, null, 'A1', false, false);
+                $sheet->fromArray($dataFix, null, 'A1', false, false);
 
                 // Menambahkan Judul ke Excel
-                $headings = array('NIP', 'Nama', 'Alamat', 'Jenis Kelamin');
+                $headings = array('NIP', 'Nama', 'Email', 'Alamat', 'Jenis Kelamin', 'Bidang Keahlian');
                 $sheet->prependRow(1, $headings);
             });
-        })->export('xls');
+        })->export('xlsx');
 
+        \Log::info(Auth::user()->username.' meng-export data guru');
         return redirect()->back()->with('success', 'Data Guru berhasil di Export');
     }
-
 }

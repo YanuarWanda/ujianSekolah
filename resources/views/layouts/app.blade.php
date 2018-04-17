@@ -45,118 +45,11 @@
     {{-- PleaseWait.js Preloader  --}}
     {{-- <link href="{{ asset('css/please-wait.css') }}" rel="stylesheet"> --}}
 
-    <style type="text/css">
-        .text-green{
-            color: green;
-        }
-        
-        .text-red{
-            color: red;
-        }
-
-        .btn-disabled{
-            background-color: #444444;
-        }
-
-        .bisaHover{
-            cursor: pointer;
-        }
-
-        .perKelas{
-            background-color: #273627;
-
-        }
-
-        .close-btn{
-            color: red;
-            position: absolute;
-            top: 10px;
-            right: 30px;
-        }
-
-        #app {
-            visibility: hidden;
-        }
-
-        .loading {
-            width: 60px;
-            height: 60px;
-            position: fixed;
-            left: 0;
-            right: 0;
-            top: 0;
-            bottom: 60px;
-            margin: auto;
-            margin-top: 235px;
-            z-index: 99999999999999999;
-            background : transparent;
-        }
-
-        .spinner {
-          margin: 100px auto;
-          width: 50px;
-          height: 40px;
-          text-align: center;
-          font-size: 10px;
-        }
-
-        .spinner > div {
-          background-color: #333;
-          height: 100%;
-          width: 6px;
-          display: inline-block;
-
-          -webkit-animation: sk-stretchdelay 1.2s infinite ease-in-out;
-          animation: sk-stretchdelay 1.2s infinite ease-in-out;
-        }
-
-        .spinner .rect2 {
-          -webkit-animation-delay: -1.1s;
-          animation-delay: -1.1s;
-        }
-
-        .spinner .rect3 {
-          -webkit-animation-delay: -1.0s;
-          animation-delay: -1.0s;
-        }
-
-        .spinner .rect4 {
-          -webkit-animation-delay: -0.9s;
-          animation-delay: -0.9s;
-        }
-
-        .spinner .rect5 {
-          -webkit-animation-delay: -0.8s;
-          animation-delay: -0.8s;
-        }
-
-        @-webkit-keyframes sk-stretchdelay {
-          0%, 40%, 100% { -webkit-transform: scaleY(0.4) }
-          20% { -webkit-transform: scaleY(1.0) }
-        }
-
-        @keyframes sk-stretchdelay {
-            0%, 40%, 100% {
-                transform: scaleY(0.4);
-                -webkit-transform: scaleY(0.4);
-            }  20% {
-                transform: scaleY(1.0);
-                -webkit-transform: scaleY(1.0);
-            }
-        }
-
-        .btn-fixed-bottom-right{
-            position: fixed;
-            bottom: 25px;
-            right: 25px;
-        }
-
-       .z-top{
-	       z-index: 4;
-        }
-
-    </style>
-
+    {{-- Custom --}}
+    {{-- <link rel="stylesheet" type="text/css" href="{{ asset('css/loading.css')}}"> --}}
+    {{-- <link rel="stylesheet" type="text/css" href="{{ asset('css/custom.css')}}"> --}}
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/all.css')}}">
+    
     @yield('css')
 </head>
 <body>
@@ -169,69 +62,239 @@
           <div class="rect5"></div>
         </div>
     </div>
-    <div id="app">
-        <nav class="navbar navbar-default navbar-static-top">
-            <div class="container">
-                <div class="navbar-header">
+    
+    <a href="#" class=" scroll-up">
+    <div id="scroll-up">
+      <center><span class="fa fa-chevron-up"></span></center>
+    </div>
+    </a>
 
-                    <!-- Collapsed Hamburger -->
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse" aria-expanded="false">
-                        <span class="sr-only">Toggle Navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
+@if(Auth::check())
+    @if(Auth::user()->hak_akses == 'siswa')
+    <div class="container-fluid app">
+            
+        <!-- Fixed navbar -->
+        <nav class="navbar navbar-default">
+          <div class="container-fluid">
+            <div id="navbar">
+              <ul class="nav navbar-nav">
+                {{-- <li><a href="#menu-toggle" id="menu-toggle"><span class="fa fa-list" style="font-size: 17px;"></span></a></li> --}}
+                <li><a><span class="fa fa-graduation-cap"></span> U-LAH</a></li>
 
-                    <!-- Branding Image -->
-                    <a class="navbar-brand" href="{{ url('/') }}">
-                        <span><img src="{{asset('image/Facepalm_30px.png')}}" alt="brand">
-                        {{ config('app.name', 'Laravel') }}</span>
+                {{-- <li><ul class="breadcrumb list-inline">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">About</a></li>
+                    <li class="active">US</li>
+                </ul></li> --}}
+
+                {{ Breadcrumbs::render() }}
+              </ul>
+              <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
+                        {{ Auth::user()->username }} <span class="caret"></span>
                     </a>
-                </div>
 
-                <div class="collapse navbar-collapse" id="app-navbar-collapse">
-                    <!-- Right Side Of Navbar -->
-                    <ul class="nav navbar-nav navbar-right">
-                        <!-- Authentication Links -->
-                        @guest
-                            <li><a href="{{ route('login') }}">Login</a></li>
-                            <li><a href="{{ route('register') }}">Register</a></li>
-                        @else
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
-                                    {{ Auth::user()->username }} <span class="caret"></span>
-                                </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="{{ route('settings') }}">Settings</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('logout') }}"
+                                onclick="event.preventDefault();
+                                         document.getElementById('logout-form').submit();">
+                                Logout
+                            </a>
 
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <a href="{{ route('settings') }}">Settings</a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ route('logout') }}"
-                                            onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                            Logout
-                                        </a>
-
-                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                            {{ csrf_field() }}
-                                        </form>
-                                    </li>
-                                </ul>
-                            </li>
-                        @endguest
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                {{ csrf_field() }}
+                            </form>
+                        </li>
                     </ul>
-                </div>
-            </div>
+                </li>
+              </ul>
+            </div><!--/.nav-collapse -->
+          </div>
         </nav>
-
-        @yield('content')
+            
+        <div class="content">
+            @yield('content')
+        </div>
     </div>
 
-    {{-- JQuery --}}
-    <script src="{{ asset('js/jquery-3.3.1.min.js') }}"></script>
+    {{-- End Siswa --}}
 
-    <script src="{{ asset('js/bootstrap-3.3.5.js') }}"></script>
+    @elseif(Auth::user()->hak_akses == 'guru')
+    <div class="container-fluid app">
+            
+        <!-- Fixed navbar -->
+        <nav class="navbar navbar-default">
+          <div class="container-fluid">
+            <div id="navbar">
+              <ul class="nav navbar-nav">
+                {{-- <li><a href="#menu-toggle" id="menu-toggle"><span class="fa fa-list" style="font-size: 17px;"></span></a></li> --}}
+                <li><a href="/"><span class="fa fa-graduation-cap"></span> U-LAH</a></li>
+
+                {{-- <li><ul class="breadcrumb list-inline">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">About</a></li>
+                    <li class="active">US</li>
+                </ul></li> --}}
+
+                {{ Breadcrumbs::render() }}
+              </ul>
+              <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
+                        {{ Auth::user()->username }} <span class="caret"></span>
+                    </a>
+
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="{{ route('settings') }}">Settings</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('logout') }}"
+                                onclick="event.preventDefault();
+                                         document.getElementById('logout-form').submit();">
+                                Logout
+                            </a>
+
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                {{ csrf_field() }}
+                            </form>
+                        </li>
+                    </ul>
+                </li>
+              </ul>
+            </div><!--/.nav-collapse -->
+          </div>
+        </nav>
+            
+        <div class="content">
+            @yield('content')
+        </div>
+    </div>
+    {{-- End Guru --}}
+
+    @else
+    {{-- Content --}}
+
+    <div id="wrapper" class="app">
+
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-brand">
+                    <a href="#">
+                        <span class="fa fa-graduation-cap"></span> U-LAH
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('home') }}">Dashboard</a>
+                </li>
+                <li>
+                    <a href="{{ route('bank') }}">Bank Soal</a>
+                </li>
+                <hr>
+                <li><small style="color: white;">Menu Guru</small></li>
+                <li>
+                    <a href="{{ route('guru') }}">Guru</a>
+                </li>
+                <li>
+                    <a href="{{ route('bidang') }}">Bidang Keahlian</a>
+                </li>
+                <li>
+                    <a href="{{ route('mapel') }}">Mata Pelajaran</a>
+                </li>
+                <li>
+                    <a href="{{ route('ujian') }}">Ujian</a>
+                </li>
+                <hr>
+                <li><small style="color: white;">Menu Siswa</small></li>
+                <li>
+                    <a href="{{ route('siswa') }}">Siswa</a>
+                </li>
+                <li>
+                    <a href="{{ route('kelas') }}">Kelas</a>
+                </li>
+                <li>
+                    <a href="{{ route('jurusan') }}">Jurusan</a>
+                </li>
+            </ul>
+        </div>
+        <!-- /#sidebar-wrapper -->
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+            
+            <!-- Fixed navbar -->
+            <nav class="navbar navbar-default">
+              <div class="container-fluid">
+                <div id="navbar">
+                  <ul class="nav navbar-nav">
+                    <li><a href="#menu-toggle" id="menu-toggle"><span class="fa fa-list" style="font-size: 17px;"></span></a></li>
+                    <li id="brand"><a href="#"><span class="fa fa-graduation-cap"></span> U-LAH</a></li>
+
+                    {{-- <li><ul class="breadcrumb list-inline">
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">About</a></li>
+                        <li class="active">US</li>
+                    </ul></li> --}}
+
+                    {{ Breadcrumbs::render() }}
+                  </ul>
+                  <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
+                            {{ Auth::user()->username }} <span class="caret"></span>
+                        </a>
+
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="{{ route('settings') }}">Settings</a>
+                            </li>
+                            <li>
+                                <a href="{{ route('logout') }}"
+                                    onclick="event.preventDefault();
+                                             document.getElementById('logout-form').submit();">
+                                    Logout
+                                </a>
+
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                    {{ csrf_field() }}
+                                </form>
+                            </li>
+                        </ul>
+                    </li>
+                  </ul>
+                </div><!--/.nav-collapse -->
+              </div>
+            </nav>
+                
+            <div class="content">
+                @yield('content')
+            </div>
+        </div>
+        <!-- /#page-content-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+    
+    {{-- Content --}}
+    @endif
+@else
+    <div class="container">
+        @yield('content')
+    </div>
+@endif
+
+    {{-- JQuery --}}
+    <script src="{{ asset('js/app.js') }}"></script>
+    {{-- <script src="{{ asset('js/jquery-3.3.1.min.js') }}"></script> --}}
+
+    {{-- <script src="{{ asset('js/bootstrap-3.3.5.js') }}"></script> --}}
     {{-- <script src="{{ asset('js/summernote-0.8.9.js') }}"></script> --}}
 
     {{-- Fallback (Local) --}}
@@ -241,7 +304,7 @@
     <script type="text/javascript">
         $(window).on('load', function() {
             $(".loading").fadeOut("slow", function() {
-                $("#app").css('visibility', 'visible');
+                $(".app").css('visibility', 'visible');
             });
         });
     </script>
@@ -254,10 +317,21 @@
     <script src="{{ asset('vendor/datatables/dataTables.bootstrap4.js') }}"></script>
     <script>
         $(document).ready(function() {
+<<<<<<< HEAD
             $("#tableGuru").DataTable(); // Menambahkan pencarian ke table guru di menu kelola-guru (admin)
             $("#tableSiswa").DataTable(); // Menambahkan pencarian ke table siswa di menu kelola-siswa (admin)
             $("#tableSoal").DataTable(); // Menambahkan pencarian ke table soal di menu edit-ujian (admin)
             $("#tablebanksoal").DataTable();
+=======
+            // $("#tableGuru").DataTable(); // Menambahkan pencarian ke table guru di menu kelola-guru (admin)
+            // $("#tableSiswa").DataTable(); // Menambahkan pencarian ke table siswa di menu kelola-siswa (admin)
+            // $("#tableSoal").DataTable(); // Menambahkan pencarian ke table soal di menu edit-ujian (admin)
+            // $('#tableDaftarBidangKeahlian').DataTable();
+
+            $("[id^=table]").DataTable({ // Mengambil semua table dengan id berawalan 'table'
+                "lengthMenu": [[4, 6, 15, -1], [4, 6, 15, "All"]]
+            });
+>>>>>>> 26d78d569cc1cefb7e0736b6994d128d976e7dc8
         });
 
         // Preview gambar dari file chooser.
@@ -310,6 +384,89 @@
     {{-- Chart.js --}}
     <script type="text/javascript" src="{{ asset('js/Chart.bundle.min.js') }}"></script>
 
+    <script>
+
+    @if(Auth::check() && Auth::user()->hak_akses == 'admin')
+    // static-to-fix navbar
+    $(document).ready(function () {
+
+        var brand = $('#brand');
+        brand.hide();
+
+        var menu = $('.navbar');
+
+        var origOffsetY = menu.offset().top;
+
+        function scroll() {
+            console.log(origOffsetY);
+            if ($(window).scrollTop() >= origOffsetY+71) {
+                menu.addClass('navbar-fixed-top');
+                brand.show();
+                $('.content').addClass('menu-padding');
+            } else {
+                menu.removeClass('navbar-fixed-top');
+                brand.hide();
+                $('.content').removeClass('menu-padding');
+            }
+
+
+        }
+
+        document.onscroll = scroll;
+
+    });
+
+    @endif
+
+    // Toggle Menu
+    $("#menu-toggle").click(function(e) {
+        e.preventDefault();
+
+        // Ubah Icon
+        var icon = $("#menu-toggle span");
+        if(icon.hasClass("fa-list")) {
+          icon.removeClass("fa-list").addClass("fa-arrow-left");
+        }else{
+          icon.removeClass("fa-arrow-left").addClass("fa-list");
+        }
+
+        // Toggle menu
+        $("#wrapper").toggleClass("toggled");
+    });
+
+    // Scroll Up
+    $(document).ready(function() {
+      var fixed = false;
+      $(document).scroll(function() {
+        if($(this).scrollTop() > 251) {
+          if(!fixed) {
+            fixed = true;
+            $('#scroll-up').show('fast', function() {
+              $('#scroll-up').css({
+                position: 'fixed', 
+                display: 'block'
+              });
+            });
+          }
+        }else { 
+          if(fixed) {
+            fixed = false;
+            $('#scroll-up').hide('fast', function() {
+              $('#scroll-up').css({
+                display: 'none'
+              });
+            });
+          }
+        }
+      });
+
+      $('#scroll-up').on('click', function() {
+        $('html, body').animate({ scrollTop : 0 }, 755);
+      });
+    });
+    </script>
+
+    
     {{-- Toggle Select Bikin Soal --}}
     <script type="text/javascript">
         $('#tipe').on('change', function(){
@@ -344,34 +501,46 @@
             var $index = $(this).attr('data-panel');
             var $nowIndex = $index.split('_', 3);
             var $nextIndex = parseInt($nowIndex['1'])+1;
-            $('#Soal_'+$nowIndex['1']).slideUp(1000, function(){
-                $('#Soal_'+$nextIndex).slideDown(1000);
+            $('#Soal_'+$nowIndex['1']).slideUp(500, function(){
+                $('#Soal_'+$nextIndex).slideDown(700);
             });
+
+            currentButton($('.btnPindah[data-panel=Soal_'+ $nextIndex +']'));
         });
 
         $('.btnPindah').on('click', function(){
             var $nowIndex = $('.panel-body:visible').attr('id');
             var $index = $(this).attr('data-panel');
-            $('#'+$nowIndex).slideUp(1000, function(){
-                $('#'+$index).slideDown(1000);
+
+            currentButton($(this));
+
+            $('#'+$nowIndex).slideUp(500, function(){
+                $('#'+$index).slideDown(700);
             });
         });
 
+        function currentButton(x) {
+            var allButton = $('.navSoal .btn').not(x);
+            allButton.removeClass('btn-primary').addClass('btn-default'); // Button sebelumnya
+            x.removeClass('btn-default').addClass('btn-primary'); // Current Button
+        }
+
         $('.block').on('click', function(){
             var $index  = $(this).attr('data-panel');
-            $('#'+$index).slideToggle(1000);
+            $('#'+$index).slideToggle(500);
         });
 
-        $('.remove').on('click', function(){
+        $('.remove').on('click', function(e){
+            e.preventDefault();
             var url = $(this).attr('href');
             swal({
                 title: 'Hapus data?',
-                text: 'Data yang dihapus tidak bisa dikembalikan! Data ujian guru ini juga akan ikut terhapus!',
+                text: 'Data yang dihapus tidak dapat dikembalikan!',
                 type: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Okelah, hapus aja!'
+                confirmButtonText: 'Tetap hapus'
             }).then((result) =>{
                 window.location.replace(url);
             });
@@ -386,7 +555,7 @@
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Okelah, hapus aja!'
+                confirmButtonText: 'Tetap hapus'
             }).then((result) =>{
                 window.location.replace(url);
             });
@@ -401,12 +570,14 @@
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Okelah, hapus aja!'
+                confirmButtonText: 'Tetap hapus'
             }).then((result) =>{
                 window.location.replace(url);
             });
         });
     </script>
+
+    <script type="text/javascript" src="{{asset('js/tippy.all.min.js')}}"></script>
 
     @yield('js')
 </body>

@@ -49,7 +49,37 @@ class HomeController extends Controller
                 'username' => Auth::user()->username,
             );
             \Log::info('Mengakses home', $user);
-            return view('admin.dashboard');
+
+
+            $chart = User::select('hak_akses')->selectRaw('count(hak_akses) as jumlah')->groupBy('hak_akses')->get();
+            $chart2 = Siswa::select('nama_kelas')->selectRaw( 'count(id_siswa) as jumlah')
+                        ->join('kelas', 'siswa.id_kelas', 'kelas.id_kelas')
+                        ->where('nama_kelas', 'NOT LIKE', '%ALUMNI%')
+                        ->groupBy('nama_kelas')
+                        ->get();
+
+            $chart3 = Ujian::selectRaw('date(tanggal_pembuatan) as tanggal_pembuatan')->selectRaw('count(id_ujian) as jumlah')
+                        ->selectRaw('date(tanggal_pembuatan) as tgl_per_bulan')
+                        ->groupBy('tgl_per_bulan')
+                        ->get();
+
+            $dataChart3 = DB::select("SELECT
+                              COUNT(id_ujian) AS jumlah_ujian,
+                              (SELECT COUNT(id_ujian) FROM ujian WHERE STATUS = 'posted') AS ujian_posted,
+                              (SELECT
+                                tanggal_pembuatan
+                              FROM
+                                ujian
+                              ORDER BY tanggal_pembuatan DESC
+                              LIMIT 1) AS ujian_terbaru
+                            FROM
+                              ujian");
+
+            $total_ujian = $dataChart3[0]->jumlah_ujian;
+            $ujian_posted = $dataChart3[0]->ujian_posted;
+            $ujian_terbaru = $dataChart3[0]->ujian_terbaru;
+            return view('admin.dashboard', compact('chart', 'chart2', 'chart3', 'total_ujian', 'ujian_terbaru', 'ujian_posted'));
+                        // return $ujian_tertua;
         } else if(Auth::user()->hak_akses == 'guru') {
             $guru = Guru::where('id_users', Auth::user()->id_users)->get()->first();
             $user = array(
@@ -70,8 +100,6 @@ class HomeController extends Controller
 
             $nilai  = Nilai::join('siswa', 'nilai.id_siswa', '=', 'siswa.id_siswa')->where('siswa.id_siswa', $siswa->id_siswa)->orderBy('siswa.id_siswa')->get();
             $nilaiR = NilaiRemedial::join('siswa', 'nilai_remedial.id_siswa', '=', 'siswa.id_siswa')->where('siswa.id_siswa', $siswa->id_siswa)->orderBy('siswa.id_siswa')->get();
-            $ability= Nilai::select('nilai.id_siswa', 'siswa.nama as nama', 'mapel.nama_mapel as mapel')->selectRaw('avg(nilai.nilai) as nilai')->join('ujian', 'nilai.id_ujian', '=', 'ujian.id_ujian')->join('mapel', 'ujian.id_mapel', '=', 'mapel.id_mapel')->join('siswa', 'nilai.id_siswa', '=', 'siswa.id_siswa')->where('siswa.id_users', Auth::user()->id_users)->groupBy('mapel.id_mapel')->get();
-            // return $ability;
             $ujianArray = DB::select('
                 select id_ujian, id_mapel, nama_mapel, id_guru, judul_ujian, waktu_pengerjaan, tanggal_post, tanggal_kadaluarsa, status, catatan, lihat_nilai from ujian u
                 join mapel m using (id_mapel)
@@ -81,33 +109,36 @@ class HomeController extends Controller
                 and status = :status
                 order by tanggal_post asc
                 ', ['id_kelas' => $siswa->id_kelas, 'status' => 'posted']);
-            // Get current page form url e.x. &page=1
-            $currentPage = LengthAwarePaginator::resolveCurrentPage();
-            // Create a new Laravel collection from the array data
-            $itemCollection = collect($ujianArray);
-            // Define how many items we want to be visible in each page
-            $perPage = 2;
-            // Slice the collection to get the items to display in current page
-            $currentPageItems = $itemCollection->slice(($currentPage * $perPage) - $perPage, $perPage)->all();
-            // Create our paginator and pass it to the view
-            $paginatedItems= new LengthAwarePaginator($currentPageItems , count($itemCollection), $perPage);
-            // set url path for generted links
-            $paginatedItems->setPath(url()->current());
-            $ujian = $paginatedItems;
+
+
+            // $ujian = $paginatedItems;
+            $ujian = $this->paginateArray($ujianArray, 2);
 
             $ujianRemedArray    = DB::select('SELECT ujian.judul_ujian, ujian_remedial.remed_ke, mapel.nama_mapel, ujian_remedial.tanggal_pembuatan, ujian_remedial.tanggal_kadaluarsa, ujian_remedial.catatan, ujian_remedial.id_ujian_remedial, ujian_remedial.id_ujian FROM ujian_remedial JOIN ujian USING(id_ujian) JOIN mapel USING(id_mapel) JOIN kelas_ujian USING(id_ujian) JOIN kelas USING(id_kelas) JOIN siswa USING(id_kelas) WHERE kelas_ujian.id_kelas = '.$siswa->kelas->id_kelas.' AND ujian_remedial.status = "posted" AND siswa.id_siswa = '.$siswa->id_siswa.' AND siswa.id_siswa IN (SELECT id_siswa FROM nilai WHERE status_pengerjaan="Harus Remedial" AND nilai.id_ujian = ujian.id_ujian) ORDER BY tanggal_post ASC');
-            $curPageRemed       = LengthAwarePaginator::resolveCurrentPage();
-            $itemColRemed       = collect($ujianRemedArray);
-            $perPageRemed       = 2;
-            $currentPageRemed   = $itemColRemed->slice(($curPageRemed * $perPageRemed) - $perPageRemed, $perPageRemed)->all();
-            $paginatedItemsRemed= new LengthAwarePaginator($currentPageRemed, count($itemColRemed), $perPageRemed);
-            $paginatedItemsRemed->setPath(url()->current());
-            $ujianRemed = $paginatedItemsRemed;
+            
+            $ujianRemed = $this->paginateArray($ujianRemedArray, 2);
 
-            // return $ujian;
+            // return $ujianRemedArray;
 
             return view('siswa.siswa', compact('siswa', 'ujian', 'ujianArray', 'nilai', 'ujianRemed', 'ujianRemedArray', 'nilaiR', 'ability'));
         }
+    }
+
+    public function paginateArray(Array $collection, $page) {
+        // Get current page form url e.x. &page=1
+        $currentPage = LengthAwarePaginator::resolveCurrentPage();
+        // Create a new Laravel collection from the array data
+        $itemCollection = collect($collection);
+        // Define how many items we want to be visible in each page
+        $perPage = $page;
+        // Slice the collection to get the items to display in current page
+        $currentPageItems = $itemCollection->slice(($currentPage * $perPage) - $perPage, $perPage)->all();
+        // Create our paginator and pass it to the view
+        $paginatedItems= new LengthAwarePaginator($currentPageItems , count($itemCollection), $perPage);
+        // set url path for generted links
+        $paginatedItems->setPath(url()->current());
+
+        return $paginatedItems;
     }
 
     public function settings() {
@@ -189,7 +220,8 @@ class HomeController extends Controller
         }
         
         // dd($arrayCollection);
-        return response()->json($arrayCollection);
+        // return response()->json($arrayCollection);
+        return $arrayCollection;
     }
 
     public function chartGuru() {
@@ -214,5 +246,43 @@ class HomeController extends Controller
                     WHERE id_guru = $id_guru))
                 GROUP BY id_ujian");
         return response()->json($query);
+    }
+
+    // Search Ujian di dashboard siswa
+    public function searchUjian(Request $request) {
+        if(Auth::user()->hak_akses == 'siswa' && isset($request['search_query'])) {
+            $siswa = Siswa::where('id_users', Auth::user()->id_users)->first();
+            $user = array(
+                'hak_akses' => Auth::user()->hak_akses,
+                'username'  => Auth::user()->username,
+            );
+            session(['id_siswa' => $siswa->id_siswa]);
+
+            $nilai  = Nilai::join('siswa', 'nilai.id_siswa', '=', 'siswa.id_siswa')->where('siswa.id_siswa', $siswa->id_siswa)->orderBy('siswa.id_siswa')->get();
+            $nilaiR = NilaiRemedial::join('siswa', 'nilai_remedial.id_siswa', '=', 'siswa.id_siswa')->where('siswa.id_siswa', $siswa->id_siswa)->orderBy('siswa.id_siswa')->get();
+            $ability= Nilai::select('nilai.id_siswa', 'siswa.nama as nama', 'mapel.nama_mapel as mapel')->selectRaw('avg(nilai.nilai) as nilai')->join('ujian', 'nilai.id_ujian', '=', 'ujian.id_ujian')->join('mapel', 'ujian.id_mapel', '=', 'mapel.id_mapel')->join('siswa', 'nilai.id_siswa', '=', 'siswa.id_siswa')->where('siswa.id_users', Auth::user()->id_users)->groupBy('mapel.id_mapel')->get();
+            // return $ability;
+            $ujianArray = DB::select('
+                select id_ujian, id_mapel, nama_mapel, id_guru, judul_ujian, waktu_pengerjaan, tanggal_post, tanggal_kadaluarsa, status, catatan, lihat_nilai from ujian u
+                join mapel m using (id_mapel)
+                join kelas_ujian ku using (id_ujian)
+                join kelas k using (id_kelas)
+                where ku.id_kelas = :id_kelas
+                and status = :status
+                and judul_ujian like "%'.$request['search_query'].'%"
+                order by tanggal_post asc
+                ', ['id_kelas' => $siswa->id_kelas, 'status' => 'posted'  ]);
+
+            // $ujian = $paginatedItems;
+            $ujian = $this->paginateArray($ujianArray, 2);
+
+            $ujianRemedArray    = DB::select('SELECT ujian.judul_ujian, ujian_remedial.remed_ke, mapel.nama_mapel, ujian_remedial.tanggal_pembuatan, ujian_remedial.tanggal_kadaluarsa, ujian_remedial.catatan, ujian_remedial.id_ujian_remedial, ujian_remedial.id_ujian FROM ujian_remedial JOIN ujian USING(id_ujian) JOIN mapel USING(id_mapel) JOIN kelas_ujian USING(id_ujian) JOIN kelas USING(id_kelas) JOIN siswa USING(id_kelas) WHERE kelas_ujian.id_kelas = '.$siswa->kelas->id_kelas.' AND ujian_remedial.status = "posted" AND siswa.id_siswa = '.$siswa->id_siswa.' AND siswa.id_siswa IN (SELECT id_siswa FROM nilai WHERE status_pengerjaan="Harus Remedial" AND nilai.id_ujian = ujian.id_ujian) ORDER BY tanggal_post ASC');
+            
+            $ujianRemed = $this->paginateArray($ujianRemedArray, 2);
+
+            // return $ujian;
+
+            return view('siswa.siswa', compact('siswa', 'ujian', 'ujianArray', 'nilai', 'ujianRemed', 'ujianRemedArray', 'nilaiR', 'ability'));
+        }
     }
 }

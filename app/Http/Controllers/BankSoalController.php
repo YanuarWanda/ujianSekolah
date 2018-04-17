@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -233,7 +232,7 @@ class BankSoalController extends Controller
     public function delete($id) {
         $soal = BankSoal::find($id);
 
-        if($soal->soal){
+        if($soal->soal->count() > 0){
             return redirect()->back()->with('error', 'Soal sedang digunakan dalam sebuah ujian!');
         }else {
             if($soal){

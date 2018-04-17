@@ -242,4 +242,8 @@
 
        });
     </script>
+<<<<<<< HEAD
 @endsection
+=======
+@endsection
+>>>>>>> 26d78d569cc1cefb7e0736b6994d128d976e7dc8

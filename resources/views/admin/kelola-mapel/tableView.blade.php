@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div class="container-fluid">
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-default">
@@ -10,7 +10,7 @@
                 <div class="panel-body">
                     <div class="table-responsive">
                         @if(count($mapel) > 0)
-                        <table class="table table-bordered" id="tableDaftarBidangKeahlian">
+                        <table class="table table-bordered" id="tableDaftarBidangKeahlian" data-page-length='6'>
                             <thead>
                                 <tr>
                                     <th>No.</th>
@@ -29,7 +29,7 @@
                                             <td>{{$s['daftar_bidang_keahlian']['bidang_keahlian']}}</td>
                                             <td>
                                                 @if(Auth::user()->hak_akses == 'admin')<a href="{{url('/kelola-mapel/edit', base64_encode($s->id_mapel))}}" class="btn btn-primary"><i class="fa fa-edit" aria-hidden="true"></i></a>@endif
-                                                @if(Auth::user()->hak_akses == 'admin')<a href="{{url('/kelola-mapel/delete', base64_encode($s->id_mapel))}}" class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></a>@endif
+                                                @if(Auth::user()->hak_akses == 'admin')<a href="{{url('/kelola-mapel/delete', base64_encode($s->id_mapel))}}" class="btn btn-danger remove"><i class="fa fa-trash" aria-hidden="true"></i></a>@endif
                                             </td>
                                         </tr>
                                     @endforeach

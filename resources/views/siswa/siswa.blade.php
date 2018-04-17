@@ -1,34 +1,54 @@
 @extends('layouts.app')
 
+@section('css')
+<style type="text/css">
+    .purple .profile{
+        background-color: #9b59b6;
+        color: white;
+    }
+</style>
+@stop
+
 @section('content')
-<div class="container">
+<div class="container-fluid">
     <div class="row">
         <div class="col-md-4">
-            <div class="panel panel-success">
+            <div class="panel panel-default purple">
                 <div class="panel-heading">
-                    <center>{{ strtoupper($siswa->nama) }}</center>
+                    <center><span class="panel-title">{{ strtoupper($siswa->nama) }}</span></center>
                 </div>
 
                 <div class="panel-body">
                     <p align="center">
                         <?php if($siswa->foto != 'nophoto.jpg'){?>
-                            <img src="{{asset('storage/foto-profil/'.$siswa->foto)}}" width="250px"/>
+                            <a target="_blank" href="{{asset('storage/foto-profil/'.$siswa->foto)}}"><img src="{{asset('storage/foto-profil/'.$siswa->foto)}}" height="150px" /></a>
                         <?php }else{ ?>
-                            <img src="{{asset('image/nophoto.jpg')}}" width="250px"/>
+                            <img src="{{asset('image/nophoto.jpg')}}" height="150px"/>
                         <?php } ?>
                     </p>
-                    <p>NIS : {{ $siswa->nis }}</p>
-                    <p>Alamat : {{ $siswa->alamat }}</p>
-                    <p>Jenis Kelamin : @if($siswa->jenis_kelamin == 'L') Laki-laki @else Perempuan @endif</p>
-                </div>
-            </div>
-            <div class="panel panel-success">
-                <div class="panel-heading">
-                    <h5 class="text-center">Ability</h5>
                 </div>
 
-                <div class="panel-body">
-                    <canvas id="grafikAbility" width="600px"></canvas>
+                <div class="panel-body profile">
+                    <div class="table-responsive">
+                    <table class="table">
+                        <tr>
+                            <td>NIS</td>
+                            <td>{{ $siswa->nis }}</td>
+                        </tr>
+                        <tr>
+                            <td>Alamat</td>
+                            <td>{{ $siswa->alamat }}</td>
+                        </tr>
+                        <tr>
+                            <td>Jenis Kelamin</td>
+                            <td>@if($siswa->jenis_kelamin == 'L') Laki-laki @else Perempuan @endif</td>
+                        </tr>
+                        <tr>
+                            <td>Kelas</td>
+                            <td>{{ $siswa->kelas->nama_kelas }}</td>
+                        </tr>
+                    </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -41,19 +61,44 @@
 
             <div class="tab-content">
                 <div role="tabpanel" class="tab-pane fade in active" id="ujian">
-                    <h1 style="margin-top: 25px; text-align: center;">Daftar Ujian</h1>
+                    <br>
+
+                    @if($ujian->count() > 0)
+                    <div class="row">
+                        <form method="post" action="{{ route('siswa.search') }}">
+                            {{ csrf_field() }}
+
+                        <div class="col-md-4">
+                            @if(isset($_POST['search_query']))
+                            <span>Ujian dengan judul 
+                                <code>{{$_POST['search_query']}}</code>
+                            </span>
+                            @endif
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <input type="text" name="search_query" placeholder="Judul Ujian ..." class="form-control">
+                        </div>
+                        <div class="col-md-2">
+                            <button type="submit" class="btn btn-primary"><span class="fa fa-search"></span></button>
+                        </div>
+
+                        </form>
+                    </div>
+
                     <?php $index=0; ?>
                     @foreach($ujian as $u => $isi)
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <h4>{{ $isi->judul_ujian }} <code>{{ $isi->nama_mapel }}</code></h4>
+                            <h4>{{ $isi->judul_ujian }}</h4><span class="label label-primary">{{ $isi->nama_mapel }}</span>
                         </div>
 
                         <div class="panel-body">
-                            <p>Dipost pada <span style="color: red;">{{ $isi->tanggal_post }}</span></p>
-                            <p>Batas Pengerjaan <span style="color: red">{{ $isi->tanggal_kadaluarsa }}</span></p>
+                            <h5>Dipost pada <span style="color: red;">{{ date('d M, Y', strtotime($isi->tanggal_post)) }}</span></h5>
+                            <hr>
+                            <h5>Batas Pengerjaan <span style="color: red">{{ date('d M, Y', strtotime($isi->tanggal_kadaluarsa)) }}</span></h5>
+                            <hr>
                             <strong>Deskripsi</strong>
-                            <p>{{ $isi->catatan }}</p>
+                            <h5>{{ $isi->catatan }}</h5>
                         </div>
                         @if(count($nilai) < 1)
                             <div class="panel-footer">
@@ -63,7 +108,7 @@
                             @foreach($nilai as $n => $isiNilai)
                                 @if($isi->id_ujian == $isiNilai->id_ujian)
                                 <div class="panel-footer">
-                                    <p>Anda Sudah Mengerjakan!</p> @if($isi->lihat_nilai == 'Y') <p>Jawbaan Benar {{ $isiNilai->jawaban_benar }}/{{ $isiNilai->jawaban_benar + $isiNilai->jawaban_salah }}</p> <p>Nilai {{ round($isiNilai->jawaban_benar / ($isiNilai->jawaban_benar + $isiNilai->jawaban_salah) * 100) }}</p>@endif
+                                    <p>Anda Sudah Mengerjakan!</p> @if($isi->lihat_nilai == 'Y') <p>Jawaban Benar {{ $isiNilai->jawaban_benar }}/{{ $isiNilai->jawaban_benar + $isiNilai->jawaban_salah }}</p> <p>Nilai {{ $isiNilai->nilai }}</p>@endif
                                 </div>
                                 <?php break; ?>
                                 @elseif($isi->id_ujian != $isiNilai->id_ujian)
@@ -79,22 +124,47 @@
                         @endif
                     </div>
                     @endforeach
+
+                    @else
+
+                    <h3>Tidak ada ujian.</h3>
+
+                    @endif
+
                     <div class="pull-right">
                         {{ $ujian->links() }}
                     </div>
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="remed">
-                    <h1 style="margin-top: 25px; text-align: center;">Daftar Ujian Remedial</h1>
+                    
+                    <br>
+
+                    @if($ujianRemed->count() > 0)
+
+                    <div class="row">
+                        <form method="post" action="{{ route('siswa.search') }}">
+                            {{ csrf_field() }}
+                        <div class="col-md-8 form-group">
+                            <input type="text" name="search_query" placeholder="Judul Ujian ..." class="form-control">
+                        </div>
+                        <div class="col-md-4">
+                            <button type="submit" class="btn btn-primary"><span class="fa fa-search"></span></button>
+                        </div>
+                        </form>
+                    </div>
+
                     <?php $indexRemed=0; ?>
                     @foreach($ujianRemed as $uR => $isiR)
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <h4>{{ $isiR->judul_ujian }} - Remed {{ $isiR->remed_ke }}<code>{{ $isiR->nama_mapel }}</code></h4>
+                            <h4>{{ $isiR->judul_ujian }} - Remedial {{ $isiR->remed_ke }} <span class="label label-danger">{{ $isiR->nama_mapel }}</span class="label label-danger"></h4>
                         </div>
 
                         <div class="panel-body">
                             <p>Dipost pada <span style="color: red;">{{ $isiR->tanggal_pembuatan }}</span></p>
+                            <hr>
                             <p>Batas Pengerjaan <span style="color: red">{{ $isiR->tanggal_kadaluarsa }}</span></p>
+                            <hr>
                             <strong>Deskripsi</strong>
                             <p>{{ $isiR->catatan }}</p>
                         </div>
@@ -127,6 +197,12 @@
                         @endif
                     </div>
                     @endforeach
+
+                    @else
+
+                    <h3>Remedial tidak ada.</h3>
+
+                    @endif
                     <div class="pull-right">
                         {{ $ujianRemed->links() }}
                     </div>
@@ -138,30 +214,5 @@
 </div>
 @endsection
 @section('js')
-<script>
-    var $skill = {!! $ability !!};
-    var $mapel = [];var $nilai =[];
-    $skill.forEach(function(realData){
-        $mapel.push(realData.mapel);
-        $nilai.push(realData.nilai);
-    });
 
-    console.log($mapel);
-    console.log($nilai);
-
-    var dataBuatChart = {
-        labels: $mapel,
-        datasets: [{
-            label: 'Nilai',
-            backgroundColor: 'rgba(128, 128, 128, 0.5)',
-            data: $nilai
-        }]  
-    };
-    var dataCanvasnya = document.getElementById('grafikAbility').getContext('2d');
-
-    var chartnya = new Chart(dataCanvasnya, {
-        type: 'radar',
-        data: dataBuatChart
-    });
-</script>
 @endsection

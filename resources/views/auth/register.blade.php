@@ -65,7 +65,7 @@
                             <label for="alamat" class="col-md-4 control-label">Alamat</label>
 
                             <div class="col-md-6">
-                                <textarea name="alamat" id="alamat" class="form-control" value="{{ old('alamat') }}" required></textarea>
+                                <textarea name="alamat" id="alamat" class="form-control" required>{{old('alamat')}}</textarea>
 
                                 @if ($errors->has('alamat'))
                                     <span class="help-block">

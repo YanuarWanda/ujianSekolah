@@ -32,6 +32,11 @@ class KelasController extends Controller
     public function create()
     {
     	$jurusan = Jurusan::all();
+
+        if($jurusan->count() < 1) {
+            return redirect(route('jurusan.create'))->with('warning', 'Silahkan tambah jurusan terlebih dahulu');
+        }
+
         return view('admin.kelola-kelas.create', compact('jurusan'));
     }
 

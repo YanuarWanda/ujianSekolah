@@ -1,118 +1,154 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-4">
-            <div class="panel panel-default">
-                <div class="panel-heading">Dashboard</div>
+{{-- Chart --}}
+<div class="panel panel-default">
+    <div class="panel-heading"><center><h4>Pengguna Aplikasi</h4></center></div>
+    <div class="panel-body">
+        <div class="container-fluid row">
+          <div class="col-md-6">
+            <canvas id="chart1"></canvas>
+            <center><small><label class="help-block">*Data termasuk alumni</label></small></center>
+          </div>
 
-                <div class="panel-body">
-                    <a href="/kelola-guru" class="btn btn-primary btn-block">Kelola Guru</a>
-                    <a href="/kelola-siswa" class="btn btn-success btn-block">Kelola Siswa</a>
-                    <a href="/kelola-ujian" class="btn btn-danger btn-block">Kelola Ujian</a>
-                    <a href="/kelola-jurusan" class="btn btn-info btn-block">Kelola Jurusan</a>
-                    <a href="/kelola-kelas" class="btn btn-warning btn-block">Kelola Kelas</a>
-                    <a href="/kelola-bidang" class="btn btn-primary btn-block">Kelola Bidang Keahlian</a>
-                    <a href="/kelola-mapel" class="btn btn-success btn-block">Kelola Mata Pelajaran</a>
-                    <a href="/kelola-guru/import" class="btn btn-default btn-block">Import data Guru</a>
-                    <a href="/kelola-siswa/import" class="btn btn-default btn-block">Import data Siswa</a>
-                    <a href="/kelola-bank-soal" class="btn btn-success btn-block">Kelola Bank Soal</a>
-                </div>
-            </div>
+          <div class="col-md-6">
+            <canvas id="chart2"></canvas>
+            <center><small><label class="help-block">*Data tidak termasuk alumni</label></small></center>
+          </div>
         </div>
-
-        {{-- Chart --}}
-        <div class="col-md-8">    
-            <center><h4>Grafik Nilai Rata-Rata per Ujian</h4></center>
-            <div class="row">
-                <div class="col-md-12 chart">
-                    <div class="panel panel-danger">
-                        <div class="panel-heading">Nilai rata-rata <p id="judul-ujian-1"></p></div>
-
-                        <div class="panel-body">
-                            <canvas id="ujian1" height="117" width="600"></canvas>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 chart">
-                    <div class="panel panel-primary">
-                        <div class="panel-heading">Nilai rata-rata <p id="judul-ujian-2"></p></div>
-
-                        <div class="panel-body">
-                            <canvas id="ujian2" width="600"></canvas>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 chart">
-                    <div class="panel panel-success">
-                        <div class="panel-heading">Nilai rata-rata <p id="judul-ujian-3"></p></div>
-
-                        <div class="panel-body">
-                            <canvas id="ujian3" width="600"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+     </div>   
 </div>
+
+<div class="panel panel-default">
+    <div class="panel-heading"><center><h4>Pembuatan Soal</h4></center></div>
+    <div class="panel-body">
+      <div class="container-fluid row">
+        <div class="col-md-8">
+          <canvas id="chart3"></canvas>
+        </div>
+
+        <div class="col-md-4">
+          <table class="table table-bordered">
+            <caption>Rincian</caption>
+              <tr>
+                <td>Jumlah Ujian</td>
+                <td>{{ $total_ujian }}</td>
+              </tr>
+              <tr>
+                <td>Jumlah Ujian <span class="text-primary">(Posted)</span></td>
+                <td>{{ $ujian_posted }}</td>
+              </tr>
+              <tr>
+                <td>Ujian Terbaru</td>
+                <td>{{ $ujian_terbaru }}</td>
+              </tr>
+              <tr>
+                <td colspan="2"><a href="{{ route('ujian') }}" class="btn btn-primary btn-block">Lihat Semua</a></td>
+              </tr>
+          </table>
+        </div>
+
+      </div>
+     </div>   
+</div>
+{{-- Chart --}}
 @endsection
 
 @section('js')
 <script>
+function chart1() {
+  var data = {!! $chart !!};
+  
+  var hak_akses = [], jumlah = [];
+
+  data.forEach(function(d) {
+    hak_akses.push(d.hak_akses);
+    jumlah.push(d.jumlah);
+  });
+
+  var canvas = document.getElementById('chart1').getContext('2d');
+  var chart = new Chart(canvas, {
+    type: 'doughnut',
+    data: {
+      labels: hak_akses,
+      datasets: [{
+        data: jumlah,
+        backgroundColor: ['red', 'orange', 'lightgreen']
+      }]
+    }
+  });
+}
+
+function chart2() {
+  var data = {!! $chart2 !!};
+  
+  var nama_kelas = [], jumlah = [];
+
+  data.forEach(function(d) {
+    nama_kelas.push(d.nama_kelas);
+    jumlah.push(d.jumlah);
+  });
+
+  var canvas = document.getElementById('chart2').getContext('2d');
+  var chart = new Chart(canvas, {
+    type: 'bar',
+    data: {
+      labels: nama_kelas,
+      datasets: [{
+        label:'Siswa per Kelas',
+        data: jumlah,
+        backgroundColor: 'pink'
+      }]
+    },
+    options: {
+          scales: {
+              yAxes: [{
+                  ticks: {
+                      beginAtZero:true
+                  }
+              }]
+          }
+      }
+  });
+}
+
+function chart3() {
+  var data = {!! $chart3 !!};
+  
+  var tanggal_pembuatan = [], jumlah = [];
+
+  data.forEach(function(d) {
+    tanggal_pembuatan.push(d.tanggal_pembuatan);
+    jumlah.push(d.jumlah);
+  });
+
+  var canvas = document.getElementById('chart3').getContext('2d');
+  var chart = new Chart(canvas, {
+    type: 'line',
+    data: {
+      labels: tanggal_pembuatan,
+      datasets: [{
+        label:'Pembuatan Soal per Tanggal',
+        data: jumlah,
+        backgroundColor: 'lavender'
+      }]
+    },
+    options: {
+          scales: {
+              yAxes: [{
+                  ticks: {
+                      beginAtZero:true
+                  }
+              }]
+          }
+      }
+  });
+}
 
 $(document).ready(function(){
-
-  var url = "{{ route('data-nilai') }}";
-  var label;
-  var daftarChart = ['ujian1', 'ujian2', 'ujian3'];
-  // console.log(daftarChart);
-  $.get(url, function(response){
-    // console.log(response);
-    // response.forEach(function(data){
-      for(var i=0, len = response.length; i<len;i++) {
-      // Chart 1
-      var nama_kelas = [];
-      
-      var nilai = [];
-
-      // console.log(data);
-
-      response[i].forEach(function(realData){
-        // console.log(realData);
-        nama_kelas.push(realData.nama_kelas);
-        label = realData.judul_ujian;
-        nilai.push(realData.nilai_rata_rata);
-      });
-
-      var ctx = document.getElementById(daftarChart[i]).getContext('2d');
-      var myChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels:nama_kelas,
-            datasets: [{
-              label: label,
-              data: nilai,
-              borderWidth: 1,
-              backgroundColor: 'lightblue'
-            }]
-        },
-        options: {
-            scales: {
-                yAxes: [{
-                    ticks: {
-                        beginAtZero:true
-                    }
-                }]
-            }
-        }
-      });
-      // console.log('judul-ujian-'+i);
-      $('#judul-ujian-'+(i+1)).text(label);
-    }
-
-  });
+  chart1();
+  chart2();
+  chart3();
 });
 </script>
 @stop

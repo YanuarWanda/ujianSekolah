@@ -3,22 +3,32 @@
 @section('css')
 <script>
 window.onbeforeunload = function(e) {
-    var dialogText = 'Yakin nih?';
+    var dialogText = 'Yakin?';
     e.returnValue = dialogText;
     return dialogText;
 }
 
 </script>
 <style type="text/css">
-    .detail p {
-        padding-bottom: 9px;
-        border-bottom: 1px solid black;
-    }
+
+.soal {
+    height:415px;
+    overflow-y:scroll;
+    width:100%;
+}
+
+.navSoal .btn {
+    height: 50px;
+    width: 50px;
+    margin: 10px 4px;
+}
+
 </style>
 @endsection
 
 @section('content')
-<div class="container">
+
+<div class="container-fluid">
     {{-- <div class="row">
         <div class="col-md-12">
 
@@ -29,6 +39,11 @@ window.onbeforeunload = function(e) {
         <div class="col-md-8">
             <div class="panel panel-default">
                 <div class="panel-heading">
+                    @if($ujian->id_ujian_remedial)
+                        <h3>{{ $ujian->ujian->judul_ujian }}</h3>
+                    @else
+                        <h3>{{ $ujian->judul_ujian }}</h3>
+                    @endif
                     <strong id="coba">Sisa waktu : <span style="color: orange;" id="pageTimer"></span></strong>
                 </div>
                 @if($ujian->id_ujian_remedial)
@@ -38,7 +53,7 @@ window.onbeforeunload = function(e) {
                 @endif
                     {{ csrf_field() }}
                     @foreach($soalFull as $s => $isi)
-                    <div class="panel-body" id="Soal_{{$s}}" @if($s == '0') style="display:block" @else style="display:none" @endif>
+                    <div class="panel-body soal" id="Soal_{{$s}}" @if($s == '0') style="display:block" @else style="display:none" @endif>
                             <h4 class="text-center">{!! $isi->bankSoal['isi_soal'] !!}</h4>
 
                             <hr>
@@ -86,48 +101,63 @@ window.onbeforeunload = function(e) {
         </div>
         <div class="col-md-4 detail">
             <div class="panel panel-default">
-                <div class="panel-body">
-                    <div class="row">
-                        <div class="col">
-                            @if($ujian->id_ujian_remedial)
-                                @for($a = 1; $a <= count($ujian->soalRemed); $a++)
-                                    <button style="margin: 0; margin-left: 10px; border-radius: 0px" class="btn btn-default btnPindah" value="{{ $a }}" data-panel="Soal_{{$a-1}}">
-                                        {{ $a }}
-                                    </button>
-                                @endfor
-                            @else
-                                @for($a = 1; $a<= count($ujian->soal) ;$a++)
-                                {{-- {{ count($ujian->soal) }} --}}
-                                    <button style="margin: 0; margin-left: 10px; border-radius: 0px" class="btn btn-default btnPindah" value="{{ $a }}" data-panel="Soal_{{$a-1}}">
-                                         {{ $a }}
-                                     </button>
-                                @endfor
-                            @endif
-                        </div>
-                    </div>
+                <div class="panel-body navSoal">
+                    @if($ujian->id_ujian_remedial)
+                        @for($a = 1; $a <= count($ujian->soalRemed); $a++)
+                            <button style="margin: 0; margin-left: 10px; border-radius: 0px" class="btn btn-default btnPindah" value="{{ $a }}" data-panel="Soal_{{$a-1}}">
+                                {{ $a }}
+                            </button>
+                        @endfor
+                    @else
+                        @for($a = 1; $a<= count($ujian->soal) ;$a++)
+                        {{-- {{ count($ujian->soal) }} --}}
+                            <button style="margin: 0; margin-left: 10px; border-radius: 0px" class="btn btn-default btnPindah" value="{{ $a }}" data-panel="Soal_{{$a-1}}">
+                                 {{ $a }}
+                             </button>
+                        @endfor
+                    @endif
                 </div>
             </div>
+
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h4>Detail Ujian</h4>
                 </div>
 
-                <div class="panel-body">
+                {{-- <div class="panel-body"> --}}
+                    <table class="table table-striped">
                     @if($ujian->id_ujian_remedial)
-                        <p>Ulangan : {{ $ujian->ujian->judul_ujian }}</p>
                         @if($ujian->ujian->guru['nip'])
-                            <p>NIP :  {{ $ujian->ujian->guru['nip'] }}</p>
-                            <p>Nama  : {{ $ujian->ujian->guru->nama }}</p>
+                        <tr>
+                            <th>NIP</th>
+                            <td>{{ $ujian->ujian->guru['nip'] }}</td>
+                        </tr>
+                        <tr>
+                            <th>Nama</th>
+                            <td>{{$ujian->ujian->guru->nama}}</td>
+                        </tr>
                         @endif
                     @else
-                        <p>Ulangan : {{ $ujian->judul_ujian }}</p>
                         @if($ujian->guru['nip'])
-                            <p>NIP : {{ $ujian->guru['nip'] }}</p>
-                            <p>Nama : {{ $ujian->guru->nama }}</p>
+                        <tr>
+                            <th>NIP</th>
+                            <td>{{ $ujian->guru['nip'] }}</td>
+                        </tr>
+                        <tr>
+                            <th>Nama</th>
+                            <td>{{ $ujian->guru->nama }}</td>
+                        </tr>
                         @endif
                     @endif
-                    <p>Waktu Pengerjaan : {{ $ujian->waktu_pengerjaan }}</p>
-                    <p>Catatan : {{ $ujian->catatan }}</p>
+                        <tr>
+                            <th>Waktu Pengerjaan</th>
+                            <td>{{$ujian->waktu_pengerjaan}}</td>
+                        </tr>
+                        <tr>
+                            <th>Catatan</th>
+                            <td>{{$ujian->catatan}}</td>
+                        </tr>
+                    </table>
                 </div>
             </div>
         </div>

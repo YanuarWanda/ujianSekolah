@@ -16,9 +16,11 @@
         "jquery": "^3.2",
         "laravel-mix": "^1.0",
         "lodash": "^4.17.4",
-        "vue": "^2.5.7"
+        "toastr": "^2.1.4"
     },
     "dependencies": {
-        "ckeditor": "^4.8.0"
+        "ckeditor": "^4.8.0",
+        "popper.js": "^1.14.3",
+        "tooltip.js": "^1.2.0"
     }
 }

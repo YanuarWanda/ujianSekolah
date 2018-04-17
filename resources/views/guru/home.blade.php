@@ -8,7 +8,8 @@
                 <div class="panel-heading">Rata rata nilai ujian</div>
 
                 <div class="panel-body">
-                    <canvas id="chartGuru" height="117" width="600"></canvas>
+                    <canvas id="chartGuru" height="117" width="600">
+                    </canvas>
                 </div>
             </div>
             <div class="panel panel-default">
@@ -27,6 +28,7 @@
 @section('js')
 <script type="text/javascript">
 $(document).ready(function(){
+    $('#chartGuru').parent().parent().hide();
 
     var url = "{{ route('chart-guru') }}";
 
@@ -61,6 +63,8 @@ $(document).ready(function(){
                 }
             }
         });
+
+        $('#chartGuru').parent().parent().show();
     });
 });
 </script>

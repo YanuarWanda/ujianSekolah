@@ -21,7 +21,7 @@
 
                     <div class="table-responsive">
                         @if(count($siswa) > 0)
-                        <table class="table table-bordered" id="tableSiswa">
+                        <table class="table table-bordered" id="tableSiswa" data-page-length='4'>
                             <thead>
                                 <tr>
                                     <th><input type="checkbox" class="select-all checkbox" name="select-all"></th>

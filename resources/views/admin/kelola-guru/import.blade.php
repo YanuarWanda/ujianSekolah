@@ -21,12 +21,17 @@
                                         <strong>{{ $errors->first('fileExcel') }}</strong>
                                     </span>
                                 @endif
+
                             </div>
                         </div>
                         <div class="form-group">
                             <button class="btn btn-primary">Import File</button>
                         </div>
                     </form>
+                    
+                    <span class="help-block">
+                        Untuk Menambahkan data guru dari file excel, silahkan upload file nya.
+                    </span>
                 </div>
             </div>
         </div>
