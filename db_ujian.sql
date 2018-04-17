@@ -29,25 +29,18 @@ CREATE TABLE `bank_soal` (
   `id_daftar_bidang` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_bank_soal`),
   KEY `id_daftar_bidang` (`id_daftar_bidang`),
-  CONSTRAINT `bank_soal_ibfk_1` FOREIGN KEY (`id_daftar_bidang`) REFERENCES `daftar_bidang_keahlian` (`id_daftar_bidang`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
+  CONSTRAINT `bank_soal_ibfk_1` FOREIGN KEY (`id_daftar_bidang`) REFERENCES `daftar_bidang_keahlian` (`id_daftar_bidang`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
 /*Data for the table `bank_soal` */
 
 insert  into `bank_soal`(`id_bank_soal`,`tipe`,`isi_soal`,`pilihan`,`jawaban`,`id_daftar_bidang`) values 
-(2,'MC','<p>Apakah?</p>','<p>Whenever you are</p> ,  <p>I never said goodbye</p> ,  <p>i promise you forever right now</p> ,  ','<p>I never said goodbye</p> ,  <p>i promise you forever right now</p> ,  ',1),
-(3,'PG','<p>Ini Soal untuk no 2</p>','<p>Ini Pilihan A</p> ,  <p>Ini Pilihan B</p> ,  <p>Ini Pilihan C</p> ,  <p>Ini Pilihan D</p> ,  <p>Ini Pilihan E</p>','<p>Ini Pilihan E</p>',1),
-(4,'MC','<p>Soal asd</p>','<p>A asd</p> ,   ,  <p>C dsa</p> ,  <p>D FDS</p> ,  <p>E ddd</p>',' ,   ,   ,  <p>D FDS</p> ,  <p>E ddd</p>',1),
-(5,'MC','<p>sssssasassa</p>','<p>saddsdarqsa</p> ,  <p>sdfdfeee</p> ,  <p>efwwefef</p> ,  <p>sdfgfbxcbg</p> ,  ','<p>saddsdarqsa</p> ,   ,   ,  <p>sdfgfbxcbg</p> ,  ',1),
-(6,'MC','<p>iNIA SIAPOL</p>','<p>AISDJIAWDNI</p> ,  <p>BAJWDIAJWDI</p> ,  <p>CWOKOAKOD</p> ,  <p>DOWJROWAJ</p> ,  <p>EADKLADS</p>','<p>AISDJIAWDNI</p> ,   ,   ,   ,   ,   ,   ,  <p>CWOKOAKOD</p> ,   ,   ,   ,   ,   ,   ,  <p>EADKLADS</p> ,  ',1),
-(7,'MC','<p>Ini SOal bODY</p>','<p>A Yah</p> ,  <p>B Yah</p> ,  <p>C Yeh</p> ,  <p>D yUH</p> ,  <p>E maamam</p>','<p>B Yah</p> ,   ,   ,   ,  <p>D yUH</p> ,   ,  ',1),
-(8,'MC','<p>Ini Soal</p>','<p>Ini Pilihan A</p> ,  <p>Ini Pilihan B</p> ,  <p>Ini Pilihan C</p> ,  <p>Ini Pilihan D</p> ,  <p>Ini Pilihan E</p>',' ,  <p>Ini Pilihan B</p> ,   ,   ,  <p>Ini Pilihan E</p>',1),
-(9,'BS','<p>Ini SOal bENAR Salah</p>','Benar ,  Salah','Salah',NULL),
-(10,'PG','<p>Ini teh jawabannnya A</p>','<p>Kalo jawab ini bener</p> ,   ,  <p>jawab ini salah</p> ,   ,  <p>Jawab ini juga salah</p>','<p>Kalo jawab ini bener</p>',1),
-(11,'BS','<p>biar gampang</p>','Benar ,  Salah','Salah',1),
-(12,'BS','<p>biar gampang</p>','Benar ,  Salah','Salah',1),
-(13,'MC','<p>biar gampang 5</p>','<p>ABC</p> ,  <p>DEF</p> ,   ,  <p>GHI</p> ,  ','<p>ABC</p> ,  <p>DEF</p> ,   ,  <p>GHI</p> ,  ',1),
-(14,'MC','<p>asdasd</p>','<p>dsadsa</p> ,  <p>ssssss</p> ,  <p>asdqwe</p> ,   ,  ','<p>dsadsa</p> ,   ,  <p>asdqwe</p> ,   ,  ',1);
+(1,'PG','<p>DML merupakan singkatan dari ...</p>','<p>Data Main Language</p> ,  <p>Data Manipulation Listener</p> ,  <p>Data Manipulation Language</p> ,   ,  ','<p>Data Manipulation Language</p>',1),
+(2,'BS','<p>Query <code>SELECT</code> dalam MYSQL merupakan salah satu contoh dari DDL.</p>','Benar ,  Salah','Benar',1),
+(3,'MC','<p>Berikut ini merupakan beberapa contoh dari DML, yaitu ... <em>(pilih 3)</em></p>','<p><code>INSERT&nbsp; INTO ...</code></p> ,  <p><code>SELECT * FROM ...</code></p> ,  <p><code>DELETE FROM ...</code></p> ,  <p><code>UPDATE ...</code></p> ,  ','<p><code>INSERT&nbsp; INTO ...</code></p> ,   ,  <p><code>DELETE FROM ...</code></p> ,  <p><code>UPDATE ...</code></p> ,  ',1),
+(4,'PG','<p>Saat ini, Bahasa pemrograman&nbsp;PHP merupakan kependekan dari...</p>','<p>Personal Home Page</p> ,  <p>PHP: Hypertext Preprocessor</p> ,  <p>Parents Helping Parents</p> ,  <p>Pre Hypertext Processor</p> ,  <p>Pemberi Harapan Palsu</p>','<p>PHP: Hypertext Preprocessor</p>',1),
+(5,'BS','<p><code>var x</code> merupakan inisialisasi variable pada PHP</p>','Benar ,  Salah','Salah',1),
+(6,'MC','<p>Contoh variable dalam PHP yaitu...</p>','<p>$test</p> ,  <p>$cd</p> ,  <p>var x</p> ,  <p>_$as</p> ,  ','<p>$test</p> ,  <p>$cd</p> ,   ,   ,  ',1);
 
 /*Table structure for table `bidang_keahlian` */
 
@@ -62,12 +55,15 @@ CREATE TABLE `bidang_keahlian` (
   KEY `id_guru` (`id_guru`),
   CONSTRAINT `bidang_keahlian_ibfk_2` FOREIGN KEY (`id_daftar_bidang`) REFERENCES `daftar_bidang_keahlian` (`id_daftar_bidang`),
   CONSTRAINT `bidang_keahlian_ibfk_3` FOREIGN KEY (`id_guru`) REFERENCES `guru` (`id_guru`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
 /*Data for the table `bidang_keahlian` */
 
 insert  into `bidang_keahlian`(`id_bidang_keahlian`,`id_guru`,`id_daftar_bidang`) values 
-(1,4,1);
+(3,1,1),
+(4,1,2),
+(5,2,1),
+(6,2,3);
 
 /*Table structure for table `daftar_bidang_keahlian` */
 
@@ -83,8 +79,8 @@ CREATE TABLE `daftar_bidang_keahlian` (
 
 insert  into `daftar_bidang_keahlian`(`id_daftar_bidang`,`bidang_keahlian`) values 
 (1,'Rekayasa Perangkat Lunak'),
-(2,'Multimedia'),
-(3,'Teknik Komputer dan Jaringan');
+(2,'Teknik Komputer Jaringan'),
+(3,'Multimedia');
 
 /*Table structure for table `guru` */
 
@@ -101,12 +97,13 @@ CREATE TABLE `guru` (
   PRIMARY KEY (`id_guru`),
   KEY `id_user` (`id_users`),
   CONSTRAINT `guru_ibfk_1` FOREIGN KEY (`id_users`) REFERENCES `users` (`id_users`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 /*Data for the table `guru` */
 
 insert  into `guru`(`id_guru`,`nip`,`id_users`,`nama`,`alamat`,`jenis_kelamin`,`foto`) values 
-(4,'12345678912345678912',5,'Yesterday Once More','Jalan Hati','P','nophoto.jpg');
+(1,'196211051986032008',2,'Dr. Sukawati Raisa, M.MPd','Jalan pegasan timur no. 5','P','nophoto.jpg'),
+(2,'196211051986032001',3,'Jajang Nurjamal,  S.Pd','Jalan Kebon Ciroyom no. 13','L','Ijazah_180226_0004_1523798082.jpg');
 
 /*Table structure for table `jawaban_siswa` */
 
@@ -122,25 +119,45 @@ CREATE TABLE `jawaban_siswa` (
   KEY `id_soal` (`id_soal`),
   CONSTRAINT `jawaban_siswa_ibfk_1` FOREIGN KEY (`id_siswa`) REFERENCES `siswa` (`id_siswa`),
   CONSTRAINT `jawaban_siswa_ibfk_2` FOREIGN KEY (`id_soal`) REFERENCES `soal` (`id_soal`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=latin1;
 
 /*Data for the table `jawaban_siswa` */
 
 insert  into `jawaban_siswa`(`id_jawaban`,`id_soal`,`id_siswa`,`jawaban_siswa`) values 
-(1,2,1,'<p>Ini Pilihan E</p>'),
-(2,3,1,'<p>D FDS</p> ,  <p>E ddd</p>'),
-(3,4,1,'<p>saddsdarqsa</p> ,  <p>dfsgweerre</p>'),
-(4,7,1,'<p>Ini Pilihan B</p> ,  <p>Ini Pilihan E</p>'),
-(5,2,2,'<p>Ini Pilihan C</p>'),
-(6,3,2,'<p>D FDS</p> ,  <p>E ddd</p>'),
-(7,4,2,'<p>saddsdarqsa</p> ,  <p>sdfdfeee</p>'),
-(8,7,2,'<p>Ini Pilihan B</p> ,  <p>Ini Pilihan D</p>'),
-(9,2,8,'<p>Ini Pilihan B</p>'),
-(10,3,8,'<p>A asd</p> ,  <p>C dsa</p>'),
-(11,4,8,'<p>sdfdfeee</p> ,  <p>efwwefef</p> ,  <p>sdfgfbxcbg</p>'),
-(12,7,8,'<p>Ini Pilihan B</p> ,  <p>Ini Pilihan D</p> ,  <p>Ini Pilihan E</p>'),
-(13,8,1,'Benar'),
-(14,9,1,'<p>jawab ini salah</p>');
+(1,1,1,'<p>Data Manipulation Listener</p>'),
+(2,2,1,'Benar'),
+(3,3,1,'<p><code>UPDATE ...</code></p> ,  <p><code>DELETE FROM ...</code></p> ,  <p><code>INSERT  INTO ...</code></p>'),
+(4,1,7,'<p>Data Manipulation Language</p>'),
+(5,2,7,'Benar'),
+(6,3,7,'<p><code>DELETE FROM ...</code></p> ,  <p><code>INSERT  INTO ...</code></p> ,  <p><code>UPDATE ...</code></p> ,  <p><code>SELECT * FROM ...</code></p>'),
+(7,1,2,'<p>Data Manipulation Listener</p>'),
+(8,2,2,'Salah'),
+(9,3,2,'<p><code>SELECT * FROM ...</code></p>'),
+(10,1,8,'<p>Data Manipulation Language</p>'),
+(11,2,8,'Benar'),
+(12,3,8,'<p><code>DELETE FROM ...</code></p> ,  <p><code>INSERT  INTO ...</code></p> ,  <p><code>UPDATE ...</code></p>'),
+(13,1,4,'<p>Data Main Language</p>'),
+(14,2,4,'Benar'),
+(15,3,4,'<p><code>INSERT  INTO ...</code></p> ,  <p><code>UPDATE ...</code></p> ,  <p><code>DELETE FROM ...</code></p>'),
+(16,1,5,'<p>Data Manipulation Language</p>'),
+(17,2,5,'Benar'),
+(18,3,5,'<p><code>INSERT  INTO ...</code></p> ,  <p><code>UPDATE ...</code></p> ,  <p><code>DELETE FROM ...</code></p>'),
+(19,1,6,'<p>Data Manipulation Language</p>'),
+(20,2,6,'Benar'),
+(21,3,6,'<p><code>UPDATE ...</code></p> ,  <p><code>DELETE FROM ...</code></p> ,  <p><code>INSERT  INTO ...</code></p>'),
+(22,1,9,'<p>Data Manipulation Language</p>'),
+(23,2,9,'Benar'),
+(24,3,9,'<p><code>INSERT  INTO ...</code></p> ,  <p><code>UPDATE ...</code></p> ,  <p><code>DELETE FROM ...</code></p>'),
+(25,4,2,'<p>Pre Hypertext Processor</p>'),
+(26,5,2,'Benar'),
+(27,4,9,'<p>Personal Home Page</p>'),
+(28,5,9,'Salah'),
+(29,4,8,'<p>PHP: Hypertext Preprocessor</p>'),
+(30,5,8,'Salah'),
+(31,4,4,'<p>Pemberi Harapan Palsu</p>'),
+(32,5,4,'Benar'),
+(33,4,7,'<p>Pre Hypertext Processor</p>'),
+(34,5,7,'Benar');
 
 /*Table structure for table `jawaban_siswa_remed` */
 
@@ -152,12 +169,34 @@ CREATE TABLE `jawaban_siswa_remed` (
   `id_siswa` int(11) NOT NULL,
   `jawaban_siswa` text NOT NULL,
   PRIMARY KEY (`id_jawaban_remedial`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=latin1;
 
 /*Data for the table `jawaban_siswa_remed` */
 
 insert  into `jawaban_siswa_remed`(`id_jawaban_remedial`,`id_soal_remedial`,`id_siswa`,`jawaban_siswa`) values 
-(6,2,1,'<p>dsadsa</p> ,  <p>ssssss</p> ,  <p>asdqwe</p>');
+(1,1,9,'<p>Data Manipulation Language</p>'),
+(2,2,9,'Benar'),
+(3,1,6,'<p>Data Manipulation Language</p>'),
+(4,2,6,'Benar'),
+(5,1,4,'<p>Data Manipulation Language</p>'),
+(6,2,4,'Benar'),
+(7,1,2,'<p>Data Manipulation Language</p>'),
+(8,2,2,'Benar'),
+(9,3,9,'<p>$test</p> ,  <p>$cd</p>'),
+(10,4,9,'Benar'),
+(11,5,9,'<p>$test</p> ,  <p>$cd</p>'),
+(12,3,2,'<p>$test</p> ,  <p>$cd</p>'),
+(13,4,2,'Salah'),
+(14,5,2,'<p>$test</p> ,  <p>$cd</p>'),
+(15,5,4,'<p>$test</p> ,  <p>$cd</p>'),
+(16,6,4,'Salah'),
+(17,4,4,'Salah'),
+(18,1,8,'<p>Data Manipulation Language</p>'),
+(19,2,8,'Benar'),
+(20,3,7,'<p>var x</p> ,  <p>_$as</p>'),
+(21,4,7,'Salah'),
+(22,5,7,'<p>$test</p> ,  <p>$cd</p>'),
+(23,6,7,'Salah');
 
 /*Table structure for table `jurusan` */
 
@@ -167,17 +206,14 @@ CREATE TABLE `jurusan` (
   `id_jurusan` int(11) NOT NULL AUTO_INCREMENT,
   `nama_jurusan` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id_jurusan`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 /*Data for the table `jurusan` */
 
 insert  into `jurusan`(`id_jurusan`,`nama_jurusan`) values 
-(1,'Rekayasa Perangkat Lunak'),
-(2,'Multimedia'),
-(3,'Teknik Komputer Jaringan'),
-(4,'Administrasi Perkantoran'),
-(5,'Akuntansi'),
-(6,'Pemasaran');
+(1,'RPL'),
+(2,'MM'),
+(3,'TKJ');
 
 /*Table structure for table `kelas` */
 
@@ -190,7 +226,7 @@ CREATE TABLE `kelas` (
   PRIMARY KEY (`id_kelas`),
   KEY `id_jurusan` (`id_jurusan`),
   CONSTRAINT `kelas_ibfk_1` FOREIGN KEY (`id_jurusan`) REFERENCES `jurusan` (`id_jurusan`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 
 /*Data for the table `kelas` */
 
@@ -198,9 +234,10 @@ insert  into `kelas`(`id_kelas`,`nama_kelas`,`id_jurusan`) values
 (1,'XII RPL 1',1),
 (2,'XII RPL 2',1),
 (3,'XII RPL 3',1),
-(4,'XII MM 1',2),
-(5,'XII MM 2',2),
-(6,'XII TKJ',3);
+(4,'XII TKJ',3),
+(5,'XII MM 1',2),
+(6,'XII MM 2',2),
+(8,'ALUMNI RPL 2',1);
 
 /*Table structure for table `kelas_ujian` */
 
@@ -215,15 +252,13 @@ CREATE TABLE `kelas_ujian` (
   KEY `id_kelas` (`id_kelas`),
   CONSTRAINT `kelas_ujian_ibfk_1` FOREIGN KEY (`id_ujian`) REFERENCES `ujian` (`id_ujian`),
   CONSTRAINT `kelas_ujian_ibfk_2` FOREIGN KEY (`id_kelas`) REFERENCES `kelas` (`id_kelas`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 /*Data for the table `kelas_ujian` */
 
 insert  into `kelas_ujian`(`id_kelas_ujian`,`id_ujian`,`id_kelas`) values 
-(2,4,2),
-(4,5,2),
-(9,3,1),
-(10,3,2);
+(1,1,2),
+(2,2,2);
 
 /*Table structure for table `mapel` */
 
@@ -236,14 +271,13 @@ CREATE TABLE `mapel` (
   PRIMARY KEY (`id_mapel`),
   KEY `id_daftar_bidang` (`id_daftar_bidang`),
   CONSTRAINT `mapel_ibfk_1` FOREIGN KEY (`id_daftar_bidang`) REFERENCES `daftar_bidang_keahlian` (`id_daftar_bidang`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 /*Data for the table `mapel` */
 
 insert  into `mapel`(`id_mapel`,`id_daftar_bidang`,`nama_mapel`) values 
-(1,1,'Pemrograman Berorientasi Objek'),
-(2,1,'Web Dinamis'),
-(3,1,'Basis Data');
+(1,1,'Web Dinamis'),
+(2,1,'Database');
 
 /*Table structure for table `migrations` */
 
@@ -275,16 +309,24 @@ CREATE TABLE `nilai` (
   KEY `nis` (`id_siswa`),
   CONSTRAINT `nilai_ibfk_1` FOREIGN KEY (`id_ujian`) REFERENCES `ujian` (`id_ujian`),
   CONSTRAINT `nilai_ibfk_2` FOREIGN KEY (`id_siswa`) REFERENCES `siswa` (`id_siswa`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
 
 /*Data for the table `nilai` */
 
 insert  into `nilai`(`id_nilai`,`id_ujian`,`id_siswa`,`jawaban_benar`,`jawaban_salah`,`nilai`,`status_pengerjaan`) values 
-(2,4,1,3,1,75,NULL),
-(3,4,2,1,3,6,NULL),
-(4,4,8,0,4,0,'Harus Remedial'),
-(5,3,1,0,1,0,'Harus Remedial'),
-(6,5,1,0,1,0,'Harus Remedial');
+(1,1,1,1,2,20,'Harus Remedial'),
+(2,1,7,2,1,40,'Harus Remedial'),
+(3,1,2,0,3,0,'Harus Remedial'),
+(4,1,8,2,1,40,'Harus Remedial'),
+(5,1,4,1,2,20,'Harus Remedial'),
+(6,1,5,2,1,40,'Harus Remedial'),
+(7,1,6,2,1,40,'Harus Remedial'),
+(8,1,9,2,1,40,'Harus Remedial'),
+(9,2,2,0,2,0,'Harus Remedial'),
+(10,2,9,1,1,50,'Harus Remedial'),
+(11,2,8,2,0,100,'Sudah Mengerjakan'),
+(12,2,4,0,2,0,'Harus Remedial'),
+(13,2,7,0,2,0,'Harus Remedial');
 
 /*Table structure for table `nilai_remedial` */
 
@@ -302,12 +344,27 @@ CREATE TABLE `nilai_remedial` (
   KEY `id_siswa` (`id_siswa`),
   CONSTRAINT `nilai_remedial_ibfk_1` FOREIGN KEY (`id_ujian_remedial`) REFERENCES `ujian_remedial` (`id_ujian_remedial`),
   CONSTRAINT `nilai_remedial_ibfk_2` FOREIGN KEY (`id_siswa`) REFERENCES `siswa` (`id_siswa`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
 
 /*Data for the table `nilai_remedial` */
 
 insert  into `nilai_remedial`(`id_nilai_remedial`,`id_siswa`,`id_ujian_remedial`,`jawaban_benar`,`jawaban_salah`,`nilai_remedial`) values 
-(2,1,3,0,1,0);
+(1,9,1,2,0,60),
+(2,6,1,2,0,60),
+(3,4,1,2,0,60),
+(4,2,1,2,0,60),
+(5,9,2,1,0,70),
+(6,9,3,0,1,0),
+(7,9,4,1,0,70),
+(8,2,2,1,0,70),
+(9,2,3,1,0,70),
+(10,2,4,1,0,70),
+(11,4,4,2,0,70),
+(12,4,3,1,0,70),
+(13,8,1,2,0,60),
+(14,7,2,0,1,0),
+(15,7,3,1,0,70),
+(16,7,4,2,0,70);
 
 /*Table structure for table `password_resets` */
 
@@ -341,19 +398,22 @@ CREATE TABLE `siswa` (
   KEY `id_kelas` (`id_kelas`),
   CONSTRAINT `siswa_ibfk_1` FOREIGN KEY (`id_kelas`) REFERENCES `kelas` (`id_kelas`),
   CONSTRAINT `siswa_ibfk_2` FOREIGN KEY (`id_users`) REFERENCES `users` (`id_users`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
 
 /*Data for the table `siswa` */
 
 insert  into `siswa`(`id_siswa`,`nis`,`id_users`,`id_kelas`,`nama`,`alamat`,`jenis_kelamin`,`foto`,`tahun_ajaran`) values 
-(1,'1502011462',6,2,'Yanuar Wanda Putra','Jalan Marga Asri VI G.','L','masyan_1520261258.png',''),
-(2,'1502011455',7,2,'Wendy Setiawan','Coffee Garden Street','L','nophoto.jpg',''),
-(3,'1502011463',8,1,'Riki Subagja','Jalan Deket Rumah Saya','L','nophoto.jpg',''),
-(4,'1502011464',9,3,'Whisnu Mulya Pratama','Pasar Atas','L','IMG_20151017_125747_1520261470.jpg',''),
-(5,'1502011465',10,4,'Muhammad Rizal','Pasar Pojok','L','IMG_20150923_101330_1520261586.jpg',''),
-(6,'1502011466',11,5,'Ngudi Prasodjo','Jalan Padjajaran Deket SMKN 12 Bandung','L','IMG_1164_1520261665.JPG',''),
-(7,'1502011467',12,6,'Muhammad Fauzan Faturrahman','Jamika','L','Screenshot (160)_1519920644_1520261801.png',''),
-(8,'1502011341',13,2,'Kukuh MangkuHidayatullah','Ciroyom','L','imam-al-ghazali_1520387616.jpg','');
+(1,'1502011100',5,8,'Alli Taufik Rachman','Jalan Geger Kalong no. 1','L','Ijazah_180226_0029_1523801258.jpg','2017/2018'),
+(2,'1502011455',6,2,'Wendy Setiawan','Jalan Kebon Kopi no. 33','L','Ijazah_180226_0001_1523801314.jpg','2017/2018'),
+(4,'1502011152',8,2,'Dea Fitri Handayani','Jalan Margaasih no. 3','P','Ijazah_180226_0023_1523801448.jpg','2017/2018'),
+(5,'1502011153',9,2,'Asep Husen','Jalan Setiabudi no. 44','L','Ijazah_180226_0027_1523801533.jpg','2017/2018'),
+(6,'1502011154',10,2,'Muhammad Syaiful Mahialhakim','Jalan Gunung Batu no. 88','L','Ijazah_180226_0013_1523801583.jpg','2017/2018'),
+(7,'1502011155',11,2,'Amalia Nur Oktaviani','Jalan gatau namanya no. 019','P','Ijazah_180226_0028_1523801657.jpg','2017/2018'),
+(8,'1502011157',12,2,'Yanuar Wanda Putra','Jalan Bumi Asri no. 69','L','Ijazah_180226_0002_1523802216.jpg','2017/2018'),
+(9,'1502011158',13,2,'Kukuh Mangku Hidayat','Jalan Ciroyom bawah no. 221','L','Ijazah_180226_0018_1523802317.jpg','2017/2018'),
+(10,'1502011321',14,1,'Intan Nurmalasari','Jalan Batu Jajang no. 48','P','nophoto.jpg','2017/2018'),
+(11,'1502011240',15,1,'Nisa Rahmasari','Jalan Tegalkawung','P','nophoto.jpg','2017/2018'),
+(12,'1402911389',16,1,'Rizki Febriansyah','Jalan Aksan no. 20','L','nophoto.jpg','2017/2018');
 
 /*Table structure for table `soal` */
 
@@ -369,17 +429,16 @@ CREATE TABLE `soal` (
   KEY `id_bank_soal` (`id_bank_soal`),
   CONSTRAINT `soal_ibfk_1` FOREIGN KEY (`id_ujian`) REFERENCES `ujian` (`id_ujian`),
   CONSTRAINT `soal_ibfk_2` FOREIGN KEY (`id_bank_soal`) REFERENCES `bank_soal` (`id_bank_soal`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
 /*Data for the table `soal` */
 
 insert  into `soal`(`id_soal`,`id_ujian`,`id_bank_soal`,`point`) values 
-(2,4,3,5),
-(3,4,4,2),
-(4,4,5,15),
-(7,4,8,12),
-(8,3,9,5),
-(9,5,10,6);
+(1,1,1,10),
+(2,1,2,10),
+(3,1,3,30),
+(4,2,4,10),
+(5,2,5,10);
 
 /*Table structure for table `soal_remed` */
 
@@ -395,12 +454,17 @@ CREATE TABLE `soal_remed` (
   KEY `id_bank_soal` (`id_bank_soal`),
   CONSTRAINT `soal_remed_ibfk_1` FOREIGN KEY (`id_ujian_remedial`) REFERENCES `ujian_remedial` (`id_ujian_remedial`),
   CONSTRAINT `soal_remed_ibfk_2` FOREIGN KEY (`id_bank_soal`) REFERENCES `bank_soal` (`id_bank_soal`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
 /*Data for the table `soal_remed` */
 
 insert  into `soal_remed`(`id_soal_remedial`,`id_ujian_remedial`,`id_bank_soal`,`point`) values 
-(2,3,14,5);
+(1,1,1,10),
+(2,1,2,10),
+(3,2,6,10),
+(4,3,5,10),
+(5,4,6,50),
+(6,4,5,10);
 
 /*Table structure for table `ujian` */
 
@@ -418,19 +482,19 @@ CREATE TABLE `ujian` (
   `tanggal_kadaluarsa` date NOT NULL COMMENT 'Tanggal ujian akan berakhir.',
   `status` varchar(50) NOT NULL DEFAULT 'Draft' COMMENT 'Status ujian antara Draft/Belum di Post atau Posted/Sudah di post.',
   `catatan` text COMMENT 'Catatan tentang ujian.',
+  `lihat_nilai` char(1) NOT NULL DEFAULT 'N',
   PRIMARY KEY (`id_ujian`),
   KEY `id_mapel` (`id_mapel`),
   KEY `ujian_ibfk_2` (`id_guru`),
   CONSTRAINT `ujian_ibfk_1` FOREIGN KEY (`id_mapel`) REFERENCES `mapel` (`id_mapel`),
   CONSTRAINT `ujian_ibfk_2` FOREIGN KEY (`id_guru`) REFERENCES `guru` (`id_guru`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 /*Data for the table `ujian` */
 
-insert  into `ujian`(`id_ujian`,`id_mapel`,`id_guru`,`judul_ujian`,`kkm`,`waktu_pengerjaan`,`tanggal_pembuatan`,`tanggal_post`,`tanggal_kadaluarsa`,`status`,`catatan`) values 
-(3,1,4,'asda',75,'02:00:00','2018-03-05 22:06:11','2018-03-05 22:06:11','2018-03-12','posted','Tidak ada catatan.'),
-(4,1,4,'UTS Pemrograman Berorientasi Objek',75,'02:00:00','2018-03-06 13:48:55','2018-03-06 13:48:55','2018-03-06','posted','Tidak ada catatan.'),
-(5,2,4,'UAS Web Dinamis',80,'02:00:00','2018-03-10 20:16:04','2018-03-10 20:16:04','2018-03-01','posted','Ini UAS Loh!');
+insert  into `ujian`(`id_ujian`,`id_mapel`,`id_guru`,`judul_ujian`,`kkm`,`waktu_pengerjaan`,`tanggal_pembuatan`,`tanggal_post`,`tanggal_kadaluarsa`,`status`,`catatan`,`lihat_nilai`) values 
+(1,2,1,'Berkenalan dengan SQL',60,'00:05:00','2018-04-15 20:32:17','2018-04-15 20:32:17','2018-04-15','posted','Pre-test untuk para siswa mengenai SQL (khususnya MYSQL)','N'),
+(2,1,1,'PDKT dengan PHP',70,'00:05:00','2018-04-16 17:24:29','2018-04-16 17:24:29','2018-04-16','posted','Pre-test pelajaran web dinamis','Y');
 
 /*Table structure for table `ujian_remedial` */
 
@@ -439,11 +503,12 @@ DROP TABLE IF EXISTS `ujian_remedial`;
 CREATE TABLE `ujian_remedial` (
   `id_ujian_remedial` int(11) NOT NULL AUTO_INCREMENT,
   `id_ujian` int(11) DEFAULT NULL,
-  `waktu_pengerjaan` time DEFAULT NULL,
+  `waktu_pengerjaan` time NOT NULL,
   `tanggal_pembuatan` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `catatan` text,
   `tanggal_kadaluarsa` timestamp NULL DEFAULT NULL,
   `status` varchar(50) NOT NULL DEFAULT 'Belum Selesai',
+  `remed_ke` int(11) NOT NULL,
   PRIMARY KEY (`id_ujian_remedial`),
   KEY `id_ujian` (`id_ujian`),
   CONSTRAINT `ujian_remedial_ibfk_1` FOREIGN KEY (`id_ujian`) REFERENCES `ujian` (`id_ujian`)
@@ -451,9 +516,11 @@ CREATE TABLE `ujian_remedial` (
 
 /*Data for the table `ujian_remedial` */
 
-insert  into `ujian_remedial`(`id_ujian_remedial`,`id_ujian`,`waktu_pengerjaan`,`tanggal_pembuatan`,`catatan`,`tanggal_kadaluarsa`,`status`) values 
-(3,3,'02:05:00','2018-03-10 20:26:36','Tidak ada catatan. 2',NULL,'posted'),
-(4,5,'02:00:00','2018-03-10 20:26:44','Tidak ada catatan.',NULL,'Belum Selesai');
+insert  into `ujian_remedial`(`id_ujian_remedial`,`id_ujian`,`waktu_pengerjaan`,`tanggal_pembuatan`,`catatan`,`tanggal_kadaluarsa`,`status`,`remed_ke`) values 
+(1,1,'00:10:00','2018-04-15 21:51:30','Ayo semangat','2018-04-15 00:00:00','posted',1),
+(2,2,'00:04:00','2018-04-16 17:57:06','Tidak ada catatan.','2018-04-16 00:00:00','posted',1),
+(3,2,'00:03:00','2018-04-16 19:00:44','Tidak ada catatan.','2018-04-16 00:00:00','posted',2),
+(4,2,'00:00:30','2018-04-16 19:04:23','Tidak ada catatan.','2018-04-16 00:00:00','posted',3);
 
 /*Table structure for table `users` */
 
@@ -469,32 +536,33 @@ CREATE TABLE `users` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id_users`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `users` */
 
 insert  into `users`(`id_users`,`username`,`email`,`password`,`remember_token`,`hak_akses`,`created_at`,`updated_at`) values 
-(1,'laracry','test@example.com','$2y$10$tDcmXuHyf0qm.vlCHGhf/ufbcrC01o99T0Edz4zbPHI4sdVkUc9ja','yMMNdfEgGy3Gh03BnQaAOSBywOPMgVG1QWIz08Iyt5tGL1N3wWsVhoe09iL6','admin','2018-01-20 22:51:29','2018-01-20 22:51:33'),
-(2,'','','$2y$10$p.y5.jHM.yqm41m0sCM88.KeXuo0SxLXdOIX1NqVeBJLO6vpYb0..',NULL,'guru','2018-03-05 21:26:42','2018-03-05 21:26:42'),
-(3,'','','$2y$10$g4RUKM.GyhGORO6ZNrc3oegk8JDeqXjItSo4auVHYQcfkJ6ZPGNau',NULL,'guru','2018-03-05 21:26:42','2018-03-05 21:26:42'),
-(4,'','','$2y$10$20FR/fVRXur0b9u9MeXBd.9DYApusSqfxuqfj7G8V1wijf5XiERxq',NULL,'guru','2018-03-05 21:26:42','2018-03-05 21:26:42'),
-(5,'yesterdayoncemore','yesterday.once@gmail.com','$2y$10$7nWogqSU1MEMCH2VAiO1XedWhrc9GcdQCpjhKrRXaHOrGo58lfJei','hE3rnye2qyEec1CTx8VxRMxo26wbtRjW1ysxr1KqWlBmJJC50hzmUzPhNN6O','guru','2018-03-05 21:46:34','2018-03-05 21:46:34'),
-(6,'yanuarwanda','yanuar.wanda2@gmail.com','$2y$10$V2EqzIhM2H.p2jnCz5ncxeqZ1bXBSjDzA.5hqSC8ifFK.pL.Yx5o2','9Md9TV70aMJWFqmyXJc9Lc8l6N2ZB9Ylv715sR6RlC7bCIEkuwjjNjgyEAvI','siswa','2018-03-05 21:47:38','2018-03-05 21:47:38'),
-(7,'wsetiawan','wendy.setiawan@gmail.com','$2y$10$dRq8No6Uu8Rwh0SZehdyEODAfrnmDZQfK4hmkPMPAdX3qL3IOReRS','C47GrMriOH3ZJKT2LPRGGWdepxDqehNeuvBsJnZPk2qDWFDccXZD1H61w27T','siswa','2018-03-05 21:48:21','2018-03-05 21:48:21'),
-(8,'bagja','riki.subagja@gmail.com','$2y$10$yT3WhV84zW0OvwHmvY/dF.gNrfWgOFn9YTLKfdDSGLiU5gbp8V4ey','T5nT3JpZGMwZfCmnAcmcOEc7mkUGC5eLKsHXzIq69rDFPxYfYx0Ky6ltrnkO','siswa','2018-03-05 21:48:47','2018-03-05 21:48:47'),
-(9,'blackluther','whisnu.mulya@gmail.com','$2y$10$68fDnS3gxr3ohyZddZ783.y4P2bPz9EgCjwkSRNtZjHeqFHYMu8u6',NULL,'siswa','2018-03-05 21:51:10','2018-03-05 21:51:20'),
-(10,'rizal2','vectorarts@gmail.com','$2y$10$WNFJPqISzl7h1r7NNuXFUeEkKd5csLyBvZIpRT2trSrfhOQcL5yFe',NULL,'siswa','2018-03-05 21:53:06','2018-03-05 21:53:06'),
-(11,'npras','n.pras@gmail.com','$2y$10$p/LphJvxZomwRgILmYEx7uQD3o5f4EbsPo8B6pN91Gkq/S.Dk6Eyq',NULL,'siswa','2018-03-05 21:54:25','2018-03-05 21:54:25'),
-(12,'jantung','hentaikyun@gmail.com','$2y$10$NF10r/vY2Pec4b5hHlL1d.XcbQYp5VudISoFb1OZjIRJa2WcBE8Y6',NULL,'siswa','2018-03-05 21:56:41','2018-03-05 21:56:41'),
-(13,'pelog','kukuhpelog15@gmail.com','$2y$10$D3tCUwkSghHlxd1BBCxJbOaQ44Hytvs91rxJYzXmWcDnVA.UaZZDa','GHNzzq5VEUYaOT9FQM6HlXPdFpLSNeLSVzrt9FqaPc8KcFUOVT3ptfrmhxv4','siswa','2018-03-07 08:53:36','2018-03-07 08:53:36');
+(1,'laracry','muhfah666@gmail.com','$2y$10$tDcmXuHyf0qm.vlCHGhf/ufbcrC01o99T0Edz4zbPHI4sdVkUc9ja','xzminKdI6ULEfLZj0Dpf4Apb2rfAOJsYkO5Lgc3ewCgoN56SRr3OPgT9656d','admin','2018-04-15 19:59:11','2018-04-15 19:59:17'),
+(2,'sukawati','sukawati5@gmail.com','$2y$10$JzMulNWgSGbRjm9Nb7exHOysz9rG9kaLX8CjN6OLeQnPffZiv.U4q','3zJ46JGWNIWDAa683N1dB3ATtECoRUYTHkY6QRLR4XQe0R9axNL1sm1uVkzs','guru','2018-04-15 20:10:27','2018-04-15 20:10:27'),
+(3,'nurjamal','nurjamal21@gmail.com','$2y$10$Fj0V5ajDlJ/hpLA/XtExBuM2vzuqOsifcHbIO4WvU2rLs3S3hRFoq',NULL,'guru','2018-04-15 20:14:41','2018-04-15 20:14:41'),
+(5,'alli','rachman_alli@gmail.com','$2y$10$0J8cfDlbKN7aWKmgyGBBS.qSX.DMQjQTWv5z9uFoUlpO7Nd/m0ddm','XEvlC50Ql7Nfm2h5rtJz2BuJ1vu0BkasTqK47QaRiDfHpdYVEFvcosN69GzD','siswa','2018-04-15 21:07:38','2018-04-15 21:07:38'),
+(6,'wsetiawan','wsetiawan135790@gmail.com','$2y$10$Obp42e6Rylx5SVbdnlOXH.Xg1ZpexWWQjflf/Nc0BhqPzjdkicYSa','zgiZYDcsYAFmzSosSGHTybZ1EcVSSvyRGr1N6S9aTRhUJoDGwChSeY1ZAnzu','siswa','2018-04-15 21:08:33','2018-04-15 21:08:33'),
+(8,'deafitrih','deafitrih16@gmail.com','$2y$10$lZqCfbk.xRNanBM0UPR6Mef4M/SDpQMFuZJwzEnx9HZb5AGet3tsu','JrQPalY2EC87ERQTm4lKeOelhDiOPpYhZELTbabZnYkeJsks09z8yYwPSxVg','siswa','2018-04-15 21:10:48','2018-04-15 21:10:48'),
+(9,'indomie','asepmchusen@gmail.com','$2y$10$D.m/xEzGW1TKx9ByGj1zYOJCHCtl.Ptx9lBCkgNatD2UALDyUcnZ.','QHNO5mfe5II5rWIZywdoJzJPeCyO43ckC5Q7O9HKYErnPWLlyEGFMN18GpzZ','siswa','2018-04-15 21:12:13','2018-04-15 21:12:13'),
+(10,'lufiays','mahial_hakim@gmail.com','$2y$10$.33QtLKkaet0WAFeL3f1pO8YbhGX7y.vOXCJ2qvgIJZ/QjsqKg1mO','EYv5fe68tQTS8net9vyUyqTr9Xdr7ULisYpBnab1GvDioOVz0EgbVyCsOIyK','siswa','2018-04-15 21:13:02','2018-04-15 21:13:02'),
+(11,'amalianuro','amalianuro@gmail.com','$2y$10$BjF8mh1tKBMWWcqVmq9yWOPtvS3UEuLDtog8IPQlknOgTZACJDW7.','nVymp1LrQb6ERflKWwnRNTdezW6oRAvK6rWiqI1aBfdHhDcPRXhdVaygfhmD','siswa','2018-04-15 21:14:17','2018-04-15 21:14:17'),
+(12,'yanuarwanda','yanuarwanda16@gmail.com','$2y$10$/Vgc.IsMedirsfD6X.bLn.ysed4yFbVbaUmzM2lgdhm25bmgO8nDy','iNXWaG4OrFyPW8HXm7gz1krbRXqeuSD1Yu2KUmjUgEl5MddyUVmNAWBzvtJN','siswa','2018-04-15 21:23:36','2018-04-15 21:23:36'),
+(13,'kukuhpelog','kukuhpelig15@gmail.com','$2y$10$YGbcd2cX/5D/N1LCJc1.He8ZL3XAHrnpfpcpr7.szC1uBbZJu9aEO','2LVHPB267pXme9i6CISFmbMEhFOabfUPOQ6HVeJqrZxRkaKAS7EhH0kVNlfb','siswa','2018-04-15 21:25:17','2018-04-15 21:25:17'),
+(14,'intan','intan_48@gmail.com','$2y$10$OBf6F5n0hcFx3p4Y2kQTK.faCshzevhQFAfdwckhtZsKA6A00Q52u',NULL,'siswa','2018-04-16 21:38:02','2018-04-16 21:38:02'),
+(15,'nisa','nisanisa@gmail.com','$2y$10$N4a1zcIZUp07NFnLLEOmWe39E5x1/z5Nq2eS7z9QzFkeQ3h0H5YhW',NULL,'siswa','2018-04-16 21:39:10','2018-04-16 21:39:10'),
+(16,'rizki','cikecong@gmail.com','$2y$10$0waScxsRJav4f.0VSG3Me.ik40MOILVqgHmtbrf1VT6019ZQNYzzy',NULL,'siswa','2018-04-16 21:40:26','2018-04-16 21:40:26');
 
 /* Trigger structure for table `daftar_bidang_keahlian` */
 
 DELIMITER $$
 
-/*!50003 DROP TRIGGER*//*!50032 IF EXISTS */ /*!50003 `hapus_bidang_keahlian_pas_hapus_daftar_bidang_keahlian` */$$
+/*!50003 DROP TRIGGER*//*!50032 IF EXISTS */ /*!50003 `sebelum_hapus_daftarBidangKeahlian` */$$
 
-/*!50003 CREATE */ /*!50017 DEFINER = 'root'@'localhost' */ /*!50003 TRIGGER `hapus_bidang_keahlian_pas_hapus_daftar_bidang_keahlian` BEFORE DELETE ON `daftar_bidang_keahlian` FOR EACH ROW BEGIN
+/*!50003 CREATE */ /*!50017 DEFINER = 'root'@'localhost' */ /*!50003 TRIGGER `sebelum_hapus_daftarBidangKeahlian` BEFORE DELETE ON `daftar_bidang_keahlian` FOR EACH ROW BEGIN
 	DELETE FROM bidang_keahlian WHERE id_daftar_bidang = old.id_daftar_bidang;
     END */$$
 
@@ -505,9 +573,9 @@ DELIMITER ;
 
 DELIMITER $$
 
-/*!50003 DROP TRIGGER*//*!50032 IF EXISTS */ /*!50003 `hapus_user_dan_ujian_pas_hapus_guru` */$$
+/*!50003 DROP TRIGGER*//*!50032 IF EXISTS */ /*!50003 `sebelum_hapus_guru` */$$
 
-/*!50003 CREATE */ /*!50017 DEFINER = 'root'@'localhost' */ /*!50003 TRIGGER `hapus_user_dan_ujian_pas_hapus_guru` BEFORE DELETE ON `guru` FOR EACH ROW BEGIN
+/*!50003 CREATE */ /*!50017 DEFINER = 'root'@'localhost' */ /*!50003 TRIGGER `sebelum_hapus_guru` BEFORE DELETE ON `guru` FOR EACH ROW BEGIN
 	DELETE FROM ujian WHERE id_guru = old.id_guru;
 	DELETE FROM bidang_keahlian WHERE id_guru = old.id_guru;
     END */$$
@@ -519,9 +587,9 @@ DELIMITER ;
 
 DELIMITER $$
 
-/*!50003 DROP TRIGGER*//*!50032 IF EXISTS */ /*!50003 `hapus_kelas_pas_hapus_jurusan` */$$
+/*!50003 DROP TRIGGER*//*!50032 IF EXISTS */ /*!50003 `sebelum_hapus_jurusan` */$$
 
-/*!50003 CREATE */ /*!50017 DEFINER = 'root'@'localhost' */ /*!50003 TRIGGER `hapus_kelas_pas_hapus_jurusan` BEFORE DELETE ON `jurusan` FOR EACH ROW BEGIN
+/*!50003 CREATE */ /*!50017 DEFINER = 'root'@'localhost' */ /*!50003 TRIGGER `sebelum_hapus_jurusan` BEFORE DELETE ON `jurusan` FOR EACH ROW BEGIN
 	delete from kelas WHERE id_jurusan = old.id_jurusan;
     END */$$
 
@@ -532,9 +600,9 @@ DELIMITER ;
 
 DELIMITER $$
 
-/*!50003 DROP TRIGGER*//*!50032 IF EXISTS */ /*!50003 `hapus_kelas_ujian_dan_siswa_pas_hapus_kelas` */$$
+/*!50003 DROP TRIGGER*//*!50032 IF EXISTS */ /*!50003 `sebelum_hapus_kelas` */$$
 
-/*!50003 CREATE */ /*!50017 DEFINER = 'root'@'localhost' */ /*!50003 TRIGGER `hapus_kelas_ujian_dan_siswa_pas_hapus_kelas` BEFORE DELETE ON `kelas` FOR EACH ROW BEGIN
+/*!50003 CREATE */ /*!50017 DEFINER = 'root'@'localhost' */ /*!50003 TRIGGER `sebelum_hapus_kelas` BEFORE DELETE ON `kelas` FOR EACH ROW BEGIN
 	DELETE FROM kelas_ujian WHERE id_kelas = old.id_kelas;
 	DELETE FROM siswa WHERE id_kelas = old.id_kelas;
     END */$$
@@ -546,9 +614,9 @@ DELIMITER ;
 
 DELIMITER $$
 
-/*!50003 DROP TRIGGER*//*!50032 IF EXISTS */ /*!50003 `hapus_ujian_pas_hapus_mapel` */$$
+/*!50003 DROP TRIGGER*//*!50032 IF EXISTS */ /*!50003 `sebelum_hapus_mapel` */$$
 
-/*!50003 CREATE */ /*!50017 DEFINER = 'root'@'localhost' */ /*!50003 TRIGGER `hapus_ujian_pas_hapus_mapel` BEFORE DELETE ON `mapel` FOR EACH ROW BEGIN
+/*!50003 CREATE */ /*!50017 DEFINER = 'root'@'localhost' */ /*!50003 TRIGGER `sebelum_hapus_mapel` BEFORE DELETE ON `mapel` FOR EACH ROW BEGIN
 	DELETE FROM ujian WHERE id_mapel = old.id_mapel;
     END */$$
 
@@ -577,10 +645,25 @@ DELIMITER ;
 
 DELIMITER $$
 
-/*!50003 DROP TRIGGER*//*!50032 IF EXISTS */ /*!50003 `hapus_nilai_pas_hapus_siswa` */$$
+/*!50003 DROP TRIGGER*//*!50032 IF EXISTS */ /*!50003 `sebelum_hapus_siswa` */$$
 
-/*!50003 CREATE */ /*!50017 DEFINER = 'root'@'localhost' */ /*!50003 TRIGGER `hapus_nilai_pas_hapus_siswa` BEFORE DELETE ON `siswa` FOR EACH ROW BEGIN
-	DELETE FROM nilai WHERE id_siswa = old.id_siswa;
+/*!50003 CREATE */ /*!50017 DEFINER = 'root'@'localhost' */ /*!50003 TRIGGER `sebelum_hapus_siswa` BEFORE DELETE ON `siswa` FOR EACH ROW BEGIN
+	DELETE FROM nilai WHERE nilai.id_siswa = old.id_siswa;
+	DELETE FROM nilai_remedial WHERE nilai_remedial.id_siswa = old.id_siswa;
+    END */$$
+
+
+DELIMITER ;
+
+/* Trigger structure for table `soal` */
+
+DELIMITER $$
+
+/*!50003 DROP TRIGGER*//*!50032 IF EXISTS */ /*!50003 `sebelum_hapus_soal` */$$
+
+/*!50003 CREATE */ /*!50017 DEFINER = 'root'@'localhost' */ /*!50003 TRIGGER `sebelum_hapus_soal` BEFORE DELETE ON `soal` FOR EACH ROW BEGIN
+	DELETE FROM jawaban_siswa WHERE id_soal = old.id_soal;
+	
     END */$$
 
 
@@ -590,12 +673,27 @@ DELIMITER ;
 
 DELIMITER $$
 
-/*!50003 DROP TRIGGER*//*!50032 IF EXISTS */ /*!50003 `hapus_soal_dan_nilai_pas_hapus_ujian` */$$
+/*!50003 DROP TRIGGER*//*!50032 IF EXISTS */ /*!50003 `sebelum_hapus_ujian` */$$
 
-/*!50003 CREATE */ /*!50017 DEFINER = 'root'@'localhost' */ /*!50003 TRIGGER `hapus_soal_dan_nilai_pas_hapus_ujian` BEFORE DELETE ON `ujian` FOR EACH ROW BEGIN
-	DELETE FROM soal WHERE id_ujian = old.id_ujian;
-	DELETE FROM nilai WHERE id_ujian = old.id_ujian;
-	delete from kelas_ujian WHERE id_ujian = old.id_ujian;
+/*!50003 CREATE */ /*!50017 DEFINER = 'root'@'localhost' */ /*!50003 TRIGGER `sebelum_hapus_ujian` BEFORE DELETE ON `ujian` FOR EACH ROW BEGIN
+	DELETE FROM kelas_ujian WHERE kelas_ujian.id_ujian = old.id_ujian;
+	DELETE FROM nilai WHERE nilai.id_ujian = old.id_ujian;
+	DELETE FROM soal WHERE soal.id_ujian = old.id_ujian;
+	DELETE FROM ujian_remedial WHERE ujian_remedial.id_ujian = old.id_ujian;
+    END */$$
+
+
+DELIMITER ;
+
+/* Trigger structure for table `ujian_remedial` */
+
+DELIMITER $$
+
+/*!50003 DROP TRIGGER*//*!50032 IF EXISTS */ /*!50003 `sebelum_hapus_ujianRemedial` */$$
+
+/*!50003 CREATE */ /*!50017 DEFINER = 'root'@'localhost' */ /*!50003 TRIGGER `sebelum_hapus_ujianRemedial` BEFORE DELETE ON `ujian_remedial` FOR EACH ROW BEGIN
+	DELETE FROM nilai_remedial WHERE id_ujian_remedial = old.id_ujian_remedial;
+	DELETE FROM soal_remed WHERE id_ujian_remedial = old.id_ujian_remedial;
     END */$$
 
 
@@ -605,9 +703,9 @@ DELIMITER ;
 
 DELIMITER $$
 
-/*!50003 DROP TRIGGER*//*!50032 IF EXISTS */ /*!50003 `hapus_guru_pas_hapus_users` */$$
+/*!50003 DROP TRIGGER*//*!50032 IF EXISTS */ /*!50003 `sebelum_hapus_users` */$$
 
-/*!50003 CREATE */ /*!50017 DEFINER = 'root'@'localhost' */ /*!50003 TRIGGER `hapus_guru_pas_hapus_users` BEFORE DELETE ON `users` FOR EACH ROW BEGIN
+/*!50003 CREATE */ /*!50017 DEFINER = 'root'@'localhost' */ /*!50003 TRIGGER `sebelum_hapus_users` BEFORE DELETE ON `users` FOR EACH ROW BEGIN
 	DELETE FROM guru WHERE id_users = old.id_users;
     END */$$
 
@@ -615,6 +713,22 @@ DELIMITER $$
 DELIMITER ;
 
 /*!50106 set global event_scheduler = 1*/;
+
+/* Event structure for event `UNPOST_UJIAN_REMED_SAAT_TANGGAL_KADALUARSA` */
+
+/*!50106 DROP EVENT IF EXISTS `UNPOST_UJIAN_REMED_SAAT_TANGGAL_KADALUARSA`*/;
+
+DELIMITER $$
+
+/*!50106 CREATE DEFINER=`root`@`localhost` EVENT `UNPOST_UJIAN_REMED_SAAT_TANGGAL_KADALUARSA` ON SCHEDULE EVERY 1 DAY STARTS '2018-03-11 10:20:01' ON COMPLETION NOT PRESERVE ENABLE DO BEGIN
+	/* Meng unpost ujian jika sudah kadaluarsa */
+	UPDATE ujian_remedial SET STATUS = IF(ujian_remedial.`tanggal_kadaluarsa` = CURDATE(), 'Sudah Selesai', 'posted');
+	
+	/* Menginput semua siswa yang belum mengerjakan ke table nilai dengan status harus susulan */
+	CALL insert_data_siswa_saat_remed_kadaluarsa(`ujian_remedial`.`id_ujian_remedial`);
+		
+	END */$$
+DELIMITER ;
 
 /* Event structure for event `UNPOST_UJIAN_SAAT_TANGGAL_KADALUARSA` */
 
@@ -632,24 +746,44 @@ DELIMITER $$
 	END */$$
 DELIMITER ;
 
+/* Procedure structure for procedure `insert_data_siswa_saat_remed_kadaluarsa` */
+
+/*!50003 DROP PROCEDURE IF EXISTS  `insert_data_siswa_saat_remed_kadaluarsa` */;
+
+DELIMITER $$
+
+/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `insert_data_siswa_saat_remed_kadaluarsa`(`id_ujian_asli` INT)
+BEGIN
+	SELECT COUNT(id_soal_remedial) FROM soal_remed WHERE id_ujian_remedial = id_ujian_asli INTO @jumlahSoal;
+	/* Insert semua siswa yang belum mengerjakan ke table nilai dengan status harus susulan */
+	INSERT INTO nilai_remedial (id_ujian_remedial, id_siswa, jawaban_benar, jawaban_salah, nilai_remedial)
+	SELECT id_ujian_asli,
+		id_siswa,
+		0,
+		@jumlahSoal,
+		0
+	FROM siswa JOIN kelas_ujian USING (id_kelas) WHERE id_ujian = id_ujian_asli  AND id_siswa NOT IN (SELECT id_siswa FROM nilai);
+	END */$$
+DELIMITER ;
+
 /* Procedure structure for procedure `insert_data_siswa_saat_tanggal_kadaluarsa` */
 
 /*!50003 DROP PROCEDURE IF EXISTS  `insert_data_siswa_saat_tanggal_kadaluarsa` */;
 
 DELIMITER $$
 
-/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `insert_data_siswa_saat_tanggal_kadaluarsa`( id_ujian_asli int )
+/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `insert_data_siswa_saat_tanggal_kadaluarsa`(`id_ujian_asli` INT)
 BEGIN	
+SELECT COUNT(id_soal) FROM soal where id_ujian = id_ujian_asli into @jumlahSoal;
 /* Insert semua siswa yang belum mengerjakan ke table nilai dengan status harus susulan */
 insert into nilai (id_ujian, id_siswa, jawaban_benar, jawaban_salah, nilai, status_pengerjaan)
 select id_ujian_asli,
 	id_siswa,
 	0,
-	0,
+	@jumlahSoal,
 	0,
 	'Harus Susulan'
 FROM siswa JOIN kelas_ujian USING (id_kelas) WHERE id_ujian = id_ujian_asli  AND id_siswa NOT IN (SELECT id_siswa FROM nilai);
-
 END */$$
 DELIMITER ;
 
