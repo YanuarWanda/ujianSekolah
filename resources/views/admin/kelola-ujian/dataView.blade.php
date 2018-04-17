@@ -198,7 +198,7 @@
                                                     <a class="btn btn-success" data-toggle="modal" data-target="#post_remed_{{$u}}_{{$isiUR->remed_ke}}">Remedial 3</a>
                                                     <?php break; ?>''
                                                 @elseif($isiUR->remed_ke == 3 && $isiUR->status == 'posted')
-                                                    <a class="btn btn-danger" id="unpostModal" href="{{url('/kelola-remed/DRAFT', base64_encode($isiUR->id_ujian_remedial))}}">Unpost Remedial 3/a>
+                                                    <a class="btn btn-danger" id="unpostModal" href="{{url('/kelola-remed/DRAFT', base64_encode($isiUR->id_ujian_remedial))}}">Unpost Remedial 3</a>
                                                     <?php break; ?>
                                                 @elseif($ur == count($ujianRemedial)-1)
                                                     <a class="btn btn-disabled" disabled>Remedial 3</a>

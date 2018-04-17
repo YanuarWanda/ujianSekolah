@@ -293,41 +293,41 @@
                                                                                             <th>Point</th>
                                                                                             <th>Hasil</th>
                                                                                         </tr>
+                                                                                        <?php $nr2 = 1; ?>
+                                                                                        @if($soalRemed2)
+                                                                                        @foreach($soalRemed2 as $sr => $isiSR)
                                                                                         <tr>
-                                                                                            <?php $nr2 = 1; ?>
-                                                                                            @if($soalRemed)
-                                                                                                @foreach($soalRemed as $sr => $isiSR)
-                                                                                                    <td> <?php echo $nr2; ?> </td>
-                                                                                                    <td> {!! $isiSR->bankSoal->isi_soal !!} </td>
-                                                                                                    <td>
-                                                                                                        @foreach($jawabanRemed as $jr2x => $isiJR2X)
-                                                                                                            @if($isiJR2X->id_siswa == $isiN['id_siswa'])
-                                                                                                                @if($isiJR2X->id_soal_remedial == $isiSR->id_soal_remedial)
-                                                                                                                    {!! $isiJR2X->jawaban_siswa !!}
-                                                                                                                @endif
-                                                                                                            @endif
-                                                                                                        @endforeach
-                                                                                                    </td>
-                                                                                                    <td>
-                                                                                                        {!! $jawaban_benar_remed[$sr] !!}
-                                                                                                    </td>
-                                                                                                    <td> {{ $isiJR2->point }}</td>
-                                                                                                    <td>
-                                                                                                        @foreach($jawabanRemed as $jr2x => $isiJR2X)
-                                                                                                            @if($isiJR2X->id_siswa == $isiN->id_siswa)
-                                                                                                                @if($isiJR2X->id_soal_remedial == $isiSR->id_soal_remedial)
-                                                                                                                    @if($isiJR2X->jawaban_siswa == $jawaban_benar_remed[$sr])
-                                                                                                                        <span class="text-green">Benar</span>
-                                                                                                                    @else
-                                                                                                                        <span class="text-red">Salah</span>
-                                                                                                                    @endif
-                                                                                                                @endif
-                                                                                                            @endif
-                                                                                                        @endforeach   
-                                                                                                    </td>
+                                                                                            <td> <?php echo $nr2; ?> </td>
+                                                                                            <td> {!! $isiSR->bankSoal->isi_soal !!} </td>
+                                                                                            <td>
+                                                                                                @foreach($jawabanRemed as $jr2x => $isiJR2X)
+                                                                                                    @if($isiJR2X->id_siswa == $isiN['id_siswa'])
+                                                                                                        @if($isiJR2X->id_soal_remedial == $isiSR->id_soal_remedial)
+                                                                                                            {!! $isiJR2X->jawaban_siswa !!}
+                                                                                                        @endif
+                                                                                                    @endif
                                                                                                 @endforeach
-                                                                                            @endif
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                {!! $jawaban_benar_remed2[$sr] !!}
+                                                                                            </td>
+                                                                                            <td> {{ $isiSR->point }}</td>
+                                                                                            <td>
+                                                                                                @foreach($jawabanRemed as $jr2x => $isiJR2X)
+                                                                                                    @if($isiJR2X->id_siswa == $isiN->id_siswa)
+                                                                                                        @if($isiJR2X->id_soal_remedial == $isiSR->id_soal_remedial)
+                                                                                                            @if($isiJR2X->jawaban_siswa == $jawaban_benar_remed2[$sr])
+                                                                                                                <span class="text-green">Benar</span>
+                                                                                                            @else
+                                                                                                                <span class="text-red">Salah</span>
+                                                                                                            @endif
+                                                                                                        @endif
+                                                                                                    @endif
+                                                                                                @endforeach   
+                                                                                            </td>
                                                                                         </tr>
+                                                                                        @endforeach
+                                                                                        @endif
                                                                                     </table>
 
                                                                                     <table class="table table-bordered">
@@ -384,43 +384,42 @@
                                                                                             <th> Point </th>
                                                                                             <th> Hasil </th>
                                                                                         </tr>
+                                                                                        @if($soalRemed3)
+                                                                                        @foreach($soalRemed3 as $sr => $isiSR)
                                                                                         <tr>
-                                                                                            <?php $nr3 = 1; ?>
-                                                                                            @if($soalRemed)
-                                                                                                @foreach($soalRemed as $sr => $isiSR)
-                                                                                                    <td> <?php echo $nr3; ?> </td>
-                                                                                                    <td> {!! $isiSR->bankSoal->isi_soal !!} </td>
-                                                                                                    <td>
-                                                                                                        @foreach($jawabanRemed as $jr3x => $isiJR3X)
-                                                                                                            @if($isiJR3X->id_siswa == $isiN['id_siswa'])
-                                                                                                                @if($isiJR3X->id_soal_remedial == $isiSR->id_soal_remedial)
-                                                                                                                    {!! $isiJR3X->jawaban_siswa !!}
-                                                                                                                @endif
-                                                                                                            @endif
-                                                                                                        @endforeach
-                                                                                                    </td>
-                                                                                                    <td>
-                                                                                                        {!! $jawaban_benar_remed[$sr] !!}
-                                                                                                    </td>
-                                                                                                    <td>
-                                                                                                        {{ $isiJR3->point }}
-                                                                                                    </td>
-                                                                                                    <td>
-                                                                                                        @foreach($jawabanRemed as $jr3x => $isiJR3X)
-                                                                                                            @if($isiJR3X->id_siswa == $isiN->id_siswa)
-                                                                                                                @if($isiJR3X->id_soal_remedial == $isiSR->id_soal_remedial)
-                                                                                                                    @if($isiJR3X->jawaban_siswa == $jawaban_benar_remed[$sr])
-                                                                                                                        <span class="text-green">Benar</span>
-                                                                                                                    @else
-                                                                                                                        <span class="text-red">Salah</span>
-                                                                                                                    @endif
-                                                                                                                @endif
-                                                                                                            @endif
-                                                                                                        @endforeach
-                                                                                                    </td>  
+                                                                                            <td> {{ ++$jr3 }} </td>
+                                                                                            <td> {!! $isiSR->bankSoal->isi_soal !!} </td>
+                                                                                            <td>
+                                                                                                @foreach($jawabanRemed as $jr3x => $isiJR3X)
+                                                                                                    @if($isiJR3X->id_siswa == $isiN['id_siswa'])
+                                                                                                        @if($isiJR3X->id_soal_remedial == $isiSR->id_soal_remedial)
+                                                                                                            {!! $isiJR3X->jawaban_siswa !!}
+                                                                                                        @endif
+                                                                                                    @endif
                                                                                                 @endforeach
-                                                                                            @endif
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                {!! $jawaban_benar_remed3[$sr] !!}
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                {{ $isiSR->point }}
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                @foreach($jawabanRemed as $jr3x => $isiJR3X)
+                                                                                                    @if($isiJR3X->id_siswa == $isiN->id_siswa)
+                                                                                                        @if($isiJR3X->id_soal_remedial == $isiSR->id_soal_remedial)
+                                                                                                            @if($isiJR3X->jawaban_siswa == $jawaban_benar_remed3[$sr])
+                                                                                                                <span class="text-green">Benar</span>
+                                                                                                            @else
+                                                                                                                <span class="text-red">Salah</span>
+                                                                                                            @endif
+                                                                                                        @endif
+                                                                                                    @endif
+                                                                                                @endforeach
+                                                                                            </td>  
                                                                                         </tr>
+                                                                                        @endforeach
+                                                                                        @endif
                                                                                     </table>
 
                                                                                     <table class="table table-bordered">

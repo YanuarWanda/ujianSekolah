@@ -1,3 +1,4 @@
+
 <?php
 
 use App\Guru;
@@ -246,7 +247,8 @@ Breadcrumbs::register('soal.kerjakan', function($breadcrumbs, $id) {
 // Home > Nilai > Show
 Breadcrumbs::register('nilai', function($breadcrumbs, $id) {
 	$ujian = Ujian::findOrFail(base64_decode($id));
-	$breadcrumbs->parent('home');
+	// $breadcrumbs->parent('home');
+	$breadcrumbs->parent('ujian', $ujian);
 	$breadcrumbs->push($ujian->judul_ujian);
 	$breadcrumbs->push('Daftar Nilai', route('nilai', $ujian));
 });

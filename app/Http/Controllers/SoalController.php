@@ -301,11 +301,16 @@ class SoalController extends Controller
         $jawabanUjian   = JawabanSiswa::join('soal', 'jawaban_siswa.id_soal', '=', 'soal.id_soal')->where('id_ujian', base64_decode($id))->get();
         $jawabanRemed   = JawabanSiswaRemed::join('soal_remed', 'jawaban_siswa_remed.id_soal_remedial', '=', 'soal_remed.id_soal_remedial')->join('ujian_remedial', 'soal_remed.id_ujian_remedial', '=', 'ujian_remedial.id_ujian_remedial')->where('ujian_remedial.id_ujian', base64_decode($id))->get();
         $soal           = Soal::where('id_ujian', base64_decode($id))->get();
-        $ujianRemed     = UjianRemedial::where('id_ujian', base64_decode($id))->get()->first();
+        $ujianRemed     = UjianRemedial::where('id_ujian', base64_decode($id))->where('remed_ke', '1')->get()->first();
+        $ujianRemed2     = UjianRemedial::where('id_ujian', base64_decode($id))->where('remed_ke', '2')->get()->first();
+        $ujianRemed3    = UjianRemedial::where('id_ujian', base64_decode($id))->where('remed_ke', '3')->get()->first();
         $soalRemed      = SoalRemed::where('id_ujian_remedial', $ujianRemed['id_ujian_remedial'])->get();
+        $soalRemed2      = SoalRemed::where('id_ujian_remedial', $ujianRemed2['id_ujian_remedial'])->get();
+        $soalRemed3      = SoalRemed::where('id_ujian_remedial', $ujianRemed3['id_ujian_remedial'])->get();
+
+        // return $soalRemed3;
         $chartPerKelas  = Nilai::select('ujian.judul_ujian as judul', 'kelas.nama_kelas as kelas')->selectRaw('avg(nilai) as rataNilai')->join('siswa', 'nilai.id_siswa', '=', 'siswa.id_siswa')->join('ujian', 'nilai.id_ujian', '=', 'ujian.id_ujian')->join('kelas', 'siswa.id_kelas', '=', 'kelas.id_kelas')->where('nilai.id_ujian', base64_decode($id))->groupBy('kelas.id_kelas')->get();
         // $chartPerKelas  = response()->json($chartPerKelas);
-        // return $nilai;
         foreach($soal as $s => $isiS){
             $jawaban_benar[] = $isiS->bankSoal->jawaban;
             $jawaban_benar[$s] = explode(' ,  ', $jawaban_benar[$s]);
@@ -336,6 +341,36 @@ class SoalController extends Controller
             }
         }
 
+        foreach($soalRemed2 as $sr => $isiSR){
+            $jawaban_benar_remed2[]       = $isiSR->bankSoal->jawaban;
+            $jawaban_benar_remed2[$sr]    = explode(' ,  ', $jawaban_benar_remed2[$sr]);
+            if(count($jawaban_benar_remed2[$sr]) == 1){
+                $jawaban_benar_remed2[$sr] = $isiSR->bankSoal->jawaban;
+            }else{
+                foreach($jawaban_benar_remed2[$sr] as $x => $isiX){
+                    if($isiX == ''){
+                        unset($jawaban_benar_remed2[$sr][$x]);
+                    }
+                }
+                $jawaban_benar_remed2[$sr] = implode(' ,  ', $jawaban_benar_remed2[$sr]);
+            }
+        }
+
+        foreach($soalRemed3 as $sr => $isiSR){
+            $jawaban_benar_remed3[]       = $isiSR->bankSoal->jawaban;
+            $jawaban_benar_remed3[$sr]    = explode(' ,  ', $jawaban_benar_remed3[$sr]);
+            if(count($jawaban_benar_remed3[$sr]) == 1){
+                $jawaban_benar_remed3[$sr] = $isiSR->bankSoal->jawaban;
+            }else{
+                foreach($jawaban_benar_remed3[$sr] as $x => $isiX){
+                    if($isiX == ''){
+                        unset($jawaban_benar_remed3[$sr][$x]);
+                    }
+                }
+                $jawaban_benar_remed3[$sr] = implode(' ,  ', $jawaban_benar_remed3[$sr]);
+            }
+        }
+
         // Chart per Siswa
         $daftarSiswa = Nilai::select('siswa.nama', 'nilai.nilai')
                         ->join('ujian', 'nilai.id_ujian', 'ujian.id_ujian')
@@ -343,7 +378,7 @@ class SoalController extends Controller
                         ->get();
 
         // return $jawabanUjian;
-        return view('admin.kelola-nilai.daftar_nilai', compact('nilai', 'jumlahNilai', 'jawabanUjian', 'jawabanRemed', 'soal', 'jawaban_benar', 'nilaiRemed', 'soalRemed', 'jawaban_benar_remed', 'jumlahRemed', 'chartPerKelas', 'daftarSiswa'));
+        return view('admin.kelola-nilai.daftar_nilai', compact('nilai', 'jumlahNilai', 'jawabanUjian', 'jawabanRemed', 'soal', 'jawaban_benar', 'nilaiRemed', 'soalRemed', 'soalRemed2', 'soalRemed3', 'jawaban_benar_remed', 'jawaban_benar_remed2', 'jawaban_benar_remed3','jumlahRemed', 'chartPerKelas', 'daftarSiswa'));
     }
 
 
@@ -353,6 +388,8 @@ class SoalController extends Controller
         // }
 
         $ujian = Ujian::select('id_ujian', 'judul_ujian', 'id_guru', 'kkm')->where('id_ujian', base64_decode($id))->first();
+
+        return $ujian;
 
         \Excel::create(strtoupper('nilai_ujian '.$ujian->judul_ujian), function($excel) use($ujian) {
             $excel->sheet('Sheet 1', function($sheet) use($ujian) {
@@ -364,16 +401,6 @@ class SoalController extends Controller
                     ->where('ujian.id_ujian', $ujian->id_ujian)
                     ->orderBy('siswa.nama')
                     ->get();
-
-                $dataRemed = \DB::select("SELECT
-                      s.nis,
-                      nr.nilai_remedial
-                    FROM
-                      nilai_remedial nr
-                      JOIN siswa s USING (id_siswa)
-                      JOIN ujian_remedial ur USING (id_ujian_remedial)
-                      JOIN ujian u USING (id_ujian)
-                      WHERE id_ujian = $ujian->id_ujian");
 
                 // dd($dataRemed[0]->nis);
 
@@ -387,13 +414,18 @@ class SoalController extends Controller
                         ''.$nilai->nilai.'' // Mengubah value 0 menjadi string
                     );
 
+                    $dataRemed = \DB::select("SELECT
+                      s.nis,
+                      nr.nilai_remedial
+                    FROM
+                      nilai_remedial nr
+                      JOIN siswa s USING (id_siswa)
+                      JOIN ujian_remedial ur USING (id_ujian_remedial)
+                      JOIN ujian u USING (id_ujian)
+                      WHERE id_ujian = $ujian->id_ujian and nis = $nilai->nis");
+
                     foreach($dataRemed as $remed) {
-                        if($remed->nis == $nilai->nis) {
-                            $data[$key][] = ''.$remed->nilai_remedial.'';
-                        }else {
-                            $data[$key][] = '0';
-                        }
-                        
+                        $data[$key][] = ''.$remed->nilai_remedial.'';
                     }
 
                 }
