@@ -389,7 +389,7 @@ class SoalController extends Controller
 
         $ujian = Ujian::select('id_ujian', 'judul_ujian', 'id_guru', 'kkm')->where('id_ujian', base64_decode($id))->first();
 
-        return $ujian;
+        // return $ujian;
 
         \Excel::create(strtoupper('nilai_ujian '.$ujian->judul_ujian), function($excel) use($ujian) {
             $excel->sheet('Sheet 1', function($sheet) use($ujian) {
