@@ -317,21 +317,9 @@
     <script src="{{ asset('vendor/datatables/dataTables.bootstrap4.js') }}"></script>
     <script>
         $(document).ready(function() {
-<<<<<<< HEAD
-            $("#tableGuru").DataTable(); // Menambahkan pencarian ke table guru di menu kelola-guru (admin)
-            $("#tableSiswa").DataTable(); // Menambahkan pencarian ke table siswa di menu kelola-siswa (admin)
-            $("#tableSoal").DataTable(); // Menambahkan pencarian ke table soal di menu edit-ujian (admin)
-            $("#tablebanksoal").DataTable();
-=======
-            // $("#tableGuru").DataTable(); // Menambahkan pencarian ke table guru di menu kelola-guru (admin)
-            // $("#tableSiswa").DataTable(); // Menambahkan pencarian ke table siswa di menu kelola-siswa (admin)
-            // $("#tableSoal").DataTable(); // Menambahkan pencarian ke table soal di menu edit-ujian (admin)
-            // $('#tableDaftarBidangKeahlian').DataTable();
-
             $("[id^=table]").DataTable({ // Mengambil semua table dengan id berawalan 'table'
                 "lengthMenu": [[4, 6, 15, -1], [4, 6, 15, "All"]]
             });
->>>>>>> 26d78d569cc1cefb7e0736b6994d128d976e7dc8
         });
 
         // Preview gambar dari file chooser.
@@ -519,10 +507,22 @@
             });
         });
 
+        // Mengubah button menjadi warna biru
         function currentButton(x) {
             var allButton = $('.navSoal .btn').not(x);
             allButton.removeClass('btn-primary').addClass('btn-default'); // Button sebelumnya
+
             x.removeClass('btn-default').addClass('btn-primary'); // Current Button
+
+            // Indikator soal
+            var soal_ke = x.attr('data-panel').split('_')[1];
+            $('#soal_ke').html(parseInt(soal_ke)+1);
+        }
+
+        // Mengubah button menjadi warna hijau
+        function greenButton(x) {
+            var button = $('.btnPindah[data-panel='+ x +']');
+            button.removeClass('btn-default').removeClass('btn-primary').addClass('btn-success'); // sudah dikerjakan
         }
 
         $('.block').on('click', function(){

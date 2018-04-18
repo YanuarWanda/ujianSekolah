@@ -72,7 +72,7 @@ window.onbeforeunload = function(e) {
                                 @if ($isi->bankSoal['tipe'] != 'MC')
                                     @foreach($pilihanAsli as $p)
                                         <div class="radio">
-                                            <label><input type="radio" class="jawaban_{{ $isi->id_bank_soal }}" name="jawaban_{{ $isi->id_bank_soal }}" value="{{ $p }}" onclick="simpanJawaban('jawaban_'+{{ Auth::user()->id_users }}+'_'+{{ $isi->id_ujian }}+'_'+{{ $isi->id_bank_soal }}, '{{ $p }}' )" autocomplete="off">{!! $p !!}</label>
+                                            <label><input type="radio" class="jawaban_{{ $isi->id_bank_soal }} dipilih" name="jawaban_{{ $isi->id_bank_soal }}" value="{{ $p }}" onclick="simpanJawaban('jawaban_'+{{ Auth::user()->id_users }}+'_'+{{ $isi->id_ujian }}+'_'+{{ $isi->id_bank_soal }}, '{{ $p }}' )" autocomplete="off">{!! $p !!}</label>
                                         </div>
                                     @endforeach
                                 @else
@@ -102,6 +102,7 @@ window.onbeforeunload = function(e) {
         <div class="col-md-4 detail">
             <div class="panel panel-default">
                 <div class="panel-body navSoal">
+                    <p>Soal ke <span id="soal_ke"></span></p>
                     @if($ujian->id_ujian_remedial)
                         @for($a = 1; $a <= count($ujian->soalRemed); $a++)
                             <button style="margin: 0; margin-left: 10px; border-radius: 0px" class="btn btn-default btnPindah" value="{{ $a }}" data-panel="Soal_{{$a-1}}">
@@ -166,7 +167,16 @@ window.onbeforeunload = function(e) {
 @endsection
 
 @section('js')
-<script type="text/javascript">
+<script type="text/javascript">;
+// Inisialisasi
+$('.btnPindah').first().removeClass('btn-default').addClass('btn-primary');
+$('#soal_ke').html('1');
+
+$('.dipilih').click(function() {
+    var id_soal = $(this).parent().parent().parent().parent().attr('id');
+    greenButton(id_soal);
+});
+
 var counter = setInterval(timer, 1000); //1000 will  run it every 1 second
 
 function timer() {
