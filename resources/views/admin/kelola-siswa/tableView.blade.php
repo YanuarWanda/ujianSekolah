@@ -10,7 +10,7 @@
                     <span class="panel-title">Data Siswa | 
                         <button id="export" class="btn-sm btn-success">Export ke Excel</button>
                         |
-                        <button id="export-pdf" class="btn-sm btn-success">Export ke Pdf</button>
+                        <!-- <button id="export-pdf" class="btn-sm btn-success">Export ke Pdf</button> -->
                     </span>
                     <div class="pull-right">
                         <a href="{{ route('siswa.import') }}" class="btn-sm btn-success">Import Data  Siswa</a>
