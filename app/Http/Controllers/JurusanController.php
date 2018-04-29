@@ -3,105 +3,67 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+
 use App\Jurusan;
 
 class JurusanController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
+    public function index(){
         $jurusan = Jurusan::all();
-        return view('admin.kelola-jurusan.tableView', compact('jurusan'));
+
+        return view('admin.jurusan.index', compact('jurusan'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        return view('admin.kelola-jurusan.create');
+    public function create(){
+        return view('admin.jurusan.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-    	$jurusan = new Jurusan;
+        $this->validate($request,[
+            'nama_jurusan' => 'required',
+        ],
+        [
+            'nama_jurusan.required' => 'Nama Jurusan harus diisi',
+        ]);
+
+        $jurusan = new Jurusan;
     	$jurusan->nama_jurusan = $request['nama_jurusan'];
     	$jurusan->save();
 
-        return redirect('/kelola-jurusan')->with('success', 'Pendaftaran berhasil');
+        return redirect('/kelas/add')->with('success', 'Pendaftaran berhasil');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        // Tampilkan detail, tapi kosong
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
-        $data = jurusan::find(base64_decode($id));
+        $jurusan = Jurusan::find(base64_decode($id));
 
-        return view('admin.kelola-jurusan.edit', compact('data'));
+        return view('admin.jurusan.edit', compact('jurusan'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
+        $this->validate($request,[
+            'nama_jurusan' => 'required',
+        ],
+        [
+            'nama_jurusan.required' => 'Nama Jurusan harus diisi',
+        ]);
+        
         $jurusan = jurusan::find(base64_decode($id));
         $jurusan->nama_jurusan = $request['nama_jurusan'];
 
         $jurusan->save();
 
-        return redirect('/kelola-jurusan')->with('success', 'Data berhasil diubah.');
+        return back()->with('success', 'Data berhasil diubah.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         $jurusan = jurusan::find(base64_decode($id));
         
-        
         if($jurusan->delete()) {
-            return redirect('/kelola-jurusan')->with('success', 'Penghapusan berhasil');
+            return back()->with('success', 'Penghapusan berhasil');
         }else return redirect()->back();
     }
 }

@@ -52,15 +52,4 @@ $app->singleton(
 |
 */
 
-// Fitur Logging, http://id-laravel.com/post/memisah-file-log-aplikasi
-$app->configureMonologUsing(function ($monolog) use ($app) {
-    $bubble = false;
-
-    foreach ($monolog->getLevels() as $name => $level) {
-        $name = strtolower($name);
-        $monolog->pushHandler(new \Monolog\Handler\StreamHandler($app->publicPath() . "/logs/{$name}.log", $level,
-            $bubble));
-    }
-});	
-
 return $app;

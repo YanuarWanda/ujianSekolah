@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+
 use App\Kelas;
 use App\Jurusan;
+
+use Auth;
 
 class KelasController extends Controller
 {
@@ -13,101 +16,69 @@ class KelasController extends Controller
         $this->middleware('auth');
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        $kelas = Kelas::all();
-        return view('admin.kelola-kelas.tableView', compact('kelas'));
+        $kelas = Kelas::join('jurusan', 'kelas.id_jurusan', '=', 'jurusan.id_jurusan')->get();
+
+        return view('admin.kelas.index', compact('kelas'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-    	$jurusan = Jurusan::all();
-        return view('admin.kelola-kelas.create', compact('jurusan'));
+        $jurusan = Jurusan::all();
+
+        return view('admin.kelas.create', compact('jurusan'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-    	$kelas = new Kelas;
+        $kelas = new Kelas;
     	$kelas->nama_kelas = $request['nama_kelas'];
-    	$kelas->id_jurusan = Jurusan::select('id_jurusan')->where('nama_jurusan', $request['jurusan'])->first()['id_jurusan'];
-
-    	// return $kelas->id_jurusan;
+    	$kelas->id_jurusan = $request['jurusan'];
     	$kelas->save();
 
-        return redirect('/kelola-kelas')->with('success', 'Data berhasil ditambahkan');
+        $buatLog = array(
+            'Nama Kelas' => $kelas->nama_kelas,
+            'Jurusan' => $kelas->id_jurusan,
+        );
+        \Log::info(Auth::user()->username.' menambahkan data kelas.', $buatLog);
+        return redirect('/kelas')->with('success', 'Data berhasil ditambahkan');      
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        // Tampilkan detail, tapi kosong
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
-        $data = kelas::find(base64_decode($id));
+        $kelas = Kelas::find(base64_decode($id));
         $jurusan = Jurusan::all();
-        return view('admin.kelola-kelas.edit', compact('data', 'jurusan'));
+
+        return view('admin.kelas.edit', compact('kelas', 'jurusan'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
-        $kelas = kelas::find(base64_decode($id));
+        $kelas = Kelas::find(base64_decode($id));
         $kelas->nama_kelas = $request['nama_kelas'];
-        $kelas->id_jurusan = Jurusan::select('id_jurusan')->where('nama_jurusan', $request['jurusan'])->first()['id_jurusan'];
-
+        $kelas->id_jurusan = $request['jurusan'];
         $kelas->save();
 
-        return redirect('/kelola-kelas')->with('success', 'Data berhasil diubah.');
+        $buatLog = array(
+            'Nama Kelas' => $kelas->nama_kelas,
+            'Jurusan' => $kelas->id_jurusan,
+        );
+        \Log::info(Auth::user()->username.' mengubah data kelas dengan id : '.$kelas->id_kelas, $buatLog);
+        return redirect('/kelas')->with('success', 'Data berhasil diubah.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         $kelas = kelas::find(base64_decode($id));
         
-        
         if($kelas->delete()) {
-            return redirect('/kelola-kelas')->with('success', 'Penghapusan berhasil');
+            $buatLog = array(
+                'Nama Kelas' => $kelas->nama_kelas,
+                'Jurusan' => $kelas->id_jurusan,
+            );
+            \Log::info(Auth::user()->username.' menghapus data kelas dengan id : '.$kelas->id_kelas, $buatLog);
+            return redirect('/kelas')->with('success', 'Penghapusan berhasil');
         }else return redirect()->back();
     }
 }

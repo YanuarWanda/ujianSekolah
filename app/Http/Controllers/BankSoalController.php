@@ -3,49 +3,39 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\BankSoal;
-use App\Soal;
-use App\JawabanSiswa;
-use App\JawabanSiswaRemed;
-use App\NilaiRemedial;
-use App\SoalRemed;
-use App\UjianRemedial;
-use App\Nilai;
 
-use App\Mapel;
+use App\Soal;
+use App\BankSoal;
 use App\DaftarBidangKeahlian;
 
 class BankSoalController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-    	$banksoal =Banksoal::all();
-    	return view('admin.kelola-bank-soal.index', compact('banksoal'));
+        $soal = BankSoal::all();
+
+        return view('admin.bank_soal.index', compact('soal'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        $mapel = Mapel::all();
-        $bidangKeahlian = DaftarBidangKeahlian::all();
-        return view('admin.kelola-bank-soal.create', compact('mapel', 'bidangKeahlian'));
+        $daftarBidang = DaftarBidangKeahlian::all();
+
+        return view('admin.bank_soal.create', compact('daftarBidang'));
     }
 
-	public function store(Request $request)
+    public function store(Request $request)
     {
         $this->validate($request, [
-            'soal'     	=> 'required',
-            'tipe'      	=> 'required',
+            'soal'      => 'required',
+            'tipe'      => 'required'
+        ],
+        [
+            'soal.required' => 'Soal harus diisi',
+            'tipe.required' => 'Tipe harus diisi'        
         ]);
+
+        // return $request['jawaban'];      
 
         if($request['tipe'] == 'PG'){
             $pilihan = $request['pilihanA']." ,  ".$request['pilihanB']." ,  ".$request['pilihanC']." ,  ".$request['pilihanD']." ,  ".$request['pilihanE'];
@@ -115,36 +105,40 @@ class BankSoalController extends Controller
             }
 
             $jawaban = $jawabanA.$jawabanB.$jawabanC.$jawabanD.$jawabanE;
-            // return explode(" ,  ", $jawaban);
         }
 
-        $banksoal = Banksoal::create([
-           	'tipe'              => $request['tipe'],
+        $soal = BankSoal::create([
+            'tipe'              => $request['tipe'],
             'isi_soal'          => $request['soal'],
             'pilihan'           => $pilihan,
             'jawaban'           => $jawaban,
-            'id_daftar_bidang'  => $request['bidangKeahlian']
+            'id_daftar_bidang'  => $request['bidang_keahlian'],
         ]);
 
-        return redirect('/kelola-bank-soal')->with('success', 'Penambahan Data Soal Berhasil');
+        if($soal){
+            return redirect('/bank_soal')->with('success', 'Data berhasil ditambahkan!');
+        }
+    }
+
+    public function show($id)
+    {
+        //
     }
 
     public function edit($id)
     {
         $soal       = BankSoal::find(base64_decode($id));
-        // return $soal;
+        $daftarBidang = DaftarBidangKeahlian::all();
         $pilihan    = explode(' ,  ', $soal['pilihan']);
-        $jawaban    = $soal->jawaban;
-        if($soal->tipe == 'MC'){
+        $jawaban    = $soal['jawaban'];
+        if($soal['tipe'] == 'MC'){
             $jawaban = explode(' ,  ', $jawaban);
             unset($jawaban[5]);
         }
 
-        $mapel = Mapel::all();
-        $bidangKeahlian = DaftarBidangKeahlian::all();
+        // return $jawaban;
 
-        // return $soal->id_bank_soal;
-        return view('admin.kelola-bank-soal.edit', compact('soal', 'pilihan', 'jawaban', 'bidangKeahlian', 'mapel'));
+        return view('admin.bank_soal.edit', compact('soal', 'pilihan', 'ujian', 'jawaban', 'daftarBidang'));
     }
 
     public function update(Request $request, $id)
@@ -226,24 +220,18 @@ class BankSoalController extends Controller
         $bankSoal->jawaban     = $jawaban;
 
         if($bankSoal->save()){
-            return redirect('/kelola-bank-soal')->with('success', 'Update Soal Berhasil!');
+            return redirect('/bank_soal')->with('success', 'Update Soal Berhasil!');
         }
     }
 
-    public function delete($id) {
-        $soal = BankSoal::find($id);
+    public function destroy($id)
+    {
+        $soal = BankSoal::find(base64_decode($id));
 
-        if($soal->soal){
-            return redirect()->back()->with('error', 'Soal sedang digunakan dalam sebuah ujian!');
-        }else {
-            if($soal){
-                $soal->delete();
-
-                return redirect()->back()->with('success', 'Data berhasil dihapus!');
-            }else{
-                return redirect()->back()->with('error', 'Data gagal dihapus!');
+        if($soal){
+            if($soal->delete()){
+                return redirect('/bank_soal')->with('success', 'Data berhasil dihapus!');
             }
         }
     }
-
- }
+}
