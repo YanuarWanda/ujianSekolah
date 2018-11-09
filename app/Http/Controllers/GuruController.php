@@ -97,7 +97,9 @@ class GuruController extends Controller
             $guru->foto = $nameFotoToStore;
 
             if($guru->save()) {
-                $bidangKeahlian = $request['bidangKeahlian'];
+                $bidangKeahlianV1 = $request['bidangKeahlian'];
+
+                $bidangKeahlian = explode(",", $bidangKeahlianV1);
 
                 if(count($bidangKeahlian) > 1){
                     foreach ($bidangKeahlian as $bidang) {
@@ -131,7 +133,7 @@ class GuruController extends Controller
             }
         }
 
-        $buatLog = array(
+        $buatLog = array(    
             'NIP' => $guru->nip,
             'Nama Guru' => $guru->nama,   
         );
@@ -156,7 +158,7 @@ class GuruController extends Controller
         $user = User::where('id_users', $guru->id_users)->get()->first();
 
         $this->validate($request, [
-            'nip'               => ['required', 'numeric', 'digits_between:19,21', Rule::unique('guru')->ignore($guru->nip, 'nip')],
+            'nip'               => ['required', 'numeric', 'digits_between:18,21', Rule::unique('guru')->ignore($guru->nip, 'nip')],
             'nama'              => ['required'],
             'username'          => ['required', 'string', 'max:20', Rule::unique('users')->ignore($user->username, 'username')],
             'email'             => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($user->email, 'email')],
@@ -171,10 +173,10 @@ class GuruController extends Controller
             'bidangKeahlian.required' => 'Bidang Keahlian harus diisi',
             'jenisKelamin.required' => 'Jenis Kelamin harus diisi',
         ]);
-
+        
         $user->username = $request['username'];
         $user->email = $request['email'];
-
+        
         if($user->save()) {
             $guru->nip = $request['nip'];
             $guru->id_users = $user->id_users;
@@ -190,16 +192,18 @@ class GuruController extends Controller
                 $nameFotoToStore = $this->ambil($request->file('foto'));
                 $guru->foto = $nameFotoToStore;
             }
-
+        
             $bkGuru = BidangKeahlian::where('id_guru', $guru->id_guru)->get();
-           
+        
             if($guru->save()) {
                 if(count($bkGuru) > 0){
                     // Untuk sementara, cara update bidang keahlian adalah dengan menghapus yang sudah ada, lalu menambahkan kembali
                     $deleteMany = BidangKeahlian::where('id_guru', $guru->id_guru)->delete();
 
                     if($deleteMany) {
-                        $bidangKeahlian = $request['bidangKeahlian'];
+                        $bidangKeahlianV1 = $request['bidangKeahlian'];
+                        $bidangKeahlian = explode(",", $bidangKeahlianV1);
+
 
                         if(count($bidangKeahlian) > 1){
                             foreach ($bidangKeahlian as $bidang) {
@@ -242,6 +246,7 @@ class GuruController extends Controller
                     }
                 }else{
                     $bidangKeahlian = $request['bidangKeahlian'];
+                    
 
                     if(count($bidangKeahlian) > 1){
                         foreach ($bidangKeahlian as $bidang) {
@@ -1029,7 +1034,7 @@ class GuruController extends Controller
         $guru = Guru::find(session()->get('id_guru'));
         $user = User::find(Auth::user()->id_users);
         $this->validate($request, [
-            'nip'               => ['required', 'numeric', 'digits_between:19,21', Rule::unique('guru')->ignore($guru->nip, 'nip')],
+            'nip'               => ['required', 'numeric', 'digits_between:18,21', Rule::unique('guru')->ignore($guru->nip, 'nip')],
             'nama'              => ['required'],
             'username'          => ['required', 'string', 'max:20', Rule::unique('users')->ignore($user->username, 'username')],
             'email'             => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($user->email, 'email')],
